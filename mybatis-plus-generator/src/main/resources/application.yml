@@ -1,0 +1,29 @@
+url: jdbc:mysql://193.112.251.82:3307/PROJECT?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+driverClassName: com.mysql.jdbc.Driver
+username: PROJECT
+password: DmeY3s0CqCNUwFFA
+tableNames:
+  - tb_test
+
+
+packageName: com.luwei
+tablePrefix: tb_
+logicDeleteFieldName: deleted
+versionFieldName: version
+restControllerStyle: true
+author: ffq
+
+isOverEntity: true
+isOverController: false
+isOverService: false
+isOverServiceImpl: false
+isOverMapper: false
+isOverXml: false
+
+
+entityVM : /templates/entity.vm
+controllerVM : /templates/controller.vm
+serviceVM :
+serviceImplVM:
+mapperVM :
+xmlVM :

@@ -1,0 +1,48 @@
+server:
+  error:
+    whitelabel:
+      enabled: false
+  undertow:
+    accesslog:
+      enabled: true
+  connection-timeout: 10000ms
+  compression:
+    enabled: true
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+
+  jackson:
+    default-property-inclusion: always
+    serialization:
+      write-dates-as-timestamps: true
+
+  http:
+    encoding:
+      charset: UTF-8
+
+  servlet:
+    multipart:
+      max-file-size: 8MB
+      max-request-size: 8MB
+
+luwei:
+  qiniu:
+    bucket:
+    access-key:
+    secret-key:
+    link-address:
+  module:
+    sms:
+      redus-prefix:
+      access-key-id:
+      access-key-secret:
+      sign-name:
+      template-code:
+      template-code-name:
+    shiro:
+      prefix: project-templet-web
+      cors-url: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
+      anon-url: /api/login/captcha,/api/login,/api/module/qiniu/**

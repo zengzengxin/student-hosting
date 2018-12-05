@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3307/PROJECT?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+  redis:
+    host: 127.0.0.1
+
+swagger:
+  show: false
