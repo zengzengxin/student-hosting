@@ -2,12 +2,10 @@ package com.luwei.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.springframework.util.DigestUtils;
 
 import javax.crypto.Cipher;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.KeyPairGenerator;
@@ -36,7 +34,7 @@ public class BcryptUtil {
 
     private static KeyPairGenerator keyPairGenerator;
 
-    private static String PATH = System.getProperty("java.io.tmpdir") + File.separator + "project-templet" + File.separator
+    private static String PATH = System.getProperty("java.io.tmpdir") + File.separator + "student-hosting" + File.separator
             + "file" + File.separator;
 
     static {

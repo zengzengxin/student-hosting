@@ -39,7 +39,7 @@ public class WebSwagger {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enable)
-                .groupName("project-templet")
+                .groupName("student-hosting")
                 .apiInfo(apiInfo())
                 .globalOperationParameters(Collections.singletonList(parameter))
                 .select()
@@ -50,7 +50,7 @@ public class WebSwagger {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("项目中文名web")
+                .title("学生托管系统-web")
                 .description("接口")
                 .version("1.0")
                 .build();
