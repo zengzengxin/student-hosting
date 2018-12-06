@@ -16,6 +16,8 @@ import java.time.LocalDateTime;
  */
 @ApiModel(value = "")
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 public class NoticeQueryDTO {
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
@@ -24,11 +26,13 @@ public class NoticeQueryDTO {
     @ApiModelProperty(value = "公告标题")
     private String noticeTittle;
 
-//    @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "公告生效时间")
-    private LocalDateTime effectiveTime;
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
+    @ApiModelProperty(value = "开始时间")
+    private LocalDateTime startTime;
 
-//    @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "公告失效时间")
-    private LocalDateTime failureTime;
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
+    @ApiModelProperty(value = "结束时间")
+    private LocalDateTime endTime;
+
+
 }

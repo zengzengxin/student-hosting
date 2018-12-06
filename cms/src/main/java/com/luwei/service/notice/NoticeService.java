@@ -3,7 +3,6 @@ package com.luwei.service.notice;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.model.notice.Notice;
@@ -30,31 +29,32 @@ import java.time.LocalDateTime;
 @Service
 public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
-    @Resource
-    private NoticeMapper noticeMapper;
-
-
     @Transactional
-    public NoticeVO saveNotice(NoticeAddDTO noticeAddDTO) {
-        Notice notice = new Notice();
-        BeanUtils.copyNonNullProperties(noticeAddDTO, notice);
+    public NoticeVO saveNotice(NoticeAddDTO noticeAddDTO){
+        Notice notice= new Notice();
+        BeanUtils.copyNonNullProperties(noticeAddDTO,notice);
+
         //添加一些没有的参数
         notice.setCreateTime(LocalDateTime.now());
-        noticeMapper.insert(notice);
+        notice.setUpdateTime(LocalDateTime.now());
+        System.out.println(notice.toString());
+        saveOrUpdate(notice);
         return toNoticeVO(notice);
     }
 
     private NoticeVO toNoticeVO(Notice notice) {
         NoticeVO noticeVO = new NoticeVO();
-        BeanUtils.copyNonNullProperties(notice, noticeVO);
-        return noticeVO;
+        BeanUtils.copyNonNullProperties(notice,noticeVO);
+        return  noticeVO;
     }
 
 
+
+
     @Transactional
-    public NoticeVO updateNotice(NoticeUpdateDTO noticeUpdateDTO) {
-        Notice notice = new Notice();
-        BeanUtils.copyNonNullProperties(noticeUpdateDTO, notice);
+    public NoticeVO updateNotice(NoticeUpdateDTO noticeUpdateDTO){
+        Notice notice= new Notice();
+        BeanUtils.copyNonNullProperties(noticeUpdateDTO,notice);
         //添加一些没有的参数
         notice.setUpdateTime(LocalDateTime.now());
         saveOrUpdate(notice);
@@ -62,7 +62,8 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
     }
 
 
-    public void deleteNotice(Integer id) {
+
+    public void deleteNotice(Integer id){
         System.out.println(id);
         baseMapper.deleteById(id);
     }
@@ -72,7 +73,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         Notice notice = new Notice();
         BeanUtils.copyNonNullProperties(noticePageDTO, notice);
         QueryWrapper<Notice> noticeQueryWrapper = new QueryWrapper<Notice>(notice);
-        noticeQueryWrapper.between("failureTime", notice.getEffectiveTime(), notice.getFailureTime());
+        noticeQueryWrapper.between("failureTime", notice.get(), notice.getFailureTime());
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, noticeQueryWrapper), this::toNoticeVO);
     }
 

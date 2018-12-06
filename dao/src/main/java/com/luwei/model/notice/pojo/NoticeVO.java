@@ -43,12 +43,14 @@ public class NoticeVO implements Serializable {
     private String noticeSummary;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "公告生效时间")
-    private LocalDateTime effectiveTime;
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "公告失效时间")
-    private LocalDateTime failureTime;
+    @ApiModelProperty(value = "更新时间")
+    private LocalDateTime updateTime;
+
+
 
 
 }

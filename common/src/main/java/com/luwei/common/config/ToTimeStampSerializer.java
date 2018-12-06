@@ -14,6 +14,7 @@ import java.time.ZoneOffset;
  * @Description: localDateTime转换为时间戳，使用时在需转换属性上添加 @JSONField(serializeUsing = ToTimeStampSerializer.class)
  * @Date； 2018/11/24
  **/
+
 public class ToTimeStampSerializer implements ObjectSerializer {
 
     @Override

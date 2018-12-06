@@ -44,13 +44,6 @@ public class Notice implements Serializable {
     @ApiModelProperty(value = "公告摘要")
     private String noticeSummary;
 
-    @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "公告生效时间")
-    private LocalDateTime effectiveTime;
-
-    @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "公告失效时间")
-    private LocalDateTime failureTime;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "创建时间")

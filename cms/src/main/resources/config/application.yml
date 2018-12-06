@@ -49,7 +49,7 @@ mybatis-plus:
       table-prefix: tb_
 logging:
   level:
-    com.baomidou.mybatisplus.samples: debug
+    com.luwei: debug
 
 # 模块化的配置
 luwei:
@@ -80,3 +80,4 @@ luwei:
 # swagger开关/默认打开
 swagger:
   show: true
+

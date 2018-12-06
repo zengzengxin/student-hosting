@@ -50,7 +50,8 @@ public class NoticeController {
     @GetMapping("/page")
     @ApiOperation("分页")
     public IPage<NoticeVO> page(@ModelAttribute NoticeQueryDTO noticeQueryDTO, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Page page) {
-        return iNoticeService.getNoticePage(noticeQueryDTO,page);
+
+        return iNoticeService.getNoticePage(noticeQueryDTO,page,noticeQueryDTO.getStartTime(),noticeQueryDTO.getEndTime());
     }
 }
 
