@@ -1,7 +1,4 @@
 package com.luwei.service.notice.pojos;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,13 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_notice")
-public class noticeVO implements Serializable {
-
-
-    @ApiModelProperty(value = "主键id")
-    @TableId(value = "notice_id", type = IdType.AUTO)
-    private Integer noticeId;
+public class NoticeAddDTO implements Serializable {
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
     private Integer noticeStatus;

@@ -1,18 +1,20 @@
-package com.luwei.controllers;
-
-import com.luwei.service.notice.INoticeService;
+package com.luwei.controller;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luwei.service.notice.NoticeService;
+import com.luwei.service.notice.pojos.NoticeAddDTO;
+import com.luwei.service.notice.pojos.NoticeQueryDTO;
+import com.luwei.service.notice.pojos.NoticeUpdateDTO;
+import com.luwei.service.notice.pojos.noticeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Set;
 
 /**
  * @author ffq
@@ -23,34 +25,31 @@ import java.util.Set;
 @RequestMapping("/api/notice")
 public class NoticeController {
     @Autowired
-    private INoticeService iNoticeService;
-
-    @GetMapping
-    @ApiOperation("查询单条")
-    public Object findOne(@ModelAttribute @Valid Object object) {
-        return null;
-    }
+    private NoticeService iNoticeService;
 
     @PostMapping
     @ApiOperation("添加")
-    public void save(@RequestBody @Valid Object object) {
+    public noticeVO save(@RequestBody @Valid NoticeAddDTO notice) {
+        return iNoticeService.saveNotice(notice);
     }
 
     @DeleteMapping
     @ApiOperation("删除")
-    public void delete(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
+    public void delete(@RequestParam @ApiParam("id") Integer ids) {
+        iNoticeService.deleteNotice(ids);
+
     }
 
     @PutMapping
     @ApiOperation("修改")
-    public Object update(@RequestBody Object object) {
-        return null;
+    public noticeVO update(@RequestBody NoticeUpdateDTO noticeUpdateDTO) {
+        return iNoticeService.updateNotice(noticeUpdateDTO);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页")
-    public Page<Object> page(@ModelAttribute Object dto, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return null;
+    public IPage<noticeVO> page(@ModelAttribute NoticeQueryDTO noticeQueryDTO, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Page page) {
+        return iNoticeService.getNoticePage(noticeQueryDTO,page);
     }
 }
 
