@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  **/
 @EnableSwagger2
 @SpringBootApplication
-@MapperScan("com.luwei.mapper.*")
+@MapperScan("com.luwei.mapper")
 public class CmsApplication {
 
     public static void main(String[] args) {
