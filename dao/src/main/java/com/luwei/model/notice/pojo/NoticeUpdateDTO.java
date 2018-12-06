@@ -1,5 +1,9 @@
 package com.luwei.model.notice.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.luwei.common.config.ToTimeStampSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,6 +23,10 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class NoticeUpdateDTO {
 
+    @ApiModelProperty(value = "主键id")
+    @TableId(value = "notice_id", type = IdType.AUTO)
+    private Integer noticeId;
+
     @ApiModelProperty(value = "通告状态 1上架 0下架")
     private Integer noticeStatus;
 
@@ -31,9 +39,11 @@ public class NoticeUpdateDTO {
     @ApiModelProperty(value = "公告摘要")
     private String noticeSummary;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "公告生效时间")
     private LocalDateTime effectiveTime;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "公告失效时间")
     private LocalDateTime failureTime;
 }

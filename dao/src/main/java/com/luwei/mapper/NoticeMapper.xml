@@ -21,4 +21,7 @@
         notice_id, notice_status, notice_content, notice_tittle, notice_summary, effective_time, failure_time, create_time, update_time, deleted
     </sql>
 
+
+
+
 </mapper>

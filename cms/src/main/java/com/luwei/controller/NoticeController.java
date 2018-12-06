@@ -20,7 +20,7 @@ import javax.validation.Valid;
  * @author ffq
  * @since 2018-12-05
  */
-@Api(tags = {""})
+@Api(tags = {"公告管理"})
 @RestController
 @RequestMapping("/api/notice")
 public class NoticeController {
@@ -30,6 +30,7 @@ public class NoticeController {
     @PostMapping
     @ApiOperation("添加")
     public NoticeVO save(@RequestBody @Valid NoticeAddDTO notice) {
+        System.out.println(notice.toString());
         return iNoticeService.saveNotice(notice);
     }
 

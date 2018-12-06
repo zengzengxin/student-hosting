@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
-
 /**
  * <p>
  *  Mapper 接口
@@ -17,8 +15,7 @@ import java.util.Date;
 @Mapper
 @Repository
 public interface NoticeMapper extends BaseMapper<Notice> {
-    public static void main(String[] args) {
-        System.out.println(new Date());
-    }
+
+
 
 }
