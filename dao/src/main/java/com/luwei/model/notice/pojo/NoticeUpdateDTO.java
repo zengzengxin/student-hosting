@@ -1,31 +1,23 @@
-package com.luwei.service.notice.pojos;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+package com.luwei.model.notice.pojo;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author ffq
- * @since 2018-12-05
+ * @author huanglp
+ * Date: 2018-12-06
  */
+
 @ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_notice")
-public class NoticeVO implements Serializable {
-
-
-    @ApiModelProperty(value = "主键id")
-    @TableId(value = "notice_id", type = IdType.AUTO)
-    private Integer noticeId;
+public class NoticeUpdateDTO {
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
     private Integer noticeStatus;
@@ -44,6 +36,4 @@ public class NoticeVO implements Serializable {
 
     @ApiModelProperty(value = "公告失效时间")
     private LocalDateTime failureTime;
-
-
 }

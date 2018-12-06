@@ -1,4 +1,4 @@
-package com.luwei.service.notice.pojos;
+package com.luwei.model.notice.pojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.common.util.BeanUtils;
-import com.luwei.mapper.NoticeMapper;
+import com.luwei.model.notice.NoticeMapper;
 import com.luwei.model.notice.Notice;
-import com.luwei.service.notice.pojos.*;
+import com.luwei.model.notice.pojo.NoticeAddDTO;
+import com.luwei.model.notice.pojo.NoticeQueryDTO;
+import com.luwei.model.notice.pojo.NoticeUpdateDTO;
+import com.luwei.model.notice.pojo.NoticeVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
