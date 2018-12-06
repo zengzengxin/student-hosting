@@ -40,7 +40,7 @@ public class CmsSwagger {
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enable)
-                .groupName("project-templet")
+                .groupName("student-hosting")
                 .apiInfo(apiInfo())
                 .globalOperationParameters(Collections.singletonList(parameter))
                 .select()
@@ -51,7 +51,7 @@ public class CmsSwagger {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("项目中文名cms")
+                .title("学生托管系统-cms")
                 .description("接口")
                 .version("1.0")
                 .build();
