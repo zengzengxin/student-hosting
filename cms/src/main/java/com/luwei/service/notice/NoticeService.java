@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.mapper.NoticeMapper;
-import com.luwei.models.notice.Notice;
+import com.luwei.model.notice.Notice;
 import com.luwei.service.notice.pojos.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +30,7 @@ public class NoticeService {
 
 
     @Transactional
-    public noticeVO saveNotice(NoticeAddDTO noticeAddDTO){
+    public NoticeVO saveNotice(NoticeAddDTO noticeAddDTO){
         Notice notice= new Notice();
         BeanUtils.copyNonNullProperties(noticeAddDTO,notice);
         //添加一些没有的参数
@@ -39,8 +39,8 @@ public class NoticeService {
         return toNoticeVO(notice);
     }
 
-    private noticeVO toNoticeVO(Notice notice) {
-        noticeVO noticeVO = new noticeVO();
+    private NoticeVO toNoticeVO(Notice notice) {
+        NoticeVO noticeVO = new NoticeVO();
         BeanUtils.copyNonNullProperties(notice,noticeVO);
         return  noticeVO;
     }
@@ -49,7 +49,7 @@ public class NoticeService {
 
 
     @Transactional
-    public noticeVO updateNotice(NoticeUpdateDTO noticeUpdateDTO){
+    public NoticeVO updateNotice(NoticeUpdateDTO noticeUpdateDTO){
         Notice notice= new Notice();
         BeanUtils.copyNonNullProperties(noticeUpdateDTO,notice);
         //封装查询条件
@@ -69,11 +69,11 @@ public class NoticeService {
 
 
 
-    public IPage<noticeVO> getNoticePage(NoticeQueryDTO noticePageDTO, Page page) {
+    public IPage<NoticeVO> getNoticePage(NoticeQueryDTO noticePageDTO, Page page) {
         Notice notice= new Notice();
         BeanUtils.copyNonNullProperties(noticePageDTO,notice);
         QueryWrapper<Notice> NoticeQueryWrapper = new QueryWrapper<Notice>(notice);
-        IPage<noticeVO> Noticepage = noticeMapper.selectPage(page, NoticeQueryWrapper);
+        IPage<NoticeVO> Noticepage = noticeMapper.selectPage(page, NoticeQueryWrapper);
         return Noticepage;
     }
 

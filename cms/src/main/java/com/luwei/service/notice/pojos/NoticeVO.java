@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("tb_notice")
-public class noticeVO implements Serializable {
+public class NoticeVO implements Serializable {
 
 
     @ApiModelProperty(value = "主键id")

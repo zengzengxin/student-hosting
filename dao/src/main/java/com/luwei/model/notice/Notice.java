@@ -1,4 +1,4 @@
-package com.luwei.models.notice;
+package com.luwei.model.notice;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

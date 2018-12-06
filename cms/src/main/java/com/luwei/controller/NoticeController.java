@@ -5,7 +5,7 @@ import com.luwei.service.notice.NoticeService;
 import com.luwei.service.notice.pojos.NoticeAddDTO;
 import com.luwei.service.notice.pojos.NoticeQueryDTO;
 import com.luwei.service.notice.pojos.NoticeUpdateDTO;
-import com.luwei.service.notice.pojos.noticeVO;
+import com.luwei.service.notice.pojos.NoticeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,7 +29,7 @@ public class NoticeController {
 
     @PostMapping
     @ApiOperation("添加")
-    public noticeVO save(@RequestBody @Valid NoticeAddDTO notice) {
+    public NoticeVO save(@RequestBody @Valid NoticeAddDTO notice) {
         return iNoticeService.saveNotice(notice);
     }
 
@@ -42,13 +42,13 @@ public class NoticeController {
 
     @PutMapping
     @ApiOperation("修改")
-    public noticeVO update(@RequestBody NoticeUpdateDTO noticeUpdateDTO) {
+    public NoticeVO update(@RequestBody NoticeUpdateDTO noticeUpdateDTO) {
         return iNoticeService.updateNotice(noticeUpdateDTO);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页")
-    public IPage<noticeVO> page(@ModelAttribute NoticeQueryDTO noticeQueryDTO, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Page page) {
+    public IPage<NoticeVO> page(@ModelAttribute NoticeQueryDTO noticeQueryDTO, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Page page) {
         return iNoticeService.getNoticePage(noticeQueryDTO,page);
     }
 }
