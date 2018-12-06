@@ -50,7 +50,6 @@ public class GeneratorCode {
     public static void main(String[] args) throws FileNotFoundException {
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = true;
-        propertiesBean.setTableNames(new String[]{"tb_manager", "tb_user"});
         generateByTables(serviceNameStartWithI, propertiesBean.getPackageName(),
                 propertiesBean.getTableNames());
     }

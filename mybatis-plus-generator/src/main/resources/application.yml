@@ -1,7 +1,7 @@
-url: jdbc:mysql://localhost:3306/mybatisplus?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+url: jdbc:mysql://193.112.251.82:3307/student-hosting?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+username: student-hosting
+password: bzsFBIP98MSUFg6K
 driverClassName: com.mysql.jdbc.Driver
-username: root
-password: 123456
 tableNames:
   - tb_notice
 
