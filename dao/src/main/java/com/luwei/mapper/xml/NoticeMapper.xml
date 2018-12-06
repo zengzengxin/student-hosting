@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luwei.mapper.NoticeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.luwei.entity.Notice">
+        <id column="notice_id" property="noticeId" />
+        <result column="notice_status" property="noticeStatus" />
+        <result column="notice_content" property="noticeContent" />
+        <result column="notice_tittle" property="noticeTittle" />
+        <result column="notice_summary" property="noticeSummary" />
+        <result column="effective_time" property="effectiveTime" />
+        <result column="failure_time" property="failureTime" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        notice_id, notice_status, notice_content, notice_tittle, notice_summary, effective_time, failure_time, create_time, update_time, deleted
+    </sql>
+
+</mapper>

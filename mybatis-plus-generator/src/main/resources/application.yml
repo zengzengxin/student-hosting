@@ -1,9 +1,9 @@
-url: jdbc:mysql://193.112.251.82:3307/PROJECT?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+url: jdbc:mysql://localhost:3306/mybatisplus?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
 driverClassName: com.mysql.jdbc.Driver
-username: PROJECT
-password: DmeY3s0CqCNUwFFA
+username: root
+password: 123456
 tableNames:
-  - tb_test
+  - tb_notice
 
 
 packageName: com.luwei
