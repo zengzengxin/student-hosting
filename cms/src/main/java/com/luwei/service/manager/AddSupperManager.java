@@ -1,9 +1,9 @@
 package com.luwei.service.manager;
 
 import com.luwei.common.constants.RoleEnum;
-import com.luwei.common.utils.BcryptUtil;
-import com.luwei.models.manager.Manager;
-import com.luwei.models.manager.ManagerDao;
+import com.luwei.common.util.BcryptUtil;
+import com.luwei.model.manager.Manager;
+import com.luwei.model.manager.ManagerDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;

@@ -9,14 +9,9 @@ package com.luwei.plus;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.support.Property;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import org.apache.catalina.User;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -24,8 +19,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class GeneratorCode {
 
@@ -57,6 +50,7 @@ public class GeneratorCode {
     public static void main(String[] args) throws FileNotFoundException {
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = true;
+        propertiesBean.setTableNames(new String[]{"tb_manager", "tb_user"});
         generateByTables(serviceNameStartWithI, propertiesBean.getPackageName(),
                 propertiesBean.getTableNames());
     }

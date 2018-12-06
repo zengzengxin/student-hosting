@@ -30,7 +30,7 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public Result handleBaseException(ValidationException e) {
         logger.error("", e);
-        String desc = applicationContext.getMessage(e.getCode(), e.getArgs(), e.getMsg(), Locale.getDefault());
+        String desc = applicationContext.getMessage(e.getCode(), null, e.getMsg(), Locale.getDefault());
         if (StringUtils.isEmpty(desc)) {
             logger.info("can not find desc of collector:" + e.getCode());
             desc = e.getCode();

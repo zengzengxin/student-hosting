@@ -1,0 +1,82 @@
+# server通用配置(dev/test默认8081 pro为8082)
+server:
+  port: 8081
+  error:
+    whitelabel:
+      enabled: false
+  undertow:
+    accesslog:
+      enabled: true
+  connection-timeout: 10000ms
+  compression:
+    enabled: true
+
+# spring通用配置
+spring:
+  profiles:
+    active: dev
+  jackson:
+    default-property-inclusion: always
+    serialization:
+      write-dates-as-timestamps: true
+  http:
+    encoding:
+      charset: UTF-8
+  servlet:
+    multipart:
+      max-file-size: 8MB
+      max-request-size: 8MB
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: com.luwei.common.config.JpaNamingStrategy
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+
+# Mybatis-plus配置
+mybatis-plus:
+  # MyBatis Mapper 所对应的 XML 文件位置
+  mapper-locations: classpath*:mapper/**/*.xml
+  # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，
+  # 注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名（即 XML 中调用的时候不用包含包名）
+  typeAliasesPackage: com.luwei.model
+  configuration:
+    # 使用驼峰法映射属性,配置这个resultType可以映射
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      table-prefix: tb_
+logging:
+  level:
+    com.baomidou.mybatisplus.samples: debug
+
+# 模块化的配置
+luwei:
+  config:
+    salt: 3u492ijdf*89q34l882jk
+  module:
+    qiniu:
+      bucket:
+      access-key:
+      secret-key:
+      link-address:
+    sms:
+      redus-prefix:
+      access-key-id:
+      access-key-secret:
+      sign-name:
+      template-code:
+      template-code-name:
+    shiro:
+      rule: student-hosting-cms
+      cache-days: 15
+      token-prefix: ${server.port}
+      token-name: auth.token.
+      anon-urls: /api/picCaptcha,/api/login,/api/module/qiniu/**,/druid/**
+      cors-urls: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
+      auth-urls: /api/**
+
+# swagger开关/默认打开
+swagger:
+  show: true

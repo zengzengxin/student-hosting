@@ -73,23 +73,4 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.luwei</groupId>
-                <artifactId>message-maven-plugin</artifactId>
-                <version>0.0.2</version>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>gen-messages</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
-
 </project>

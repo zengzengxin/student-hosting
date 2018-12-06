@@ -4,14 +4,13 @@ import com.luwei.common.constants.RedisKeyPrefix;
 import com.luwei.common.constants.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.exception.ValidationException;
-import com.luwei.common.utils.BcryptUtil;
-import com.luwei.models.manager.Manager;
-import com.luwei.models.manager.ManagerDao;
+import com.luwei.common.util.BcryptUtil;
+import com.luwei.model.manager.Manager;
+import com.luwei.model.manager.ManagerDao;
+import com.luwei.model.manager.pojo.LoginSuccessVO;
+import com.luwei.model.manager.pojo.ManagerLoginVO;
 import com.luwei.module.shiro.service.ShiroTokenService;
-import com.luwei.service.manager.pojos.LoginSuccessVO;
-import com.luwei.service.manager.pojos.ManagerLoginVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * <p>

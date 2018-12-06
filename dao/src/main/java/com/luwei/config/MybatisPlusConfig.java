@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 2018-08-10
  */
 @Configuration
-@MapperScan("com.luwei.models")
+@MapperScan("com.luwei.model")
 @EnableTransactionManagement
 public class MybatisPlusConfig {
     /**

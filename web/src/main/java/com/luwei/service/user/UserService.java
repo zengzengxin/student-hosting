@@ -1,12 +1,12 @@
 package com.luwei.service.user;
 
 import com.luwei.common.exception.MessageCodes;
-import com.luwei.common.utils.CommonSpecUtil;
-import com.luwei.models.user.User;
-import com.luwei.models.user.UserDao;
-import com.luwei.service.user.pojos.UserPageVO;
-import com.luwei.service.user.pojos.UserQueryVO;
-import com.luwei.service.user.pojos.UserStateVO;
+import com.luwei.common.util.CommonSpecUtil;
+import com.luwei.model.user.User;
+import com.luwei.model.user.UserDao;
+import com.luwei.model.user.pojo.UserPageVO;
+import com.luwei.model.user.pojo.UserQueryVO;
+import com.luwei.model.user.pojo.UserStateVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
