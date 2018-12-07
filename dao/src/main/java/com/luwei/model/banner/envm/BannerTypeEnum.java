@@ -10,15 +10,15 @@ import java.io.Serializable;
  */
 public enum BannerTypeEnum implements IEnum {
     /**
-     * 首页
+     * 0-首页
      */
     HOME_PAGE(0),
     /**
-     * 订课
+     * 1-订课
      */
     BOOK_LESSON(1),
     /**
-     * 点餐
+     * 2-点餐
      */
     ORDER_FOOD(2);
 

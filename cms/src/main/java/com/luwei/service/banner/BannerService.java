@@ -1,5 +1,6 @@
 package com.luwei.service.banner;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -7,6 +8,7 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.banner.Banner;
 import com.luwei.model.banner.BannerMapper;
 import com.luwei.model.banner.pojo.cms.BannerAddDTO;
+import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
 import com.luwei.model.banner.pojo.cms.BannerVO;
 import com.luwei.utils.ConversionBeanUtils;
@@ -45,10 +47,11 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
         return toBannerVO(banner);
     }
 
-    public IPage<BannerVO> getPage(Page<Banner> page) {
-        //Banner banner = new Banner();
-        //QueryWrapper<Banner> queryWrapper = new QueryWrapper<>(banner);
-        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, null), this::toBannerVO);
+    public IPage<BannerVO> getPage(BannerQueryDTO queryDTO, Page<Banner> page) {
+        Banner banner = new Banner();
+        QueryWrapper<Banner> wrapper = new QueryWrapper<>(banner);
+        wrapper.eq("banner_type", queryDTO.getBannerType());
+        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toBannerVO);
     }
 
     private Banner getById(Integer id) {

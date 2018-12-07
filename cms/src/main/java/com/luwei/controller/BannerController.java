@@ -2,14 +2,14 @@ package com.luwei.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luwei.model.banner.Banner;
 import com.luwei.model.banner.pojo.cms.BannerAddDTO;
+import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
 import com.luwei.model.banner.pojo.cms.BannerVO;
 import com.luwei.service.banner.BannerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -47,8 +47,8 @@ public class BannerController {
 
     @GetMapping("/page")
     @ApiOperation("分页获取轮播图")
-    public IPage<BannerVO> page(@PageableDefault(sort = "banner_id", direction = Sort.Direction.DESC) Page page) {
-        return bannerService.getPage(page);
+    public IPage<BannerVO> page(@ModelAttribute @Valid BannerQueryDTO queryDTO, Page<Banner> page) {
+        return bannerService.getPage(queryDTO, page);
     }
 
 }
