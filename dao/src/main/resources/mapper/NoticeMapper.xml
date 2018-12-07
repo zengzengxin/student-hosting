@@ -9,8 +9,6 @@
         <result column="notice_content" property="noticeContent"/>
         <result column="notice_tittle" property="noticeTittle"/>
         <result column="notice_summary" property="noticeSummary"/>
-        <result column="effective_time" property="effectiveTime"/>
-        <result column="failure_time" property="failureTime"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
@@ -21,6 +19,27 @@
         notice_id, notice_status, notice_content, notice_tittle, notice_summary, effective_time, failure_time, create_time, update_time, deleted
     </sql>
 
+
+
+    <select id="getNoticePage" resultType="com.luwei.model.notice.pojo.NoticeVO" parameterType="com.luwei.model.notice.pojo.NoticeQueryDTO">
+        select *
+        From tb_notice
+        <where>
+            <if test="noticePageDTO.startTime!=null">
+                <![CDATA[and create_time >= #{noticePageDTO.startTime}]]>
+            </if>
+            <if test="noticePageDTO.endTime!=null">
+                <![CDATA[and create_time <= #{noticePageDTO.endTime}]]>
+            </if>
+            <if test="noticePageDTO.noticeTittle!=null">
+                and notice_tittle like '%${noticePageDTO.noticeTittle}%'
+            </if>
+            <if test="noticePageDTO.noticeStatus!=null">
+                and notice_status = #{noticePageDTO.noticeTittle}
+            </if>
+            and deleted = 0
+        </where>
+    </select>
 
 
 </mapper>
