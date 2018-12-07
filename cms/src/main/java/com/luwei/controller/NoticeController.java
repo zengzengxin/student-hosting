@@ -1,17 +1,15 @@
 package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luwei.model.notice.pojo.cms.NoticeAddDTO;
+import com.luwei.model.notice.pojo.cms.NoticeQueryDTO;
+import com.luwei.model.notice.pojo.cms.NoticeUpdateDTO;
+import com.luwei.model.notice.pojo.cms.NoticeVO;
 import com.luwei.service.notice.NoticeService;
-import com.luwei.model.notice.pojo.NoticeAddDTO;
-import com.luwei.model.notice.pojo.NoticeQueryDTO;
-import com.luwei.model.notice.pojo.NoticeUpdateDTO;
-import com.luwei.model.notice.pojo.NoticeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +20,7 @@ import javax.validation.Valid;
  */
 @Api(tags = {"公告管理"})
 @RestController
-@RequestMapping("/notice")
+@RequestMapping("/api/notice")
 public class NoticeController {
     @Autowired
     private NoticeService iNoticeService;
@@ -48,7 +46,7 @@ public class NoticeController {
 
     @GetMapping("/page")
     @ApiOperation("分页")
-    public IPage<NoticeVO> page(@ModelAttribute NoticeQueryDTO noticeQueryDTO, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Page page) {
+    public IPage<NoticeVO> page(@ModelAttribute NoticeQueryDTO noticeQueryDTO,Page page) {
 
         return iNoticeService.getNoticePage(page,noticeQueryDTO);
     }

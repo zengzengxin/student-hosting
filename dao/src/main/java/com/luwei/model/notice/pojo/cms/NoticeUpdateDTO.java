@@ -1,31 +1,26 @@
-package com.luwei.model.notice.pojo;
+package com.luwei.model.notice.pojo.cms;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.luwei.common.config.ToTimeStampSerializer;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 /**
- * @author ffq
- * @since 2018-12-05
+ * @author huanglp
+ * Date: 2018-12-06
  */
+
 @ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_notice")
-public class NoticeVO implements Serializable {
-
+public class NoticeUpdateDTO {
 
     @ApiModelProperty(value = "主键id")
-
+    @TableId(value = "notice_id", type = IdType.AUTO)
     private Integer noticeId;
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
@@ -39,16 +34,6 @@ public class NoticeVO implements Serializable {
 
     @ApiModelProperty(value = "公告摘要")
     private String noticeSummary;
-
-    @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
-
-    @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
-
-
 
 
 }
