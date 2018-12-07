@@ -22,13 +22,21 @@ import java.nio.file.Paths;
 
 public class GeneratorCode {
 
+    public static void main(String[] args) throws FileNotFoundException {
+        //user -> UserService, 设置成true: user -> IUserService
+        boolean serviceNameStartWithI = false;
+        generateByTables(serviceNameStartWithI, propertiesBean.getPackageName(),
+                propertiesBean.getTableNames());
+    }
+
+
     private static String outDir = System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java";
     private static String entity = "entity";
-    private static String mapper = "mapper";
+    private static String mapper = "a.bb";
     private static String service = "service";
-    private static String impl = "service.impl";
+    private static String impl = "service";
     private static String controller = "controller";
-    private static String xml = "mapper.xml";
+    private static String xml = "mapper";
 
 
     private static PropertiesBean propertiesBean = null;
@@ -46,13 +54,6 @@ public class GeneratorCode {
 
 
     private static String[] baseDir = {entity, mapper, service, impl, controller};
-
-    public static void main(String[] args) throws FileNotFoundException {
-        //user -> UserService, 设置成true: user -> IUserService
-        boolean serviceNameStartWithI = true;
-        generateByTables(serviceNameStartWithI, propertiesBean.getPackageName(),
-                propertiesBean.getTableNames());
-    }
 
 
     private static void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
@@ -87,6 +88,8 @@ public class GeneratorCode {
                 .setFileOverride(true)
                 .setEnableCache(false)
                 .setIdType(IdType.AUTO)
+                //Service名字
+                .setServiceImplName("%sService")
                 .setActiveRecord(false)
                 // XML ResultMap
                 .setBaseResultMap(true)

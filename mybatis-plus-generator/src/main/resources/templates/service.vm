@@ -1,0 +1,82 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.utils.BeanUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
+import javax.transaction.Transactional;
+import java.util.Set;
+import com.luwei.common.utils.BeanUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+#set($start=$entity.substring(0,1).toLowerCase() )
+#set($end=$entity.substring(1,$entity.length()).toLowerCase() )
+/**
+* <p>
+    * $!{table.comment} 服务类
+    * </p>
+*
+* @author ${author}
+* @since ${date}
+*/
+@Service
+@Slf4j
+#if(${kotlin})
+open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
+
+}
+#else
+public class ${table.serviceName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> {
+public ${entity}VO findById(Integer id) {
+    ${entity} ${start}${end} = getById(id);
+//记得修改Assert
+Assert.notNull(${start}${end}, MessageCodes.USER_NOT_EXIST);
+return to${entity}VO(${start}${end});
+}
+
+private ${entity}VO to${entity}VO(${entity} ${start}${end}) {
+    ${entity}VO ${start}${end}VO = new ${entity}VO();
+BeanUtils.copyNonNullProperties(${start}${end}, ${start}${end}VO);
+return ${start}${end}VO;
+}
+
+
+@Transactional
+public ${entity}VO save${entity}(${entity}AddDTO ${start}${end}AddDTO) {
+    ${entity} ${start}${end} = new ${entity}();
+BeanUtils.copyNonNullProperties(${start}${end}AddDTO, ${start}${end});
+saveOrUpdate(${start}${end});
+log.info("保存数据---:{}", ${start}${end});
+return to${entity}VO(${start}${end});
+}
+
+@Transactional
+public void delete${entity}s(Set<Integer> ids) {
+    Assert.isTrue(removeByIds(ids), MessageCodes.DELETE_ERROR);
+    log.info("删除数据:id{}", ids);
+    }
+
+    @Transactional
+    public ${entity}VO update${entity}(${entity}UpdateDTO ${start}${end}UpdateDTO) {
+    ${entity} ${start}${end} = new ${entity}();
+    BeanUtils.copyNonNullProperties(${start}${end}UpdateDTO, ${start}${end});
+    Assert.isTrue(updateById(${start}${end}), MessageCodes.DATA_IS_UPDATE_ERROR);
+    log.info("修改数据：bean:{}", ${start}${end}UpdateDTO);
+    return to${entity}VO(${start}${end});
+    }
+
+    public IPage<${entity}VO> find${entity}Page (${entity}QueryDTO ${start}${end}QueryDTO, Page page) {
+    ${entity} ${start}${end} = new ${entity}();
+    BeanUtils.copyNonNullProperties(${start}${end}QueryDTO, ${start}${end});
+    QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
+    //查询业务
+    return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::to${entity}VO);
+    }
+}
+#end
