@@ -2,7 +2,6 @@ package com.luwei.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.luwei.model.banner.Banner;
 import com.luwei.model.banner.pojo.cms.BannerAddDTO;
 import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
@@ -19,7 +18,7 @@ import javax.validation.Valid;
  * @author huanglp
  * @since 2018-12-06
  */
-@Api(tags = "轮播图管理")
+@Api(tags = "轮播图模块")
 @RestController
 @RequestMapping("/api/banner")
 public class BannerController {
@@ -47,7 +46,7 @@ public class BannerController {
 
     @GetMapping("/page")
     @ApiOperation("分页获取轮播图")
-    public IPage<BannerVO> page(@ModelAttribute @Valid BannerQueryDTO queryDTO, Page<Banner> page) {
+    public IPage<BannerVO> page(@ModelAttribute @Valid BannerQueryDTO queryDTO, Page page) {
         return bannerService.getPage(queryDTO, page);
     }
 
