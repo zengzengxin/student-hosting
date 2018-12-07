@@ -29,4 +29,8 @@ public interface MessageCodes {
 
     //加密解密相关
     String RSAUtil_DECRYPT_ERROR = "rsautil.decrypt.error";//解密失败
+
+
+    //Notice先关
+    String NOTICE_UPDATE_ERROR="notice update fail";//公告更新失败
 }
