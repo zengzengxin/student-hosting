@@ -3,6 +3,7 @@ package com.luwei.model.user;
 import com.luwei.common.util.IdEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
  */
 @Entity
 @Data
+@Accessors(chain=true)
 public class User extends IdEntity {
 
     @Id

@@ -1,8 +1,6 @@
 package com.luwei.model.notice.pojo;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.luwei.common.config.ToTimeStampSerializer;
 import io.swagger.annotations.ApiModel;
@@ -27,7 +25,7 @@ public class NoticeVO implements Serializable {
 
 
     @ApiModelProperty(value = "主键id")
-    @TableId(value = "notice_id", type = IdType.AUTO)
+
     private Integer noticeId;
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
