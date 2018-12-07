@@ -1,5 +1,6 @@
 package com.luwei.model.banner.pojo.cms;
 
+import com.luwei.model.banner.envm.BannerTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -23,6 +24,6 @@ public class BannerVO {
     private String bannerPicture;
 
     @ApiModelProperty(value = "轮播图类型")
-    private Boolean bannerType;
+    private BannerTypeEnum bannerType;
 
 }

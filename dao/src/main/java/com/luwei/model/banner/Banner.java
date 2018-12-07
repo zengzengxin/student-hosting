@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.luwei.model.banner.envm.BannerTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -40,7 +42,8 @@ public class Banner implements Serializable {
     private String bannerPicture;
 
     @ApiModelProperty(value = "轮播图类型")
-    private Boolean bannerType;
+    //@Enumerated
+    private BannerTypeEnum bannerType;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

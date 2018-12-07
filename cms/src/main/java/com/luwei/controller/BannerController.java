@@ -1,5 +1,6 @@
 package com.luwei.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.banner.pojo.cms.BannerAddDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
@@ -7,7 +8,6 @@ import com.luwei.model.banner.pojo.cms.BannerVO;
 import com.luwei.service.banner.BannerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
@@ -19,41 +19,37 @@ import javax.validation.Valid;
  * @author huanglp
  * @since 2018-12-06
  */
-@Api(tags = "战队接口")
+@Api(tags = "轮播图管理")
 @RestController
 @RequestMapping("/api/banner")
 public class BannerController {
+
     @Resource
     private BannerService bannerService;
 
-    @GetMapping
-    @ApiOperation("查询单条")
-    public Object findOne(@ModelAttribute @Valid Object object) {
-        return null;
-    }
-
     @PostMapping
-    @ApiOperation("添加")
+    @ApiOperation("新增轮播图")
     public BannerVO saveBanner(@RequestBody @Valid BannerAddDTO addDTO) {
         return bannerService.saveBanner(addDTO);
     }
 
     @DeleteMapping
-    @ApiOperation("删除")
-    public void deleteBanner(@RequestParam @ApiParam("id") Integer id) {
+    @ApiOperation("删除轮播图")
+    public void deleteBanner(@RequestParam Integer id) {
         bannerService.deleteBanner(id);
     }
 
     @PutMapping
-    @ApiOperation("修改")
+    @ApiOperation("修改轮播图")
     public BannerVO updateBanner(@RequestBody BannerUpdateDTO updateDTO) {
         return bannerService.updateBanner(updateDTO);
     }
 
     @GetMapping("/page")
-    @ApiOperation("分页")
-    public Page<BannerVO> page(@PageableDefault(sort = "id", direction = Sort.Direction.DESC) Page page) {
+    @ApiOperation("分页获取轮播图")
+    public IPage<BannerVO> page(@PageableDefault(sort = "banner_id", direction = Sort.Direction.DESC) Page page) {
         return bannerService.getPage(page);
     }
+
 }
 

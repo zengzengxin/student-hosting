@@ -1,6 +1,5 @@
 package com.luwei.common.exception;
 
-
 public interface MessageCodes {
 
     String AUTH_TOKEN = "auth.token.wrong";//token错误或已过期,请重新登录
@@ -30,7 +29,9 @@ public interface MessageCodes {
     //加密解密相关
     String RSAUtil_DECRYPT_ERROR = "rsautil.decrypt.error";//解密失败
 
-
     //Notice先关
-    String NOTICE_UPDATE_ERROR="notice update fail";//公告更新失败
+    String NOTICE_UPDATE_ERROR = "notice update fail";//公告更新失败
+
+    //轮播图相关
+    String BANNER_UPDATE_ERROR = "banner.update.fail";//轮播图更新失败
 }

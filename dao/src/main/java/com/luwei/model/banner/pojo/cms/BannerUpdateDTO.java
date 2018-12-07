@@ -1,7 +1,10 @@
 package com.luwei.model.banner.pojo.cms;
 
+import com.luwei.model.banner.envm.BannerTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Author: huanglp
@@ -10,6 +13,7 @@ import lombok.Data;
 @Data
 public class BannerUpdateDTO {
 
+    @NotNull
     @ApiModelProperty(value = "主键ID")
     private Integer bannerId;
 
@@ -23,6 +27,6 @@ public class BannerUpdateDTO {
     private String bannerPicture;
 
     @ApiModelProperty(value = "轮播图类型")
-    private Boolean bannerType;
+    private BannerTypeEnum bannerType;
 
 }
