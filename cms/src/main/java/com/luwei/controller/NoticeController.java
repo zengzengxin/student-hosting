@@ -30,6 +30,7 @@ public class NoticeController {
     @PostMapping
     @ApiOperation("添加")
     public NoticeVO save(@RequestBody @Valid NoticeAddDTO notice) {
+        System.out.println(notice.toString());
         return iNoticeService.saveNotice(notice);
     }
 
@@ -49,7 +50,6 @@ public class NoticeController {
     @GetMapping("/page")
     @ApiOperation("分页")
     public IPage<NoticeVO> page(@ModelAttribute NoticeQueryDTO noticeQueryDTO, @PageableDefault(sort = "id", direction = Sort.Direction.DESC) Page page) {
-
         return iNoticeService.getNoticePage(noticeQueryDTO,page);
     }
 }

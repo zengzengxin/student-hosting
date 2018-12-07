@@ -2,11 +2,12 @@ package com.luwei.model.notice;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.aspectj.weaver.ast.Test;
 import org.springframework.stereotype.Repository;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author ffq
@@ -15,7 +16,5 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface NoticeMapper extends BaseMapper<Notice> {
-
-
 
 }
