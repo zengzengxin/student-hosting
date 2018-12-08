@@ -21,7 +21,7 @@
 
 
 
-    <select id="getNoticePage" resultType="com.luwei.model.notice.pojo.NoticeVO" parameterType="com.luwei.model.notice.pojo.NoticeQueryDTO">
+    <select id="getNoticePage" resultType="com.luwei.model.notice.pojo.cms.NoticeVO" parameterType="com.luwei.model.notice.pojo.cms.NoticeQueryDTO">
         select *
         From tb_notice
         <where>
