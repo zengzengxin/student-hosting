@@ -1,16 +1,11 @@
+server:
+  port: 9092
+
 spring:
-  profiles: dev
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-      naming:
-        implicit-strategy: com.luwei.common.config.JpaNamingStrategy
-    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
   datasource:
-    url: jdbc:mysql://193.112.251.82:3307/PROJECT?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
-    username: PROJECT
-    password: DmeY3s0CqCNUwFFA
+    url: jdbc:mysql://193.112.251.82:3307/student-hosting?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+    username: student-hosting
+    password: bzsFBIP98MSUFg6K
     driver-class-name: com.mysql.jdbc.Driver
     tomcat:
       test-while-idle: true
@@ -22,7 +17,7 @@ spring:
     port: 6381
     host: 193.112.251.82
     password: q7FIqKnrILC98sTeb2Z2
-    database: 0
+    database: 12
     timeout: 5000ms
     jedis:
       pool:
@@ -33,6 +28,5 @@ spring:
   messages:
     basename: messages
 
-
 swagger:
-  show: true
+  show: false

@@ -1,4 +1,4 @@
-# server通用配置(dev/test默认8081 pro为8082)
+# server通用配置(cms模块 dev/test默认8081 pro为8082)
 server:
   port: 8081
   error:
@@ -58,8 +58,8 @@ luwei:
       cache-days: 15
       token-prefix: ${server.port}
       token-name: auth.token.
-      anon-urls: /api/picCaptcha,/api/login,/api/module/qiniu/**,/druid/**
       cors-urls: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
+      anon-urls: /api/picCaptcha,/api/login,/api/module/qiniu/**
       auth-urls: /api/**
 
 # swagger开关/默认打开

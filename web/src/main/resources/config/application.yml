@@ -1,4 +1,6 @@
+# server通用配置(web模块 dev/test默认9091 pro为9092)
 server:
+  port: 9091
   error:
     whitelabel:
       enabled: false
@@ -8,26 +10,26 @@ server:
   connection-timeout: 10000ms
   compression:
     enabled: true
-  port: 8080
 
+# spring通用配置
 spring:
   profiles:
     active: dev
-
   jackson:
     default-property-inclusion: always
     serialization:
       write-dates-as-timestamps: true
-
   http:
     encoding:
       charset: UTF-8
-
   servlet:
     multipart:
       max-file-size: 8MB
       max-request-size: 8MB
 
+# Mybatis-plus配置在dao模块
+
+# 模块化的配置
 luwei:
   qiniu:
     bucket:
@@ -46,3 +48,7 @@ luwei:
       prefix: project-templet-web
       cors-url: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
       anon-url: /api/login/captcha,/api/login,/api/module/qiniu/**
+
+# swagger开关/默认打开
+swagger:
+  show: true
