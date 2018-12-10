@@ -19,16 +19,16 @@ import java.io.Serializable;
 public class NoticeAddDTO implements Serializable {
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
-    private Integer noticeStatus;
+    private Integer display;
 
     @ApiModelProperty(value = "通告的内容")
-    private String noticeContent;
+    private String content;
 
     @ApiModelProperty(value = "公告标题")
-    private String noticeTittle;
+    private String title;
 
     @ApiModelProperty(value = "公告摘要")
-    private String noticeSummary;
+    private String summary;
 
 
 

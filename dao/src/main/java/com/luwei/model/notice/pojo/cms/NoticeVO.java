@@ -30,20 +30,23 @@ public class NoticeVO implements Serializable {
     private Integer noticeId;
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
-    private Integer noticeStatus;
+    private Integer display;
 
     @ApiModelProperty(value = "通告的内容")
-    private String noticeContent;
+    private String content;
 
     @ApiModelProperty(value = "公告标题")
-    private String noticeTittle;
+    private String title;
 
     @ApiModelProperty(value = "公告摘要")
-    private String noticeSummary;
+    private String summary;
+
+    @ApiModelProperty(value = "公告类型，0公告平台，1教育局平台")
+    private String type;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
+    private LocalDateTime time;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "更新时间")
