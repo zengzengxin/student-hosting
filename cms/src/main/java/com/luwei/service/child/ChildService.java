@@ -1,7 +1,6 @@
 package com.luwei.service.child;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.model.child.Child;
 import com.luwei.model.child.ChildMapper;
@@ -10,7 +9,6 @@ import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
 import com.luwei.model.child.pojo.cms.ChildVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -33,8 +31,8 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     //通过父母的id查询孩子的集合
     public List<ChildVO> findById(Integer id) {
         List<ChildVO> childList = baseMapper.findParents(id);
-        //TODO记得修改MessageCodes
-        Assert.notNull(childList, MessageCodes.CHILD_IS_NOT_EXIST);
+        // TODO 记得修改MessageCodes
+        //Assert.notNull(childList, MessageCodes.CHILD_IS_NOT_EXIST);
         return childList;
     }
 
