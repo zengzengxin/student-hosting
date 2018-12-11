@@ -34,6 +34,7 @@ public interface MessageCodes {
     String DATA_DELETE_ERROR = "data.delete.error";//数据删除失败
     String DATA_UPDATE_ERROR = "data.update.error";//数据更新失败
     String DATA_IS_NOT_EXIST = "data.is.not.exist";//数据不存在
+    String DATA_SAVE_ERROR = "data.save.error";//数据保存失败
 
     //Notice先关
     String NOTICE_UPDATE_ERROR="notice.update.fail";//公告更新失败
@@ -41,8 +42,9 @@ public interface MessageCodes {
     String NOTICE_SAVE_ERROR="notice.save.error";//公告保存失败
 
     //Banner相关
-    String BANNER_UPDATE_ERROR = "banner.update.error";//轮播图更新失败
     String BANNER_DELETE_ERROR = "banner.delete.error";//轮播图删除失败
+    String BANNER_UPDATE_ERROR = "banner.update.error";//轮播图更新失败
     String BANNER_IS_NOT_EXIST = "banner.is.not.exist";//轮播图不存在
+    String BANNER_SAVE_ERROR = "banner.save.error";//轮播图保存失败
 
 }

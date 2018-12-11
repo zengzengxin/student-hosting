@@ -67,7 +67,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
         LocalDateTime time = LocalDateTime.now();
         banner.setUpdateTime(time);
         banner.setCreateTime(time);
-        save(banner);
+        Assert.isTrue(save(banner), MessageCodes.BANNER_SAVE_ERROR);
         log.info("保存数据: {}", banner);
         return toBannerVO(banner);
     }
