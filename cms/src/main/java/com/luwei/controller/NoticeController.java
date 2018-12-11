@@ -33,7 +33,7 @@ public class NoticeController {
 
     @DeleteMapping
     @ApiOperation("删除")
-    public void delete(@RequestParam @ApiParam("id") Integer ids) {
+    public void delete(@RequestParam @ApiParam("+") Integer ids) {
         iNoticeService.deleteNotice(ids);
 
     }

@@ -4,11 +4,11 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.luwei.model.notice.Notice">
-        <id column="notice_id" property="noticeId"/>
-        <result column="notice_status" property="noticeStatus"/>
-        <result column="notice_content" property="noticeContent"/>
-        <result column="notice_tittle" property="noticeTittle"/>
-        <result column="notice_summary" property="noticeSummary"/>
+        <id column="id" property="id"/>
+        <result column="display" property="display"/>
+        <result column="content" property="content"/>
+        <result column="tittle" property="title"/>
+        <result column="summary" property="summary"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
@@ -16,7 +16,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        notice_id, notice_status, notice_content, notice_tittle, notice_summary, effective_time, failure_time, create_time, update_time, deleted
+        notice_id, display, ncontent, title, summary, create_time, update_time, deleted
     </sql>
 
 
@@ -26,16 +26,16 @@
         From tb_notice
         <where>
             <if test="noticePageDTO.startTime!=null">
-                <![CDATA[and create_time >= #{noticePageDTO.startTime}]]>
+                and create_time &gt;= #{noticePageDTO.startTime}
             </if>
             <if test="noticePageDTO.endTime!=null">
-                <![CDATA[and create_time <= #{noticePageDTO.endTime}]]>
+               and create_time &lt;= #{noticePageDTO.endTime}
             </if>
-            <if test="noticePageDTO.noticeTittle!=null">
-                and notice_tittle like '%${noticePageDTO.noticeTittle}%'
+            <if test="noticePageDTO.title!=null">
+                and title like '%${noticePageDTO.title}%'
             </if>
-            <if test="noticePageDTO.noticeStatus!=null">
-                and notice_status = #{noticePageDTO.noticeTittle}
+            <if test="noticePageDTO.display!=null">
+                and display = #{noticePageDTO.display}
             </if>
             and deleted = 0
         </where>

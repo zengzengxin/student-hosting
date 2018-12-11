@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luwei.model.child.ChildMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.luwei.model.child.Child">
+        <id column="child_id" property="childId" />
+        <result column="name" property="name" />
+        <result column="gender" property="gender" />
+        <result column="student_no" property="studentNo" />
+        <result column="birthday" property="birthday" />
+        <result column="school_id" property="schoolId" />
+        <result column="school_name" property="schoolName" />
+        <result column="grade" property="grade" />
+        <result column="child_class" property="childClass" />
+        <result column="headteacher_phone" property="headteacherPhone" />
+        <result column="headteacher_name" property="headteacherName" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        child_id, name, gender, student_no, birthday, school_id, school_name, grade, child_class, headteacher_phone, headteacher_name, create_time, update_time, deleted
+    </sql>
+
+    <select id="findParents" parameterType="integer" resultSetType="com.luwei.model.child.pojo.cms.ChildVO">
+        select * from tb_child where child_id in (select child_id from tb_parent_child where parent_id = #{id})
+    </select>
+
+</mapper>
