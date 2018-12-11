@@ -36,4 +36,9 @@ public interface MessageCodes {
     String NOTICE_SAVE_ERROR="notice.save.error";//公告保存失败
 
     String BANNER_UPDATE_ERROR = "banner.update.fail";//轮播图更新失败
+
+    String CHILD_IS_NOT_EXIST = "child_is_not_exit";
+
+    public class DATA_IS_NOT_EXIST {
+    }
 }
