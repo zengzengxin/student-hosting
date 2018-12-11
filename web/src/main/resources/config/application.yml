@@ -46,8 +46,8 @@ luwei:
       template-code-name:
     shiro:
       prefix: project-templet-web
-      cors-url: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
-      anon-url: /api/login/captcha,/api/login,/api/module/qiniu/**
+      cors-urls: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
+      anon-urls: /api/login/captcha,/api/login,/api/module/qiniu/**,/api/banner/**
 
 # swagger开关/默认打开
 swagger:

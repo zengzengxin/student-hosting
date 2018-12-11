@@ -50,6 +50,9 @@ public class Banner implements Serializable {
     @ApiModelProperty(value = "轮播图类型 0-首页 1-订课 2-点餐")
     private BannerTypeEnum bannerType;
 
+    @ApiModelProperty(value = "是否显示 0-否 1-是")
+    private Boolean display;
+
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 

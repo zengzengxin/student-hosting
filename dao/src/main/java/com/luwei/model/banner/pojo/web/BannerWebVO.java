@@ -1,6 +1,5 @@
-package com.luwei.model.banner.pojo.cms;
+package com.luwei.model.banner.pojo.web;
 
-import com.luwei.model.banner.envm.BannerTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +14,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class BannerVO implements Serializable {
+public class BannerWebVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,22 +27,10 @@ public class BannerVO implements Serializable {
     @ApiModelProperty(value = "跳转服务ID")
     private Integer jumpId;
 
-    @ApiModelProperty(value = "跳转服务名称")
-    private String jumpName;
-
-    @ApiModelProperty(value = "权重,越小越大")
-    private Integer weight;
-
     @ApiModelProperty(value = "外链url")
     private String linkUrl;
 
     @ApiModelProperty(value = "是否为外链 0-否 1-是")
     private Boolean outsideLink;
-
-    @ApiModelProperty(value = "轮播图类型 0-首页 1-订课 2-点餐")
-    private BannerTypeEnum bannerType;
-
-    @ApiModelProperty(value = "是否显示 0-否 1-是")
-    private Boolean display;
 
 }
