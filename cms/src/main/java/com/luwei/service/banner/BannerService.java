@@ -36,6 +36,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @return
      */
     private Banner findById(Integer id) {
+        // 若此id已被逻辑删除,也会返回null
         Banner banner = getById(id);
         Assert.notNull(banner, MessageCodes.BANNER_IS_NOT_EXIST);
         return banner;
@@ -80,7 +81,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
     public void deleteBanners(Set<Integer> ids) {
         // 若用removeByIds,因为删除不存在的逻辑上属于成功,所以也返回true
         int count = baseMapper.deleteBatchIds(ids);
-        Assert.isTrue(count != ids.size(), MessageCodes.BANNER_DELETE_ERROR);
+        Assert.isTrue(count == ids.size(), MessageCodes.BANNER_DELETE_ERROR);
         log.info("删除数据: id {}", ids);
     }
 
