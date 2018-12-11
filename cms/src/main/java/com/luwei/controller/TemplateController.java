@@ -17,7 +17,7 @@ import java.util.Set;
  * @author luwei
  **/
 @RestController
-@Api(tags = "模板")
+@Api(tags = "模板模块")
 @RequestMapping("/api/template")
 public class TemplateController {
 
