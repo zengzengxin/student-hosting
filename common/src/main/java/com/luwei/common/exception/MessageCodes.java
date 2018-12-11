@@ -30,15 +30,19 @@ public interface MessageCodes {
     //加密解密相关
     String RSAUtil_DECRYPT_ERROR = "rsautil.decrypt.error";//解密失败
 
+    //数据CRUD错误
+    String DATA_DELETE_ERROR = "data.delete.error";//数据删除失败
+    String DATA_UPDATE_ERROR = "data.update.error";//数据更新失败
+    String DATA_IS_NOT_EXIST = "data.is.not.exist";//数据不存在
+
     //Notice先关
     String NOTICE_UPDATE_ERROR="notice.update.fail";//公告更新失败
     String NOTICE_DELETE_ERROR="notice.delete.error";//公告删除失败
     String NOTICE_SAVE_ERROR="notice.save.error";//公告保存失败
 
-    String BANNER_UPDATE_ERROR = "banner.update.fail";//轮播图更新失败
+    //Banner相关
+    String BANNER_UPDATE_ERROR = "banner.update.error";//轮播图更新失败
+    String BANNER_DELETE_ERROR = "banner.delete.error";//轮播图删除失败
+    String BANNER_IS_NOT_EXIST = "banner.is.not.exist";//轮播图不存在
 
-    String CHILD_IS_NOT_EXIST = "child_is_not_exit";
-
-    public class DATA_IS_NOT_EXIST {
-    }
 }
