@@ -6,32 +6,91 @@ package com.luwei.plus;
  * @Date: Create in 11:12 2018/11/7
  */
 
-
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.luwei.common.util.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Paths;
 
+@Slf4j
 public class GeneratorCode {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
+        // 初始化 删除文件夹controller mapper model service
+        String prefix = outDir + "/" + propertiesBean.getPackageName().replace(".", "/") + "/";
+        FileUtils fileUtils = new FileUtils();
+        fileUtils.deleteAll(prefix + "controller");
+        fileUtils.deleteAll(prefix + "mapper");
+        fileUtils.deleteAll(prefix + "model");
+        fileUtils.deleteAll(prefix + "service");
+
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = false;
         generateByTables(serviceNameStartWithI, propertiesBean.getPackageName(),
                 propertiesBean.getTableNames());
+
+        //创建所有的实体VO DTO
+        createPOJO();
+    }
+
+    /**
+     * @param
+     * @Author: ffq
+     * @Date: 2018/12/7 17:12
+     * @Description:创建所有的VO、DTO
+     */
+    private static void createPOJO() throws IOException {
+        //获取实体文件的路径
+        File srcFile = new File(new StringBuilder().append(outDir).append("/")
+                .append(propertiesBean.getPackageName().replace(".", "/"))
+                .append("/")
+                .append(entity).toString());
+        if (!srcFile.exists() || srcFile.listFiles().length <= 0) {
+            log.error("创建VO、DTO失败：找不到Entity位置");
+            return;
+        }
+
+
+        for (File file : srcFile.listFiles()) {
+            //复制
+            if (!FileUtils.getFileSuffix(file.getName()).equals("java"))
+                continue;
+            String entity = file.getName().substring(0, file.getName().lastIndexOf("."));
+            //将文件移动到下一个包 User实体 user包
+
+
+            String fileSuffix = FileUtils.getFileSuffix(file.getName());
+            File vo = new File(file.getParent(), entity + "VO." + fileSuffix);
+            vo.createNewFile();
+            File dto = new File(file.getParent(), entity + "DTO." + fileSuffix);
+            dto.createNewFile();
+
+            File updateDTO = new File(file.getParent(), entity + "UpdateDTO." + fileSuffix);
+            updateDTO.createNewFile();
+            File queryDTO = new File(file.getParent(), entity + "QueryDTO." + fileSuffix);
+            queryDTO.createNewFile();
+
+            File addDTO = new File(file.getParent(), entity + "AddDTO." + fileSuffix);
+            addDTO.createNewFile();
+
+            IOReadWriter(file, vo);
+            IOReadWriter(file, dto);
+            IOReadWriter(file, updateDTO);
+            IOReadWriter(file, queryDTO);
+            IOReadWriter(file, addDTO);
+        }
+
     }
 
 
     private static String outDir = System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java";
-    private static String entity = "entity";
+    private static String entity = "models";
     private static String mapper = "a.bb";
     private static String service = "service";
     private static String impl = "service";
@@ -50,6 +109,69 @@ public class GeneratorCode {
         }
         Yaml yaml = new Yaml();
         propertiesBean = yaml.loadAs(inputStream, PropertiesBean.class);
+    }
+
+
+    private static void IOReadWriter(File srcFile, File targetFile) {
+        BufferedReader br = null;
+        BufferedWriter bw = null;
+        String line = null;
+
+        //源文件名 无后缀
+        String src = srcFile.getName().substring(0, srcFile.getName().lastIndexOf("."));
+        //目标文件名
+        String target = targetFile.getName().substring(0, targetFile.getName().lastIndexOf("."));
+        try {
+            // 根据文件路径创建缓冲输入流
+            br = new BufferedReader(new FileReader(srcFile));
+            bw = new BufferedWriter(new FileWriter(targetFile));
+
+            // 循环读取文件的每一行, 对需要修改的行进行修改, 放入缓冲对象中
+            while ((line = br.readLine()) != null) {
+                // 此处根据实际需要修改某些行的内容
+                if (line.contains(src)) {
+                    line = line.replace(src, target);
+                }
+                if (line.contains("@TableName")) {
+                    continue;
+                }
+                if (line.contains("@TableId")) {
+                    continue;
+                }
+                if (line.contains("@TableLogic")) {
+                    continue;
+                }
+                //if (line.contains("deleted")) {
+                //    continue;
+                //}
+
+                if (target.contains("QueryDTO") && line.contains("@Accessors")) {
+                    continue;
+                }
+
+                bw.append(line);
+                bw.newLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭流
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    br = null;
+                }
+            }
+            if (bw != null) {
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                    bw = null;
+                }
+            }
+
+        }
     }
 
 

@@ -11,6 +11,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import javax.validation.Valid;
 import java.util.Set;
+import ${package.Entity}.${entity}QueryDTO;
+import ${package.Entity}.${entity}UpdateDTO;
+import ${package.Entity}.${entity}AddDTO;
+import ${package.Entity}.${entity}VO;
 import ${package.Service}.${table.serviceName};
 #if(${restControllerStyle})
 import org.springframework.web.bind.annotation.RestController;
@@ -71,7 +75,7 @@ public void delete(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
 
     @PutMapping
     @ApiOperation("修改")
-    public ${entity}VO update(@RequestBody ${entity}UpdateDTO ${start}${end}UpdateDTO) {
+    public ${entity}VO update(@RequestBody @Valid ${entity}UpdateDTO ${start}${end}UpdateDTO) {
     return ${start}${end}Service.update${entity}(${start}${end}UpdateDTO);
     }
 

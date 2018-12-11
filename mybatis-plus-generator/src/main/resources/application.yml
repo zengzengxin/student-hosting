@@ -3,7 +3,8 @@ username: student-hosting
 password: bzsFBIP98MSUFg6K
 driverClassName: com.mysql.jdbc.Driver
 tableNames:
-  - tb_notice
+  - tb_banner
+
 
 
 packageName: com.luwei
@@ -24,6 +25,6 @@ isOverXml: false
 entityVM : /templates/entity.vm
 controllerVM : /templates/controller.vm
 serviceVM :
-serviceImplVM:
+serviceImplVM: /templates/service.vm
 mapperVM :
 xmlVM :
