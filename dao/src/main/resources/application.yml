@@ -1,11 +1,12 @@
+# mybatis相关配置
 mybatis-plus:
   # 扫描枚举包
-  typeEnumsPackage: com.luwei.model.**
+  type-enums-package: com.luwei.model.**
   # MyBatis Mapper 所对应的 XML 文件位置
   mapper-locations: classpath*:mapper/*.xml
-  # MyBaits 别名包扫描路径，通过该属性可以给包中的类注册别名，
-  # 注册后在 Mapper 对应的 XML 文件中可以直接使用类名，而不用使用全限定的类名（即 XML 中调用的时候不用包含包名）
-  typeAliasesPackage: com.luwei.model
+  # MyBaits 别名包扫描路径，注册后在Mapper对应的XML文件中可以直接使用类名，
+  # 而不用使用全限定的类名（即XML中调用的时候不用包含包名）
+  type-aliases-package: com.luwei.model
   configuration:
     # 使用驼峰法映射属性,配置这个resultType可以映射
     map-underscore-to-camel-case: true
@@ -13,6 +14,7 @@ mybatis-plus:
     db-config:
       table-prefix: tb_
 
+# 日志打印级别 DEBUG < INFO < WARN < ERROR
 logging:
   level:
     com.luwei: debug
