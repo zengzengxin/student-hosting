@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luwei.model.course.CourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.luwei.model.course.Course">
+        <id column="course_id" property="courseId" />
+        <result column="course_name" property="courseName" />
+        <result column="cover" property="cover" />
+        <result column="introduction" property="introduction" />
+        <result column="picture_id" property="pictureId" />
+        <result column="details" property="details" />
+        <result column="teacher_id" property="teacherId" />
+        <result column="teacher_name" property="teacherName" />
+        <result column="school_id" property="schoolId" />
+        <result column="school_name" property="schoolName" />
+        <result column="display" property="display" />
+        <result column="recommend" property="recommend" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        course_id, course_name, cover, introduction, picture_id, details, teacher_id, teacher_name, school_id, school_name, display, recommend, create_time, update_time, deleted
+    </sql>
+
+</mapper>
