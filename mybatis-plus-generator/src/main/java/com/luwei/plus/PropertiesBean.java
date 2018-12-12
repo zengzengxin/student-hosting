@@ -53,4 +53,10 @@ public class PropertiesBean {
     private String mapperVM = "";
     private String xmlVM = "";
 
+    //生成的实体包名
+    private String beanNames = "";
+
+
+    //VO、DTO位置
+    private String voDTODir = "";
 }

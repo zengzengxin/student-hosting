@@ -5,10 +5,10 @@ import ${package.Mapper}.${table.mapperName};
 
 import ${superServiceImplClassPackage};
 
-import ${package.Entity}.${entity}QueryDTO;
-import ${package.Entity}.${entity}UpdateDTO;
-import ${package.Entity}.${entity}VO;
-import ${package.Entity}.${entity}AddDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}QueryDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}UpdateDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}VO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}AddDTO;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import javax.transaction.Transactional;
 import java.util.Set;
-import com.luwei.common.utils.BeanUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.utils.ConversionBeanUtils;
 import java.time.LocalDateTime;
@@ -42,8 +41,8 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 }
 #else
 public class ${table.serviceName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> {
-public ${entity}VO findById(Integer id) {
-    ${entity} ${start}${end} = getById(id);
+public ${entity}VO findById(Integer ${start}${end}Id) {
+    ${entity} ${start}${end} = getById(${start}${end}Id);
     //TODO记得修改MessageCodes
 Assert.notNull(${start}${end}, MessageCodes.DATA_IS_NOT_EXIST);
 return to${entity}VO(${start}${end});
@@ -71,11 +70,11 @@ return ${start}${end}VO;
     }
 
     @Transactional
-    public void delete${entity}s(Set<Integer> ids) {
+    public void delete${entity}s(Set<Integer> ${start}${end}Ids) {
     //removeByIds删除0条也是返回true的，所以需要使用baseMapper
-        int count = baseMapper.deleteBatchIds(ids);
-        Assert.isTrue(count == ids.size(), MessageCodes.DATA_DELETE_ERROR);
-        log.info("删除数据:id{}", ids);
+        int count = baseMapper.deleteBatchIds(${start}${end}Ids);
+        Assert.isTrue(count == ${start}${end}Ids.size(), MessageCodes.DATA_DELETE_ERROR);
+        log.info("删除数据:ids{}", ${start}${end}Ids);
     }
 
     @Transactional

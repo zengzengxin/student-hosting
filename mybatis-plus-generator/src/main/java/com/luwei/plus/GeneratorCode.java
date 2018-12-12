@@ -8,8 +8,12 @@ package com.luwei.plus;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
+import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.luwei.common.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -17,25 +21,26 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.*;
 
 @Slf4j
 public class GeneratorCode {
 
     public static void main(String[] args) throws IOException {
-        // 初始化 删除文件夹controller mapper model service
-        String prefix = outDir + "/" + propertiesBean.getPackageName().replace(".", "/") + "/";
-        FileUtils fileUtils = new FileUtils();
-        fileUtils.deleteAll(prefix + "controller");
-        fileUtils.deleteAll(prefix + "mapper");
-        fileUtils.deleteAll(prefix + "model");
-        fileUtils.deleteAll(prefix + "service");
-
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = false;
         generateByTables(serviceNameStartWithI, propertiesBean.getPackageName(),
                 propertiesBean.getTableNames());
 
         //创建所有的实体VO DTO
+
+        //删除指定文件
+        File srcFile = new File(new StringBuilder().append(outDir).append("/")
+                .append(propertiesBean.getPackageName().replace(".", "/"))
+                .append("/")
+                .append(mapper).toString());
+        org.apache.commons.io.FileUtils.deleteDirectory(srcFile);
+        //创建web文件
         createPOJO();
     }
 
@@ -47,10 +52,15 @@ public class GeneratorCode {
      */
     private static void createPOJO() throws IOException {
         //获取实体文件的路径
-        File srcFile = new File(new StringBuilder().append(outDir).append("/")
+        String srcDir = new StringBuilder().append(outDir).append("/")
                 .append(propertiesBean.getPackageName().replace(".", "/"))
                 .append("/")
-                .append(entity).toString());
+                .append(entity)
+                .append("/")
+                .append(propertiesBean.getBeanNames())
+                .append("/")
+                .append(propertiesBean.getVoDTODir().replace(".", "/")).toString();
+        File srcFile = new File(srcDir);
         if (!srcFile.exists() || srcFile.listFiles().length <= 0) {
             log.error("创建VO、DTO失败：找不到Entity位置");
             return;
@@ -59,31 +69,16 @@ public class GeneratorCode {
 
         for (File file : srcFile.listFiles()) {
             //复制
-            if (!FileUtils.getFileSuffix(file.getName()).equals("java"))
-                continue;
             String entity = file.getName().substring(0, file.getName().lastIndexOf("."));
+            if (!FileUtils.getFileSuffix(file.getName()).equals("java")) {
+                continue;
+            }
             //将文件移动到下一个包 User实体 user包
-
-
-            String fileSuffix = FileUtils.getFileSuffix(file.getName());
-            File vo = new File(file.getParent(), entity + "VO." + fileSuffix);
-            vo.createNewFile();
-            File dto = new File(file.getParent(), entity + "DTO." + fileSuffix);
-            dto.createNewFile();
-
-            File updateDTO = new File(file.getParent(), entity + "UpdateDTO." + fileSuffix);
-            updateDTO.createNewFile();
-            File queryDTO = new File(file.getParent(), entity + "QueryDTO." + fileSuffix);
-            queryDTO.createNewFile();
-
-            File addDTO = new File(file.getParent(), entity + "AddDTO." + fileSuffix);
-            addDTO.createNewFile();
-
-            IOReadWriter(file, vo);
-            IOReadWriter(file, dto);
-            IOReadWriter(file, updateDTO);
-            IOReadWriter(file, queryDTO);
-            IOReadWriter(file, addDTO);
+//            创建web文件
+            String parentDir = srcDir.substring(0, srcDir.lastIndexOf("/") + 1) + "web";
+            File parentFileDir = new File(parentDir);
+            parentFileDir.mkdir();
+            IOReadWriter(file, new File(parentFileDir, file.getName()));
         }
 
     }
@@ -91,14 +86,17 @@ public class GeneratorCode {
 
     private static String outDir = System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java";
     private static String entity = "models";
-    private static String mapper = "a.bb";
+    private static String mapper = "mapper";
     private static String service = "service";
     private static String impl = "service";
     private static String controller = "controller";
     private static String xml = "mapper";
-
+//    private static List<File> deleteFile = new ArrayList<>();
 
     private static PropertiesBean propertiesBean = null;
+
+    //保存所有实体的名字
+    private static Set<String> entityName = new HashSet<>();
 
     static {
         InputStream inputStream = null;
@@ -112,11 +110,14 @@ public class GeneratorCode {
     }
 
 
-    private static void IOReadWriter(File srcFile, File targetFile) {
+    private static void IOReadWriter(File srcFile, File targetFile) throws IOException {
+        if (!targetFile.exists()) {
+            targetFile.createNewFile();
+        }
         BufferedReader br = null;
         BufferedWriter bw = null;
         String line = null;
-
+        Boolean isDelete = false;
         //源文件名 无后缀
         String src = srcFile.getName().substring(0, srcFile.getName().lastIndexOf("."));
         //目标文件名
@@ -129,6 +130,17 @@ public class GeneratorCode {
             // 循环读取文件的每一行, 对需要修改的行进行修改, 放入缓冲对象中
             while ((line = br.readLine()) != null) {
                 // 此处根据实际需要修改某些行的内容
+                if (line.contains("interface") || line.contains("abstract")) {
+                    //直接退出，提前关闭
+                    isDelete = true;
+                    return;
+                }
+
+                if (line.contains("package")) {
+//                    com.luwei.models.user.pojo.cms
+                    line = line.substring(0, line.lastIndexOf(".") + 1) + "web;";
+                }
+
                 if (line.contains(src)) {
                     line = line.replace(src, target);
                 }
@@ -141,9 +153,9 @@ public class GeneratorCode {
                 if (line.contains("@TableLogic")) {
                     continue;
                 }
-                //if (line.contains("deleted")) {
-                //    continue;
-                //}
+                if (line.contains("deleted")) {
+                    continue;
+                }
 
                 if (target.contains("QueryDTO") && line.contains("@Accessors")) {
                     continue;
@@ -171,6 +183,10 @@ public class GeneratorCode {
                 }
             }
 
+            if (isDelete) {
+                boolean delete = targetFile.delete();
+                System.out.println(delete);
+            }
         }
     }
 
@@ -186,7 +202,8 @@ public class GeneratorCode {
                 .setUrl(dbUrl)
                 .setUsername(propertiesBean.getUsername())
                 .setPassword(propertiesBean.getPassword())
-                .setDriverName(propertiesBean.getDriverClassName());
+                .setDriverName(propertiesBean.getDriverClassName())
+                .setTypeConvert(new MySqlTypeConvert());
 
 
         StrategyConfig strategyConfig = new StrategyConfig();
@@ -209,6 +226,7 @@ public class GeneratorCode {
                 .setBaseColumnList(true)
                 .setFileOverride(true)
                 .setEnableCache(false)
+                .setOpen(false)//设置运行后不打开文件
                 .setIdType(IdType.AUTO)
                 //Service名字
                 .setServiceImplName("%sService")
@@ -224,7 +242,59 @@ public class GeneratorCode {
         PackageConfig pcf = initPackage();
         TemplateConfig tc = initTemplateConfig(packageName);
 
-        new AutoGenerator().setGlobalConfig(config)
+
+        // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
+        InjectionConfig abc = new InjectionConfig() {
+            @Override
+            public void initMap() {
+                Map<String, Object> map = new HashMap<>();
+//                map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
+                map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
+                map.put("voDTODir", propertiesBean.getVoDTODir());
+                this.setMap(map);
+            }
+        };
+        //自定义文件输出位置（非必须）
+        List<FileOutConfig> fileOutList = new ArrayList<>();
+        fileOutList.add(new FileOutConfig("/templates/mapper.xml.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
+        //VO、DTO对应的位置
+
+        String voDTODir = System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java/" + packageName.replace(".", "/")
+                + "/" + entity + "/" + propertiesBean.getBeanNames().replace(".", "/") + "/" + propertiesBean.getVoDTODir().replace(".", "/") + "/";
+        fileOutList.add(new FileOutConfig("/templates/vo.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return voDTODir + tableInfo.getEntityName() + "VO" + StringPool.DOT_JAVA;
+            }
+        });
+        fileOutList.add(new FileOutConfig("/templates/addDTO.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return voDTODir + tableInfo.getEntityName() + "AddDTO" + StringPool.DOT_JAVA;
+            }
+        });
+        fileOutList.add(new FileOutConfig("/templates/updateDTO.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return voDTODir + tableInfo.getEntityName() + "UpdateDTO" + StringPool.DOT_JAVA;
+            }
+        });
+        fileOutList.add(new FileOutConfig("/templates/queryDTO.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return voDTODir + tableInfo.getEntityName() + "QueryDTO" + StringPool.DOT_JAVA;
+            }
+        });
+        abc.setFileOutConfigList(fileOutList);
+
+        new AutoGenerator()
+                .setCfg(abc)
+                .setGlobalConfig(config)
                 .setDataSource(dataSourceConfig)
                 .setStrategy(strategyConfig)
                 .setPackageInfo(pcf)
@@ -257,6 +327,7 @@ public class GeneratorCode {
                     tc.setEntity(null);
                 }
                 if (!propertiesBean.getIsOverXml()) {
+                    //关闭默认xml生成，调整生成至 根目录
                     tc.setXml(null);
                 }
                 if (!propertiesBean.getIsOverMapper()) {
@@ -308,12 +379,16 @@ public class GeneratorCode {
      */
     private static PackageConfig initPackage() {
         PackageConfig packageConfig = new PackageConfig();
+        //没什么用，就是parent.module.controller，不是我们想要的效果
+//        packageConfig.setModuleName("test");
         packageConfig.setParent(propertiesBean.getPackageName());
-        packageConfig.setService(service);
-        packageConfig.setServiceImpl(impl);
+        packageConfig.setService(service + "." + propertiesBean.getBeanNames());
+        packageConfig.setServiceImpl(impl + "." + propertiesBean.getBeanNames());
         packageConfig.setController(controller);
-        packageConfig.setEntity(entity);
-        packageConfig.setXml(xml);
+        packageConfig.setEntity(entity + "." + propertiesBean.getBeanNames());
+//        packageConfig.setXml(xml);
+//        packageConfig.setXml(null);
+        packageConfig.setMapper(entity + "." + propertiesBean.getBeanNames());
         return packageConfig;
     }
 }

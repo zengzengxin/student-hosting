@@ -1,27 +1,22 @@
-package com.luwei.model.notice.pojo.cms;
+package com.luwei.model.notice.pojo.web;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-/**
- * @author huanglp
- * Date: 2018-12-06
- */
+import java.io.Serializable;
 
+/**
+ * @author ffq
+ * @since 2018-12-05
+ */
 @ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class NoticeUpdateDTO {
-
-    @ApiModelProperty(value = "主键id")
-    @TableId(value = "notice_id", type = IdType.AUTO)
-    private Integer noticeId;
+public class NoticeAddDTO implements Serializable {
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
     private Integer display;
@@ -34,6 +29,8 @@ public class NoticeUpdateDTO {
 
     @ApiModelProperty(value = "公告摘要")
     private String summary;
+
+
 
 
 }

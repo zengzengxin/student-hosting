@@ -9,7 +9,10 @@ import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.cms.ChildAddDTO;
 import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
 import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.parentChild.ParentChild;
+import com.luwei.service.parentchild.ParentChildService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,6 +29,9 @@ import java.time.LocalDateTime;
 @Service
 @Slf4j
 public class ChildService extends ServiceImpl<ChildMapper, Child> {
+
+    @Autowired
+   private ParentChildService parentChildService;
 
     public ChildVO findById(Integer id) {
         Child child = getById(id);
@@ -52,6 +58,14 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         child.setCreateTime(time);
         //设置一些具体逻辑，是否需要加上deleted字段等等
         save(child);
+
+        //更新中间表
+        ParentChild parentChild = new ParentChild();
+        parentChild.setParentId(1);
+        //--todo 从redis拿id
+        parentChild.setChildId(child.getChildId());
+        parentChild.setCreateTime(time);
+        parentChildService.save(parentChild);
         log.info("保存数据---:{}", child);
         return toChildVO(child);
     }

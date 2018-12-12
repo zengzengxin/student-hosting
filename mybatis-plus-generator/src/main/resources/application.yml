@@ -1,10 +1,16 @@
 url: jdbc:mysql://193.112.251.82:3307/student-hosting?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+driverClassName: com.mysql.jdbc.Driver
 username: student-hosting
 password: bzsFBIP98MSUFg6K
-driverClassName: com.mysql.jdbc.Driver
 tableNames:
-  - tb_banner
+  - tb_parent_child
 
+
+
+beanNames: parentchild
+
+#VO、dto位置
+voDTODir: pojo.cms
 
 
 packageName: com.luwei
@@ -12,13 +18,16 @@ tablePrefix: tb_
 logicDeleteFieldName: deleted
 versionFieldName: version
 restControllerStyle: true
-author: ffq
+author: zzx
 
+#是否覆盖
 isOverEntity: true
-isOverController: false
-isOverService: false
-isOverServiceImpl: false
-isOverMapper: false
+isOverController: true
+isOverService: true
+isOverServiceImpl: true
+isOverMapper: true
+
+#是否在java目录下生成
 isOverXml: false
 
 
