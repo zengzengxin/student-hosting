@@ -1,6 +1,6 @@
-# server通用配置(web模块 dev/test默认9091 pro为9092)
+# server通用配置(web模块 dev/test默认9115 pro为9115)
 server:
-  port: 9091
+  port: 9115
   error:
     whitelabel:
       enabled: false
@@ -47,7 +47,7 @@ luwei:
     shiro:
       prefix: project-templet-web
       cors-urls: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
-      anon-urls: /api/login/captcha,/api/login,/api/module/qiniu/**,/api/banner/**
+      anon-urls: /api/login/captcha,/api/login,/api/module/qiniu/**,/api/banner/**,/api/course/**,/api/weChat/**
 
 # swagger开关/默认打开
 swagger:

@@ -1,6 +1,6 @@
-# server通用配置(cms模块 dev/test默认8081 pro为8082)
+# server通用配置(cms模块 dev/test默认9114 pro为9114)
 server:
-  port: 8081
+  port: 9114
   error:
     whitelabel:
       enabled: false
