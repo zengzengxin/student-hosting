@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-// TODO 手动格式化 VO DTO类删除@TableName @TableId等, 字段根据业务修改 (删除该条)
 @TableName("tb_course")
 public class Course implements Serializable {
 
@@ -33,13 +32,10 @@ public class Course implements Serializable {
     private String courseName;
 
     @ApiModelProperty(value = "课程封面")
-    private String cover;
+    private String coverUrl;
 
     @ApiModelProperty(value = "课程简介")
     private String introduction;
-
-    @ApiModelProperty(value = "课程图片ID(最多3张)")
-    private String pictureId;
 
     @ApiModelProperty(value = "课程详情")
     private String details;
@@ -50,7 +46,7 @@ public class Course implements Serializable {
     @ApiModelProperty(value = "教师名称")
     private String teacherName;
 
-    @ApiModelProperty(value = "所在学校")
+    @ApiModelProperty(value = "所在学校ID")
     private Integer schoolId;
 
     @ApiModelProperty(value = "学校名称")

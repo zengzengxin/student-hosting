@@ -21,12 +21,11 @@ import java.util.Set;
  * Author: huanglp
  * Date: 2018-12-11
  */
-// TODO 添加模块名称 根据实际业务修改 DTO VO 类
-@Api(tags = "")
+@Api(tags = "课程模块")
 @RestController
 @RequestMapping("/api/course")
 public class CourseController {
-            
+
     @Resource
     private CourseService courseService;
 
@@ -38,8 +37,8 @@ public class CourseController {
 
     @DeleteMapping
     @ApiOperation("删除")
-    public void deleteCourses(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
-        courseService.deleteCourses(ids);
+    public void deleteCourses(@RequestParam @ApiParam("courseId列表") Set<Integer> courseIds) {
+        courseService.deleteCourses(courseIds);
     }
 
     @PutMapping
@@ -50,13 +49,13 @@ public class CourseController {
 
     @GetMapping
     @ApiOperation("查询详情")
-    public CourseVO getCourse(@RequestParam @ApiParam("id") Integer id) {
-        return courseService.getCourse(id);
+    public CourseVO getCourse(@RequestParam @ApiParam("courseId") Integer courseId) {
+        return courseService.getCourse(courseId);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<CourseVO> page(@ModelAttribute @Valid CourseQueryDTO queryDTO, Page<Course> page) {
+    public IPage<CourseVO> page(@ModelAttribute CourseQueryDTO queryDTO, Page<Course> page) {
         return courseService.findPage(queryDTO, page);
     }
 
