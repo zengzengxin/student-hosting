@@ -1,6 +1,8 @@
 package com.luwei.service.child;
 
+import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.model.child.Child;
 import com.luwei.model.child.ChildMapper;
@@ -12,9 +14,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.List;
-
-
 
 /**
  * <p>
@@ -28,13 +27,14 @@ import java.util.List;
 @Slf4j
 public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
-    //通过父母的id查询孩子的集合
-    public List<ChildVO> findById(Integer id) {
-        List<ChildVO> childList = baseMapper.findParents(id);
-        // TODO 记得修改MessageCodes
-        //Assert.notNull(childList, MessageCodes.CHILD_IS_NOT_EXIST);
-        return childList;
+    public ChildVO findById(Integer id) {
+        Child child = getById(id);
+        //TODO记得修改MessageCodes
+        org.springframework.util.Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
+        return toChildVO(child);
     }
+
+
 
     private ChildVO toChildVO(Child child) {
         ChildVO childVO = new ChildVO();
@@ -42,6 +42,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return childVO;
     }
 
+    //finish
     @Transactional
     public ChildVO saveChild(ChildAddDTO childAddDTO) {
         Child child = new Child();
@@ -55,6 +56,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return toChildVO(child);
     }
 
+    //finish
     @Transactional
     public ChildVO updateChild(ChildUpdateDTO childUpdateDTO) {
         Child child = new Child();
@@ -63,11 +65,9 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         child.setUpdateTime(LocalDateTime.now());
 
         //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
-        //Assert.isTrue(updateById(child), MessageCodes.DATA_IS_UPDATE_ERROR);
+        Assert.isTrue(updateById(child), MessageCodes.CHILD_IS_UPDATE_ERROR);
         log.info("修改数据：bean:{}", childUpdateDTO);
-        // todo
-        // return findById(child.getChildId());
-        return null;
+        return findById(child.getChildId());
     }
 
 
@@ -80,4 +80,8 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::toChildVO);
     }
     */
+
+
+
+
 }
