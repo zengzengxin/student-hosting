@@ -1,7 +1,7 @@
 spring:
   datasource:
     # 配127.0.0.1
-    url: jdbc:mysql://193.112.251.82:3307/student-hosting?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
+    url: jdbc:mysql://127.0.0.1:3307/student-hosting?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
     username: student-hosting
     password: bzsFBIP98MSUFg6K
     driver-class-name: com.mysql.jdbc.Driver

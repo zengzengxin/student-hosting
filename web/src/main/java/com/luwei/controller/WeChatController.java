@@ -19,6 +19,7 @@ public class WeChatController {
     @GetMapping("/verify")
     @ApiOperation("校验token是否可用")
     public Boolean userAuthorize(@RequestParam("code") String code, @RequestParam("state") String state) {
+
         // TODO 校验token是否过期
         return true;
     }
