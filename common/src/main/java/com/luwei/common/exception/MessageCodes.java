@@ -47,4 +47,19 @@ public interface MessageCodes {
     String BANNER_IS_NOT_EXIST = "banner.is.not.exist";//轮播图不存在
     String BANNER_SAVE_ERROR = "banner.save.error";//轮播图保存失败
 
+
+    //孩子相关
+    String CHILD_IS_NOT_EXIST = "child.is.not.exist";//孩子不存在
+    String CHILD_IS_UPDATE_ERROR = "child.is.update.error"; //孩子更新错误
+
+
+    //家长相关
+    String PARENT_IS_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
+    String PARENT_IS_NOT_EXIST = "parent.is.not.exist";//根据id家长查找失败
+
+
+
+
+    public class DATA_IS_UPDATE_ERROR {
+    }
 }

@@ -1,5 +1,7 @@
 package com.luwei.model.child.pojo.cms;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -21,6 +23,9 @@ public class ChildUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "孩子的主键id")
+    @TableId(value = "child_id", type = IdType.AUTO)
+    private Integer childId;
 
     @ApiModelProperty(value = "孩子的生日")
     private LocalDateTime birthday;
