@@ -26,8 +26,11 @@ public class ChildController {
     @PostMapping
     @ApiOperation("添加孩子")
     public ChildVO save(@RequestBody @Valid ChildAddDTO childAddDTO) {
+
+
         return childService.saveChild(childAddDTO);
     }
+
 
 
     // @ApiIgnore

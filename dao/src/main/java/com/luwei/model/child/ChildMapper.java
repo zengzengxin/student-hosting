@@ -1,6 +1,7 @@
 package com.luwei.model.child;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.luwei.model.child.pojo.cms.ChildVO;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ import java.util.List;
  */
 public interface ChildMapper extends BaseMapper<Child> {
 
-    List<Child> findChildsByParentsId(Integer id);
+    List<ChildVO> findChildsByParentsId(Integer id);
 
 }

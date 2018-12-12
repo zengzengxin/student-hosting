@@ -1,4 +1,4 @@
-package com.luwei.model.notice.pojo.cms;
+package com.luwei.model.notice.pojo.web;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableId;

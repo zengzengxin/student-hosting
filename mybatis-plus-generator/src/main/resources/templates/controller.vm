@@ -11,10 +11,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import javax.validation.Valid;
 import java.util.Set;
-import ${package.Entity}.${entity}QueryDTO;
-import ${package.Entity}.${entity}UpdateDTO;
-import ${package.Entity}.${entity}AddDTO;
-import ${package.Entity}.${entity}VO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}QueryDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}UpdateDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}VO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}AddDTO;
 import ${package.Service}.${table.serviceName};
 #if(${restControllerStyle})
 import org.springframework.web.bind.annotation.RestController;
@@ -49,41 +49,40 @@ class ${table.controllerName}#if(${superControllerClass}) : ${superControllerCla
     #set($start=$entity.substring(0,1).toLowerCase() )
     #set($end=$entity.substring(1,$entity.length()).toLowerCase() )
 ##@Resource(name = "${start}${end}ServiceImpl")
-@Autowired
-private ${entity}Service ${start}${end}Service;
+    @Autowired
+    private ${entity}Service ${start}${end}Service;
 
 
+    @GetMapping
+    @ApiOperation("查询详情")
+    public ${entity}VO findById(@RequestParam @ApiParam("${start}${end}Id") Integer ${start}${end}Id) {
+        return ${start}${end}Service.findById(${start}${end}Id);
+    }
 
-@GetMapping
-@ApiOperation("查询详情")
-public ${entity}VO findById(@RequestParam @ApiParam("id") Integer id) {
-return ${start}${end}Service.findById(id);
-}
 
+    @PostMapping
+    @ApiOperation("添加")
+    public ${entity}VO save(@RequestBody @Valid ${entity}AddDTO ${start}${end}AddDTO) {
+    return ${start}${end}Service.save${entity}(${start}${end}AddDTO);
+    }
 
-@PostMapping
-@ApiOperation("添加")
-public ${entity}VO save(@RequestBody @Valid ${entity}AddDTO ${start}${end}AddDTO) {
-return ${start}${end}Service.save${entity}(${start}${end}AddDTO);
-}
-
-@DeleteMapping
-@ApiOperation("删除")
-public void delete(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
-    ${start}${end}Service.delete${entity}s(ids);
+    @DeleteMapping
+    @ApiOperation("删除")
+    public void delete(@RequestParam @ApiParam("${start}${end}Id列表") Set<Integer> ${start}${end}Ids) {
+        ${start}${end}Service.delete${entity}s(${start}${end}Ids);
     }
 
     @PutMapping
     @ApiOperation("修改")
     public ${entity}VO update(@RequestBody @Valid ${entity}UpdateDTO ${start}${end}UpdateDTO) {
-    return ${start}${end}Service.update${entity}(${start}${end}UpdateDTO);
+         return ${start}${end}Service.update${entity}(${start}${end}UpdateDTO);
     }
 
     @GetMapping("page")
     @ApiOperation("分页")
     public IPage<${entity}VO> page(@ModelAttribute ${entity}QueryDTO ${start}${end}QueryDTO, Page page) {
         return ${start}${end}Service.find${entity}Page(${start}${end}QueryDTO,page);
-        }
     }
+}
 
 #end
