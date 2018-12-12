@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luwei.model.parent.ParentMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.luwei.model.parent.Parent">
+        <id column="parent_id" property="parentId" />
+        <result column="parent_name" property="parentName" />
+        <result column="phone" property="phone" />
+        <result column="family_relation" property="familyRelation" />
+        <result column="children_number" property="childrenNumber" />
+        <result column="address" property="address" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="gender" property="gender" />
+        <result column="nick_name" property="nickName" />
+        <result column="openid" property="openid" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        parent_id, parent_name, phone, family_relation, children_number, address, avatar_url, gender, nick_name, openid, create_time, update_time, deleted
+    </sql>
+
+    <select id="findParentPage" resultType="com.luwei.model.parent.pojo.cms.ParentCmsVO" parameterType="com.luwei.model.parent.pojo.cms.ParentCmsQueryDTO">
+        SELECT * FROM  tb_parent
+        <where>
+            <if test="parentWebQueryDTO.parentId!=null">
+                and parent_id = #{parentWebQueryDTO.parentId}
+            </if>
+            <if test="parentWebQueryDTO.parentName!=null">
+                and parent_name = #{parentWebQueryDTO.parentName}
+            </if>
+            <if test="parentWebQueryDTO.phone!=null">
+                and phone = #{parentWebQueryDTO.phone}
+            </if>
+            <if test="parentWebQueryDTO.nickName!=null">
+                and nick_name = #{parentWebQueryDTO.nickName}
+            </if>
+        </where>
+    </select>
+
+</mapper>
