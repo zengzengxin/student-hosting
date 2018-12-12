@@ -3,8 +3,8 @@ package com.luwei.model.notice;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.luwei.model.notice.pojo.web.NoticeQueryDTO;
-import com.luwei.model.notice.pojo.web.NoticeVO;
+import com.luwei.model.notice.pojo.cms.NoticeQueryDTO;
+import com.luwei.model.notice.pojo.cms.NoticeVO;
 import org.apache.ibatis.annotations.Param;
 
 /**

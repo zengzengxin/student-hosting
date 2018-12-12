@@ -1,0 +1,115 @@
+package com.luwei.service.parent;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.util.BeanUtils;
+import com.luwei.model.child.ChildMapper;
+import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.parent.Parent;
+import com.luwei.model.parent.ParentMapper;
+import com.luwei.model.parent.pojo.web.ParentAddDTO;
+import com.luwei.model.parent.pojo.web.ParentQueryDTO;
+import com.luwei.model.parent.pojo.web.ParentUpdateDTO;
+import com.luwei.model.parent.pojo.web.ParentVO;
+import com.luwei.utils.ConversionBeanUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
+
+/**
+ * <p>
+ * 服务类
+ * </p>
+ *
+ * @author ffq
+ * @since 2018-12-12
+ */
+@Service
+@Slf4j
+public class ParentService extends ServiceImpl<ParentMapper, Parent> {
+
+    @Resource
+    private ChildMapper childMapper;
+
+    public ParentVO findParentById(Integer id) {
+        Parent parent = getById(id);
+        //TODO记得修改MessageCodes
+        Assert.notNull(parent, MessageCodes.PARENT_IS_NOT_EXIST);
+        return toParentVO(parent);
+    }
+
+    private ParentVO toParentVO(Parent parent) {
+        ParentVO parentVO = new ParentVO();
+        BeanUtils.copyNonNullProperties(parent, parentVO);
+        return parentVO;
+    }
+
+    //添加家长
+    @Transactional
+    public ParentVO saveParent(ParentAddDTO parentAddDTO) {
+        Parent parent = new Parent();
+        BeanUtils.copyNonNullProperties(parentAddDTO, parent);
+        LocalDateTime time = LocalDateTime.now();
+        parent.setUpdateTime(time);
+        parent.setCreateTime(time);
+        //设置一些具体逻辑，是否需要加上deleted字段等等
+        save(parent);
+        log.info("保存数据---:{}", parent);
+        return toParentVO(parent);
+    }
+
+/*    @Transactional
+    public void deleteParents(Set<Integer> ids) {
+        //removeByIds删除0条也是返回true的，所以需要使用baseMapper
+        int count = baseMapper.deleteBatchIds(ids);
+        Assert.isTrue(count == ids.size(), MessageCodes.DATA_DELETE_ERROR);
+        log.info("删除数据:id{}", ids);
+    }*/
+
+    //更新
+    @Transactional
+    public ParentVO updateParent(ParentUpdateDTO parentUpdateDTO) {
+        Parent parent = new Parent();
+        BeanUtils.copyNonNullProperties(parentUpdateDTO, parent);
+
+        parent.setUpdateTime(LocalDateTime.now());
+
+        //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
+        Assert.isTrue(updateById(parent), MessageCodes.PARENT_IS_UPDATE_ERROR);
+        log.info("修改数据：bean:{}", parentUpdateDTO);
+        return findParentById(parent.getParentId());
+    }
+
+    public IPage<ParentVO> findParentPage(ParentQueryDTO parentQueryDTO, Page page) {
+        Parent parent = new Parent();
+        BeanUtils.copyNonNullProperties(parentQueryDTO, parent);
+        QueryWrapper<Parent> queryWrapper = new QueryWrapper<>();
+        //查询业务
+        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::toParentVO);
+    }
+
+
+
+    /**
+     * 通过父母的id查询孩子的集合
+     * @param parentId
+     * @return
+     */
+    public List<ChildVO> findAllParentById(Integer parentId) {
+        List<ChildVO> childList = childMapper.findChildsByParentsId(parentId);
+        // TODO 记得修改MessageCodes
+        Assert.notNull(childList, MessageCodes.CHILD_IS_NOT_EXIST);
+        return childList;
+    }
+
+
+
+}
