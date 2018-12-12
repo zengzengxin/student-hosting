@@ -2,8 +2,6 @@ package com.luwei.model.banner.envm;
 
 import com.baomidou.mybatisplus.core.enums.IEnum;
 
-import java.io.Serializable;
-
 /**
  * Author: huanglp
  * Date: 2018-12-07
@@ -16,7 +14,7 @@ public enum BannerTypeEnum implements IEnum {
     /**
      * 1-订课
      */
-    BOOK_LESSON(1),
+    BOOKING_COURSE(1),
     /**
      * 2-点餐
      */
@@ -29,7 +27,7 @@ public enum BannerTypeEnum implements IEnum {
     }
 
     @Override
-    public Serializable getValue() {
+    public Integer getValue() {
         return this.value;
     }
 
