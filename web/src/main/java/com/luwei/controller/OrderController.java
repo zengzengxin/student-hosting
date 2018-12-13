@@ -3,10 +3,10 @@ package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.order.Order;
-import com.luwei.model.order.pojo.cms.OrderAddDTO;
 import com.luwei.model.order.pojo.cms.OrderQueryDTO;
 import com.luwei.model.order.pojo.cms.OrderVO;
 import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
+import com.luwei.model.order.pojo.web.PayForOrderDTO;
 import com.luwei.service.order.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,8 +37,8 @@ public class OrderController {
 
     @PostMapping("/payFor")
     @ApiOperation("立即支付")
-    public OrderVO payForOrder(@RequestBody @Valid OrderAddDTO addDTO) {
-        return orderService.payForOrder(addDTO);
+    public OrderVO payForOrder(@RequestBody @Valid PayForOrderDTO orderDTO) {
+        return orderService.payForOrder(orderDTO);
     }
 
     @DeleteMapping

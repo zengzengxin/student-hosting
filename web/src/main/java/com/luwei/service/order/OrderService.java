@@ -5,13 +5,17 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.model.course.Course;
+import com.luwei.model.course.CourseMapper;
+import com.luwei.model.coursepackage.CoursePackage;
+import com.luwei.model.coursepackage.CoursePackageMapper;
 import com.luwei.model.order.Order;
 import com.luwei.model.order.OrderMapper;
 import com.luwei.model.order.envm.OrderStatusEnum;
-import com.luwei.model.order.pojo.cms.OrderAddDTO;
 import com.luwei.model.order.pojo.cms.OrderQueryDTO;
 import com.luwei.model.order.pojo.cms.OrderVO;
 import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
+import com.luwei.model.order.pojo.web.PayForOrderDTO;
 import com.luwei.utils.ConversionBeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -31,6 +36,12 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class OrderService extends ServiceImpl<OrderMapper, Order> {
+
+    @Resource
+    private CourseMapper courseMapper;
+
+    @Resource
+    private CoursePackageMapper coursePackageMapper;
 
 
     /**
@@ -71,7 +82,11 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         BeanUtils.copyProperties(orderDTO, order);
 
         // 封装课程数据
-        // TODO 待完成
+        Course course = courseMapper.selectById(orderDTO.getServiceId());
+        order.setServiceName(course.getCourseName());
+        CoursePackage coursePackage = coursePackageMapper.selectById(orderDTO.getPackageId());
+        order.setServiceStartTime(coursePackage.getStartTime());
+        order.setServiceEndTime(coursePackage.getEndTime());
 
         LocalDateTime time = LocalDateTime.now();
         order.setUpdateTime(time);
@@ -161,7 +176,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         return order;
     }
 
-    public OrderVO payForOrder(@Valid OrderAddDTO addDTO) {
+    public OrderVO payForOrder(@Valid PayForOrderDTO addDTO) {
         return null;
     }
 }

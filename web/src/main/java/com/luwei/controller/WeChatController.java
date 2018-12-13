@@ -1,10 +1,11 @@
 package com.luwei.controller;
 
+import com.luwei.common.exception.ValidationException;
+import com.luwei.module.shiro.service.UserHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,9 +19,12 @@ public class WeChatController {
 
     @GetMapping("/verify")
     @ApiOperation("校验token是否可用")
-    public Boolean userAuthorize(@RequestParam("code") String code, @RequestParam("state") String state) {
-
-        // TODO 校验token是否过期
+    public Boolean userAuthorize() {
+        try {
+            Integer userId = UserHelper.getUserId();
+        } catch (Exception e) {
+            throw new ValidationException("token已过期");
+        }
         return true;
     }
 
