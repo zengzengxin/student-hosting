@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
     @Autowired
-   private ParentChildService parentChildService;
+    private ParentChildService parentChildService;
 
     public ChildVO findById(Integer id) {
         Child child = getById(id);
@@ -39,8 +39,6 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         org.springframework.util.Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
         return toChildVO(child);
     }
-
-
 
     private ChildVO toChildVO(Child child) {
         ChildVO childVO = new ChildVO();
@@ -94,7 +92,6 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::toChildVO);
     }
     */
-
 
 
 

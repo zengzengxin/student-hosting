@@ -3,11 +3,11 @@ driverClassName: com.mysql.jdbc.Driver
 username: student-hosting
 password: bzsFBIP98MSUFg6K
 tableNames:
-  - tb_parent_child
+  - tb_school
 
 
 
-beanNames: parentchild
+beanNames: school
 
 #VO、dto位置
 voDTODir: pojo.cms
