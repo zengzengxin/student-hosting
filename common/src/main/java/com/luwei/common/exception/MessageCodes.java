@@ -63,6 +63,9 @@ public interface MessageCodes {
     String COURSE_DELETE_ERROR = "course.delete.error";//课程删除失败
     String COURSE_UPDATE_ERROR = "course.update.error";//课程更新失败
 
-    public class NOTICE_IS_NOT_EXIST {
-    }
+    //Order相关
+    String ORDER_IS_NOT_EXIST ="order.is.not.exist";//订单不存在
+    String ORDER_SAVE_ERROR = "order.save.error";//订单保存失败
+    String ORDER_DELETE_ERROR ="order.delete.error";//订单删除失败
+
 }
