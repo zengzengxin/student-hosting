@@ -1,28 +1,28 @@
-package com.luwei.model.banner.envm;
+package com.luwei.model.order.envm;
 
 import com.baomidou.mybatisplus.core.enums.IEnum;
 
 /**
  * Author: huanglp
- * Date: 2018-12-07
+ * Date: 2018-12-13
  */
-public enum BannerTypeEnum implements IEnum<Integer> {
+public enum OrderStatusEnum implements IEnum<Integer> {
     /**
-     * 0-首页
+     * 0-待付款
      */
-    HOME_PAGE(0),
+    NOT_PAID(0),
     /**
-     * 1-订课
+     * 1-已付款
      */
-    BOOKING_COURSE(1),
+    PAID(1),
     /**
-     * 2-点餐
+     * 2-已完成
      */
-    ORDER_FOOD(2);
+    COMPLETED(2);
 
     private int value;
 
-    BannerTypeEnum(int value) {
+    OrderStatusEnum(int value) {
         this.value = value;
     }
 

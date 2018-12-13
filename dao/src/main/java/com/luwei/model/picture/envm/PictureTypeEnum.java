@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
  * Author: huanglp
  * Date: 2018-12-12
  */
-public enum PictureTypeEnum implements IEnum {
+public enum PictureTypeEnum implements IEnum<Integer> {
     /**
      * 0-课程
      */
