@@ -23,7 +23,7 @@ public class OrderVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "订单ID")
+    @ApiModelProperty(value = "订单编号(ID)")
     private Long orderId;
 
     @ApiModelProperty(value = "下单用户(ID)")
@@ -50,6 +50,9 @@ public class OrderVO implements Serializable {
     @ApiModelProperty(value = "课程名称")
     private String courseName;
 
+    @ApiModelProperty(value = "课程简介")
+    private String introduction;
+
     @ApiModelProperty(value = "价格")
     private BigDecimal price;
 
@@ -68,7 +71,7 @@ public class OrderVO implements Serializable {
     @ApiModelProperty(value = "订单类型 0-课程 1-托管 2-餐品")
     private OrderTypeEnum orderType;
 
-    @ApiModelProperty(value = "订单状态 0-待付款 1-已付款 2-已完成")
+    @ApiModelProperty(value = "订单状态 0-待付款 1-已付款 2-已完成 3-过期失效")
     private OrderStatusEnum orderStatus;
 
 }

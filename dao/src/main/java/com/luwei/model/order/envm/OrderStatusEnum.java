@@ -18,7 +18,11 @@ public enum OrderStatusEnum implements IEnum<Integer> {
     /**
      * 2-已完成
      */
-    COMPLETED(2);
+    COMPLETED(2),
+    /**
+     * 3-失效过期
+     */
+    OVERDUE(3);
 
     private int value;
 
