@@ -63,9 +63,14 @@ public interface MessageCodes {
     String COURSE_DELETE_ERROR = "course.delete.error";//课程删除失败
     String COURSE_UPDATE_ERROR = "course.update.error";//课程更新失败
 
-    //Order相关
-    String ORDER_IS_NOT_EXIST ="order.is.not.exist";//订单不存在
-    String ORDER_SAVE_ERROR = "order.save.error";//订单保存失败
-    String ORDER_DELETE_ERROR ="order.delete.error";//订单删除失败
+    //老师相关
+    String TEACHER_IS_NOT_EXIST = "teacher.is.not.exist";//老师不存在
+    String TEACHER_SAVE_ERROR = "teacher.save.error";//老师不存在
+    String TEACHER_DELETE_ERROR = "teacher.delete.error";//老师删除失败
+    String TEACHER_IS_UPDATE_ERROR = "teacher.is.update.error";//老师删除失败
+
+    //与学校相关
+    String SCHOOL_IS_NOT_EXIST = "school.is.not.exist";//学校不存在
+    String SCHOOL_DELETE_ERROR = "school.delete.error";//学校不存在
 
 }

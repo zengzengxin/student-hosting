@@ -25,6 +25,7 @@
         select *
         From tb_notice
         <where>
+            deleted=0
             <if test="noticePageDTO.startTime!=null">
                 and create_time &gt;= #{noticePageDTO.startTime}
             </if>
@@ -37,7 +38,6 @@
             <if test="noticePageDTO.display!=null">
                 and display = #{noticePageDTO.display}
             </if>
-            and deleted = 0
         </where>
     </select>
 

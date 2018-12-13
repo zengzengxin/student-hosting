@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luwei.model.school.SchoolMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.luwei.model.school.School">
+        <id column="school_id" property="schoolId" />
+        <result column="name" property="name" />
+        <result column="introduction" property="introduction" />
+        <result column="code" property="code" />
+        <result column="leader_phone" property="leaderPhone" />
+        <result column="license" property="license" />
+        <result column="school_number" property="schoolNumber" />
+        <result column="type" property="type" />
+        <result column="permission" property="permission" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        school_id, name, introduction, code, leader_phone, license, school_number, type, permission
+    </sql>
+
+
+
+
+    <select id="getSchoolPage" resultType="com.luwei.model.school.pojo.cms.SchoolVO" parameterType="com.luwei.model.school.pojo.cms.SchoolQueryDTO">
+        select *
+        From tb_school
+        <where>
+            deleted=0
+            <if test="schoolQueryDTO.leaderPhone!=null">
+                and leader_phone = #{schoolQueryDTO.leaderPhone}
+            </if>
+            <if test="schoolQueryDTO.schoolId!=null">
+                and school_id = #{schoolQueryDTO.schoolId}
+            </if>
+            <if test="schoolQueryDTO.name!=null">
+                and name like '%${schoolQueryDTO.name}%'
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
