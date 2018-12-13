@@ -40,6 +40,8 @@ public interface MessageCodes {
     String NOTICE_UPDATE_ERROR="notice.update.fail";//公告更新失败
     String NOTICE_DELETE_ERROR="notice.delete.error";//公告删除失败
     String NOTICE_SAVE_ERROR="notice.save.error";//公告保存失败
+    String NOTICE_IS_NOT_EXIST="notice.is.not.exist";//公告保存失败
+
 
     //Banner相关
     String BANNER_DELETE_ERROR = "banner.delete.error";//轮播图删除失败
@@ -61,4 +63,6 @@ public interface MessageCodes {
     String COURSE_DELETE_ERROR = "course.delete.error";//课程删除失败
     String COURSE_UPDATE_ERROR = "course.update.error";//课程更新失败
 
+    public class NOTICE_IS_NOT_EXIST {
+    }
 }
