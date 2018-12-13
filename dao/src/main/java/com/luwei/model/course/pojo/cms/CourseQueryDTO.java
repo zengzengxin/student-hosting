@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -20,7 +19,6 @@ public class CourseQueryDTO implements Serializable {
     @ApiModelProperty(value = "课程名称")
     private String courseName;
 
-    @NotNull
     @ApiModelProperty(value = "学校ID")
     private Integer schoolId;
 
