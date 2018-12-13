@@ -26,7 +26,7 @@ import java.util.Set;
 
 
     @GetMapping
-    @ApiOperation("查询详情")
+    @ApiOperation("查询详情根据id")
     public SchoolVO findById(@RequestParam @ApiParam("schoolId") Integer schoolId) {
         return schoolService.findById(schoolId);
     }

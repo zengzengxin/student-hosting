@@ -56,6 +56,8 @@ public interface MessageCodes {
     //家长相关
     String PARENT_IS_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
     String PARENT_IS_NOT_EXIST = "parent.is.not.exist";//根据id家长查找失败
+    String PARENT_DELETE_ERROR = "parent.delete。error";//家长删除失败
+
 
     //Course相关
     String COURSE_IS_NOT_EXIST = "course.is.not.exist";//课程不存在

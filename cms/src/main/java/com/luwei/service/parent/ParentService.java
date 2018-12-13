@@ -3,6 +3,7 @@ package com.luwei.service.parent;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.cms.ChildVO;
 import com.luwei.model.parent.Parent;
@@ -11,6 +12,7 @@ import com.luwei.model.parent.pojo.cms.ParentCmsQueryDTO;
 import com.luwei.model.parent.pojo.cms.ParentCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -28,6 +30,7 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     private ChildMapper childMapper;
 
     public IPage<ParentCmsVO> getParentPage(String condition, Page page) {
+        //TODO 条件不明确
         ParentCmsQueryDTO parentWebQueryDTO = new ParentCmsQueryDTO();
         parentWebQueryDTO.setParentName(condition);
 
@@ -38,11 +41,20 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     }
 
 
-    private ParentCmsVO getchilds(ParentCmsVO parentWebVO) {
-        List<ChildVO> list = childMapper.findChildsByParentsId(parentWebVO.getParentId());
+    private ParentCmsVO getchilds(ParentCmsVO parentCmsVO) {
+        List<ChildVO> list = childMapper.findChildsByParentsId(parentCmsVO.getParentId());
         int childNumber = list.size();
-        parentWebVO.setChildNumber(childNumber);
-        return parentWebVO.setListChild(list);
+        parentCmsVO.setChildNumber(childNumber);
+        return parentCmsVO.setListChild(list);
     }
 
+
+    public void deleteParent(Integer id){
+        boolean flag = removeById(id);
+        Assert.isTrue(flag, MessageCodes.PARENT_DELETE_ERROR);
+        log.info("----删除一条父母记录----");
+    }
+
+
+     //TODO 还可能要添加通过父母id查询订单的接口
 }

@@ -1,36 +1,34 @@
 package com.luwei.model.teacher.pojo.web;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
-* @author zzx
-* @since 2018-12-12
-*/
-@ApiModel(value ="")
+ * @author zzx
+ * @since 2018-12-12
+ */
+@ApiModel(value = "")
 @Data
-    @EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = false)
 public class ParentChildQueryDTO implements Serializable {
 
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "主键id")
-                    private Integer pcid;
+    private Integer pcid;
 
     @ApiModelProperty(value = "家长的id")
-                    private Integer parentId;
+    private Integer parentId;
 
     @ApiModelProperty(value = "孩子的id")
-                    private Integer childId;
+    private Integer childId;
 
     @ApiModelProperty(value = "创建时间")
-                    private LocalDateTime createTime;
-
-
+    private LocalDateTime createTime;
 
 }

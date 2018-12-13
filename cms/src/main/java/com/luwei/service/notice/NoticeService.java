@@ -70,7 +70,6 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
     @Transactional
     public void deleteNotice(Integer id){
-        baseMapper.deleteById(id);
         boolean flag = removeById(id);
         Assert.isTrue(flag, MessageCodes.NOTICE_DELETE_ERROR);
         log.info("----删除一条公告----");

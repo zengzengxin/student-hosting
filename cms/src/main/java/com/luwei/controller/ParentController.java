@@ -8,10 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author huanglp
@@ -30,5 +27,12 @@ public class ParentController {
     @ApiOperation("分页")
     public IPage<ParentCmsVO> page(@RequestParam @ApiParam("查询条件") String condition, Page page) {
         return parentService.getParentPage(condition, page);
+    }
+
+    @DeleteMapping
+    @ApiOperation("删除")
+    public void delete(@RequestParam @ApiParam("+") Integer ids) {
+        parentService.deleteParent(ids);
+
     }
 }
