@@ -34,7 +34,7 @@ public class ChildUpdateDTO implements Serializable {
     private String grade;
 
     @ApiModelProperty(value = "孩子的班级")
-    private String ChildClass;
+    private String childClass;
 
     @ApiModelProperty(value = "孩子的班主任的电话")
     private String headteacherPhone;
