@@ -241,12 +241,12 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         IPage<CourseWebVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toCourseWebVO);
 
         // 设置最低价格
-        iPage.getRecords().stream().map(this::dealWith2).collect(Collectors.toList());
+        List<CourseWebVO> collect = iPage.getRecords().stream().map(this::dealWith2).collect(Collectors.toList());
 
         //List<CourseWebVO> list = iPage.getRecords();
         //List collect = list.stream().map(this::dealWith).collect(Collectors.toList());
 
-        return iPage;
+        return iPage.setRecords(collect);
     }
 
     private CourseWebVO dealWith2(CourseWebVO courseWebVO) {

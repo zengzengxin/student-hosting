@@ -80,4 +80,7 @@ public interface MessageCodes {
     String ORDER_SAVE_ERROR = "order.save.error";//订单保存失败
     String ORDER_DELETE_ERROR = "order.delete.error";//订单删除失败
 
+    //WeChat相关
+    String WECHAT_AUTHORIZE_FAILE = "wechat.authorize.faile";//微信授权失败;
+
 }
