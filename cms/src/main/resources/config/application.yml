@@ -42,10 +42,10 @@ luwei:
     salt: 3u492ijdf*89q34l882jk
   module:
     qiniu:
-      bucket:
-      access-key:
-      secret-key:
-      link-address:
+      bucket: edin
+      access-key: 9YThA2ZpNq4UnyRRz_ZigkzgH6davcLehUPogG4C
+      secret-key: RoZdZeQ8_a0efxTRMisMufPZbTQxLrBy3flc4kLf
+      link-address: pji6i8gq1.bkt.clouddn.com
     sms:
       redus-prefix:
       access-key-id:

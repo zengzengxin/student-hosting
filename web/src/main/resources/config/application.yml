@@ -32,10 +32,10 @@ spring:
 # 模块化的配置
 luwei:
   qiniu:
-    bucket:
-    access-key:
-    secret-key:
-    link-address:
+    bucket: edin
+    access-key: 9YThA2ZpNq4UnyRRz_ZigkzgH6davcLehUPogG4C
+    secret-key: RoZdZeQ8_a0efxTRMisMufPZbTQxLrBy3flc4kLf
+    link-address: pji6i8gq1.bkt.clouddn.com
   module:
     sms:
       redus-prefix:
