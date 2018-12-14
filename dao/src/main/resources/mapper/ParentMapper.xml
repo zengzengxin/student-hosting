@@ -4,19 +4,18 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.luwei.model.parent.Parent">
-        <id column="parent_id" property="parentId" />
-        <result column="parent_name" property="parentName" />
-        <result column="phone" property="phone" />
-        <result column="family_relation" property="familyRelation" />
-        <result column="children_number" property="childrenNumber" />
-        <result column="address" property="address" />
-        <result column="avatar_url" property="avatarUrl" />
-        <result column="gender" property="gender" />
-        <result column="nick_name" property="nickName" />
-        <result column="openid" property="openid" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
+        <id column="parent_id" property="parentId"/>
+        <result column="parent_name" property="parentName"/>
+        <result column="phone" property="phone"/>
+        <result column="family_relation" property="familyRelation"/>
+        <result column="address" property="address"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="gender" property="gender"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="openid" property="openid"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -24,8 +23,9 @@
         parent_id, parent_name, phone, family_relation, children_number, address, avatar_url, gender, nick_name, openid, create_time, update_time, deleted
     </sql>
 
-    <select id="findParentPage" resultType="com.luwei.model.parent.pojo.cms.ParentCmsVO" parameterType="com.luwei.model.parent.pojo.cms.ParentCmsQueryDTO">
-        SELECT * FROM  tb_parent
+    <select id="findParentPage" resultType="com.luwei.model.parent.pojo.cms.ParentCmsVO"
+            parameterType="com.luwei.model.parent.pojo.cms.ParentCmsQueryDTO">
+        SELECT * FROM tb_parent
         <where>
             <if test="parentWebQueryDTO.parentId!=null">
                 and parent_id = #{parentWebQueryDTO.parentId}
@@ -42,7 +42,7 @@
         </where>
     </select>
 
-    <select id="findByOpenid" resultMap="com.luwei.model.parent.Parent">
+    <select id="findByOpenid" resultType="com.luwei.model.parent.Parent">
         select * from tb_parent where openid = #{openid}
     </select>
 

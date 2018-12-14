@@ -7,7 +7,6 @@ import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.parent.ParentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -42,9 +41,9 @@ public class ParentController {
     }
 
     @GetMapping("childList")
-    @ApiOperation("根据家长的id查找他的孩子的集合")
-    public List<ChildVO> childList(@RequestParam @ApiParam("parentId") Integer id) {
-        return parentService.findAllParentById(id);
+    @ApiOperation("查找家长的孩子列表")
+    public List<ChildVO> childList() {
+        return parentService.findAllParentById(UserHelper.getUserId());
     }
 }
 

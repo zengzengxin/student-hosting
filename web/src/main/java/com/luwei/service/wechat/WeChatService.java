@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 /**
  * Author: huanglp
@@ -58,20 +57,6 @@ public class WeChatService {
         String token = shiroTokenService.login(userId.toString());
         log.info("生成token: {}", token);
         return "redirect:" + state + "?token=" + token;
-    }
-
-    public static void main(String[] args) {
-        //OpenUser openUser = new OpenUser();
-        //openUser.setOpenId("asdfasdfadsf");
-        //openUser.setNickName("asdfasdfasdf");
-        //System.out.println(openUser);
-        //Parent parent = new Parent();
-        //BeanUtils.copyProperties(openUser, parent);
-        //System.out.println();
-        //System.out.println(parent);
-
-        System.out.println(UUID.randomUUID());
-
     }
 
 }
