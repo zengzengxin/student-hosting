@@ -57,7 +57,7 @@ import java.util.Set;
         return schoolService.findSchoolPage(schoolQueryDTO,page);
     }
 
-    @GetMapping("schoolList")
+    @GetMapping("List")
     @ApiOperation("返回所有学校")
     public List<SchoolWebVO> schoolList() {
         return schoolService.findSchoolPage();

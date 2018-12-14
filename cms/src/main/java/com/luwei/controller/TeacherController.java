@@ -62,15 +62,15 @@ import java.util.Set;
         return teacherService.findTeacherPage(teacherQueryDTO,page);
     }
 
-    @GetMapping("teacherList")
+    @GetMapping("List")
     @ApiOperation("根据学校id查询所有的老师")
     public List<TeacherVO> teacherList(@RequestParam @ApiParam("schoolId") Integer schoolId) {
         return teacherService.teacherList(schoolId);
     }
 
-    @GetMapping("findTeacher")
-    @ApiOperation("根据学校id和学校的名字查询老师")
-    public List<TeacherVO> findTeacher(@RequestParam @ApiParam("schoolId") Integer schoolId,@RequestParam @ApiParam("teacherName") String teacherName) {
+    @GetMapping("Teacher")
+    @ApiOperation("根据学校id和老师的名字查询老师")
+    public List<TeacherVO> findTeacher(@RequestParam(required = false) @ApiParam("schoolId") Integer schoolId,@RequestParam(required = false) @ApiParam("teacherName") String teacherName) {
         return teacherService.findTeacher(schoolId,teacherName);
     }
 
