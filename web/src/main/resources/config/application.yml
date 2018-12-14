@@ -45,9 +45,12 @@ luwei:
       template-code:
       template-code-name:
     shiro:
-      prefix: project-templet-web
+      prefix: student-hosting-web
       cors-urls: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
       anon-urls: /api/login/captcha,/api/login,/api/module/qiniu/**,/api/banner/**,/api/course/**,/api/weChat/**
+    wx:
+      appId: wx286aefff1a6b3c75
+      appSecret: a41ea923e49dac2bf1ecd2144d6e8b9b
 
 # swagger开关/默认打开
 swagger:
