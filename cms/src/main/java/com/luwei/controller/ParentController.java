@@ -25,7 +25,7 @@ public class ParentController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public IPage<ParentCmsVO> page(@RequestParam @ApiParam("查询条件") String condition, Page page) {
+    public IPage<ParentCmsVO> page(@RequestParam @ApiParam("查询条件暂时为name") String condition, Page page) {
         return parentService.getParentPage(condition, page);
     }
 

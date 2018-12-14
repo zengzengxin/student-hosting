@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -24,24 +26,31 @@ public class ParentAddDTO implements Serializable {
 
 
     @ApiModelProperty(value = "家长姓名")
+    @NotBlank
     private String parentName;
 
     @ApiModelProperty(value = "家长联系方式")
+    @NotBlank
     private String phone;
 
     @ApiModelProperty(value = "家庭关系")
+    @NotBlank
     private String familyRelation;
 
     @ApiModelProperty(value = "家庭住址")
+    @NotBlank
     private String address;
 
     @ApiModelProperty(value = "家长头像")
+    @NotBlank
     private String avatarUrl;
 
     @ApiModelProperty(value = "家长性别,0代表男，1代表女,默认为0")
+    @NotNull
     private Integer gender;
 
     @ApiModelProperty(value = "家长昵称")
+    @NotBlank
     private String nickName;
 
     @ApiModelProperty(value = "微信用户openid")
