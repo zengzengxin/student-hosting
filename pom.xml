@@ -97,6 +97,46 @@
             <artifactId>ali-sms</artifactId>
             <version>0.0.9</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.56</version>
+        </dependency>
+
+        <!--微信公众号相关工具包-->
+        <!--<dependency>
+            <groupId>cn.com.riversoft</groupId>
+            <artifactId>weixin-mp</artifactId>
+            <version>0.9.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jackson-dataformat-xml</artifactId>
+                    <groupId>com.fasterxml.jackson.dataformat</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>-->
+
+        <dependency>
+            <groupId>cn.com.riversoft</groupId>
+            <artifactId>weixin-open</artifactId>
+            <version>0.9.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jackson-module-jaxb-annotations</artifactId>
+                    <groupId>com.fasterxml.jackson.module</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>jackson-dataformat-xml</artifactId>
+                    <groupId>com.fasterxml.jackson.dataformat</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
     </dependencies>
 
 
