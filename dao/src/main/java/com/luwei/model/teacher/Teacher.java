@@ -39,6 +39,11 @@ public class Teacher implements Serializable {
     @ApiModelProperty(value = "老师资质执照")
     private String license;
 
+
+    @ApiModelProperty(value = "学校id")
+    private Integer schoolId;
+
+
     @ApiModelProperty(value = "老师所在学校")
     private String school;
 

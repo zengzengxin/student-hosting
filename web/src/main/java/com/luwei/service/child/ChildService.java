@@ -10,6 +10,7 @@ import com.luwei.model.child.pojo.cms.ChildAddDTO;
 import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
 import com.luwei.model.child.pojo.cms.ChildVO;
 import com.luwei.model.parentChild.ParentChild;
+import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.parentchild.ParentChildService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +60,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
         //更新中间表
         ParentChild parentChild = new ParentChild();
-        parentChild.setParentId(1);
-        //--todo 从redis拿id
+        parentChild.setParentId(UserHelper.getUserId());
         parentChild.setChildId(child.getChildId());
         parentChild.setCreateTime(time);
         parentChildService.save(parentChild);

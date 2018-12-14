@@ -3,6 +3,7 @@ package com.luwei.controller;
 import com.luwei.model.child.pojo.cms.ChildVO;
 import com.luwei.model.parent.pojo.web.ParentUpdateDTO;
 import com.luwei.model.parent.pojo.web.ParentVO;
+import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.parent.ParentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,9 +31,7 @@ public class ParentController {
     @GetMapping
     @ApiOperation("查询家长详情")
     public ParentVO findById() {
-        // Integer parentId = UserHelper.getUserId();
-        //--todo 需要从shiro中获取parentId
-        Integer parentId = 1;
+        Integer parentId = UserHelper.getUserId();
         return parentService.findParentById(parentId);
     }
 

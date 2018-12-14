@@ -41,6 +41,9 @@ public class TeacherVO implements Serializable {
     @ApiModelProperty(value = "所在班级")
     private String teacherClass;
 
+    @ApiModelProperty(value = "学校id")
+    private Integer schoolId;
+
 
 
 }

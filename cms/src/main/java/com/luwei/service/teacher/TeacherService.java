@@ -1,5 +1,6 @@
 package com.luwei.service.teacher;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -17,7 +18,9 @@ import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 ;
 
@@ -87,5 +90,18 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
 
     public IPage<TeacherVO> findTeacherPage(TeacherQueryDTO teacherQueryDTO, Page page) {
         return baseMapper.getTeacherPage(page,teacherQueryDTO);
+    }
+
+
+    public List<TeacherVO> teacherList(Integer schoolId) {
+        QueryWrapper<Teacher> queryWrapper = new QueryWrapper();
+        queryWrapper.lambda().eq(Teacher::getSchoolId,schoolId);
+        return baseMapper.selectList(queryWrapper).stream().map(this::toTeacherVO).collect(Collectors.toList());
+    }
+
+    public List<TeacherVO> findTeacher(Integer schoolId, String teacherName) {
+        QueryWrapper<Teacher> queryWrapper = new QueryWrapper();
+        queryWrapper.lambda().eq(Teacher::getSchoolId,schoolId).like(Teacher::getTeacherName,teacherName);
+        return baseMapper.selectList(queryWrapper).stream().map(this::toTeacherVO).collect(Collectors.toList());
     }
 }

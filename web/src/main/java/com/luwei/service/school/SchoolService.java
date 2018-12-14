@@ -24,15 +24,5 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SchoolService extends ServiceImpl<SchoolMapper, School> {
 
-    public List<SchoolWebVO> findSchoolPage() {
-        return list(new QueryWrapper<>()).stream().map(this::toSchoolWebVO).collect(Collectors.toList());
-        // QueryWrapper queryWrapper = new QueryWrapper();
-        // return baseMapper.selectPage(page,queryWrapper);
-    }
 
-    private SchoolWebVO  toSchoolWebVO(School school) {
-        SchoolWebVO schoolWebVO = new SchoolWebVO();
-        BeanUtils.copyNonNullProperties(school,schoolWebVO);
-        return schoolWebVO;
-    }
 }

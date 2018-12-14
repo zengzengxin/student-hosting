@@ -63,4 +63,9 @@ public class TeacherAddDTO implements Serializable {
     private LocalDateTime updateTime;
 
 
+    @ApiModelProperty(value = "学校id")
+    @NotNull
+    private Integer schoolId;
+
+
 }

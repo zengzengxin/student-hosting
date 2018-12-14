@@ -53,4 +53,9 @@ public class TeacherAddDTO implements Serializable {
     private String teacherClass;
 
 
+    @ApiModelProperty(value = "学校id")
+    @NotBlank(message = "学校id不能为空")
+    private Integer schoolId;
+
+
 }

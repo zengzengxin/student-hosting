@@ -1,5 +1,6 @@
 package com.luwei.service.school;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,12 +10,15 @@ import com.luwei.model.school.School;
 import com.luwei.model.school.SchoolMapper;
 import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
 import com.luwei.model.school.pojo.cms.SchoolVO;
+import com.luwei.model.school.pojo.web.SchoolWebVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -78,5 +82,19 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
 
     public IPage<SchoolVO> findSchoolPage(SchoolQueryDTO schoolQueryDTO, Page page) {
         return baseMapper.getSchoolPage(page,schoolQueryDTO);
+    }
+
+
+
+    public List<SchoolWebVO> findSchoolPage() {
+        return list(new QueryWrapper<>()).stream().map(this::toSchoolWebVO).collect(Collectors.toList());
+        // QueryWrapper queryWrapper = new QueryWrapper();
+        // return baseMapper.selectPage(page,queryWrapper);
+    }
+
+    private SchoolWebVO  toSchoolWebVO(School school) {
+        SchoolWebVO schoolWebVO = new SchoolWebVO();
+        BeanUtils.copyNonNullProperties(school,schoolWebVO);
+        return schoolWebVO;
     }
 }

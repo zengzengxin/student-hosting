@@ -12,20 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
-* @author zzx
-* @since 2018-12-13
-*/
+ * @author zzx
+ * @since 2018-12-13
+ */
 @Api(tags = {"机构管理"})
 @RestController
 @RequestMapping("/api/school")
-    public class SchoolController {
-        @Autowired
+public class SchoolController {
+    @Autowired
     private SchoolService schoolService;
 
-    @GetMapping("page")
-    @ApiOperation("分页")
-    public List<SchoolWebVO> page() {
-        return schoolService.findSchoolPage();
-    }
+
 }
 

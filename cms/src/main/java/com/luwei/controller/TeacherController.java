@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,6 +27,7 @@ import java.util.Set;
     public class TeacherController {
         @Autowired
     private TeacherService teacherService;
+
 
 
     @GetMapping
@@ -59,5 +61,19 @@ import java.util.Set;
     public IPage<TeacherVO> page(@ModelAttribute TeacherQueryDTO teacherQueryDTO, Page page) {
         return teacherService.findTeacherPage(teacherQueryDTO,page);
     }
+
+    @GetMapping("teacherList")
+    @ApiOperation("根据学校id查询所有的老师")
+    public List<TeacherVO> teacherList(@RequestParam @ApiParam("schoolId") Integer schoolId) {
+        return teacherService.teacherList(schoolId);
+    }
+
+    @GetMapping("findTeacher")
+    @ApiOperation("根据学校id和学校的名字查询老师")
+    public List<TeacherVO> findTeacher(@RequestParam @ApiParam("schoolId") Integer schoolId,@RequestParam @ApiParam("teacherName") String teacherName) {
+        return teacherService.findTeacher(schoolId,teacherName);
+    }
+
+
 }
 

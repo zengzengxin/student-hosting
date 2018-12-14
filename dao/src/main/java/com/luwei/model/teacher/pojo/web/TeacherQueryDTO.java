@@ -46,5 +46,8 @@ public class TeacherQueryDTO implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
 
+    @ApiModelProperty(value = "学校id")
+    private Integer schoolId;
+
 
 }
