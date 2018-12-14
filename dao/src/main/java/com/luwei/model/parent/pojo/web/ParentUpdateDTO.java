@@ -1,9 +1,5 @@
 package com.luwei.model.parent.pojo.web;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,21 +8,15 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 
 /**
- * @author ffq
+ * @author zzx
  * @since 2018-12-12
  */
-@ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_parent")
 public class ParentUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty(value = "家长ID")
-    @TableId(value = "parent_id", type = IdType.AUTO)
-    private Integer parentId;
 
     @ApiModelProperty(value = "家长姓名")
     private String parentName;
@@ -42,9 +32,5 @@ public class ParentUpdateDTO implements Serializable {
 
     @ApiModelProperty(value = "家长头像")
     private String avatarUrl;
-
-
-
-
 
 }

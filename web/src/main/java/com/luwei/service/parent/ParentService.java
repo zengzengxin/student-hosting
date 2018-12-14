@@ -14,6 +14,7 @@ import com.luwei.model.parent.pojo.web.ParentAddDTO;
 import com.luwei.model.parent.pojo.web.ParentQueryDTO;
 import com.luwei.model.parent.pojo.web.ParentUpdateDTO;
 import com.luwei.model.parent.pojo.web.ParentVO;
+import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.utils.ConversionBeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,9 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     @Resource
     private ChildMapper childMapper;
 
+    @Resource
+    private ParentMapper parentMapper;
+
     public ParentVO findParentById(Integer id) {
         Parent parent = getById(id);
         //TODO记得修改MessageCodes
@@ -54,16 +58,15 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
 
     //添加家长
     @Transactional
-    public ParentVO saveParent(ParentAddDTO parentAddDTO) {
+    public Parent saveParent(ParentAddDTO addDTO) {
         Parent parent = new Parent();
-        BeanUtils.copyNonNullProperties(parentAddDTO, parent);
+        BeanUtils.copyNonNullProperties(addDTO, parent);
         LocalDateTime time = LocalDateTime.now();
         parent.setUpdateTime(time);
         parent.setCreateTime(time);
-        //设置一些具体逻辑，是否需要加上deleted字段等等
         save(parent);
         log.info("保存数据---:{}", parent);
-        return toParentVO(parent);
+        return parent;
     }
 
 /*    @Transactional
@@ -79,16 +82,16 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     public ParentVO updateParent(ParentUpdateDTO parentUpdateDTO) {
         Parent parent = new Parent();
         BeanUtils.copyNonNullProperties(parentUpdateDTO, parent);
-
         parent.setUpdateTime(LocalDateTime.now());
 
+        parent.setParentId(UserHelper.getUserId());
         //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
         Assert.isTrue(updateById(parent), MessageCodes.PARENT_IS_UPDATE_ERROR);
         log.info("修改数据：bean:{}", parentUpdateDTO);
         return findParentById(parent.getParentId());
     }
 
-    public IPage<ParentVO> findParentPage(ParentQueryDTO parentQueryDTO, Page page) {
+    public IPage<ParentVO> findParentPage(ParentQueryDTO parentQueryDTO, Page<Parent> page) {
         Parent parent = new Parent();
         BeanUtils.copyNonNullProperties(parentQueryDTO, parent);
         QueryWrapper<Parent> queryWrapper = new QueryWrapper<>();
@@ -110,6 +113,7 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
         return childList;
     }
 
-
-
+    public Parent findByOpenid(String openid) {
+        return parentMapper.findByOpenid(openid);
+    }
 }
