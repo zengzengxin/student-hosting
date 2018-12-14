@@ -19,5 +19,5 @@ public interface ParentMapper extends BaseMapper<Parent> {
 
     IPage<ParentCmsVO> findParentPage(@Param("page") Page  page, @Param("parentWebQueryDTO") ParentCmsQueryDTO parentWebQueryDTO);
 
-
+    Parent findByOpenid(@Param("openid") String openid);
 }

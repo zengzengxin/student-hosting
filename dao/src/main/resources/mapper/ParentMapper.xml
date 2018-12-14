@@ -42,4 +42,8 @@
         </where>
     </select>
 
+    <select id="findByOpenid" resultMap="com.luwei.model.parent.Parent">
+        select * from tb_parent where openid = #{openid}
+    </select>
+
 </mapper>

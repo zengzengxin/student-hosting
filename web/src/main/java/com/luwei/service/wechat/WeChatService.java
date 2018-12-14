@@ -7,10 +7,10 @@ import com.luwei.utils.WeiXinUtils;
 import com.riversoft.weixin.common.oauth2.OpenUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Author: huanglp
@@ -36,29 +36,42 @@ public class WeChatService {
         //调用工具类
         OpenUser openUser = WeiXinUtils.webSiteLogin(code, state);
 
-        String userToken = authorize(openUser);
-        log.info("生成token：{}", userToken);
-        return "redirect:" + state + "?token=" + userToken;
-    }
-
-    @Transactional
-    public String authorize(OpenUser openUser) {
-        //Parent parent = parentService.findByOpenId(user.getOpenId());
-        Parent parent = parentService.getById(Integer.valueOf(openUser.getOpenId()));
+        Parent parent = parentService.findByOpenid(openUser.getOpenId());
         log.info("用户的昵称：{}", openUser.getNickName());
-        //判断是否是新用户，是的话保存到数据库
+        //判断是否为新用户
         if (parent == null) {
             parent = new Parent();
-            parent.setCreateTime(LocalDateTime.now());
-            parent.setUpdateTime(LocalDateTime.now());
-            // TODO 复制属性过去
-            //BeanUtils.copyProperties(user, wxUser, "privilege");
 
+            parent.setOpenid(openUser.getOpenId());
+            parent.setNickName(openUser.getNickName());
+            parent.setGender(openUser.getSex().getCode());
+            parent.setAvatarUrl(openUser.getHeadImgUrl());
+
+            LocalDateTime time = LocalDateTime.now();
+            parent.setUpdateTime(time);
+            parent.setCreateTime(time);
             parentService.save(parent);
+            log.info("保存数据---:{}", parent);
         }
         Integer userId = parent.getParentId();
         shiroTokenService.logout(userId.toString());
         String token = shiroTokenService.login(userId.toString());
-        return token;
+        log.info("生成token: {}", token);
+        return "redirect:" + state + "?token=" + token;
     }
+
+    public static void main(String[] args) {
+        //OpenUser openUser = new OpenUser();
+        //openUser.setOpenId("asdfasdfadsf");
+        //openUser.setNickName("asdfasdfasdf");
+        //System.out.println(openUser);
+        //Parent parent = new Parent();
+        //BeanUtils.copyProperties(openUser, parent);
+        //System.out.println();
+        //System.out.println(parent);
+
+        System.out.println(UUID.randomUUID());
+
+    }
+
 }
