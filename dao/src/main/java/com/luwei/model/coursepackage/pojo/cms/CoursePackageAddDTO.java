@@ -20,10 +20,10 @@ public class CoursePackageAddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "课程开始时间")
+    @ApiModelProperty(value = "课程开始时间", dataType = "java.lang.Long")
     private LocalDateTime startTime;
 
-    @ApiModelProperty(value = "课程结束时间")
+    @ApiModelProperty(value = "课程结束时间", dataType = "java.lang.Long")
     private LocalDateTime endTime;
 
     @ApiModelProperty(value = "课程价格")

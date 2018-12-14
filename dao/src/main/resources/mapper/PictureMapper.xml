@@ -22,7 +22,7 @@
     </delete>
 
     <select id="findAllByForeignKeyId" resultType="java.lang.String">
-        select * from tb_picture where foreign_key_id = #{foreignKeyId}
+        select picture_url from tb_picture where foreign_key_id = #{foreignKeyId}
     </select>
 
 </mapper>
