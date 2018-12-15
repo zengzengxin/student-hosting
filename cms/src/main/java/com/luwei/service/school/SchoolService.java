@@ -14,9 +14,12 @@ import com.luwei.model.school.pojo.web.SchoolWebVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,7 +48,7 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         return schoolVO;
     }
 
-/*    @Transactional
+    /*@Transactional
     public SchoolVO saveSchool(SchoolAddDTO schoolAddDTO) {
         School school = new School();
         BeanUtils.copyNonNullProperties(schoolAddDTO, school);
@@ -67,7 +70,7 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         log.info("删除数据:ids{}", schoolIds);
     }
 
-/*    @Transactional
+    /*@Transactional
     public SchoolVO updateSchool(SchoolUpdateDTO schoolUpdateDTO) {
         School school = new School();
         BeanUtils.copyNonNullProperties(schoolUpdateDTO, school);
@@ -81,10 +84,8 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
     }*/
 
     public IPage<SchoolVO> findSchoolPage(SchoolQueryDTO schoolQueryDTO, Page page) {
-        return baseMapper.getSchoolPage(page,schoolQueryDTO);
+        return baseMapper.getSchoolPage(page, schoolQueryDTO);
     }
-
-
 
     public List<SchoolWebVO> findSchoolPage() {
         return list(new QueryWrapper<>()).stream().map(this::toSchoolWebVO).collect(Collectors.toList());
@@ -92,9 +93,33 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         // return baseMapper.selectPage(page,queryWrapper);
     }
 
-    private SchoolWebVO  toSchoolWebVO(School school) {
+    private SchoolWebVO toSchoolWebVO(School school) {
         SchoolWebVO schoolWebVO = new SchoolWebVO();
-        BeanUtils.copyNonNullProperties(school,schoolWebVO);
+        BeanUtils.copyNonNullProperties(school, schoolWebVO);
         return schoolWebVO;
+    }
+
+    public Boolean readExcelFile(MultipartFile file) {
+        String result;
+        //创建处理EXCEL的类
+        ReadExcel readExcel = new ReadExcel();
+        //解析excel，获取上传的事件单
+        List<Map<String, String>> mapList = readExcel.getExcelInfo(file);
+        //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作
+        for (Map<String, String> map : mapList) {
+            School school = new School();
+            school.setName(map.get("name"));
+            school.setIntroduction(map.get("introduction"));
+            school.setCode(map.get("code"));
+            school.setLeaderPhone(map.get("leaderPhone"));
+            school.setStudentNumber(Integer.valueOf(map.get("studentNumber")));
+
+            LocalDateTime time = LocalDateTime.now();
+            school.setUpdateTime(time);
+            school.setCreateTime(time);
+            boolean isSuccess = save(school);
+            Assert.isTrue(isSuccess, MessageCodes.SCHOOL_SAVE_ERROR);
+        }
+        return !mapList.isEmpty();
     }
 }

@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author zzx
@@ -46,7 +47,7 @@ public class School implements Serializable {
     private String license;
 
     @ApiModelProperty(value = "学生人数")
-    private Integer schoolNumber;
+    private Integer studentNumber;
 
     @ApiModelProperty(value = "学校类型(0/1)")
     private schoolTypeEnum type;
@@ -54,9 +55,14 @@ public class School implements Serializable {
     @ApiModelProperty(value = "权限(0/1)")
     private Integer permission;
 
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "是否删除")
+    @ApiModelProperty(value = "修改时间")
+    private LocalDateTime updateTime;
+
+    @ApiModelProperty(value = "是否已删除 0-否 1-是")
     @TableLogic
-    private Integer deleted;
+    private Boolean deleted;
 
 }

@@ -73,7 +73,8 @@ public interface MessageCodes {
 
     //与学校相关
     String SCHOOL_IS_NOT_EXIST = "school.is.not.exist";//学校不存在
-    String SCHOOL_DELETE_ERROR = "school.delete.error";//学校不存在
+    String SCHOOL_DELETE_ERROR = "school.delete.error";//学校删除失败
+    String SCHOOL_SAVE_ERROR = "school.save.error";//学校保存失败
 
     //Order相关
     String ORDER_IS_NOT_EXIST ="order.is.not.exist";//订单不存在

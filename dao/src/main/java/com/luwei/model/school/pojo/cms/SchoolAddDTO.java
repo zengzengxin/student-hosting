@@ -53,7 +53,7 @@ public class SchoolAddDTO implements Serializable {
     @ApiModelProperty(value = "学生人数")
     @NotNull(message = "学生人数不能为空")
     @Range(min = 0, max = 20000, message = "学生人数范围必须在【{min},{max}】之间")
-    private Integer schoolNumber;
+    private Integer studentNumber;
 
     @ApiModelProperty(value = "学校类型(0/1)")
     @NotNull(message = "学校类型(0/1)不能为空")

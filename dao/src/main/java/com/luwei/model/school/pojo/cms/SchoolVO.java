@@ -40,7 +40,7 @@ public class SchoolVO implements Serializable {
     private String license;
 
     @ApiModelProperty(value = "学生人数")
-    private Integer schoolNumber;
+    private Integer studentNumber;
 
     @ApiModelProperty(value = "学校类型(0/1)")
     private schoolTypeEnum type;
