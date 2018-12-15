@@ -1,6 +1,5 @@
 package com.luwei.common.exception;
 
-
 public interface MessageCodes {
 
     String AUTH_TOKEN = "auth.token.wrong";//token错误或已过期,请重新登录
@@ -37,11 +36,10 @@ public interface MessageCodes {
     String DATA_SAVE_ERROR = "data.save.error";//数据保存失败
 
     //Notice先关
-    String NOTICE_UPDATE_ERROR="notice.update.fail";//公告更新失败
-    String NOTICE_DELETE_ERROR="notice.delete.error";//公告删除失败
-    String NOTICE_SAVE_ERROR="notice.save.error";//公告保存失败
-    String NOTICE_IS_NOT_EXIST="notice.is.not.exist";//公告保存失败
-
+    String NOTICE_UPDATE_ERROR = "notice.update.fail";//公告更新失败
+    String NOTICE_DELETE_ERROR = "notice.delete.error";//公告删除失败
+    String NOTICE_SAVE_ERROR = "notice.save.error";//公告保存失败
+    String NOTICE_IS_NOT_EXIST = "notice.is.not.exist";//公告保存失败
 
     //Banner相关
     String BANNER_DELETE_ERROR = "banner.delete.error";//轮播图删除失败
@@ -57,7 +55,6 @@ public interface MessageCodes {
     String PARENT_IS_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
     String PARENT_IS_NOT_EXIST = "parent.is.not.exist";//根据id家长查找失败
     String PARENT_DELETE_ERROR = "parent.delete。error";//家长删除失败
-
 
     //Course相关
     String COURSE_IS_NOT_EXIST = "course.is.not.exist";//课程不存在
@@ -77,11 +74,14 @@ public interface MessageCodes {
     String SCHOOL_SAVE_ERROR = "school.save.error";//学校保存失败
 
     //Order相关
-    String ORDER_IS_NOT_EXIST ="order.is.not.exist";//订单不存在
+    String ORDER_IS_NOT_EXIST = "order.is.not.exist";//订单不存在
     String ORDER_SAVE_ERROR = "order.save.error";//订单保存失败
     String ORDER_DELETE_ERROR = "order.delete.error";//订单删除失败
 
     //WeChat相关
-    String WECHAT_AUTHORIZE_FAILE = "wechat.authorize.faile";//微信授权失败;
+    String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;
+
+    //excel表相关
+    String EXCEL_HAS_NO_DATA = "excel.has.no.data";//excel表没有数据
 
 }

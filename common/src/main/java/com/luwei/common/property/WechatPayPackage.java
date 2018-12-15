@@ -1,4 +1,4 @@
-package com.luwei.model.wechat;
+package com.luwei.common.property;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

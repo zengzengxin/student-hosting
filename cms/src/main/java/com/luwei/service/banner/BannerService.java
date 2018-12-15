@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.banner.Banner;
 import com.luwei.model.banner.BannerMapper;
 import com.luwei.model.banner.pojo.cms.BannerAddDTO;
 import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
 import com.luwei.model.banner.pojo.cms.BannerVO;
-import com.luwei.utils.ConversionBeanUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -122,7 +122,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
     public IPage<BannerVO> findPage(BannerQueryDTO queryDTO, Page<Banner> page) {
 
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page,
-                new QueryWrapper<Banner>().lambda().eq(Banner::getBannerType,queryDTO.getBannerType())),this::toBannerVO);
+                new QueryWrapper<Banner>().lambda().eq(Banner::getBannerType, queryDTO.getBannerType())), this::toBannerVO);
     }
 
 }

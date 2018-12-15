@@ -1,10 +1,9 @@
-package com.luwei.utils;
+package com.luwei.common.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.luwei.common.util.AesCbcUtil;
-import com.luwei.model.wechat.WxMiniProperties;
-import com.luwei.model.wechat.WxProperties;
+import com.luwei.common.property.WxMiniProperties;
+import com.luwei.common.property.WxProperties;
 import com.riversoft.weixin.common.oauth2.AccessToken;
 import com.riversoft.weixin.common.oauth2.OpenUser;
 import com.riversoft.weixin.open.base.AppSetting;

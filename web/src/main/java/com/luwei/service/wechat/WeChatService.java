@@ -1,9 +1,9 @@
 package com.luwei.service.wechat;
 
+import com.luwei.common.util.WeiXinUtils;
 import com.luwei.model.parent.Parent;
 import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.parent.ParentService;
-import com.luwei.utils.WeiXinUtils;
 import com.riversoft.weixin.common.oauth2.OpenUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

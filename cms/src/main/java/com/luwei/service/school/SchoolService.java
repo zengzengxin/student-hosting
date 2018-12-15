@@ -103,11 +103,12 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
 
     public Boolean readExcelFile(MultipartFile file) {
         String result;
-        //创建处理EXCEL的类
-        ReadExcelUtil readExcel = new ReadExcelUtil();
 
         //解析excel，获取上传的事件单
-        List<Map<Integer, String>> mapList = readExcel.getExcelInfo(file);
+        List<Map<Integer, String>> mapList = ReadExcelUtil.getExcelInfo(file);
+        Assert.notNull(mapList, MessageCodes.EXCEL_HAS_NO_DATA);
+
+        //List<School> list = new ArrayList<>();
 
         //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作
         for (Map<Integer, String> map : mapList) {
@@ -129,10 +130,13 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
             LocalDateTime time = LocalDateTime.now();
             school.setUpdateTime(time);
             school.setCreateTime(time);
+
             boolean isSuccess = save(school);
             Assert.isTrue(isSuccess, MessageCodes.SCHOOL_SAVE_ERROR);
+            //list.add(school);
         }
-        return !mapList.isEmpty();
+        //Assert.isTrue(saveBatch(list), MessageCodes.SCHOOL_SAVE_ERROR);
+        return true;
     }
 
 }

@@ -1,7 +1,7 @@
-package com.luwei.utils;
+package com.luwei.common.util;
 
-import com.luwei.model.wechat.WxMiniProperties;
-import com.luwei.model.wechat.WxProperties;
+import com.luwei.common.property.WxMiniProperties;
+import com.luwei.common.property.WxProperties;
 import org.springframework.web.context.ContextLoader;
 
 /**

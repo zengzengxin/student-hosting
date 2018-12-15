@@ -1,4 +1,4 @@
-package com.luwei.model.wechat;
+package com.luwei.common.property;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

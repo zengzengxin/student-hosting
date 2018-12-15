@@ -1,16 +1,13 @@
-package com.luwei.utils;
+package com.luwei.common.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.exception.ValidationException;
-import com.luwei.common.util.HttpUtils;
-import com.luwei.common.util.JsonUtils;
-import com.luwei.common.util.WeiXinQRCode;
-import com.luwei.model.wechat.ShareParam;
-import com.luwei.model.wechat.WechatPayApply;
-import com.luwei.model.wechat.WechatPayPackage;
-import com.luwei.model.wechat.WechatPayRefund;
+import com.luwei.common.property.ShareParam;
+import com.luwei.common.property.WechatPayApply;
+import com.luwei.common.property.WechatPayPackage;
+import com.luwei.common.property.WechatPayRefund;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -135,7 +132,7 @@ public class WeChatUtils {
         Map<String, Object> param = new HashMap<>();
         param.put("template_id_short", templateIdShort);
         String request = post(url, param);
-        if (org.springframework.util.StringUtils.isEmpty(request)) {
+        if (StringUtils.isEmpty(request)) {
             return null;
         }
 
@@ -165,7 +162,7 @@ public class WeChatUtils {
         param.put("data", data);
 
         String request = post("https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + WeChatUtils.TOKEN, param);
-        if (org.springframework.util.StringUtils.isEmpty(request)) {
+        if (StringUtils.isEmpty(request)) {
             return null;
         }
 
@@ -355,7 +352,7 @@ public class WeChatUtils {
         param.put("action_info", actionInfoMap);
 
         String request = post(url, param);
-        if (org.springframework.util.StringUtils.isEmpty(request)) {
+        if (StringUtils.isEmpty(request)) {
             return null;
         }
 
@@ -381,7 +378,7 @@ public class WeChatUtils {
         param.put("action_info", actionInfoMap);
 
         String request = post(url, param);
-        if (org.springframework.util.StringUtils.isEmpty(request)) {
+        if (StringUtils.isEmpty(request)) {
             return null;
         }
 
@@ -753,7 +750,7 @@ public class WeChatUtils {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        throw new ValidationException(MessageCodes.WECHAT_AUTHORIZE_FAILE);
+        throw new ValidationException(MessageCodes.WECHAT_AUTHORIZE_FAIL);
     }
 
     /**
