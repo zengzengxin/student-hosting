@@ -24,24 +24,24 @@ import java.util.Map;
 @Slf4j
 public class ReadExcelUtil {
     // 总行数
-    private int totalRows = 0;
+    private static int totalRows = 0;
     // 总条数
-    private int totalCells = 0;
+    private static int totalCells = 0;
     // 错误信息接收器
-    private String errorMsg;
+    private static String errorMsg;
 
     // 获取总行数
-    public int getTotalRows() {
+    public static int getTotalRows() {
         return totalRows;
     }
 
     // 获取总列数
-    public int getTotalCells() {
+    public static int getTotalCells() {
         return totalCells;
     }
 
     // 获取错误信息
-    public String getErrorInfo() {
+    public static String getErrorInfo() {
         return errorMsg;
     }
 
@@ -51,7 +51,7 @@ public class ReadExcelUtil {
      * @param mFile
      * @return
      */
-    public List<Map<Integer, String>> getExcelInfo(MultipartFile mFile) {
+    public static List<Map<Integer, String>> getExcelInfo(MultipartFile mFile) {
         String fileName = mFile.getOriginalFilename();// 获取文件名
         // List<Map<String, String>> mapList = new LinkedList<Map<String, String>>();
         try {
@@ -77,7 +77,7 @@ public class ReadExcelUtil {
      * @return
      * @throws IOException
      */
-    private List<Map<Integer, String>> createExcel(InputStream is, boolean isExcel2003) {
+    private static List<Map<Integer, String>> createExcel(InputStream is, boolean isExcel2003) {
         try {
             Workbook wb = null;
             if (isExcel2003) {// 当excel是2003时,创建excel2003
@@ -98,14 +98,14 @@ public class ReadExcelUtil {
      * @param wb
      * @return
      */
-    private List<Map<Integer, String>> readExcelValue(Workbook wb) {
+    private static List<Map<Integer, String>> readExcelValue(Workbook wb) {
         // 得到第一个shell
         Sheet sheet = wb.getSheetAt(0);
         // 得到Excel的行数
-        this.totalRows = sheet.getPhysicalNumberOfRows();
+        totalRows = sheet.getPhysicalNumberOfRows();
         // 得到Excel的列数(前提是有行数)
         if (totalRows > 1 && sheet.getRow(0) != null) {
-            this.totalCells = sheet.getRow(0).getPhysicalNumberOfCells();
+            totalCells = sheet.getRow(0).getPhysicalNumberOfCells();
         }
         List<Map<Integer, String>> userList = new ArrayList<>();
         // 循环Excel行数
@@ -116,7 +116,7 @@ public class ReadExcelUtil {
             }
             // 循环Excel的列 TODO 一下列名需要根据业务修改
             Map<Integer, String> map = new HashMap<>();
-            for (int c = 0; c < this.totalCells; c++) {
+            for (int c = 0; c < totalCells; c++) {
                 Cell cell = row.getCell(c);
 
                 // 封装
@@ -141,7 +141,7 @@ public class ReadExcelUtil {
      * @param filePath
      * @return
      */
-    private boolean validateExcel(String filePath) {
+    private static boolean validateExcel(String filePath) {
         if (filePath == null || !(isExcel2003(filePath) || isExcel2007(filePath))) {
             errorMsg = "文件名不是excel格式";
             return false;
