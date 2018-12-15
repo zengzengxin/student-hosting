@@ -67,10 +67,13 @@ public interface MessageCodes {
     String TEACHER_SAVE_ERROR = "teacher.save.error";//老师不存在
     String TEACHER_DELETE_ERROR = "teacher.delete.error";//老师删除失败
     String TEACHER_IS_UPDATE_ERROR = "teacher.is.update.error";//老师删除失败
+    String TEACHER_IMPORT_FROM_EXCLE_ERROR = "teacher.import.from.excle.error";//老师删除失败
+
 
     //与学校相关
     String SCHOOL_IS_NOT_EXIST = "school.is.not.exist";//学校不存在
-    String SCHOOL_DELETE_ERROR = "school.delete.error";//学校删除失败
+    String SCHOOL_DELETE_ERROR = "school.delete.error";//学校不存在
+    String SCHOOLID_IS_NOT_NULL = "schoolId.is.null";//学校id不存在
     String SCHOOL_SAVE_ERROR = "school.save.error";//学校保存失败
 
     //Order相关
@@ -78,10 +81,12 @@ public interface MessageCodes {
     String ORDER_SAVE_ERROR = "order.save.error";//订单保存失败
     String ORDER_DELETE_ERROR = "order.delete.error";//订单删除失败
 
+
     //WeChat相关
     String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;
 
     //excel表相关
     String EXCEL_HAS_NO_DATA = "excel.has.no.data";//excel表没有数据
+
 
 }

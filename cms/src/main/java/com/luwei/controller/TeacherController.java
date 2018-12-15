@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -74,6 +75,11 @@ import java.util.Set;
         return teacherService.findTeacher(schoolId,teacherName);
     }
 
+    @PostMapping("excleAddTeacher")
+    @ApiOperation("通过excle导入老师")
+    public void findTeacher(MultipartFile file) throws Exception {
+        teacherService.importExcel(file);
+    }
 
 }
 

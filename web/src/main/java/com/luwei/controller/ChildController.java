@@ -1,5 +1,7 @@
 package com.luwei.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Assert;
+import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.child.pojo.cms.ChildAddDTO;
 import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
 import com.luwei.model.child.pojo.cms.ChildVO;
@@ -28,11 +30,8 @@ public class ChildController {
     @ApiOperation("添加孩子")
     public ChildVO save(@RequestBody @Valid ChildAddDTO childAddDTO) {
 
-
         return childService.saveChild(childAddDTO);
     }
-
-
 
     // @ApiIgnore
     @PutMapping
@@ -41,15 +40,13 @@ public class ChildController {
         return childService.updateChild(childUpdateDTO);
     }
 
-
     @GetMapping
     @ApiOperation("判断孩子是否有购买权限")
-    public boolean children_buy(@RequestParam @ApiParam("childId") Integer childid,@RequestParam @ApiParam("schoolId") Integer schoolId){
+    public boolean children_buy(@RequestParam @ApiParam("childId") Integer childid, @RequestParam @ApiParam("schoolId") Integer schoolId) {
         ChildVO child = childService.findById(childid);
-        return (child.getSchoolId().equals(schoolId));
+        Assert.isTrue(schoolId != null, MessageCodes.SCHOOLID_IS_NOT_NULL);
+        return (schoolId.equals(child.getSchoolId()));
     }
-
-
 
 }
 

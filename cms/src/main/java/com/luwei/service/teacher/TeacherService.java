@@ -4,21 +4,29 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
+import com.luwei.common.util.ReadExcelUtil;
 import com.luwei.model.teacher.Teacher;
 import com.luwei.model.teacher.TeacherMapper;
 import com.luwei.model.teacher.pojo.cms.TeacherAddDTO;
 import com.luwei.model.teacher.pojo.cms.TeacherQueryDTO;
 import com.luwei.model.teacher.pojo.cms.TeacherUpdateDTO;
 import com.luwei.model.teacher.pojo.cms.TeacherVO;
+import com.luwei.service.manager.ManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,6 +43,9 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
+
+    @Resource
+    ManagerService managerService;
 
     public TeacherVO findById(Integer teacherId) {
         Teacher teacher = getById(teacherId);
@@ -63,8 +74,6 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         return toTeacherVO(teacher);
     }
 
-
-
     @Transactional
     public void deleteTeachers(Set<Integer> teacherIds) {
         //removeByIds删除0条也是返回true的，所以需要使用baseMapper
@@ -72,7 +81,6 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         Assert.isTrue(count == teacherIds.size(), MessageCodes.TEACHER_DELETE_ERROR);
         log.info("删除数据:ids{}", teacherIds);
     }
-
 
     @Transactional
     public TeacherVO updateTeacher(TeacherUpdateDTO teacherUpdateDTO) {
@@ -87,21 +95,46 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         return findById(teacher.getTeacherId());
     }
 
-
     public IPage<TeacherVO> findTeacherPage(TeacherQueryDTO teacherQueryDTO, Page page) {
-        return baseMapper.getTeacherPage(page,teacherQueryDTO);
+        return baseMapper.getTeacherPage(page, teacherQueryDTO);
     }
 
-
     public List<TeacherVO> teacherList(Integer schoolId) {
-        QueryWrapper<Teacher> queryWrapper = new QueryWrapper();
-        queryWrapper.lambda().eq(Teacher::getSchoolId,schoolId);
+        QueryWrapper<Teacher> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Teacher::getSchoolId, schoolId);
         return baseMapper.selectList(queryWrapper).stream().map(this::toTeacherVO).collect(Collectors.toList());
     }
 
     public List<TeacherVO> findTeacher(Integer schoolId, String teacherName) {
-        QueryWrapper<Teacher> queryWrapper = new QueryWrapper();
-        queryWrapper.lambda().eq(Teacher::getSchoolId,schoolId).like(Teacher::getTeacherName,teacherName);
+        QueryWrapper<Teacher> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Teacher::getSchoolId, schoolId).like(Teacher::getTeacherName, teacherName);
         return baseMapper.selectList(queryWrapper).stream().map(this::toTeacherVO).collect(Collectors.toList());
     }
+
+    //导入excle、
+    public void importExcel(MultipartFile excelFile) throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
+
+        ReadExcelUtil readExcelUtil = new ReadExcelUtil();
+        List<Map<Integer, String>> excelInfo = readExcelUtil.getExcelInfo(excelFile);
+
+        List<Teacher> list = new ArrayList<Teacher>();
+        for (Map<Integer, String> map : excelInfo) {
+            Teacher teacher = new Teacher();
+            teacher.setTeacherName(map.get(0));
+            teacher.setPhone(map.get(1));
+            teacher.setSchool(map.get(2));
+            teacher.setGrade(map.get(3));
+            teacher.setTeacherClass(map.get(4));
+            LocalDateTime time = LocalDateTime.now();
+            teacher.setUpdateTime(time);
+            teacher.setCreateTime(time);
+            list.add(teacher);
+        }
+        boolean flag = saveBatch(list);
+        Assert.isTrue(flag, MessageCodes.TEACHER_IMPORT_FROM_EXCLE_ERROR);
+        //--todo-- 需要从redis获得managerId，再由managerId获得学校id，再从学校id获得学校名称存入数据库，这里的学校名称将来要舍弃
+
+
+    }
+
 }
