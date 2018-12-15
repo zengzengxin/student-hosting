@@ -1,6 +1,6 @@
 package com.luwei.model.school.pojo.web;
 
-import com.luwei.model.school.envm.schoolTypeEnum;
+import com.luwei.model.school.envm.SchoolTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,7 +41,7 @@ public class SchoolQueryDTO implements Serializable {
     private Integer studentNumber;
 
     @ApiModelProperty(value = "学校类型(0/1)")
-    private schoolTypeEnum type;
+    private SchoolTypeEnum schoolType;
 
     @ApiModelProperty(value = "权限(0/1)")
     private Integer permission;

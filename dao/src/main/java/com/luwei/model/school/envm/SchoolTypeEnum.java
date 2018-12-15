@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
  * Date: 2018-12-13
  */
 
-public enum  schoolTypeEnum implements IEnum{
+public enum SchoolTypeEnum implements IEnum {
     /**
      * 0-小学
      */
@@ -18,10 +18,9 @@ public enum  schoolTypeEnum implements IEnum{
      */
     TRINING_INSTITUTION(1);
 
-
     private int value;
 
-    schoolTypeEnum(int value) {
+    SchoolTypeEnum(int value) {
         this.value = value;
     }
 
@@ -29,6 +28,5 @@ public enum  schoolTypeEnum implements IEnum{
     public Integer getValue() {
         return this.value;
     }
-
 
 }

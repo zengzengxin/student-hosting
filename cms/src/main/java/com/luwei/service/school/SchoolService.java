@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
+import com.luwei.common.util.ReadExcelUtil;
 import com.luwei.model.school.School;
 import com.luwei.model.school.SchoolMapper;
+import com.luwei.model.school.envm.SchoolTypeEnum;
 import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
 import com.luwei.model.school.pojo.cms.SchoolVO;
 import com.luwei.model.school.pojo.web.SchoolWebVO;
@@ -102,17 +104,27 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
     public Boolean readExcelFile(MultipartFile file) {
         String result;
         //创建处理EXCEL的类
-        ReadExcel readExcel = new ReadExcel();
+        ReadExcelUtil readExcel = new ReadExcelUtil();
+
         //解析excel，获取上传的事件单
-        List<Map<String, String>> mapList = readExcel.getExcelInfo(file);
+        List<Map<Integer, String>> mapList = readExcel.getExcelInfo(file);
+
         //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作
-        for (Map<String, String> map : mapList) {
+        for (Map<Integer, String> map : mapList) {
+            System.out.println(map);
             School school = new School();
-            school.setName(map.get("name"));
-            school.setIntroduction(map.get("introduction"));
-            school.setCode(map.get("code"));
-            school.setLeaderPhone(map.get("leaderPhone"));
-            school.setStudentNumber(Integer.valueOf(map.get("studentNumber")));
+            school.setName(map.get(0));
+            school.setIntroduction(map.get(1));
+            school.setCode(map.get(2));
+            school.setLeaderPhone(map.get(3));
+            school.setStudentNumber(Integer.valueOf(map.get(4)));
+            Integer schoolType = Integer.valueOf(map.get(5));
+            if (0 == schoolType) {
+                school.setSchoolType(SchoolTypeEnum.PRIMARY_SCHOOL);
+            }
+            if (1 == schoolType) {
+                school.setSchoolType(SchoolTypeEnum.TRINING_INSTITUTION);
+            }
 
             LocalDateTime time = LocalDateTime.now();
             school.setUpdateTime(time);
@@ -122,4 +134,5 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         }
         return !mapList.isEmpty();
     }
+
 }

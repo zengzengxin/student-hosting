@@ -1,6 +1,6 @@
 package com.luwei.model.school.pojo.cms;
 
-import com.luwei.model.school.envm.schoolTypeEnum;
+import com.luwei.model.school.envm.SchoolTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -58,7 +58,7 @@ public class SchoolAddDTO implements Serializable {
     @ApiModelProperty(value = "学校类型(0/1)")
     @NotNull(message = "学校类型(0/1)不能为空")
     @Range(min = 0, max = 20000, message = "学校类型(0/1)范围必须在【{min},{max}】之间")
-    private schoolTypeEnum type;
+    private SchoolTypeEnum schoolType;
 
     @ApiModelProperty(value = "权限(0/1)")
     @NotNull(message = "权限(0/1)不能为空")
