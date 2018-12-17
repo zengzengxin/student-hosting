@@ -23,5 +23,12 @@ public class SchoolController {
     private SchoolService schoolService;
 
 
+    @GetMapping("List")
+    @ApiOperation("返回所有学校")
+    public List<SchoolWebVO> schoolList() {
+        return schoolService.findSchoolPage();
+    }
+
+
 }
 

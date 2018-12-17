@@ -31,7 +31,7 @@
                 and phone = #{teacherQueryDTO.phone}
             </if>
             <if test="teacherQueryDTO.teacherName!=null">
-                and teacher_name like '%${noticePageDTO.title}%'
+                and teacher_name like '%${teacherQueryDTO.teacherName}%'
             </if>
 
         </where>

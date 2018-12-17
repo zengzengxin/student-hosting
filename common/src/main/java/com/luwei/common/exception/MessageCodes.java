@@ -51,6 +51,7 @@ public interface MessageCodes {
     String CHILD_IS_NOT_EXIST = "child.is.not.exist";//孩子不存在
     String CHILD_IS_UPDATE_ERROR = "child.is.update.error"; //孩子更新错误
 
+
     //家长相关
     String PARENT_IS_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
     String PARENT_IS_NOT_EXIST = "parent.is.not.exist";//根据id家长查找失败
@@ -88,5 +89,9 @@ public interface MessageCodes {
     //excel表相关
     String EXCEL_HAS_NO_DATA = "excel.has.no.data";//excel表没有数据
 
-
+    //托管相关
+    String HOSTING_IS_NOT_EXIST = "hosting.is.not.exit";//托管班不存在
+    String HOSTING_SAVE_ERROR = "hosting.is.save.error";//托管班保存失败
+    String HOSTING_DELETE_ERROR = "hosting.is.delete.error";//托管班保存失败
+    String HOSTING_IS_UPDATE_ERROR = "hosting.is.update.error";//托管班保存失败
 }

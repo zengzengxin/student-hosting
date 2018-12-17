@@ -69,4 +69,6 @@ public class CourseUpdateDTO implements Serializable {
     @ApiModelProperty(value = "课程套餐列表")
     private List<CoursePackageUpdateDTO> coursePackageList;
 
+
+
 }
