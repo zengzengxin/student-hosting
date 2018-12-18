@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.luwei.model.hosting.envm.HostingTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class Hosting implements Serializable {
     private String introduction;
 
     @ApiModelProperty(value = "托管类型")
-    private Integer hostingType;
+    private HostingTypeEnum hostingType;
 
     @ApiModelProperty(value = "托管详情")
     private String details;
@@ -59,10 +60,10 @@ public class Hosting implements Serializable {
     private String schoolName;
 
     @ApiModelProperty(value = "上架到公众号")
-    private Integer display;
+    private Boolean display;
 
     @ApiModelProperty(value = "是否设为推荐(默认为0)")
-    private Integer recommend;
+    private Boolean recommend;
 
     @ApiModelProperty(value = "托管开始时间",dataType = "java.lang.Long")
     private LocalDateTime startTime;
