@@ -16,9 +16,9 @@ public class WeiXinPropertiesUtils {
     private static WxProperties wxProperties;
 
     private static void init() {
-        if (miniProperties == null) {
-            miniProperties = ContextLoader.getCurrentWebApplicationContext().getBean(WxMiniProperties.class);
-        }
+        //if (miniProperties == null) {
+        //    miniProperties = ContextLoader.getCurrentWebApplicationContext().getBean(WxMiniProperties.class);
+        //}
         if (wxProperties == null) {
             wxProperties = ContextLoader.getCurrentWebApplicationContext().getBean(WxProperties.class);
         }
