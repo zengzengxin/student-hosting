@@ -1,10 +1,13 @@
 package com.luwei.service.wechat;
 
-import com.luwei.common.util.WeiXinUtils;
+import com.luwei.common.property.WxProperties;
 import com.luwei.model.parent.Parent;
 import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.parent.ParentService;
+import com.riversoft.weixin.common.oauth2.AccessToken;
 import com.riversoft.weixin.common.oauth2.OpenUser;
+import com.riversoft.weixin.open.base.AppSetting;
+import com.riversoft.weixin.open.oauth2.OpenOAuth2s;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,9 @@ public class WeChatService {
     @Resource
     private ShiroTokenService shiroTokenService;
 
+    @Resource
+    private WxProperties wxProperties;
+
     /**
      * 微信公众号授权
      * @param code
@@ -33,7 +39,17 @@ public class WeChatService {
      */
     public String authorize(String code, String state) {
         //调用工具类
-        OpenUser openUser = WeiXinUtils.webSiteLogin(code, state);
+        log.info("============微信公众号(网页)授权开始===========");
+        //WxProperties properties = WeiXinPropertiesUtils.getWxProperties();
+        AppSetting appSetting = new AppSetting(wxProperties.getAppId(), wxProperties.getAppSecret());
+        OpenOAuth2s openOAuth2s = OpenOAuth2s.with(appSetting);
+        AccessToken accessToken = openOAuth2s.getAccessToken(code);
+
+        //获取用户信息
+        OpenUser openUser = openOAuth2s.userInfo(accessToken.getAccessToken(), accessToken.getOpenId());
+        log.info("============微信公众号(网页)授权结束===========");
+
+        //OpenUser openUser = WeiXinUtils.webSiteLogin(code, state);
 
         Parent parent = parentService.findByOpenid(openUser.getOpenId());
         log.info("用户的昵称：{}", openUser.getNickName());

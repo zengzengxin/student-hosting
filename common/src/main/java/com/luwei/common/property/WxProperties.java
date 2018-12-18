@@ -12,5 +12,5 @@ import org.springframework.stereotype.Component;
 public class WxProperties {
     private String appId;
     private String appSecret;
-    private String serverIp;
+    //private String serverIp;
 }
