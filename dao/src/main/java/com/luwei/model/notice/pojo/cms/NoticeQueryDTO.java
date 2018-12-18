@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * @author huanglp
  * Date: 2018-12-06
  */
-@ApiModel(value = "")
+@ApiModel(value = "公告")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)

@@ -146,6 +146,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return packageVO;
     }
 
+
     /**
      * 批量删除Course
      *
@@ -191,6 +192,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     }
 
     private CoursePackageVO updateCoursePackage(CoursePackageUpdateDTO updateDTO) {
+
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(updateDTO, coursePackage);
         coursePackage.setUpdateTime(LocalDateTime.now());
