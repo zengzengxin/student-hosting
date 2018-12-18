@@ -41,10 +41,13 @@ public class OrderVO implements Serializable {
     private String childClass;
 
     @ApiModelProperty(value = "课程ID")
-    private Integer courseId;
+    private Integer serviceId;
 
     @ApiModelProperty(value = "课程名称")
-    private String courseName;
+    private String serviceName;
+
+    @ApiModelProperty(value = "服务(课程)封面")
+    private String serviceCover;
 
     @ApiModelProperty(value = "课程简介")
     private String introduction;
@@ -53,10 +56,10 @@ public class OrderVO implements Serializable {
     private BigDecimal price;
 
     @ApiModelProperty(value = "课程开始时间")
-    private LocalDateTime courseStartTime;
+    private LocalDateTime serviceStartTime;
 
     @ApiModelProperty(value = "课程结束时间")
-    private LocalDateTime courseEndTime;
+    private LocalDateTime serviceEndTime;
 
     @ApiModelProperty(value = "订单类型 0-课程 1-托管 2-餐品")
     private OrderTypeEnum orderType;

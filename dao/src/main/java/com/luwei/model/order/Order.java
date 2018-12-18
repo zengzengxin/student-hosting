@@ -47,6 +47,9 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "子女学号")
     private String childStudentNo;
 
+    @ApiModelProperty(value = "孩子的年级")
+    private String childGrade;
+
     @ApiModelProperty(value = "孩子的班级")
     private String childClass;
 
@@ -58,6 +61,9 @@ public class Order implements Serializable {
 
     @ApiModelProperty(value = "课程名称")
     private String serviceName;
+
+    @ApiModelProperty(value = "服务(课程)封面")
+    private String serviceCover;
 
     @ApiModelProperty(value = "课程简介")
     private String introduction;

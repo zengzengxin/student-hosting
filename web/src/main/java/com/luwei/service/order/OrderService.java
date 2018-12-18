@@ -104,23 +104,25 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         order.setParentId(parent.getParentId())
                 .setParentPhone(parent.getPhone());
 
-        // 封装孩子的 ID, 姓名, 学号, 班级
+        // 封装孩子的 ID, 姓名, 学号, 年级, 班级
         Child child = childService.getById(orderDTO.getChildId());
         Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
         order.setChildId(child.getChildId())
                 .setChildName(child.getName())
                 .setChildStudentNo(child.getStudentNo())
+                .setChildGrade(child.getGrade())
                 .setChildClass(child.getChildClass());
 
         // 支付方式 - 待定
         //order.setPayment(PaymentEnum.WECHAT);
 
-        // 封装课程 ID, 名称, 简介, 学校名称
+        // 封装课程 ID, 名称, 简介, 学校名称, 封面
         Course course = courseService.getById(orderDTO.getServiceId());
         log.info(orderDTO.getServiceId().toString());
         Assert.notNull(course, MessageCodes.COURSE_IS_NOT_EXIST);
         order.setServiceId(course.getCourseId())
                 .setServiceName(course.getCourseName())
+                .setServiceCover(course.getCoverUrl())
                 .setIntroduction(course.getIntroduction())
                 .setSchoolName(course.getSchoolName());
 
@@ -168,8 +170,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      */
     public OrderVO getOrder(Long id) {
         Order order = findById(id);
-        log.info(order.toString());
-        OrderVO orderVO = toOrderVO(order);
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(order, orderVO);
+        //order
         log.info(orderVO.toString());
         return orderVO;
     }
