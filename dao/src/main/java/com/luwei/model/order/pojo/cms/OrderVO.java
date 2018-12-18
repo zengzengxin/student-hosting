@@ -23,7 +23,7 @@ public class OrderVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "订单编号")
-    private Long orderId;
+    private String orderId;
 
     @ApiModelProperty(value = "学校名称")
     private String schoolName;

@@ -15,7 +15,7 @@ public class OrderIdUtils {
      *
      * @return
      */
-    public static Long getOrderIdByTime() {
+    public static String getOrderIdByTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String newDate = sdf.format(new Date());
         StringBuilder result = new StringBuilder();
@@ -23,7 +23,7 @@ public class OrderIdUtils {
         for (int i = 0; i < 3; i++) {
             result.append(random.nextInt(10));
         }
-        return Long.valueOf(newDate + result);
+        return newDate + result;
     }
 
 }

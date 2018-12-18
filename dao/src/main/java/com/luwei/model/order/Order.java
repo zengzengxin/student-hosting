@@ -30,7 +30,7 @@ public class Order implements Serializable {
 
     @ApiModelProperty(value = "订单ID")
     @TableId(value = "order_id", type = IdType.INPUT)
-    private Long orderId;
+    private String orderId;
 
     @ApiModelProperty(value = "下单用户(ID)")
     private Integer parentId;
