@@ -243,7 +243,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @param ids
      */
     @Transactional
-    public void deleteOrders(Set<Long> ids) {
+    public void deleteOrders(Set<String> ids) {
         // 若用removeByIds,因为删除不存在的逻辑上属于成功,所以也返回true
         int count = baseMapper.deleteBatchIds(ids);
         Assert.isTrue(count == ids.size(), MessageCodes.ORDER_DELETE_ERROR);
