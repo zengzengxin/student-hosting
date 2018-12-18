@@ -6,6 +6,7 @@ import com.luwei.model.order.Order;
 import com.luwei.model.order.pojo.cms.OrderQueryDTO;
 import com.luwei.model.order.pojo.cms.OrderVO;
 import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
+import com.luwei.model.order.pojo.web.HostingOrderDTO;
 import com.luwei.model.order.pojo.web.PayForOrderDTO;
 import com.luwei.service.order.OrderService;
 import io.swagger.annotations.Api;
@@ -30,7 +31,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/confirm")
-    @ApiOperation("立即购买(下单)")
+    @ApiOperation("确认下单/立即购买(课程)")
     public OrderVO confirmOrder(@RequestBody @Valid ConfirmOrderDTO orderDTO) {
         return orderService.confirmOrder(orderDTO);
     }
@@ -59,4 +60,10 @@ public class OrderController {
         return orderService.findPage(queryDTO, page);
     }
 
+    //创建托管订单
+    @PostMapping("/hostingConfirm")
+    @ApiOperation("确认下单/立即购买（托管）")
+    public OrderVO confirmHostingOrder(@RequestBody @Valid HostingOrderDTO hostingOrderDTO) {
+        return orderService.hostingOrder(hostingOrderDTO);
+    }
 }

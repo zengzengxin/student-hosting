@@ -2,7 +2,6 @@ package com.luwei.model.hosting.pojo.cms;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.luwei.model.hosting.envm.HostingTypeEnum;
-import com.luwei.model.hostingPackage.pojo.cms.HostingPackageAddDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,6 +11,8 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -78,8 +79,17 @@ public class HostingUpdateDTO implements Serializable {
     @ApiModelProperty(value = "课程图片ID(最多3张)")
     private List<String> pictureUrls;
 
-    @ApiModelProperty(value = "课程套餐列表")
-    private List<HostingPackageAddDTO> hostingPackageList;
+    @ApiModelProperty(value = "托管开始时间",dataType = "java.lang.Long")
+    private LocalDateTime startTime;
+
+    @ApiModelProperty(value = "托管结束时间",dataType = "java.lang.Long")
+    private LocalDateTime endTime;
+
+    @ApiModelProperty(value = "托管价格")
+    private BigDecimal price;
+
+    @ApiModelProperty(value = "最大人数")
+    private Integer maxNumber;
 
     @ApiModelProperty(value = "是否删除")
     @TableLogic

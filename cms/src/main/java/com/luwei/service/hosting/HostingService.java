@@ -13,13 +13,9 @@ import com.luwei.model.hosting.pojo.cms.HostingAddDTO;
 import com.luwei.model.hosting.pojo.cms.HostingQueryDTO;
 import com.luwei.model.hosting.pojo.cms.HostingUpdateDTO;
 import com.luwei.model.hosting.pojo.cms.HostingVO;
-import com.luwei.model.hostingPackage.HostingPackage;
-import com.luwei.model.hostingPackage.pojo.cms.HostingPackageAddDTO;
-import com.luwei.model.hostingPackage.pojo.cms.HostingPackageVO;
 import com.luwei.model.picture.Picture;
 import com.luwei.model.picture.PictureMapper;
 import com.luwei.model.picture.envm.PictureTypeEnum;
-import com.luwei.service.hostingPackage.HostingPackageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -27,7 +23,6 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -44,15 +39,14 @@ import java.util.stream.Collectors;
 @Slf4j
 public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
-    @Resource
-    HostingPackageService hostingPackageService;
+
 
     @Resource
     private PictureMapper pictureMapper;
 
 
 
-    public HostingVO findById(Integer hostingId) {
+    private HostingVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
         //TODO记得修改MessageCodes
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
@@ -62,11 +56,9 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     private HostingVO toHostingVO(Hosting hosting) {
         HostingVO hostingVO = new HostingVO();
         BeanUtils.copyNonNullProperties(hosting, hostingVO);
-        List<HostingPackageVO> hostingPackageList = new ArrayList<HostingPackageVO>();
-        hostingPackageList = hostingPackageService.findByHostingId(hosting.getHostingId());
-        hostingVO.setHostingPackageList(hostingPackageList);
         return hostingVO;
     }
+
 
     //添加数据（向hosting表 picture表 套餐表）
 
@@ -83,11 +75,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         Assert.isTrue(isSuccess, MessageCodes.HOSTING_SAVE_ERROR);
         log.info("保存数据---:{}", hosting);
 
-        //向套餐表添加数据
-        List<HostingPackageAddDTO> temp = hostingAddDTO.getHostingPackageList();
-        for (HostingPackageAddDTO coursePackageAddDTO : temp) {
-            hostingPackageService.saveHostingPackage(coursePackageAddDTO);
-        }
 
         //向图片表添加数据
         // 保存课程图片
@@ -95,17 +82,15 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         for (String url : urls) {
             savePicture(url, hosting.getHostingId());
         }
-
-        List<HostingPackageVO> list = temp.stream().map(this::toHostingVO2).collect(Collectors.toList());
-        return toHostingVO(hosting).setHostingPackageList(list).setPictureUrls(urls);
+        return toHostingVO(hosting).setPictureUrls(urls);
     }
 
 
-    private HostingPackageVO toHostingVO2(HostingPackageAddDTO hostingPackageAddDTO) {
+/*    private HostingPackageVO toHostingVO2(HostingPackageAddDTO hostingPackageAddDTO) {
         HostingPackageVO hostingPackageVO = new HostingPackageVO();
         BeanUtils.copyNonNullProperties(hostingPackageAddDTO, hostingPackageVO);
         return hostingPackageVO;
-    }
+    }*/
 
     //保存图片
     private void savePicture(String url, Integer courseId) {
@@ -146,14 +131,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
 
 
-        //修改套餐
-        List<HostingPackageAddDTO> hostingPackageList =hostingUpdateDTO.getHostingPackageList();
-        for (HostingPackageAddDTO hostingPackageAddDTO: hostingPackageList) {
-            HostingPackage hostingPackage = new HostingPackage();
-            BeanUtils.copyNonNullProperties(hostingPackageAddDTO, hostingPackage);
-            hostingPackageService.updateById(hostingPackage);
-        }
-
         //修改图片
         pictureMapper.deleteByPictureTypeAndForeignKeyId(PictureTypeEnum.HOSTING.getValue(), hosting.getHostingId());
         // 保存课程图片
@@ -164,8 +141,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         }
 
         log.info("修改数据：bean:{}", hostingUpdateDTO);
-        List<HostingPackageVO> list = hostingPackageList.stream().map(this::toHostingVO2).collect(Collectors.toList());
-        return findById(hosting.getHostingId()).setPictureUrls(urls).setHostingPackageList(list);
+        return findById(hosting.getHostingId()).setPictureUrls(urls);
     }
 
 
@@ -186,9 +162,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         // 设置图片
         List<String> urls = pictureMapper.findAllByForeignKeyId(hostingVO.getHostingId());
 
-        // 设置课程套餐列表
-        List<HostingPackageVO> list = hostingPackageService.findByHostingId(hostingVO.getHostingId());
-
-        return hostingVO.setHostingPackageList(list).setPictureUrls(urls);
+        return hostingVO.setPictureUrls(urls);
     }
 }

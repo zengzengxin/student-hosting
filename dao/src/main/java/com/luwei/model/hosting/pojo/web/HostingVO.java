@@ -7,8 +7,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author zzx
@@ -53,17 +56,26 @@ public class HostingVO implements Serializable {
     private String schoolName;
 
     @ApiModelProperty(value = "上架到公众号")
-    private Integer display;
+    private Boolean display;
 
     @ApiModelProperty(value = "是否设为推荐(默认为0)")
-    private Integer recommend;
+    private Boolean recommend;
 
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "修改时间")
-    private String updateTime;
+    @ApiModelProperty(value = "托管开始时间",dataType = "java.lang.Long")
+    private LocalDateTime startTime;
 
-    //@ApiModelProperty(value = "是否删除")
+    @ApiModelProperty(value = "托管结束时间",dataType = "java.lang.Long")
+    private LocalDateTime endTime;
+
+    @ApiModelProperty(value = "托管价格")
+    private BigDecimal price;
+
+    @ApiModelProperty(value = "最大人数")
+    private Integer maxNumber;
+
+    @NotNull
+    @ApiModelProperty(value = "课程图片ID(最多3张)")
+    private List<String> pictureUrls;
 
 }
