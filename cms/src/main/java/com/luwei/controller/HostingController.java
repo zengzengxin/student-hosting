@@ -28,14 +28,6 @@ import java.util.Set;
         @Autowired
     private HostingService hostingService;
 
-
-    @GetMapping
-    @ApiOperation("查询详情")
-    public HostingVO findById(@RequestParam @ApiParam("hostingId") Integer hostingId) {
-        return hostingService.findById(hostingId);
-    }
-
-
     @PostMapping
     @ApiOperation("添加")
     public HostingVO save(@RequestBody @Valid HostingAddDTO hostingAddDTO) {
