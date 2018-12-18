@@ -37,6 +37,9 @@ public class OrderVO implements Serializable {
     @ApiModelProperty(value = "孩子学号")
     private String childStudentNo;
 
+    @ApiModelProperty(value = "孩子的年级")
+    private String childGrade;
+
     @ApiModelProperty(value = "孩子的班级")
     private String childClass;
 

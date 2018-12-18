@@ -258,11 +258,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      */
     public OrderVO getOrder(Long id) {
         Order order = findById(id);
-        OrderVO orderVO = new OrderVO();
-        BeanUtils.copyProperties(order, orderVO);
-        //order
-        log.info(orderVO.toString());
-        return orderVO;
+        return toOrderVO(order);
     }
 
     /**
