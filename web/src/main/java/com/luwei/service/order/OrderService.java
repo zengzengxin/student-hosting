@@ -118,9 +118,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         }*/
 
 
-        //判断课程是否存在
-
         //判断孩子是不是家长的孩子
+
+
 
         //设置关于托管班的信息
         order.setServiceName(hosting.getName());
