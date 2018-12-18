@@ -60,7 +60,7 @@ public class WeChatService {
         Integer userId = parent.getParentId();
         shiroTokenService.logout(userId.toString());
         String token = shiroTokenService.login(userId.toString());
-        log.info("生成token: {}", token);
+        log.info("生成token: {}, userId: {}", token, userId.toString());
         return "redirect:" + state + "?token=" + token;
     }
 
