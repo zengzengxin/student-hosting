@@ -44,7 +44,7 @@ public class OrderController {
 
     @DeleteMapping
     @ApiOperation("取消订单")
-    public void deleteOrders(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
+    public void deleteOrders(@RequestParam @ApiParam("id列表") Set<Long> ids) {
         orderService.deleteOrders(ids);
     }
 
