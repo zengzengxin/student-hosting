@@ -2,6 +2,7 @@ package com.luwei.model.hosting;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -68,6 +69,8 @@ public class Hosting implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private LocalDateTime updateTime;
 
-
+    @ApiModelProperty(value = "是否删除")
+    @TableLogic
+    private Boolean deleted;
 
 }

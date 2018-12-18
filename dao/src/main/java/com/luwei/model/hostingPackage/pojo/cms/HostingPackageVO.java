@@ -28,10 +28,10 @@ public class HostingPackageVO implements Serializable {
     @ApiModelProperty(value = "托管ID")
     private Integer hostingId;
 
-    @ApiModelProperty(value = "托管开始时间")
+    @ApiModelProperty(value = "托管开始时间",dataType = "java.lang.Long")
     private LocalDateTime startTime;
 
-    @ApiModelProperty(value = "托管结束时间")
+    @ApiModelProperty(value = "托管结束时间",dataType = "java.lang.Long")
     private LocalDateTime endTime;
 
     @ApiModelProperty(value = "托管价格")
@@ -41,10 +41,10 @@ public class HostingPackageVO implements Serializable {
     private Integer maxNumber;
 
     @ApiModelProperty(value = "上架状态")
-    private String display;
+    private Boolean display;
 
     @ApiModelProperty(value = "是否过期 0-未过期 1-过期 默认为0")
-    private String overdue;
+    private Boolean overdue;
 
 
 

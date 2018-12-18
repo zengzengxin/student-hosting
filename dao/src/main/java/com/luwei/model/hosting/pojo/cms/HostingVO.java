@@ -10,7 +10,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -56,16 +55,11 @@ public class HostingVO implements Serializable {
     private String schoolName;
 
     @ApiModelProperty(value = "上架到公众号")
-    private Integer display;
+    private Boolean display;
 
     @ApiModelProperty(value = "是否设为推荐(默认为0)")
-    private Integer recommend;
+    private Boolean recommend;
 
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "修改时间")
-    private String updateTime;
 
     @ApiModelProperty(value = "课程套餐列表")
     private List<HostingPackageVO> hostingPackageList;
