@@ -21,7 +21,7 @@ import java.util.Set;
  * Author: huanglp
  * Date: 2018-12-13
  */
-@Api(tags = {"课程订单模块", "托管订单模块"})
+@Api(tags = "服务订单模块")
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {

@@ -95,7 +95,8 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
     public OrderVO confirmOrder(ConfirmOrderDTO orderDTO) {
         Order order = new Order();
 
-        // 判断该家长是否绑定此学生
+        // TODO 判断该家长是否绑定此学生
+        // TODO 判断该套餐是否是该课程的
 
         // 封装下单用户 ID, 手机号
         Parent parent = parentService.getById(UserHelper.getUserId());
@@ -227,6 +228,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
     }
 
     public OrderVO payForOrder(@Valid PayForOrderDTO addDTO) {
+
+        // TODO 立即支付接口 未完成
+
         return null;
     }
 }
