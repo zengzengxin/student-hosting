@@ -1,8 +1,8 @@
 package com.luwei.common.util;
 
+import com.luwei.common.holder.SpringBeanHolder;
 import com.luwei.common.property.WxMiniProperties;
 import com.luwei.common.property.WxProperties;
-import org.springframework.web.context.ContextLoader;
 
 /**
  * Author: huanglp
@@ -17,10 +17,10 @@ public class WeiXinPropertiesUtils {
 
     private static void init() {
         //if (miniProperties == null) {
-        //    miniProperties = ContextLoader.getCurrentWebApplicationContext().getBean(WxMiniProperties.class);
+        //    miniProperties = SpringBeanHolder.getBean(WxMiniProperties.class);
         //}
         if (wxProperties == null) {
-            wxProperties = ContextLoader.getCurrentWebApplicationContext().getBean(WxProperties.class);
+            wxProperties = SpringBeanHolder.getBean(WxProperties.class);
         }
     }
 

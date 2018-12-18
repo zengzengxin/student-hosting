@@ -15,6 +15,7 @@ import java.util.TimeZone;
 @Configuration
 public class CommonConfig {
 
+    @SuppressWarnings("Guava")
     public static Predicate<String> paths() {
         return Predicates.alwaysTrue();
     }

@@ -19,22 +19,10 @@ public class ConfirmOrderDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "下单用户(ID)")
-    private Integer parentId;
-
-    @ApiModelProperty(value = "下单用户联系方式")
-    private String parentPhone;
-
     @ApiModelProperty(value = "孩子id")
     private Integer childId;
 
-    @ApiModelProperty(value = "子女姓名")
-    private String childName;
-
-    @ApiModelProperty(value = "子女学号")
-    private Integer childStudentNo;
-
-    @ApiModelProperty(value = "课程ID")//可拿到课程名称,简介,价格
+    @ApiModelProperty(value = "课程ID")
     private Integer serviceId;
 
     @ApiModelProperty(value = "课程套餐ID")

@@ -39,7 +39,10 @@ public class OrderAddDTO implements Serializable {
     private String childName;
 
     @ApiModelProperty(value = "子女学号")
-    private Integer childStudentNo;
+    private String childStudentNo;
+
+    @ApiModelProperty(value = "孩子的班级")
+    private String childClass;
 
     @ApiModelProperty(value = "支付方式 0-微信支付 1-支付宝支付")
     private PaymentEnum payment;

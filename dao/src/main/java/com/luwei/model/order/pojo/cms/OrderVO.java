@@ -2,7 +2,6 @@ package com.luwei.model.order.pojo.cms;
 
 import com.luwei.model.order.envm.OrderStatusEnum;
 import com.luwei.model.order.envm.OrderTypeEnum;
-import com.luwei.model.order.envm.PaymentEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,26 +22,23 @@ public class OrderVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "订单编号(ID)")
+    @ApiModelProperty(value = "订单编号")
     private Long orderId;
 
-    @ApiModelProperty(value = "下单用户(ID)")
-    private Integer parentId;
+    @ApiModelProperty(value = "学校名称")
+    private String schoolName;
 
-    @ApiModelProperty(value = "下单用户联系方式")
-    private String parentPhone;
-
-    @ApiModelProperty(value = "孩子id")
+    @ApiModelProperty(value = "孩子ID")
     private Integer childId;
 
-    @ApiModelProperty(value = "子女姓名")
+    @ApiModelProperty(value = "孩子姓名")
     private String childName;
 
-    @ApiModelProperty(value = "子女学号")
-    private Integer childStudentNo;
+    @ApiModelProperty(value = "孩子学号")
+    private String childStudentNo;
 
-    @ApiModelProperty(value = "支付方式 0-微信支付 1-支付宝支付")
-    private PaymentEnum payment;
+    @ApiModelProperty(value = "孩子的班级")
+    private String childClass;
 
     @ApiModelProperty(value = "课程ID")
     private Integer courseId;
@@ -61,12 +57,6 @@ public class OrderVO implements Serializable {
 
     @ApiModelProperty(value = "课程结束时间")
     private LocalDateTime courseEndTime;
-
-    @ApiModelProperty(value = "学校名称")
-    private String schoolName;
-
-    @ApiModelProperty(value = "支付时间")
-    private LocalDateTime payTime;
 
     @ApiModelProperty(value = "订单类型 0-课程 1-托管 2-餐品")
     private OrderTypeEnum orderType;

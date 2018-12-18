@@ -66,10 +66,9 @@ public class WeiXinUtils {
      * 微信公众号(网页)授权登录
      *
      * @param code
-     * @param state
      * @return
      */
-    public static OpenUser webSiteLogin(String code, String state) {
+    public static OpenUser webSiteLogin(String code) {
         log.info("============微信公众号(网页)授权开始===========");
         WxProperties properties = WeiXinPropertiesUtils.getWxProperties();
         AppSetting appSetting = new AppSetting(properties.getAppId(), properties.getAppSecret());
