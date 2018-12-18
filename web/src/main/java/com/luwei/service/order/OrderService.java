@@ -113,6 +113,10 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         Child child = childService.getById(hostingOrderDTO.getChildId());
 
         //判断所选时间是否有效
+/*        if (hosting.getStartTime().compareTo(hostingOrderDTO.getStartTime())>0 || hosting.getEndTime().compareTo(hostingOrderDTO.getStartTime())<0){
+            Assert.isTrue(true, MessageCodes.ORDER_TIME_ERROR);
+        }*/
+
 
         //判断课程是否存在
 
@@ -317,5 +321,14 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         // TODO 立即支付接口 未完成
 
         return null;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(LocalDateTime.now().getDayOfWeek());
+        LocalDateTime now = LocalDateTime.now();
+        System.out.println(now.compareTo(now));
+        System.out.println(LocalDateTime.now().minusMonths(1).getDayOfWeek());
+
+
     }
 }

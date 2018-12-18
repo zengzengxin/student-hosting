@@ -1,6 +1,5 @@
 package com.luwei.controller;
 
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.hosting.pojo.cms.HostingAddDTO;
@@ -18,20 +17,20 @@ import javax.validation.Valid;
 import java.util.Set;
 
 /**
-* @author zzx
-* @since 2018-12-17
-*/
-@Api(tags = {""})
+ * @author zzx
+ * @since 2018-12-17
+ */
+@Api(tags = {"托管模块"})
 @RestController
 @RequestMapping("/api/hosting")
-    public class HostingController {
-        @Autowired
+public class HostingController {
+    @Autowired
     private HostingService hostingService;
 
     @PostMapping
     @ApiOperation("添加")
     public HostingVO save(@RequestBody @Valid HostingAddDTO hostingAddDTO) {
-    return hostingService.saveHosting(hostingAddDTO);
+        return hostingService.saveHosting(hostingAddDTO);
     }
 
     @DeleteMapping
@@ -43,13 +42,13 @@ import java.util.Set;
     @PutMapping
     @ApiOperation("修改")
     public HostingVO update(@RequestBody @Valid HostingUpdateDTO hostingUpdateDTO) {
-         return hostingService.updateHosting(hostingUpdateDTO);
+        return hostingService.updateHosting(hostingUpdateDTO);
     }
 
     @GetMapping("page")
     @ApiOperation("分页")
     public IPage<HostingVO> page(@ModelAttribute HostingQueryDTO hostingQueryDTO, Page page) {
-        return hostingService.findHostingPage(hostingQueryDTO,page);
+        return hostingService.findHostingPage(hostingQueryDTO, page);
     }
 }
 

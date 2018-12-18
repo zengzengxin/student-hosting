@@ -81,6 +81,7 @@ public interface MessageCodes {
     String ORDER_IS_NOT_EXIST = "order.is.not.exist";//订单不存在
     String ORDER_SAVE_ERROR = "order.save.error";//订单保存失败
     String ORDER_DELETE_ERROR = "order.delete.error";//订单删除失败
+    String ORDER_TIME_ERROR = "order.time.error";//订单的事件错误
 
 
     //WeChat相关
@@ -94,4 +95,6 @@ public interface MessageCodes {
     String HOSTING_SAVE_ERROR = "hosting.is.save.error";//托管班保存失败
     String HOSTING_DELETE_ERROR = "hosting.is.delete.error";//托管班保存失败
     String HOSTING_IS_UPDATE_ERROR = "hosting.is.update.error";//托管班保存失败
+
+
 }
