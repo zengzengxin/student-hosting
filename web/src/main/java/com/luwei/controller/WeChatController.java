@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
@@ -18,7 +18,6 @@ import javax.annotation.Resource;
  * Date: 2018-12-12
  */
 @Api(tags = "微信模块")
-@RestController
 @RequestMapping("/api/weChat")
 @Slf4j
 public class WeChatController {
@@ -28,6 +27,7 @@ public class WeChatController {
 
     @GetMapping("/verify")
     @ApiOperation("校验token是否可用")
+    @ResponseBody
     public Boolean userAuthorize() {
         try {
             Integer userId = UserHelper.getUserId();
