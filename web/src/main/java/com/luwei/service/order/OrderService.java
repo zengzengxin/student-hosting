@@ -124,6 +124,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
 
         //设置关于托管班的信息
         order.setServiceName(hosting.getName());
+        order.setServiceCover(hosting.getCover());
         order.setIntroduction(hosting.getIntroduction());
         order.setServiceId(hosting.getHostingId());
         order.setSchoolName(hosting.getSchoolName());
@@ -137,6 +138,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         order.setChildId(child.getChildId());
         order.setChildName(child.getName());
         order.setChildStudentNo(child.getStudentNo());
+        order.setChildGrade(child.getGrade());
         order.setChildClass(child.getChildClass());
 
         //开始时间与结束时间
