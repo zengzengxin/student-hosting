@@ -1,4 +1,4 @@
-package com.luwei.model.picture.pojo;
+package com.luwei.model.picture.pojo.cms;
 
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import io.swagger.annotations.ApiModelProperty;

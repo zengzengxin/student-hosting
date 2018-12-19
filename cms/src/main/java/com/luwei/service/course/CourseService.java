@@ -17,9 +17,8 @@ import com.luwei.model.coursepackage.CoursePackageMapper;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageAddDTO;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageUpdateDTO;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageVO;
-import com.luwei.model.picture.Picture;
-import com.luwei.model.picture.PictureMapper;
 import com.luwei.model.picture.envm.PictureTypeEnum;
+import com.luwei.service.picture.PictureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -44,8 +43,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     @Resource
     private CoursePackageMapper coursePackageMapper;
 
+
     @Resource
-    private PictureMapper pictureMapper;
+    private PictureService pictureService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -104,27 +104,14 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         // 保存课程图片
         List<String> urls = addDTO.getPictureUrls();
         for (String url : urls) {
-            savePicture(url, courseId);
+            pictureService.savePicture(url, courseId);
         }
 
         log.info("保存数据: {}", course);
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
-    private void savePicture(String url, Integer courseId) {
-        Picture picture = new Picture();
-        picture.setPictureUrl(url);
-        // 图片类型为课程
-        picture.setPictureType(PictureTypeEnum.COURSE);
-        // 外键ID
-        picture.setForeignKeyId(courseId);
-        LocalDateTime time = LocalDateTime.now();
-        picture.setUpdateTime(time);
-        picture.setCreateTime(time);
 
-        int count = pictureMapper.insert(picture);
-        Assert.isTrue(count > 0, MessageCodes.COURSE_SAVE_ERROR);
-    }
 
     private CoursePackageVO saveCoursePackage(CoursePackageAddDTO addDTO, Integer courseId) {
         CoursePackage coursePackage = new CoursePackage();
@@ -180,12 +167,12 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
                 .map(this::updateCoursePackage).collect(Collectors.toList());
 
         // 修改课程图片--先删除
-        pictureMapper.deleteByPictureTypeAndForeignKeyId(PictureTypeEnum.COURSE.getValue(), course.getCourseId());
+        pictureService.deleteByPictureTypeAndForeignKeyId(PictureTypeEnum.COURSE.getValue(), course.getCourseId());
         // 保存课程图片
         List<String> urls = updateDTO.getPictureUrls();
         Integer courseId = course.getCourseId();
         for (String url : urls) {
-            savePicture(url, courseId);
+            pictureService.savePicture(url, courseId);
         }
         log.info("修改数据: bean {}", updateDTO);
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
@@ -235,7 +222,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     private CourseVO dealWith(CourseVO courseVO) {
         // 设置图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(courseVO.getCourseId());
+        List<String> urls = pictureService.findAllByForeignKeyId(courseVO.getCourseId());
 
         // 设置课程套餐列表
         List<CoursePackageVO> list = coursePackageMapper.findAllByCourseId(courseVO.getCourseId());
