@@ -1,6 +1,6 @@
 package com.luwei.controller;
 
-import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.parent.pojo.web.ParentUpdateDTO;
 import com.luwei.model.parent.pojo.web.ParentVO;
 import com.luwei.module.shiro.service.UserHelper;
@@ -41,7 +41,7 @@ public class ParentController {
 
     @GetMapping("childList")
     @ApiOperation("查找家长的孩子列表")
-    public List<ChildVO> childList() {
+    public List<ChildWebVO> childList() {
         return parentService.findAllParentById(UserHelper.getUserId());
     }
 }

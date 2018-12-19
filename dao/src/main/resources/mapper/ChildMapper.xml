@@ -31,6 +31,10 @@
          select * from tb_child where child_id in (select child_id from tb_parent_child where parent_id = #{id})
      </select>
 
+    <select id="webFindChildsByParentsId" parameterType="integer" resultType="com.luwei.model.child.pojo.web.ChildWebVO">
+        select * from tb_child where child_id in (select child_id from tb_parent_child where parent_id = #{id})
+    </select>
+
     <select id="findPage" parameterType="com.luwei.model.child.pojo.cms.ChildQueryDTO" resultType="com.luwei.model.child.pojo.cms.ChildVO">
         SELECT * from tb_child
         <where>

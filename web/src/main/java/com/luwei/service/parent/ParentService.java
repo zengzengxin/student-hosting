@@ -8,7 +8,7 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.child.ChildMapper;
-import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.parent.Parent;
 import com.luwei.model.parent.ParentMapper;
 import com.luwei.model.parent.pojo.web.ParentAddDTO;
@@ -106,8 +106,9 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
      * @param parentId
      * @return
      */
-    public List<ChildVO> findAllParentById(Integer parentId) {
-        List<ChildVO> childList = childMapper.findChildsByParentsId(parentId);
+    public List<ChildWebVO> findAllParentById(Integer parentId) {
+        List<ChildWebVO> childList = childMapper.webFindChildsByParentsId(parentId);
+        // TODO 记得修改MessageCodes
         Assert.notNull(childList, MessageCodes.CHILD_IS_NOT_EXIST);
         return childList;
     }

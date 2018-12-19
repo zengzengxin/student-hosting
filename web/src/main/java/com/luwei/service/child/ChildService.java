@@ -8,7 +8,7 @@ import com.luwei.model.child.Child;
 import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.web.ChildAddDTO;
 import com.luwei.model.child.pojo.web.ChildUpdateDTO;
-import com.luwei.model.child.pojo.web.ChildVO;
+import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.parentChild.ParentChild;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.parentchild.ParentChildService;
@@ -34,22 +34,22 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     @Autowired
     private ParentChildService parentChildService;
 
-    public ChildVO findById(Integer id) {
+    public ChildWebVO findById(Integer id) {
         Child child = getById(id);
         //TODO记得修改MessageCodes
         org.springframework.util.Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
         return toChildVO(child);
     }
 
-    private ChildVO toChildVO(Child child) {
-        ChildVO childVO = new ChildVO();
+    private ChildWebVO toChildVO(Child child) {
+        ChildWebVO childVO = new ChildWebVO();
         BeanUtils.copyNonNullProperties(child, childVO);
         return childVO;
     }
 
     //finish
     @Transactional
-    public ChildVO saveChild(ChildAddDTO childAddDTO) {
+    public ChildWebVO saveChild(ChildAddDTO childAddDTO) {
         Child child = new Child();
         BeanUtils.copyNonNullProperties(childAddDTO, child);
         LocalDateTime time = LocalDateTime.now();
@@ -70,7 +70,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
     //finish
     @Transactional
-    public ChildVO updateChild(ChildUpdateDTO childUpdateDTO) {
+    public ChildWebVO updateChild(ChildUpdateDTO childUpdateDTO) {
         Child child = new Child();
         BeanUtils.copyNonNullProperties(childUpdateDTO, child);
 
