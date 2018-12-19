@@ -1,6 +1,6 @@
 package com.luwei.controller;
 
-import com.luwei.model.child.pojo.web.ChildVO;
+import com.luwei.model.child.pojo.cms.ChildVO;
 import com.luwei.model.parent.pojo.web.ParentUpdateDTO;
 import com.luwei.model.parent.pojo.web.ParentVO;
 import com.luwei.module.shiro.service.UserHelper;
