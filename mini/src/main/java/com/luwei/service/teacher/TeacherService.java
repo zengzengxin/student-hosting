@@ -9,9 +9,9 @@ import com.luwei.model.teacher.pojo.web.TeacherUpdateDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 /**
