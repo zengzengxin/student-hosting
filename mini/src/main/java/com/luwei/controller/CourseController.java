@@ -6,10 +6,8 @@ import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.course.CourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.ApiParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -29,11 +27,11 @@ public class CourseController {
     @Resource
     private ShiroTokenService shiroTokenService;
 
-    /*@GetMapping
-    @ApiOperation("查询我的课程详情")
+    @GetMapping
+    @ApiOperation("查询详情")
     public MyCourseVO getMyCourse(@RequestParam @ApiParam("coursePackageId") Integer coursePackageId) {
         return courseService.getMyCourse(coursePackageId);
-    }*/
+    }
 
     @GetMapping("/list")
     @ApiOperation("查询我的课程")

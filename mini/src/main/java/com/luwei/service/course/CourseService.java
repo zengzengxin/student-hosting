@@ -1,14 +1,10 @@
 package com.luwei.service.course;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
-import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.course.Course;
 import com.luwei.model.course.CourseMapper;
-import com.luwei.model.course.pojo.cms.CourseQueryDTO;
 import com.luwei.model.course.pojo.mini.MyCourseQuery;
 import com.luwei.model.course.pojo.mini.MyCourseVO;
 import com.luwei.model.course.pojo.web.CourseWebVO;
@@ -23,8 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,48 +76,12 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param id
      * @return
      */
-    /*public MyCourseVO getMyCourse(Integer id) {
+    public MyCourseVO getMyCourse(Integer id) {
         log.info("---------------------------------------------------------");
-        Course course = findById(id);
-        CourseVO courseVO = new CourseVO();
-        BeanUtils.copyProperties(course, courseVO);
-
-        courseVO.setCoursePackageList(list).setPictureUrls(urls);
-        return courseVO;
-    }*/
-
-    /**
-     * 分页获取Course
-     *
-     * @param queryDTO
-     * @param page
-     * @return
-     */
-    @Transactional
-    public IPage<CourseWebVO> findPage(CourseQueryDTO queryDTO, Page<Course> page) {
-        // 封装条件
-        Course course = new Course();
-        QueryWrapper<Course> wrapper = new QueryWrapper<>(course);
-        if (queryDTO.getCourseName() != null && !queryDTO.getCourseName().equals("")) {
-            wrapper.like("course_name", queryDTO.getCourseName());
-        }
-        wrapper.eq("school_id", queryDTO.getSchoolId());
-
-        // 分页查
-        IPage<CourseWebVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toCourseWebVO);
-
-        // 设置最低价格
-        List<CourseWebVO> collect = iPage.getRecords().stream().map(this::dealWith2).collect(Collectors.toList());
-
-        //List<CourseWebVO> list = iPage.getRecords();
-        //List collect = list.stream().map(this::dealWith).collect(Collectors.toList());
-
-        return iPage.setRecords(collect);
-    }
-
-    private CourseWebVO dealWith2(CourseWebVO courseWebVO) {
-        BigDecimal minPrice = coursePackageMapper.findMinPriceByCourseId(courseWebVO.getCourseId());
-        return courseWebVO.setPrice(minPrice);
+        CoursePackage coursePackage = coursePackageService.getById(id);
+        MyCourseVO myCourseVO = new MyCourseVO();
+        BeanUtils.copyProperties(coursePackage, myCourseVO);
+        return myCourseVO;
     }
 
     public List<MyCourseVO> listMyCourse(MyCourseQuery query) {
