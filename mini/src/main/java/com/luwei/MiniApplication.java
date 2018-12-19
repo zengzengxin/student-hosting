@@ -11,10 +11,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  **/
 @EnableSwagger2
 @SpringBootApplication
-public class WebApplication {
+public class MiniApplication {
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(WebApplication.class, args);
+        ApplicationContext context = SpringApplication.run(MiniApplication.class, args);
         // 将applicationContext的引用放到SpringBeanHolder中.
         SpringBeanHolder.setApplicationContext(context);
     }

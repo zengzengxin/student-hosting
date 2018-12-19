@@ -14,6 +14,10 @@
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
         <result column="deleted" property="deleted" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="gender" property="gender" />
+        <result column="nick_name" property="nickName" />
+        <result column="openid" property="openid" />
     </resultMap>
 
     <!-- 通用查询结果列 -->

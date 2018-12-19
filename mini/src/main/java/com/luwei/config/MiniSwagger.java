@@ -20,8 +20,7 @@ import static springfox.documentation.builders.RequestHandlerSelectors.withClass
  * @author luwei
  **/
 @Configuration
-public class WebSwagger {
-
+public class MiniSwagger {
 
     @Value("${swagger.show}")
     private Boolean enable;
@@ -50,7 +49,7 @@ public class WebSwagger {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("学生托管系统-web")
+                .title("学生托管系统-mini")
                 .description("接口")
                 .version("1.0")
                 .build();

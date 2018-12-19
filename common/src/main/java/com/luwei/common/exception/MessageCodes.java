@@ -51,7 +51,6 @@ public interface MessageCodes {
     String CHILD_IS_NOT_EXIST = "child.is.not.exist";//孩子不存在
     String CHILD_IS_UPDATE_ERROR = "child.is.update.error"; //孩子更新错误
 
-
     //家长相关
     String PARENT_IS_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
     String PARENT_IS_NOT_EXIST = "parent.is.not.exist";//根据id家长查找失败
@@ -69,7 +68,7 @@ public interface MessageCodes {
     String TEACHER_DELETE_ERROR = "teacher.delete.error";//老师删除失败
     String TEACHER_IS_UPDATE_ERROR = "teacher.is.update.error";//老师删除失败
     String TEACHER_IMPORT_FROM_EXCLE_ERROR = "teacher.import.from.excle.error";//老师删除失败
-
+    String TEACHER_UPDATE_ERROR = "teacher.update.error";//老师更新失败
 
     //与学校相关
     String SCHOOL_IS_NOT_EXIST = "school.is.not.exist";//学校不存在
@@ -83,7 +82,6 @@ public interface MessageCodes {
     String ORDER_DELETE_ERROR = "order.delete.error";//订单删除失败
     String ORDER_TIME_ERROR = "order.time.error";//订单的事件错误
 
-
     //WeChat相关
     String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;
 
@@ -95,6 +93,5 @@ public interface MessageCodes {
     String HOSTING_SAVE_ERROR = "hosting.is.save.error";//托管班保存失败
     String HOSTING_DELETE_ERROR = "hosting.is.delete.error";//托管班保存失败
     String HOSTING_IS_UPDATE_ERROR = "hosting.is.update.error";//托管班保存失败
-
 
 }

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
+import com.luwei.model.school.envm.SchoolTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,10 +14,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author zzx
- * @since 2018-12-13
+ * Author: huanglp
+ * Date: 2018-12-19
  */
-@ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
@@ -39,11 +38,6 @@ public class Teacher implements Serializable {
     @ApiModelProperty(value = "老师资质执照")
     private String license;
 
-
-    @ApiModelProperty(value = "学校id")
-    private Integer schoolId;
-
-
     @ApiModelProperty(value = "老师所在学校")
     private String school;
 
@@ -53,6 +47,9 @@ public class Teacher implements Serializable {
     @ApiModelProperty(value = "所在班级")
     private String teacherClass;
 
+    @ApiModelProperty(value = "学校的id")
+    private Integer schoolId;
+
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
@@ -61,6 +58,21 @@ public class Teacher implements Serializable {
 
     @ApiModelProperty(value = "是否删除")
     @TableLogic
-    private Integer deleted;
+    private Boolean deleted;
+
+    @ApiModelProperty(value = "教师头像")
+    private String avatarUrl;
+
+    @ApiModelProperty(value = "教师性别,0-男，1-女")
+    private Integer gender;
+
+    @ApiModelProperty(value = "教师昵称")
+    private String nickName;
+
+    @ApiModelProperty(value = "微信用户openid")
+    private String openid;
+
+    @ApiModelProperty(value = "学校类型")
+    private SchoolTypeEnum schoolType;
 
 }

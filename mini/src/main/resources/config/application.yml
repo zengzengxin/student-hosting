@@ -1,6 +1,6 @@
 # server通用配置(web模块 dev/test默认9115 pro为9115)
 server:
-  port: 9115
+  port: 9116
   error:
     whitelabel:
       enabled: false
@@ -47,7 +47,7 @@ luwei:
     shiro:
       prefix: student-hosting-web
       cors-urls: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
-      anon-urls: /api/login/captcha,/api/login,/api/module/qiniu/**,/api/banner/**,/api/course/**,/api/weChat/authorize
+      anon-urls: /api/login/captcha,/api/login,/api/module/qiniu/**,/api/banner/**,/api/weChat/authorize
     wx:
       appId: wx286aefff1a6b3c75
       appSecret: a41ea923e49dac2bf1ecd2144d6e8b9b

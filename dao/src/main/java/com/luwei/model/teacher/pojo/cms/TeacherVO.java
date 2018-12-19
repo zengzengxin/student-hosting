@@ -1,6 +1,5 @@
 package com.luwei.model.teacher.pojo.cms;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +11,6 @@ import java.io.Serializable;
  * @author zzx
  * @since 2018-12-13
  */
-@ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)

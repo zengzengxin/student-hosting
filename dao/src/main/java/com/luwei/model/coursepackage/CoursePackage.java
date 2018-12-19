@@ -60,4 +60,16 @@ public class CoursePackage implements Serializable {
     @TableLogic
     private Boolean deleted;
 
+    @ApiModelProperty(value = "课室")
+    private String classroom;
+
+    @ApiModelProperty(value = "上课时间", dataType = "java.lang.Long")
+    private LocalDateTime classTime;
+
+    @ApiModelProperty(value = "下课时间", dataType = "java.lang.Long")
+    private LocalDateTime quittingTime;
+
+    @ApiModelProperty(value = "课程名称")
+    private String courseName;
+
 }
