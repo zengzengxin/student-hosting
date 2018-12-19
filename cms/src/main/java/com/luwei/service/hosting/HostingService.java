@@ -13,9 +13,8 @@ import com.luwei.model.hosting.pojo.cms.HostingAddDTO;
 import com.luwei.model.hosting.pojo.cms.HostingQueryDTO;
 import com.luwei.model.hosting.pojo.cms.HostingUpdateDTO;
 import com.luwei.model.hosting.pojo.cms.HostingVO;
-import com.luwei.model.picture.Picture;
-import com.luwei.model.picture.PictureMapper;
 import com.luwei.model.picture.envm.PictureTypeEnum;
+import com.luwei.service.picture.PictureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -41,8 +40,9 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
 
 
+
     @Resource
-    private PictureMapper pictureMapper;
+    private PictureService pictureService;
 
 
 
@@ -80,7 +80,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         // 保存课程图片
         List<String> urls = hostingAddDTO.getPictureUrls();
         for (String url : urls) {
-            savePicture(url, hosting.getHostingId());
+            pictureService.savePicture(url, hosting.getHostingId());
         }
         return toHostingVO(hosting).setPictureUrls(urls);
     }
@@ -91,23 +91,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         BeanUtils.copyNonNullProperties(hostingPackageAddDTO, hostingPackageVO);
         return hostingPackageVO;
     }*/
-
-    //保存图片
-    private void savePicture(String url, Integer courseId) {
-        Picture picture = new Picture();
-        picture.setPictureUrl(url);
-        // 图片类型为课程
-        picture.setPictureType(PictureTypeEnum.HOSTING);
-        // 外键ID
-        picture.setForeignKeyId(courseId);
-        LocalDateTime time = LocalDateTime.now();
-        picture.setUpdateTime(time);
-        picture.setCreateTime(time);
-
-        int count = pictureMapper.insert(picture);
-        Assert.isTrue(count > 0, MessageCodes.HOSTING_SAVE_ERROR);
-    }
-
 
 
     @Transactional
@@ -132,12 +115,12 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
 
         //修改图片
-        pictureMapper.deleteByPictureTypeAndForeignKeyId(PictureTypeEnum.HOSTING.getValue(), hosting.getHostingId());
+        pictureService.deleteByPictureTypeAndForeignKeyId(PictureTypeEnum.HOSTING.getValue(), hosting.getHostingId());
         // 保存课程图片
         List<String> urls = hostingUpdateDTO.getPictureUrls();
         Integer courseId = hosting.getHostingId();
         for (String url : urls) {
-            savePicture(url, courseId);
+            pictureService.savePicture(url, courseId);
         }
 
         log.info("修改数据：bean:{}", hostingUpdateDTO);
@@ -160,7 +143,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     private HostingVO dealWith(HostingVO hostingVO) {
         // 设置图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(hostingVO.getHostingId());
+        List<String> urls = pictureService.findAllByForeignKeyId(hostingVO.getHostingId());
 
         return hostingVO.setPictureUrls(urls);
     }

@@ -1,6 +1,6 @@
 package com.luwei.controller;
 
-import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.child.pojo.web.ChildVO;
 import com.luwei.model.parent.pojo.web.ParentUpdateDTO;
 import com.luwei.model.parent.pojo.web.ParentVO;
 import com.luwei.module.shiro.service.UserHelper;
@@ -8,7 +8,6 @@ import com.luwei.service.parent.ParentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -26,7 +25,7 @@ public class ParentController {
     @Resource
     private ParentService parentService;
 
-    @ApiIgnore
+
     @GetMapping
     @ApiOperation("查询家长详情")
     public ParentVO findById() {

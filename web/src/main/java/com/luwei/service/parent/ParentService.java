@@ -8,7 +8,7 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.child.ChildMapper;
-import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.child.pojo.web.ChildVO;
 import com.luwei.model.parent.Parent;
 import com.luwei.model.parent.ParentMapper;
 import com.luwei.model.parent.pojo.web.ParentAddDTO;

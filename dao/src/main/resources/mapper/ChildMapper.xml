@@ -27,7 +27,7 @@
 
 
 
-     <select id="findChildsByParentsId" parameterType="integer" resultType="com.luwei.model.child.pojo.cms.ChildVO">
+     <select id="findChildsByParentsId" parameterType="integer" resultType="com.luwei.model.child.pojo.web.ChildVO">
          select * from tb_child where child_id in (select child_id from tb_parent_child where parent_id = #{id})
      </select>
 
