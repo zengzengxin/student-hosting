@@ -1,0 +1,57 @@
+# server通用配置(web模块 dev/test默认9115 pro为9115)
+server:
+  port: 9115
+  error:
+    whitelabel:
+      enabled: false
+  undertow:
+    accesslog:
+      enabled: true
+  connection-timeout: 10000ms
+  compression:
+    enabled: true
+
+# spring通用配置
+spring:
+  profiles:
+    active: dev
+  jackson:
+    default-property-inclusion: always
+    serialization:
+      write-dates-as-timestamps: true
+  http:
+    encoding:
+      charset: UTF-8
+  servlet:
+    multipart:
+      max-file-size: 8MB
+      max-request-size: 8MB
+
+# Mybatis-plus配置在dao模块
+
+# 模块化的配置
+luwei:
+  qiniu:
+    bucket: edin
+    access-key: 9YThA2ZpNq4UnyRRz_ZigkzgH6davcLehUPogG4C
+    secret-key: RoZdZeQ8_a0efxTRMisMufPZbTQxLrBy3flc4kLf
+    link-address: pji6i8gq1.bkt.clouddn.com
+  module:
+    sms:
+      redus-prefix:
+      access-key-id:
+      access-key-secret:
+      sign-name:
+      template-code:
+      template-code-name:
+    shiro:
+      prefix: student-hosting-web
+      cors-urls: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
+      anon-urls: /api/login/captcha,/api/login,/api/module/qiniu/**,/api/banner/**,/api/course/**,/api/weChat/authorize
+    wx:
+      appId: wx286aefff1a6b3c75
+      appSecret: a41ea923e49dac2bf1ecd2144d6e8b9b
+
+# swagger开关/默认打开
+swagger:
+  show: true

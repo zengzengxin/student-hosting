@@ -32,7 +32,8 @@
         <module>dao</module>
         <module>web</module>
         <module>common</module>
-        <module>mybatis-plus-generator</module>
+        <module>mini</module>
+        <!--<module>mybatis-plus-generator</module>-->
     </modules>
 
     <packaging>pom</packaging>
