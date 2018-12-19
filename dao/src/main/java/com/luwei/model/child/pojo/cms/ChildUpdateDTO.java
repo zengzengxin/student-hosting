@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -27,19 +29,44 @@ public class ChildUpdateDTO implements Serializable {
     @TableId(value = "child_id", type = IdType.AUTO)
     private Integer childId;
 
-    @ApiModelProperty(value = "孩子的生日")
+    @ApiModelProperty(value = "孩子的姓名")
+    @NotBlank
+    private String name;
+
+    @ApiModelProperty(value = "孩子的性别，0为男，1为女，默认为0")
+    @NotNull
+    private Boolean gender;
+
+    @ApiModelProperty(value = "（孩子）学生的学号")
+    @NotBlank
+    private String studentNo;
+
+    @ApiModelProperty(value = "孩子的生日",dataType = "java.lang.Long")
+    @NotNull
     private LocalDateTime birthday;
 
+    @ApiModelProperty(value = "学校的id")
+    @NotNull
+    private Integer schoolId;
+
+    @ApiModelProperty(value = "孩子所在的学校")
+    @NotBlank
+    private String schoolName;
+
     @ApiModelProperty(value = "孩子的年级")
+    @NotBlank
     private String grade;
 
     @ApiModelProperty(value = "孩子的班级")
+    @NotBlank
     private String childClass;
 
     @ApiModelProperty(value = "孩子的班主任的电话")
+    @NotBlank
     private String headteacherPhone;
 
     @ApiModelProperty(value = "孩子的班主任的姓名")
+    @NotBlank
     private String headteacherName;
 
 

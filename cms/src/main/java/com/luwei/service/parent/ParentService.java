@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.child.ChildMapper;
-import com.luwei.model.child.pojo.web.ChildVO;
+import com.luwei.model.child.pojo.cms.ChildVO;
 import com.luwei.model.parent.Parent;
 import com.luwei.model.parent.ParentMapper;
 import com.luwei.model.parent.pojo.cms.ParentCmsQueryDTO;
@@ -31,10 +31,10 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
 
     public IPage<ParentCmsVO> getParentPage(String condition, Page page) {
         //TODO 条件不明确
-        ParentCmsQueryDTO parentWebQueryDTO = new ParentCmsQueryDTO();
-        parentWebQueryDTO.setParentName(condition);
+        ParentCmsQueryDTO parentcmsQueryDTO = new ParentCmsQueryDTO();
+        parentcmsQueryDTO.setParentName(condition);
 
-        IPage<ParentCmsVO> iPage = baseMapper.findParentPage( page,parentWebQueryDTO);
+        IPage<ParentCmsVO> iPage = baseMapper.findParentPage( page,parentcmsQueryDTO);
         iPage.setRecords(iPage.getRecords().stream().map(this::getchilds).collect(Collectors.toList()));
         return iPage;
 

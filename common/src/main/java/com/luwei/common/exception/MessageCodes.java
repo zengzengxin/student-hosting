@@ -50,6 +50,10 @@ public interface MessageCodes {
     //孩子相关
     String CHILD_IS_NOT_EXIST = "child.is.not.exist";//孩子不存在
     String CHILD_IS_UPDATE_ERROR = "child.is.update.error"; //孩子更新错误
+    String CHILD_DELETE_ERROR = "child.is.delete.error"; //孩子删除错误
+    String CHILD_IMPORT_FROM_EXCLE_ERROR = "child.import.is.excle.error"; //孩子excle导入错误
+    String CHILD_IMPORT_FROM_EXCLE_GENDER_ERROR = "child.import.is.excle.gender.error"; //孩子excle导入错误
+
 
     //家长相关
     String PARENT_IS_UPDATE_ERROR = "parent.is.update.error";//家长更新失败

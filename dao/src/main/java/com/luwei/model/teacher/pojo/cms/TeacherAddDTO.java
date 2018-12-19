@@ -24,12 +24,12 @@ public class TeacherAddDTO implements Serializable {
 
     @ApiModelProperty(value = "教师名称")
     @NotBlank(message = "教师名称不能为空")
-    @Size(min = 1, max = 12, message = "教师名称长度必须在【{min}和{max}】之间")
+    @Size(min = 1, max = 20, message = "教师名称长度必须在【{min}和{max}】之间")
     private String teacherName;
 
     @ApiModelProperty(value = "老师电话")
     @NotBlank(message = "老师电话不能为空")
-    @Size(min = 1, max = 12, message = "老师电话长度必须在【{min}和{max}】之间")
+    @Size(min = 1, max = 20, message = "老师电话长度必须在【{min}和{max}】之间")
     private String phone;
 
     @ApiModelProperty(value = "老师资质执照")
@@ -40,7 +40,7 @@ public class TeacherAddDTO implements Serializable {
     @ApiModelProperty(value = "老师所在学校")
     @NotBlank(message = "老师所在学校不能为空")
     @Size(min = 1, max = 20, message = "老师所在学校长度必须在【{min}和{max}】之间")
-    private String school;
+    private String schoolName;
 
     @ApiModelProperty(value = "任课年级")
     @NotBlank(message = "任课年级不能为空")
@@ -54,7 +54,6 @@ public class TeacherAddDTO implements Serializable {
 
 
     @ApiModelProperty(value = "学校id")
-    @NotBlank(message = "学校id不能为空")
     private Integer schoolId;
 
 

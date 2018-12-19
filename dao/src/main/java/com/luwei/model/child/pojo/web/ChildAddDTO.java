@@ -35,7 +35,7 @@ public class ChildAddDTO implements Serializable {
     @NotBlank
     private String studentNo;
 
-    @ApiModelProperty(value = "孩子的生日")
+    @ApiModelProperty(value = "孩子的生日",dataType = "java.lang.Long")
     @NotNull
     private LocalDateTime birthday;
 

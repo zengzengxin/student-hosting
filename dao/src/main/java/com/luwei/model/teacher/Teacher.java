@@ -39,7 +39,7 @@ public class Teacher implements Serializable {
     private String license;
 
     @ApiModelProperty(value = "老师所在学校")
-    private String school;
+    private String schoolName;
 
     @ApiModelProperty(value = "任课年级")
     private String grade;

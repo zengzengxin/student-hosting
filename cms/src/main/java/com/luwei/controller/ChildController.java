@@ -1,15 +1,22 @@
 package com.luwei.controller;
 
-import com.luwei.model.child.pojo.web.ChildAddDTO;
-import com.luwei.model.child.pojo.web.ChildUpdateDTO;
-import com.luwei.model.child.pojo.web.ChildVO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luwei.model.child.Child;
+import com.luwei.model.child.pojo.cms.ChildAddDTO;
+import com.luwei.model.child.pojo.cms.ChildQueryDTO;
+import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
+import com.luwei.model.child.pojo.cms.ChildVO;
 import com.luwei.service.child.ChildService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 /**
  * @author ffq
@@ -37,7 +44,24 @@ public class ChildController {
         return childService.updateChild(childUpdateDTO);
     }
 
+    @DeleteMapping
+    @ApiOperation("删除")
+    public void deleteChilds(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
+        childService.deleteChilds(ids);
+    }
 
 
+    @GetMapping("/page")
+    @ApiOperation("分页获取")
+    public IPage<ChildVO> page(Page<Child> page,@ModelAttribute @Valid ChildQueryDTO childQueryDTO ) {
+        return childService.findPage(page,childQueryDTO);
+    }
+
+
+    @PostMapping("excleAddStudent")
+    @ApiOperation("通过excle导入老师")
+    public void findTeacher(MultipartFile file) throws Exception {
+        childService.importExcel(file);
+    }
 }
 
