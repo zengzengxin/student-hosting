@@ -48,10 +48,10 @@ import java.util.*;
 public class WeChatUtils {
     private static final Logger logger = LoggerFactory.getLogger(WeChatUtils.class);
 
-    @Value("${wechat.appId}")
+    @Value("${luwei.model.wx.appId}")
     private String appId;
 
-    @Value("${wechat.appSecret}")
+    @Value("${luwei.model.wx.appSecret}")
     private String appSecret;
 
     @Value("${wechat.mchKey}")

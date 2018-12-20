@@ -57,6 +57,9 @@ public class WeChatController {
                 (String) authorizeMap.get("openid"));
         log.info("------userInfo: {}-----------", userInfoMap.toString());
         String openId = (String) userInfoMap.get("openid");
+        if (openId == null || "".equals(openId)) {
+            throw new ValidationException("授权失败");
+        }
         String headImgURL = (String) userInfoMap.get("headimgurl");
         String nickName = (String) userInfoMap.get("nickname");
         Integer gender = (Integer) userInfoMap.get("sex");
