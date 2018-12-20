@@ -16,9 +16,9 @@ public class WeiXinPropertiesUtils {
     private static WxProperties wxProperties;
 
     private static void init() {
-        //if (miniProperties == null) {
-        //    miniProperties = SpringBeanHolder.getBean(WxMiniProperties.class);
-        //}
+        if (miniProperties == null) {
+           miniProperties = SpringBeanHolder.getBean(WxMiniProperties.class);
+        }
         if (wxProperties == null) {
             wxProperties = SpringBeanHolder.getBean(WxProperties.class);
         }

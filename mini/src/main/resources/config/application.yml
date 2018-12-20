@@ -51,6 +51,9 @@ luwei:
     wx:
       appId: wx286aefff1a6b3c75
       appSecret: a41ea923e49dac2bf1ecd2144d6e8b9b
+    wx-mini:
+      app-id: wx27d74f401e89aba2
+      app-secret: 399777acfa76abc1a757a70f65aeacfe
 
 # swagger开关/默认打开
 swagger:

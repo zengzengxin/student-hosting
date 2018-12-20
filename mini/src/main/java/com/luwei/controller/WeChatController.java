@@ -1,6 +1,8 @@
 package com.luwei.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.luwei.common.exception.ValidationException;
+import com.luwei.common.util.WeiXinUtils;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.wechat.WeChatService;
 import io.swagger.annotations.Api;
@@ -49,11 +51,17 @@ public class WeChatController {
      */
     @GetMapping("/login")
     @ApiOperation("小程序授权接口")
-    public String userAuthorize(@RequestParam String encryptedData, @RequestParam String iv, @RequestParam String code) {
+    public String userAuthorize(@RequestParam String encryptedData, @RequestParam String iv, @RequestParam String code)  {
 
         // TODO 小程序授权
-
-        return null;
+        JSONObject login = WeiXinUtils.login(code);
+        String sessionKey = (String) login.get("session_key");
+        System.out.println(sessionKey);
+        return sessionKey;
+        // JSONObject jsonObject = WeiXinUtils.decryptWxData(encryptedData,sessionKey,iv);
+        // System.out.println(jsonObject.toJSONString());
+        //
+        // return null;
     }
 
 }
