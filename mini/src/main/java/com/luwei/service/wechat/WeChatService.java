@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 
 /**
  * Author: huanglp
@@ -43,6 +44,8 @@ public class WeChatService {
         miniUser.setAvatarUrl(jsonObject.get("avatarUrl").toString());
         miniUser.setGender((Integer) jsonObject.get("gender"));
         miniUser.setNickName(jsonObject.get("nickName").toString());
+        LocalDateTime time = LocalDateTime.now();
+        miniUser.setUpdateTime(time).setCreateTime(time).setDeleted(false);
         boolean flag = miniUserService.save(miniUser);
         Assert.isTrue(flag, MessageCodes.MINIUSER_SAVE_ERROR);
 
