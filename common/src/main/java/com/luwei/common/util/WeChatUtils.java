@@ -48,10 +48,10 @@ import java.util.*;
 public class WeChatUtils {
     private static final Logger logger = LoggerFactory.getLogger(WeChatUtils.class);
 
-    @Value("${luwei.model.wx.appId}")
+    @Value("${luwei.module.wx.appId}")
     private String appId;
 
-    @Value("${luwei.model.wx.appSecret}")
+    @Value("${luwei.module.wx.appSecret}")
     private String appSecret;
 
     @Value("${wechat.mchKey}")
@@ -76,13 +76,16 @@ public class WeChatUtils {
      * 利用code 和 state 获取 access_token 和 open_id
      */
     public Map<String, Object> authorize(String code) {
+        logger.info(appId);
+        logger.info(appSecret);
         Map<String, Object> params = new HashMap<>();
         params.put("appid", appId);
         params.put("secret", appSecret);
         params.put("code", code);
         params.put("grant_type", "authorization_code");
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token";
-        return getWechatReturn(params, url);
+        //return getWechatReturn(params, url);
+        return null;
     }
 
     /**
