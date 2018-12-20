@@ -42,7 +42,7 @@ public class TeacherController {
     }
 
 
-    @GetMapping
+    @GetMapping("/checkout")
     @ApiOperation("判断微信用户是否绑定手机号,返回true或false")
     public boolean wechatUserBingding() {
         Integer userId = UserHelper.getUserId();
@@ -55,9 +55,9 @@ public class TeacherController {
     }
 
 
-    @GetMapping
+    @GetMapping("/phone")
     @ApiOperation("绑定手机号")
-    public Teacher bingTeacher(String phone ){
+    public Teacher bingTeacher(@RequestParam @ApiParam("phone") String phone ){
         Integer userId = UserHelper.getUserId();
         return teacherService.bindingTeacher(phone,userId);
     }

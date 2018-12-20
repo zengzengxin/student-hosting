@@ -85,8 +85,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
     * 绑定手机号 ,更新miniuser
     * */
     public Teacher bindingTeacher(String phone ,Integer id){
-        // Teacher teacher = baseMapper.getTeacherByphone(phone);
-        Teacher teacher = new Teacher();
+         Teacher teacher = baseMapper.getTeacherByphone(phone);
         Assert.isTrue(teacher.getBinding(), MessageCodes.TEACHER_HASBINDING);
        //绑定老师
         MiniUser miniUser = miniUserService.getById(id);

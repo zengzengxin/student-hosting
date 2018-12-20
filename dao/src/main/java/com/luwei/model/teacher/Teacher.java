@@ -61,7 +61,6 @@ public class Teacher implements Serializable {
     private Boolean deleted;
 
     @ApiModelProperty(value = "是否被绑定")
-    // @TableLogic
     private Boolean binding;
 
     @ApiModelProperty(value = "学校类型")

@@ -28,8 +28,24 @@
 
 
 
-    <!--<select id="getTeacherByphone" resultType="com.luwei.model.teacher.Teacher">
+    <select id="getTeacherByphone" resultType="com.luwei.model.teacher.Teacher">
            select * from tb_teacher where phone = #{phone}
-    </select>-->
+    </select>
+
+
+    <select id="getTeacherPage" resultType="com.luwei.model.teacher.pojo.cms.TeacherVO" parameterType="com.luwei.model.teacher.pojo.cms.TeacherQueryDTO">
+        select *
+        From tb_teacher
+        <where>
+            deleted=0
+            <if test="teacherQueryDTO.phone!=null">
+                and phone = #{teacherQueryDTO.phone}
+            </if>
+            <if test="teacherQueryDTO.teacherName!=null">
+                and teacher_name like '%${teacherQueryDTO.teacherName}%'
+            </if>
+
+        </where>
+    </select>
 
 </mapper>

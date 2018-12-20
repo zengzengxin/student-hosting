@@ -1,6 +1,11 @@
 package com.luwei.model.teacher;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luwei.model.teacher.pojo.cms.TeacherQueryDTO;
+import com.luwei.model.teacher.pojo.cms.TeacherVO;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,5 +18,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface TeacherMapper extends BaseMapper<Teacher> {
 
 
-    // Teacher getTeacherByphone(@Param("phone") String phone);
+    IPage<TeacherVO> getTeacherPage(@Param("page") Page pag, @Param("teacherQueryDTO") TeacherQueryDTO teacherQueryDTO);
+
+     Teacher getTeacherByphone(@Param("phone") String phone);
 }
