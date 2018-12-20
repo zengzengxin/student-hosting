@@ -84,8 +84,7 @@ public class WeChatUtils {
         params.put("code", code);
         params.put("grant_type", "authorization_code");
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token";
-        //return getWechatReturn(params, url);
-        return null;
+        return getWechatReturn(params, url);
     }
 
     /**
