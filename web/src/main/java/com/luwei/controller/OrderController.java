@@ -3,10 +3,10 @@ package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.order.Order;
-import com.luwei.model.order.pojo.cms.OrderQueryDTO;
 import com.luwei.model.order.pojo.cms.OrderVO;
 import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
 import com.luwei.model.order.pojo.web.HostingOrderDTO;
+import com.luwei.model.order.pojo.web.MyOrderQueryDTO;
 import com.luwei.model.order.pojo.web.PayForOrderDTO;
 import com.luwei.service.order.OrderService;
 import io.swagger.annotations.Api;
@@ -56,7 +56,7 @@ public class OrderController {
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<OrderVO> page(@ModelAttribute OrderQueryDTO queryDTO, Page<Order> page) {
+    public IPage<OrderVO> page(@ModelAttribute MyOrderQueryDTO queryDTO, Page<Order> page) {
         return orderService.findPage(queryDTO, page);
     }
 

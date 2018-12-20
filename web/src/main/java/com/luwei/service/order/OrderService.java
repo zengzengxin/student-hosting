@@ -15,10 +15,10 @@ import com.luwei.model.order.Order;
 import com.luwei.model.order.OrderMapper;
 import com.luwei.model.order.envm.OrderStatusEnum;
 import com.luwei.model.order.envm.OrderTypeEnum;
-import com.luwei.model.order.pojo.cms.OrderQueryDTO;
 import com.luwei.model.order.pojo.cms.OrderVO;
 import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
 import com.luwei.model.order.pojo.web.HostingOrderDTO;
+import com.luwei.model.order.pojo.web.MyOrderQueryDTO;
 import com.luwei.model.order.pojo.web.PayForOrderDTO;
 import com.luwei.model.parent.Parent;
 import com.luwei.module.shiro.service.UserHelper;
@@ -269,14 +269,11 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @return
      */
     @Transactional
-    public IPage<OrderVO> findPage(OrderQueryDTO queryDTO, Page<Order> page) {
+    public IPage<OrderVO> findPage(MyOrderQueryDTO queryDTO, Page<Order> page) {
 
         // 先分页查询
         Order order = new Order();
         QueryWrapper<Order> wrapper = new QueryWrapper<>(order);
-        if (queryDTO.getServiceName() != null && !queryDTO.getServiceName().equals("")) {
-            wrapper.like("service_name", queryDTO.getServiceName());
-        }
         if (queryDTO.getOrderStatus() != null) {
             wrapper.eq("order_status", queryDTO.getOrderStatus().getValue());
         }
