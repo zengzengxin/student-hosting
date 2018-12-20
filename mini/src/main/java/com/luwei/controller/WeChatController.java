@@ -54,6 +54,7 @@ public class WeChatController {
         // TODO 小程序授权
         String sessionKey = (String) WeiXinUtils.login(code).get("session_key");
         JSONObject jsonObject = WeiXinUtils.decryptWxData(encryptedData, sessionKey, iv);
+
         System.out.println(jsonObject.toJSONString());
         /* {    "country":"Greenland",
                 "watermark":{"appid":"wx27d74f401e89aba2","timestamp":1545281467},

@@ -60,17 +60,6 @@ public class Teacher implements Serializable {
     @TableLogic
     private Boolean deleted;
 
-    @ApiModelProperty(value = "教师头像")
-    private String avatarUrl;
-
-    @ApiModelProperty(value = "教师性别,0-男，1-女")
-    private Integer gender;
-
-    @ApiModelProperty(value = "教师昵称")
-    private String nickName;
-
-    @ApiModelProperty(value = "微信用户openid")
-    private String openid;
 
     @ApiModelProperty(value = "学校类型")
     private SchoolTypeEnum schoolType;
