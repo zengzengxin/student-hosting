@@ -93,6 +93,15 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
                 .ge("end_time", query.getStartTime())
                 .lt("end_time", query.getEndTime());
 
+        /*
+         SELECT * FROM tb_course_package WHERE course_package_id NOT IN
+         (SELECT * FROM tb_course_package
+         WHERE (start_time >= '2018-12-05 15:57:10'
+         OR end_time <= '2018-12-01 15:57:10')
+         AND teacher_id = 1)
+         AND teacher_id = 1
+         */
+
         List<CoursePackage> list = coursePackageService.list(wrapper);
         System.out.println(list);
         return list.stream().map(this::toMyCourseVO).collect(Collectors.toList());

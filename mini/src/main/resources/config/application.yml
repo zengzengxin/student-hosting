@@ -1,6 +1,6 @@
 # server通用配置(web模块 dev/test默认9115 pro为9115)
 server:
-  port: 9116
+  port: 9117
   error:
     whitelabel:
       enabled: false
