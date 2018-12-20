@@ -1,5 +1,7 @@
 package com.luwei.model.order.pojo.cms;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.luwei.common.config.ToTimeStampSerializer;
 import com.luwei.model.order.envm.OrderStatusEnum;
 import com.luwei.model.order.envm.OrderTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
@@ -69,5 +71,16 @@ public class OrderVO implements Serializable {
 
     @ApiModelProperty(value = "订单状态 0-待付款 1-已付款 2-已完成 3-过期失效")
     private OrderStatusEnum orderStatus;
+
+    // todo 补充字段
+    @ApiModelProperty(value = "下单用户联系方式")
+    private String parentPhone;
+
+    @ApiModelProperty(value = "下单用户名称")
+    private String parentName;
+
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
+    @ApiModelProperty(value = "下单时间")
+    private LocalDateTime createTime;
 
 }

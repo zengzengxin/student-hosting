@@ -1,5 +1,6 @@
 package com.luwei.service.order;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -107,11 +108,12 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @return
      */
     public IPage<OrderVO> findPage(OrderQueryDTO queryDTO, Page<Order> page) {
-        Order order = new Order();
-        QueryWrapper<Order> wrapper = new QueryWrapper<>(order);
+        LambdaQueryWrapper<Order> wrapper = new QueryWrapper<Order>().lambda();
+
         if (queryDTO.getServiceName() != null && !queryDTO.getServiceName().equals("")) {
-            wrapper.like("service_name", queryDTO.getServiceName());
+            wrapper.like(Order::getServiceName, queryDTO.getServiceName());
         }
+        wrapper.eq(Order::getOrderType, queryDTO.getOrderType());
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toOrderVO);
     }
 

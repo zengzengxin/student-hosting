@@ -3,7 +3,6 @@ package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.order.Order;
-import com.luwei.model.order.pojo.cms.OrderAddDTO;
 import com.luwei.model.order.pojo.cms.OrderQueryDTO;
 import com.luwei.model.order.pojo.cms.OrderVO;
 import com.luwei.service.order.OrderService;
@@ -13,7 +12,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.Set;
 
 /**
@@ -28,11 +26,11 @@ public class OrderController {
     @Resource
     private OrderService orderService;
 
-    @PostMapping
+    /*@PostMapping
     @ApiOperation("新增")
     public OrderVO saveOrder(@RequestBody @Valid OrderAddDTO addDTO) {
         return orderService.saveOrder(addDTO);
-    }
+    }*/
 
     @DeleteMapping
     @ApiOperation("删除")

@@ -35,6 +35,9 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "下单用户(ID)")
     private Integer parentId;
 
+    @ApiModelProperty(value = "下单用户的名称")
+    private String parentName;
+
     @ApiModelProperty(value = "下单用户联系方式")
     private String parentPhone;
 
