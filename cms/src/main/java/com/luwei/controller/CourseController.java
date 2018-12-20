@@ -59,4 +59,10 @@ public class CourseController {
         return courseService.findPage(queryDTO, page);
     }
 
+    @PutMapping("/recommend")
+    @ApiOperation("设为推荐")
+    public CourseVO recommend(@RequestBody @Valid CourseUpdateDTO updateDTO) {
+        return courseService.updateCourse(updateDTO);
+    }
+
 }
