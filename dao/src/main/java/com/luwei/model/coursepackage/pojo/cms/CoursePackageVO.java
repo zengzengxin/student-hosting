@@ -1,5 +1,7 @@
 package com.luwei.model.coursepackage.pojo.cms;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.luwei.common.config.ToTimeStampSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,5 +42,17 @@ public class CoursePackageVO implements Serializable {
 
     @ApiModelProperty(value = "是否过期")
     private Boolean overdue;
+
+    @ApiModelProperty(value = "课室")
+    private String classroom;
+
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
+    @ApiModelProperty(value = "上课时间", dataType = "java.lang.Long")
+    private LocalDateTime classTime;
+
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
+    @ApiModelProperty(value = "下课时间", dataType = "java.lang.Long")
+    private LocalDateTime quittingTime;
+
 
 }
