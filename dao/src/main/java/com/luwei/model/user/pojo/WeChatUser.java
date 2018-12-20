@@ -1,12 +1,14 @@
 package com.luwei.model.user.pojo;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * @author jdq
  * @date 2017/12/15 16:36
  */
 @Data
+@Accessors(chain = true)
 public class WeChatUser {
 
     /**

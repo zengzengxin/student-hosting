@@ -9,7 +9,6 @@ import com.luwei.model.course.pojo.mini.MyCourseQuery;
 import com.luwei.model.course.pojo.mini.MyCourseVO;
 import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.model.coursepackage.CoursePackage;
-import com.luwei.model.coursepackage.CoursePackageMapper;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageVO;
 import com.luwei.model.picture.PictureMapper;
 import com.luwei.service.coursepackage.CoursePackageService;
@@ -20,7 +19,6 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Author: huanglp
@@ -29,9 +27,6 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class CourseService extends ServiceImpl<CourseMapper, Course> {
-
-    @Resource
-    private CoursePackageMapper coursePackageMapper;
 
     @Resource
     private PictureMapper pictureMapper;
@@ -102,9 +97,10 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
          AND teacher_id = 1
          */
 
-        List<CoursePackage> list = coursePackageService.list(wrapper);
-        System.out.println(list);
-        return list.stream().map(this::toMyCourseVO).collect(Collectors.toList());
+        //List<CoursePackage> list = coursePackageService.list(wrapper);
+        //System.out.println(list);
+        //return list.stream().map(this::toMyCourseVO).collect(Collectors.toList());
+        return coursePackageService.findAllByTime(query.getStartTime(), query.getEndTime());
     }
 
     /**

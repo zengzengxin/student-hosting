@@ -13,6 +13,11 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
+        <result column="teacher_id" property="deleted"/>
+        <result column="classroom" property="classroom"/>
+        <result column="class_time" property="classTime"/>
+        <result column="quitting_time" property="quittingTime"/>
+        <result column="course_name" property="courseName"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -26,6 +31,16 @@
 
     <select id="findMinPriceByCourseId" resultType="java.math.BigDecimal">
         select MIN(price) from tb_course_package where course_id = #{courseId}
+    </select>
+
+    <select id="findAllByTime" resultType="com.luwei.model.course.pojo.mini.MyCourseVO">
+        SELECT course_package_id,course_name,classroom,class_time,quitting_time,max_number
+        FROM tb_course_package WHERE course_package_id NOT IN
+        (SELECT course_package_id FROM tb_course_package
+        WHERE (start_time &gt;= #{endTime}
+        OR end_time &lt;= #{startTime} )
+        AND teacher_id = #{teacherId} )
+        AND teacher_id = #{teacherId}
     </select>
 
 </mapper>

@@ -3,6 +3,7 @@ package com.luwei.service.wechat;
 import com.luwei.common.property.WxProperties;
 import com.luwei.common.util.WeiXinUtils;
 import com.luwei.model.parent.Parent;
+import com.luwei.model.user.pojo.WeChatUser;
 import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.parent.ParentService;
 import com.riversoft.weixin.common.oauth2.OpenUser;
@@ -64,4 +65,28 @@ public class WeChatService {
         return "redirect:" + state + "?token=" + token;
     }
 
+    public String getWeChatUserInfo(WeChatUser weChatUser, String state) {
+        Parent parent = parentService.findByOpenid(weChatUser.getOpenId());
+        log.info("用户的昵称：{}", weChatUser.getNickname());
+        //判断是否为新用户
+        if (parent == null) {
+            parent = new Parent();
+
+            parent.setOpenid(weChatUser.getOpenId());
+            parent.setNickName(weChatUser.getNickname());
+            parent.setGender(weChatUser.getGender());
+            parent.setAvatarUrl(weChatUser.getAvatar());
+
+            LocalDateTime time = LocalDateTime.now();
+            parent.setUpdateTime(time);
+            parent.setCreateTime(time);
+            parentService.save(parent);
+            log.info("保存数据---:{}", parent);
+        }
+        Integer userId = parent.getParentId();
+        shiroTokenService.logout(userId.toString());
+        String token = shiroTokenService.login(userId.toString());
+        log.info("生成token: {}, userId: {}", token, userId.toString());
+        return "redirect:" + state + "?token=" + token;
+    }
 }

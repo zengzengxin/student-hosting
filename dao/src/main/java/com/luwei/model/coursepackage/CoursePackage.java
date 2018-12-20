@@ -60,6 +60,9 @@ public class CoursePackage implements Serializable {
     @TableLogic
     private Boolean deleted;
 
+    @ApiModelProperty(value = "教师ID")
+    private Integer teacherId;
+
     @ApiModelProperty(value = "课室")
     private String classroom;
 

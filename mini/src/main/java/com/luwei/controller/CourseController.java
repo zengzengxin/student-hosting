@@ -2,7 +2,6 @@ package com.luwei.controller;
 
 import com.luwei.model.course.pojo.mini.MyCourseQuery;
 import com.luwei.model.course.pojo.mini.MyCourseVO;
-import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.course.CourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,9 +22,6 @@ public class CourseController {
 
     @Resource
     private CourseService courseService;
-
-    @Resource
-    private ShiroTokenService shiroTokenService;
 
     @GetMapping
     @ApiOperation("查询详情")

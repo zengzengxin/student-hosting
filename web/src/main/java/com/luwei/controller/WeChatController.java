@@ -1,6 +1,8 @@
 package com.luwei.controller;
 
 import com.luwei.common.exception.ValidationException;
+import com.luwei.common.util.WeChatUtils;
+import com.luwei.model.user.pojo.WeChatUser;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.wechat.WeChatService;
 import io.swagger.annotations.Api;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * Author: huanglp
@@ -26,6 +29,9 @@ public class WeChatController {
 
     @Resource
     private WeChatService weChatService;
+
+    @Resource
+    private WeChatUtils weChatUtils;
 
     @GetMapping("/verify")
     @ApiOperation("校验token是否可用")
@@ -45,10 +51,27 @@ public class WeChatController {
         log.info("---------code：{}-----------", code);
         log.info("---------state：{}-----------", state);
 
-        //log.info("前端url:{}", state);
-        String url = weChatService.authorize(code, state);
+        Map<String, Object> authorizeMap = weChatUtils.authorize(code);
+        log.info("------authorizeMap: {}-------", authorizeMap.toString());
+        Map<String, Object> userInfoMap = weChatUtils.getUserInfo((String) authorizeMap.get("access_token"),
+                (String) authorizeMap.get("openid"));
+        log.info("------userInfo: {}-----------", userInfoMap.toString());
+        String openId = (String) userInfoMap.get("openid");
+        String headImgURL = (String) userInfoMap.get("headimgurl");
+        String nickName = (String) userInfoMap.get("nickname");
+        Integer gender = (Integer) userInfoMap.get("sex");
+        //WeChatUser weChatUser = new WeChatUser(openId, nickName, gender, headImgURL);
+        WeChatUser weChatUser = new WeChatUser();
+        weChatUser.setOpenId(openId).setNickname(nickName).setGender(gender).setAvatar(headImgURL);
+        String url = weChatService.getWeChatUserInfo(weChatUser, state);
         log.info("最终url:{}", url);
         return url;
+
+
+        //log.info("前端url:{}", state);
+        //String url = weChatService.authorize(code, state);
+        //log.info("最终url:{}", url);
+        //return url;
     }
 
 }

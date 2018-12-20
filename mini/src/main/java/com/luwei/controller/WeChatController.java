@@ -49,7 +49,7 @@ public class WeChatController {
      */
     @GetMapping("/login")
     @ApiOperation("小程序授权接口")
-    public String userAuthorize(@RequestParam String encryptedData, @RequestParam String iv, @RequestParam String code) {
+    public String miniAuthorize(@RequestParam String encryptedData, @RequestParam String iv, @RequestParam String code) {
 
         // TODO 小程序授权
         String sessionKey = (String) WeiXinUtils.login(code).get("session_key");
@@ -66,6 +66,7 @@ public class WeChatController {
                 "language":"zh_CN"
             }
         */
+        String token = weChatService.miniAuthorize();
         return null;
     }
 
