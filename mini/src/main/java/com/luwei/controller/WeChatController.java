@@ -3,7 +3,9 @@ package com.luwei.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.WeiXinUtils;
+import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.miniuser.MiniUserService;
 import com.luwei.service.wechat.WeChatService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +29,14 @@ public class WeChatController {
 
     @Resource
     private WeChatService weChatService;
+
+
+    @Resource
+    private MiniUserService miniUserService;
+
+
+    @Resource
+    private ShiroTokenService shiroTokenService;
 
     @GetMapping("/verify")
     @ApiOperation("校验token是否可用")
@@ -55,20 +65,7 @@ public class WeChatController {
         String sessionKey = (String) WeiXinUtils.login(code).get("session_key");
         JSONObject jsonObject = WeiXinUtils.decryptWxData(encryptedData, sessionKey, iv);
 
-        System.out.println(jsonObject.toJSONString());
-        /* {    "country":"Greenland",
-                "watermark":{"appid":"wx27d74f401e89aba2","timestamp":1545281467},
-                "gender":1,
-                "province":"",
-                "city":"",
-                "avatarUrl":"https://wx.qlogo.cn/mmopen/vi_32/uib1PuTjleLvfSrusd95Yo3IpqFfScTNrGoPtFM6BLkOx7aibY5ibRHzAhQZOZZGsSUbEAovia3NW0RwWibKekdXBzw/132",
-                "openId":"oqpV75bKF5jsrSP27Z-CzV_nySRI",
-                "nickName":"小P",
-                "language":"zh_CN"
-            }
-        */
-        String token = weChatService.miniAuthorize();
-        return null;
+       return weChatService.addMinuuser(jsonObject);
     }
 
 }

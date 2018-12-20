@@ -18,6 +18,7 @@
         <result column="gender" property="gender" />
         <result column="nick_name" property="nickName" />
         <result column="openid" property="openid" />
+        <result column="binding" property="binding" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -26,19 +27,9 @@
     </sql>
 
 
-    <select id="getTeacherPage" resultType="com.luwei.model.teacher.pojo.cms.TeacherVO" parameterType="com.luwei.model.teacher.pojo.cms.TeacherQueryDTO">
-        select *
-        From tb_teacher
-        <where>
-            deleted=0
-            <if test="teacherQueryDTO.phone!=null">
-                and phone = #{teacherQueryDTO.phone}
-            </if>
-            <if test="teacherQueryDTO.teacherName!=null">
-                and teacher_name like '%${teacherQueryDTO.teacherName}%'
-            </if>
 
-        </where>
-    </select>
+    <!--<select id="getTeacherByphone" resultType="com.luwei.model.teacher.Teacher">
+           select * from tb_teacher where phone = #{phone}
+    </select>-->
 
 </mapper>

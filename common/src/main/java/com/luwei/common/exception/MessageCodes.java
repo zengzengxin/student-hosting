@@ -73,6 +73,8 @@ public interface MessageCodes {
     String TEACHER_IS_UPDATE_ERROR = "teacher.is.update.error";//老师删除失败
     String TEACHER_IMPORT_FROM_EXCLE_ERROR = "teacher.import.from.excle.error";//老师删除失败
     String TEACHER_UPDATE_ERROR = "teacher.update.error";//老师更新失败
+    String TEACHER_HASBINDING = "teacher.has.binding";//老师已经被绑定
+    String TEACHER_BINGDING_ERROR = "teacher.binding.error";//老师绑定失败
 
     //与学校相关
     String SCHOOL_IS_NOT_EXIST = "school.is.not.exist";//学校不存在
@@ -88,6 +90,8 @@ public interface MessageCodes {
 
     //WeChat相关
     String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;
+    String MINIUSER_SAVE_ERROR = "miniuser.save.fail";//微信用户保存失败;
+
 
     //excel表相关
     String EXCEL_HAS_NO_DATA = "excel.has.no.data";//excel表没有数据
@@ -97,5 +101,6 @@ public interface MessageCodes {
     String HOSTING_SAVE_ERROR = "hosting.is.save.error";//托管班保存失败
     String HOSTING_DELETE_ERROR = "hosting.is.delete.error";//托管班保存失败
     String HOSTING_IS_UPDATE_ERROR = "hosting.is.update.error";//托管班保存失败
+
 
 }

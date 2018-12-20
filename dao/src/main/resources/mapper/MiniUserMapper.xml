@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luwei.model.miniuser.MiniUserMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.luwei.model.miniuser.MiniUser">
+                    <id column="mini_user_id" property="miniUserId"/>
+                    <result column="open_id" property="openId"/>
+                    <result column="avatar_url" property="avatarUrl"/>
+                    <result column="nickName" property="nickName"/>
+                    <result column="gender" property="gender"/>
+                    <result column="teacher_id" property="teacherId"/>
+                    <result column="create_time" property="createTime" />
+                    <result column="update_time" property="updateTime" />
+                   <result column="deleted" property="deleted" />
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+        mini_user_id, open_id, avatar_url, nickName, gender
+    </sql>
+
+
+<!--    <select id="pageCms" resultType="miniuserCmsVO">
+        SELECT * FROM tb_mini_user
+        <where>
+            AND
+            <if test="queryDTO.miniuserId != null ">
+                        mini_user_id=#{queryDTO.miniuserId}
+            </if>
+            &#45;&#45; name_test LIKE '${queryDTO.nameTest}%'
+            AND deleted=0
+        </where>
+    </select>-->
+    
+
+
+</mapper>
