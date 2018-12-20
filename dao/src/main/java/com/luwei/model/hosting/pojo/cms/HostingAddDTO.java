@@ -32,7 +32,7 @@ public class HostingAddDTO implements Serializable {
 
     @ApiModelProperty(value = "托管封面")
     @NotBlank(message = "托管封面不能为空")
-    private String cover;
+    private String coverUrl;
 
     @ApiModelProperty(value = "托管简介")
     @NotBlank(message = "托管简介不能为空")

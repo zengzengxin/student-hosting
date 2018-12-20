@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.luwei.model.hosting.Hosting">
         <id column="hosting_id" property="hostingId" />
         <result column="name" property="name" />
-        <result column="cover" property="cover" />
+        <result column="cover_url" property="coverUrl" />
         <result column="introduction" property="introduction" />
         <result column="hosting_type" property="hostingType" />
         <result column="details" property="details" />

@@ -1,6 +1,5 @@
 package com.luwei.controller;
 
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.hosting.pojo.web.HostingQueryDTO;
@@ -13,16 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
-* @author zzx
-* @since 2018-12-17
-*/
+ * @author zzx
+ * @since 2018-12-17
+ */
 @Api(tags = {"托管模块"})
 @RestController
 @RequestMapping("/api/hosting")
-    public class HostingController {
-        @Autowired
+public class HostingController {
+    @Autowired
     private HostingService hostingService;
-
 
     @GetMapping
     @ApiOperation("查询详情")
@@ -30,15 +28,11 @@ import org.springframework.web.bind.annotation.*;
         return hostingService.findById(hostingId);
     }
 
-
-
     @GetMapping("page")
     @ApiOperation("分页")
     public IPage<HostingVO> page(@ModelAttribute HostingQueryDTO hostingQueryDTO, Page page) {
-        return hostingService.findHostingPage(hostingQueryDTO,page);
+        return hostingService.findHostingPage(hostingQueryDTO, page);
     }
-
-
 
 }
 

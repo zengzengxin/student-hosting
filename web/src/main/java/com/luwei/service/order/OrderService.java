@@ -124,7 +124,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
 
         //设置关于托管班的信息
         order.setServiceName(hosting.getName());
-        order.setServiceCover(hosting.getCover());
+        order.setServiceCover(hosting.getCoverUrl());
         order.setIntroduction(hosting.getIntroduction());
         order.setServiceId(hosting.getHostingId());
         order.setSchoolName(hosting.getSchoolName());

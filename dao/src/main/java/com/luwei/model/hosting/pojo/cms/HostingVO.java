@@ -32,7 +32,7 @@ public class HostingVO implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "托管封面")
-    private String cover;
+    private String coverUrl;
 
     @ApiModelProperty(value = "托管简介")
     private String introduction;
