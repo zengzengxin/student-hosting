@@ -27,6 +27,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
 
     @Resource
     private MiniUserService miniUserService;
+
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
      *
@@ -80,18 +81,29 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         return toTeacherVO(findById(id));
     }
 
-
     /*
-    * 绑定手机号 ,更新miniuser
-    * */
-    public Teacher bindingTeacher(String phone ,Integer id){
-         Teacher teacher = baseMapper.getTeacherByphone(phone);
-        Assert.isTrue(teacher.getBinding(), MessageCodes.TEACHER_HASBINDING);
-       //绑定老师
+     * 绑定手机号 ,更新miniuser
+     * */
+    public Teacher bindingTeacher(String phone, Integer id) {
+        Teacher teacher = baseMapper.getTeacherByphone(phone);
+        log.info(teacher.toString());
+        Assert.isTrue(!teacher.getBinding(), MessageCodes.TEACHER_HASBINDING);
+        //绑定老师
         MiniUser miniUser = miniUserService.getById(id);
         miniUser.setTeacherId(teacher.getTeacherId());
+        LocalDateTime time = LocalDateTime.now();
+        miniUser.setUpdateTime(time).setCreateTime(time).setDeleted(false);
+
         Assert.isTrue(miniUserService.updateById(miniUser), MessageCodes.TEACHER_BINGDING_ERROR);
+
+        //将老师的binding字段设置为1
+        Teacher teacher1 = new Teacher();
+        teacher1.setTeacherId(teacher.getTeacherId());
+        teacher1.setBinding(true);
+        boolean flag = updateById(teacher1);
+        Assert.isTrue(flag, MessageCodes.TEACHER_UPDATE_ERROR);
         log.info("----微信用户绑定老师----");
+        teacher.setBinding(flag);
         return teacher;
 
     }
