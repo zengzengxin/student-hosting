@@ -27,11 +27,13 @@ public class RecommendController {
     @Resource
     private RecommendService recommendService;
 
-    /*@PostMapping
+    /*
+    @PostMapping
     @ApiOperation("新增")
     public RecommendVO saveRecommend(@RequestBody @Valid RecommendAddDTO addDTO) {
         return recommendService.saveRecommend(addDTO);
-    }*/
+    }
+    */
 
     @DeleteMapping
     @ApiOperation("删除")
@@ -39,7 +41,7 @@ public class RecommendController {
         recommendService.deleteRecommends(ids);
     }
 
-    /*@PutMapping
+ /*   @PutMapping
     @ApiOperation("修改")
     public RecommendVO updateRecommend(@RequestBody @Valid RecommendUpdateDTO updateDTO) {
         return recommendService.updateRecommend(updateDTO);
