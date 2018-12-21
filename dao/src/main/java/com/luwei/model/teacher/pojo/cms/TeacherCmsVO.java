@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class TeacherVO implements Serializable {
+public class TeacherCmsVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,8 +39,6 @@ public class TeacherVO implements Serializable {
     @ApiModelProperty(value = "所在班级")
     private String teacherClass;
 
-    @ApiModelProperty(value = "学校id")
-    private Integer schoolId;
 
 
 

@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
@@ -59,9 +58,6 @@ public class TeacherUpdateDTO implements Serializable {
     @Size(min = 1, max = 12, message = "所在班级长度必须在【{min}和{max}】之间")
     private String teacherClass;
 
-    @ApiModelProperty(value = "学校id")
-    @NotNull
-    private Integer schoolId;
 
 
 

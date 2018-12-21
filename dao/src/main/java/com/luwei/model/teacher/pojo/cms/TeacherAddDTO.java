@@ -53,8 +53,6 @@ public class TeacherAddDTO implements Serializable {
     private String teacherClass;
 
 
-    @ApiModelProperty(value = "学校id")
-    private Integer schoolId;
 
 
 }

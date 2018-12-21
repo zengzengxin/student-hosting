@@ -2,6 +2,7 @@ package com.luwei.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luwei.model.parent.pojo.cms.ParentQueryDTO;
 import com.luwei.model.parent.pojo.cms.ParentCmsVO;
 import com.luwei.service.parent.ParentService;
 import io.swagger.annotations.Api;
@@ -25,9 +26,10 @@ public class ParentController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public IPage<ParentCmsVO> page(@RequestParam(required = false) @ApiParam("查询条件暂时为name")  String condition, Page page) {
-        return parentService.getParentPage(condition, page);
+    public IPage<ParentCmsVO> page(@ModelAttribute ParentQueryDTO parentQueryDTO , Page page) {
+        return parentService.getParentPage(parentQueryDTO, page);
     }
+    //--todo--改为了按名字和联系方式来查询
 
     @DeleteMapping
     @ApiOperation("删除")

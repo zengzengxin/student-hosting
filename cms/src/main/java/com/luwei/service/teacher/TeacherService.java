@@ -13,15 +13,14 @@ import com.luwei.model.teacher.TeacherMapper;
 import com.luwei.model.teacher.pojo.cms.TeacherAddDTO;
 import com.luwei.model.teacher.pojo.cms.TeacherQueryDTO;
 import com.luwei.model.teacher.pojo.cms.TeacherUpdateDTO;
-import com.luwei.model.teacher.pojo.cms.TeacherVO;
-import com.luwei.service.manager.ManagerService;
+import com.luwei.model.teacher.pojo.cms.TeacherCmsVO;
+import com.luwei.module.shiro.service.UserHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,35 +43,34 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
 
-    @Resource
-    ManagerService managerService;
-
-    public TeacherVO findById(Integer teacherId) {
+    public TeacherCmsVO findById(Integer teacherId) {
         Teacher teacher = getById(teacherId);
         //TODO记得修改MessageCodes
         Assert.notNull(teacher, MessageCodes.TEACHER_IS_NOT_EXIST);
         return toTeacherVO(teacher);
     }
 
-    private TeacherVO toTeacherVO(Teacher teacher) {
-        TeacherVO teacherVO = new TeacherVO();
+    private TeacherCmsVO toTeacherVO(Teacher teacher) {
+        TeacherCmsVO teacherVO = new TeacherCmsVO();
         BeanUtils.copyNonNullProperties(teacher, teacherVO);
         return teacherVO;
     }
 
     @Transactional
-    public TeacherVO saveTeacher(TeacherAddDTO teacherAddDTO) {
+    public TeacherCmsVO saveTeacher(TeacherAddDTO teacherAddDTO) {
         Teacher teacher = new Teacher();
         BeanUtils.copyNonNullProperties(teacherAddDTO, teacher);
         LocalDateTime time = LocalDateTime.now();
         teacher.setUpdateTime(time);
         teacher.setCreateTime(time);
+        teacher.setSchoolId(UserHelper.getUserId());
         //设置一些具体逻辑，是否需要加上deleted字段等等
         boolean isSuccess = save(teacher);
         Assert.isTrue(isSuccess, MessageCodes.TEACHER_SAVE_ERROR);
         log.info("保存数据---:{}", teacher);
         return toTeacherVO(teacher);
     }
+
 
     @Transactional
     public void deleteTeachers(Set<Integer> teacherIds) {
@@ -83,7 +81,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
     }
 
     @Transactional
-    public TeacherVO updateTeacher(TeacherUpdateDTO teacherUpdateDTO) {
+    public TeacherCmsVO updateTeacher(TeacherUpdateDTO teacherUpdateDTO) {
         Teacher teacher = new Teacher();
         BeanUtils.copyNonNullProperties(teacherUpdateDTO, teacher);
 
@@ -95,19 +93,25 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         return findById(teacher.getTeacherId());
     }
 
-    public IPage<TeacherVO> findTeacherPage(TeacherQueryDTO teacherQueryDTO, Page page) {
+    public IPage<TeacherCmsVO> findTeacherPage(TeacherQueryDTO teacherQueryDTO, Page page) {
         return baseMapper.getTeacherPage(page, teacherQueryDTO);
     }
 
-    public List<TeacherVO> teacherList(Integer schoolId) {
+    public List<TeacherCmsVO> teacherList(Integer schoolId) {
         QueryWrapper<Teacher> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(Teacher::getSchoolId, schoolId);
+        if(schoolId != null){
+            queryWrapper.lambda().eq(Teacher::getSchoolId, schoolId);
+        }
         return baseMapper.selectList(queryWrapper).stream().map(this::toTeacherVO).collect(Collectors.toList());
     }
 
-    public List<TeacherVO> findTeacher(Integer schoolId, String teacherName) {
+    public List<TeacherCmsVO> findTeacher(Integer schoolId, String teacherName) {
         QueryWrapper<Teacher> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().eq(Teacher::getSchoolId, schoolId).like(Teacher::getTeacherName, teacherName);
+        if(schoolId != null){
+            queryWrapper.lambda().eq(Teacher::getSchoolId, schoolId);
+        }else if(teacherName != null){
+            queryWrapper.lambda().like(Teacher::getTeacherName, teacherName);
+        }
         return baseMapper.selectList(queryWrapper).stream().map(this::toTeacherVO).collect(Collectors.toList());
     }
 
@@ -133,7 +137,6 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         boolean flag = saveBatch(list);
         Assert.isTrue(flag, MessageCodes.TEACHER_IMPORT_FROM_EXCLE_ERROR);
         //--todo-- 需要从redis获得managerId，再由managerId获得学校id，再从学校id获得学校名称存入数据库，这里的学校名称将来要舍弃
-
 
     }
 

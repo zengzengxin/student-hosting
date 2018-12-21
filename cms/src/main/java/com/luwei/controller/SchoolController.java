@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.common.exception.ValidationException;
 import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
 import com.luwei.model.school.pojo.cms.SchoolVO;
-import com.luwei.model.school.pojo.web.SchoolWebVO;
 import com.luwei.service.school.SchoolService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,11 +36,6 @@ public class SchoolController {
         return schoolService.findById(schoolId);
     }
 
-    /*@PostMapping
-    @ApiOperation("添加")
-    public SchoolVO save(@RequestBody @Valid SchoolAddDTO schoolAddDTO) {
-    return schoolService.saveSchool(schoolAddDTO);
-    }*/
 
     @DeleteMapping
     @ApiOperation("删除")
@@ -49,11 +43,6 @@ public class SchoolController {
         schoolService.deleteSchools(schoolIds);
     }
 
-    /*@PutMapping
-    @ApiOperation("修改")
-    public SchoolVO update(@RequestBody @Valid SchoolUpdateDTO schoolUpdateDTO) {
-         return schoolService.updateSchool(schoolUpdateDTO);
-    }*/
 
     @GetMapping("page")
     @ApiOperation("分页")
@@ -63,7 +52,7 @@ public class SchoolController {
 
     @GetMapping("List")
     @ApiOperation("返回所有学校")
-    public List<SchoolWebVO> schoolList() {
+    public List<SchoolVO> schoolList() {
         return schoolService.findSchoolPage();
     }
 

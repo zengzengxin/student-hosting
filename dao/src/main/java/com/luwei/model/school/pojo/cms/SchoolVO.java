@@ -33,6 +33,9 @@ public class SchoolVO implements Serializable {
     @ApiModelProperty(value = "学校编码")
     private String code;
 
+    @ApiModelProperty(value = "学校负责人电话")
+    private String leaderName;
+
     @ApiModelProperty(value = "负责人电话")
     private String leaderPhone;
 

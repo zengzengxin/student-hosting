@@ -1,5 +1,6 @@
 package com.luwei.service.notice;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -8,8 +9,7 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.model.notice.Notice;
 import com.luwei.model.notice.NoticeMapper;
-import com.luwei.model.notice.pojo.cms.NoticeQueryDTO;
-import com.luwei.model.notice.pojo.cms.NoticeVO;
+import com.luwei.model.notice.pojo.web.NoticeWebVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +26,13 @@ import org.springframework.stereotype.Service;
 public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
 
-    private NoticeVO toNoticeVO(Notice notice) {
-        NoticeVO noticeVO = new NoticeVO();
+    private NoticeWebVO toNoticeVO(Notice notice) {
+        NoticeWebVO noticeVO = new NoticeWebVO();
         BeanUtils.copyNonNullProperties(notice,noticeVO);
         return  noticeVO;
     }
 
-   public  NoticeVO findById(Integer id) {
+   public NoticeWebVO findById(Integer id) {
         // 若此id已被逻辑删除,也会返回null
         Notice notice = getById(id);
         Assert.notNull(notice, MessageCodes.NOTICE_IS_NOT_EXIST);
@@ -42,8 +42,9 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
 
 
-    public IPage<NoticeVO> getNoticePage( Page<Notice> page,NoticeQueryDTO noticePageDTO) {
-        return baseMapper.getNoticePage(page,noticePageDTO);
+    public IPage<NoticeWebVO> getNoticePage(Page<Notice> page) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        return baseMapper.selectPage(page, queryWrapper);
         //TODO---这个方法没有测
        /* Notice notice = new Notice();
         BeanUtils.copyNonNullProperties(noticePageDTO, notice);

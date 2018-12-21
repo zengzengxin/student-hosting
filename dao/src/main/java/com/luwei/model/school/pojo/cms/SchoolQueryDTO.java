@@ -18,15 +18,11 @@ public class SchoolQueryDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "学校id")
-    private Integer schoolId;
 
     @ApiModelProperty(value = "学校名称")
     private String name;
 
 
-    @ApiModelProperty(value = "负责人电话")
-    private String leaderPhone;
 
 
 

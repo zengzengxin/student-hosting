@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class NoticeQueryDTO {
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
-    private Integer display;
+    private Boolean display;
 
     @ApiModelProperty(value = "公告标题")
     private String title;

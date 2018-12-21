@@ -5,7 +5,7 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.miniuser.MiniUser;
 import com.luwei.model.teacher.Teacher;
 import com.luwei.model.teacher.TeacherMapper;
-import com.luwei.model.teacher.pojo.cms.TeacherVO;
+import com.luwei.model.teacher.pojo.cms.TeacherCmsVO;
 import com.luwei.model.teacher.pojo.web.TeacherUpdateDTO;
 import com.luwei.service.miniuser.MiniUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -48,8 +48,8 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
      * @param teacher
      * @return
      */
-    private TeacherVO toTeacherVO(Teacher teacher) {
-        TeacherVO teacherVO = new TeacherVO();
+    private TeacherCmsVO toTeacherVO(Teacher teacher) {
+        TeacherCmsVO teacherVO = new TeacherCmsVO();
         BeanUtils.copyProperties(teacher, teacherVO);
         return teacherVO;
     }
@@ -61,7 +61,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
      * @return
      */
     @Transactional
-    public TeacherVO updateTeacher(TeacherUpdateDTO updateDTO) {
+    public TeacherCmsVO updateTeacher(TeacherUpdateDTO updateDTO) {
         Teacher teacher = new Teacher();
         BeanUtils.copyProperties(updateDTO, teacher);
         teacher.setUpdateTime(LocalDateTime.now());
@@ -77,7 +77,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
      * @param id
      * @return
      */
-    public TeacherVO getTeacher(Integer id) {
+    public TeacherCmsVO getTeacher(Integer id) {
         return toTeacherVO(findById(id));
     }
 

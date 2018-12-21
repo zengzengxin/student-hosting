@@ -24,7 +24,7 @@ public class NoticeUpdateDTO {
     private Integer noticeId;
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
-    private Integer display;
+    private Boolean display;
 
     @ApiModelProperty(value = "通告的内容")
     private String content;

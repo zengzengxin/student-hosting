@@ -12,7 +12,6 @@ import com.luwei.model.school.SchoolMapper;
 import com.luwei.model.school.envm.SchoolTypeEnum;
 import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
 import com.luwei.model.school.pojo.cms.SchoolVO;
-import com.luwei.model.school.pojo.web.SchoolWebVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,20 +49,6 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         return schoolVO;
     }
 
-    /*@Transactional
-    public SchoolVO saveSchool(SchoolAddDTO schoolAddDTO) {
-        School school = new School();
-        BeanUtils.copyNonNullProperties(schoolAddDTO, school);
-        LocalDateTime time = LocalDateTime.now();
-        school.setUpdateTime(time);
-        school.setCreateTime(time);
-        //设置一些具体逻辑，是否需要加上deleted字段等等
-        boolean isSuccess = save(school);
-        Assert.isTrue(isSuccess, MessageCodes.DATA_SAVE_ERROR);
-        log.info("保存数据---:{}", school);
-        return toSchoolVO(school);
-    }*/
-
     @Transactional
     public void deleteSchools(Set<Integer> schoolIds) {
         //removeByIds删除0条也是返回true的，所以需要使用baseMapper
@@ -89,17 +74,13 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         return baseMapper.getSchoolPage(page, schoolQueryDTO);
     }
 
-    public List<SchoolWebVO> findSchoolPage() {
-        return list(new QueryWrapper<>()).stream().map(this::toSchoolWebVO).collect(Collectors.toList());
+    public List<SchoolVO> findSchoolPage() {
+        return list(new QueryWrapper<>()).stream().map(this::toSchoolVO).collect(Collectors.toList());
         // QueryWrapper queryWrapper = new QueryWrapper();
         // return baseMapper.selectPage(page,queryWrapper);
     }
 
-    private SchoolWebVO toSchoolWebVO(School school) {
-        SchoolWebVO schoolWebVO = new SchoolWebVO();
-        BeanUtils.copyNonNullProperties(school, schoolWebVO);
-        return schoolWebVO;
-    }
+
 
     public Boolean readExcelFile(MultipartFile file) {
         String result;
@@ -117,13 +98,15 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
             school.setName(map.get(0));
             school.setIntroduction(map.get(1));
             school.setCode(map.get(2));
-            school.setLeaderPhone(map.get(3));
-            school.setStudentNumber(Integer.valueOf(map.get(4)));
-            Integer schoolType = Integer.valueOf(map.get(5));
-            if (0 == schoolType) {
+            school.setLeaderName(map.get(3));
+            school.setLeaderPhone(map.get(4));
+            school.setLicense(map.get(5));
+            school.setStudentNumber(Integer.valueOf(map.get(6)));
+            String schoolType = map.get(7);
+            if ("学校".equals(schoolType)) {
                 school.setSchoolType(SchoolTypeEnum.PRIMARY_SCHOOL);
             }
-            if (1 == schoolType) {
+            if ("机构".equals(schoolType)) {
                 school.setSchoolType(SchoolTypeEnum.TRINING_INSTITUTION);
             }
 

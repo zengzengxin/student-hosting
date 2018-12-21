@@ -33,7 +33,7 @@
     </select>
 
 
-    <select id="getTeacherPage" resultType="com.luwei.model.teacher.pojo.cms.TeacherVO" parameterType="com.luwei.model.teacher.pojo.cms.TeacherQueryDTO">
+    <select id="getTeacherPage" resultType="com.luwei.model.teacher.pojo.cms.TeacherCmsVO" parameterType="com.luwei.model.teacher.pojo.cms.TeacherQueryDTO">
         select *
         From tb_teacher
         <where>

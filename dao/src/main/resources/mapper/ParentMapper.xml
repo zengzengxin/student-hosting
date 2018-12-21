@@ -24,20 +24,15 @@
     </sql>
 
     <select id="findParentPage" resultType="com.luwei.model.parent.pojo.cms.ParentCmsVO"
-            parameterType="com.luwei.model.parent.pojo.cms.ParentCmsQueryDTO">
+            parameterType="com.luwei.model.parent.pojo.cms.ParentQueryDTO">
         SELECT * FROM tb_parent
         <where>
-            <if test="parentWebQueryDTO.parentId!=null">
-                and parent_id = #{parentWebQueryDTO.parentId}
+            deleted = 0
+            <if test="parentQueryDTO.parentName!=null">
+                and parent_name = #{parentQueryDTO.parentName}
             </if>
-            <if test="parentWebQueryDTO.parentName!=null">
-                and parent_name = #{parentWebQueryDTO.parentName}
-            </if>
-            <if test="parentWebQueryDTO.phone!=null">
-                and phone = #{parentWebQueryDTO.phone}
-            </if>
-            <if test="parentWebQueryDTO.nickName!=null">
-                and nick_name = #{parentWebQueryDTO.nickName}
+            <if test="parentQueryDTO.phone!=null">
+                and phone = #{parentQueryDTO.phone}
             </if>
         </where>
     </select>

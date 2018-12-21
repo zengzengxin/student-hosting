@@ -1,20 +1,14 @@
 package com.luwei.service.parent;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
-import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.parent.Parent;
 import com.luwei.model.parent.ParentMapper;
-import com.luwei.model.parent.pojo.web.ParentAddDTO;
-import com.luwei.model.parent.pojo.web.ParentQueryDTO;
 import com.luwei.model.parent.pojo.web.ParentUpdateDTO;
-import com.luwei.model.parent.pojo.web.ParentVO;
+import com.luwei.model.parent.pojo.web.ParentwebVO;
 import com.luwei.module.shiro.service.UserHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,43 +37,23 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     @Resource
     private ParentMapper parentMapper;
 
-    public ParentVO findParentById(Integer id) {
+    public ParentwebVO findParentById(Integer id) {
         Parent parent = getById(id);
         //TODO记得修改MessageCodes
         Assert.notNull(parent, MessageCodes.PARENT_IS_NOT_EXIST);
         return toParentVO(parent);
     }
 
-    private ParentVO toParentVO(Parent parent) {
-        ParentVO parentVO = new ParentVO();
+    private ParentwebVO toParentVO(Parent parent) {
+        ParentwebVO parentVO = new ParentwebVO();
         BeanUtils.copyNonNullProperties(parent, parentVO);
         return parentVO;
     }
 
-    //添加家长
-    @Transactional
-    public Parent saveParent(ParentAddDTO addDTO) {
-        Parent parent = new Parent();
-        BeanUtils.copyNonNullProperties(addDTO, parent);
-        LocalDateTime time = LocalDateTime.now();
-        parent.setUpdateTime(time);
-        parent.setCreateTime(time);
-        save(parent);
-        log.info("保存数据---:{}", parent);
-        return parent;
-    }
-
-/*    @Transactional
-    public void deleteParents(Set<Integer> ids) {
-        //removeByIds删除0条也是返回true的，所以需要使用baseMapper
-        int count = baseMapper.deleteBatchIds(ids);
-        Assert.isTrue(count == ids.size(), MessageCodes.DATA_DELETE_ERROR);
-        log.info("删除数据:id{}", ids);
-    }*/
 
     //更新
     @Transactional
-    public ParentVO updateParent(ParentUpdateDTO parentUpdateDTO) {
+    public ParentwebVO updateParent(ParentUpdateDTO parentUpdateDTO) {
         Parent parent = new Parent();
         BeanUtils.copyNonNullProperties(parentUpdateDTO, parent);
         parent.setUpdateTime(LocalDateTime.now());
@@ -91,13 +65,6 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
         return findParentById(parent.getParentId());
     }
 
-    public IPage<ParentVO> findParentPage(ParentQueryDTO parentQueryDTO, Page<Parent> page) {
-        Parent parent = new Parent();
-        BeanUtils.copyNonNullProperties(parentQueryDTO, parent);
-        QueryWrapper<Parent> queryWrapper = new QueryWrapper<>();
-        //查询业务
-        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::toParentVO);
-    }
 
 
 
@@ -116,4 +83,35 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     public Parent findByOpenid(String openid) {
         return parentMapper.findByOpenid(openid);
     }
+
+
+    /*    //添加家长
+    @Transactional
+    public Parent saveParent(ParentAddDTO addDTO) {
+        Parent parent = new Parent();
+        BeanUtils.copyNonNullProperties(addDTO, parent);
+        LocalDateTime time = LocalDateTime.now();
+        parent.setUpdateTime(time);
+        parent.setCreateTime(time);
+        save(parent);
+        log.info("保存数据---:{}", parent);
+        return parent;
+    }*/
+
+/*    @Transactional
+    public void deleteParents(Set<Integer> ids) {
+        //removeByIds删除0条也是返回true的，所以需要使用baseMapper
+        int count = baseMapper.deleteBatchIds(ids);
+        Assert.isTrue(count == ids.size(), MessageCodes.DATA_DELETE_ERROR);
+        log.info("删除数据:id{}", ids);
+    }*/
+
+
+/*   public IPage<ParentwebVO> findParentPage(ParentQueryDTO parentQueryDTO, Page<Parent> page) {
+        Parent parent = new Parent();
+        BeanUtils.copyNonNullProperties(parentQueryDTO, parent);
+        QueryWrapper<Parent> queryWrapper = new QueryWrapper<>();
+        //查询业务
+        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::toParentVO);
+    }*/
 }

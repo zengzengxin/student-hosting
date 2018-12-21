@@ -1,7 +1,6 @@
-package com.luwei.model.notice.pojo.cms;
+package com.luwei.model.notice.pojo.web;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.luwei.common.config.ToTimeStampSerializer;
 import io.swagger.annotations.ApiModel;
@@ -22,15 +21,11 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("tb_notice")
-public class NoticeVO implements Serializable {
+public class NoticeWebVO implements Serializable {
 
-
-    @ApiModelProperty(value = "主键id")
-    @TableId
-    private Integer noticeId;
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
-    private Integer display;
+    private Boolean display;
 
     @ApiModelProperty(value = "通告的内容")
     private String content;
@@ -48,9 +43,6 @@ public class NoticeVO implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime time;
 
-    @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
 
 
 

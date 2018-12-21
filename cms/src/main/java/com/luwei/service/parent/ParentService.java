@@ -8,7 +8,7 @@ import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.cms.ChildVO;
 import com.luwei.model.parent.Parent;
 import com.luwei.model.parent.ParentMapper;
-import com.luwei.model.parent.pojo.cms.ParentCmsQueryDTO;
+import com.luwei.model.parent.pojo.cms.ParentQueryDTO;
 import com.luwei.model.parent.pojo.cms.ParentCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,12 +29,9 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     @Resource
     private ChildMapper childMapper;
 
-    public IPage<ParentCmsVO> getParentPage(String condition, Page page) {
-        //TODO 条件不明确
-        ParentCmsQueryDTO parentcmsQueryDTO = new ParentCmsQueryDTO();
-        parentcmsQueryDTO.setParentName(condition);
+    public IPage<ParentCmsVO> getParentPage(ParentQueryDTO parentQueryDTO, Page page) {
 
-        IPage<ParentCmsVO> iPage = baseMapper.findParentPage( page,parentcmsQueryDTO);
+        IPage<ParentCmsVO> iPage = baseMapper.findParentPage( page,parentQueryDTO);
         iPage.setRecords(iPage.getRecords().stream().map(this::getchilds).collect(Collectors.toList()));
         return iPage;
 
@@ -56,5 +53,5 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     }
 
 
-     //TODO 还可能要添加通过父母id查询订单的接口
+
 }

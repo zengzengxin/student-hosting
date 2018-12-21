@@ -28,12 +28,6 @@
         From tb_school
         <where>
             deleted=0
-            <if test="schoolQueryDTO.leaderPhone!=null">
-                and leader_phone = #{schoolQueryDTO.leaderPhone}
-            </if>
-            <if test="schoolQueryDTO.schoolId!=null">
-                and school_id = #{schoolQueryDTO.schoolId}
-            </if>
             <if test="schoolQueryDTO.name!=null">
                 and name like '%${schoolQueryDTO.name}%'
             </if>

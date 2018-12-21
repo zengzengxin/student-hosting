@@ -10,7 +10,7 @@ import com.luwei.model.notice.NoticeMapper;
 import com.luwei.model.notice.pojo.cms.NoticeAddDTO;
 import com.luwei.model.notice.pojo.cms.NoticeQueryDTO;
 import com.luwei.model.notice.pojo.cms.NoticeUpdateDTO;
-import com.luwei.model.notice.pojo.cms.NoticeVO;
+import com.luwei.model.notice.pojo.cms.NoticeCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
     @Transactional
-    public NoticeVO saveNotice(NoticeAddDTO noticeAddDTO){
+    public NoticeCmsVO saveNotice(NoticeAddDTO noticeAddDTO){
         Notice notice= new Notice();
         BeanUtils.copyNonNullProperties(noticeAddDTO,notice);
 
@@ -44,8 +44,8 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         return toNoticeVO(notice);
     }
 
-    private NoticeVO toNoticeVO(Notice notice) {
-        NoticeVO noticeVO = new NoticeVO();
+    private NoticeCmsVO toNoticeVO(Notice notice) {
+        NoticeCmsVO noticeVO = new NoticeCmsVO();
         BeanUtils.copyNonNullProperties(notice,noticeVO);
         return  noticeVO;
     }
@@ -54,7 +54,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
 
     @Transactional
-    public NoticeVO updateNotice(NoticeUpdateDTO noticeUpdateDTO){
+    public NoticeCmsVO updateNotice(NoticeUpdateDTO noticeUpdateDTO){
         Notice notice= new Notice();
         BeanUtils.copyNonNullProperties(noticeUpdateDTO,notice);
         //添加一些没有的参数
@@ -76,17 +76,8 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
     }
 
 
-    public IPage<NoticeVO> getNoticePage( Page<Notice> page,NoticeQueryDTO noticePageDTO) {
+    public IPage<NoticeCmsVO> getNoticePage(Page<Notice> page, NoticeQueryDTO noticePageDTO) {
         return baseMapper.getNoticePage(page,noticePageDTO);
-        //TODO---这个方法没有测
-       /* Notice notice = new Notice();
-        BeanUtils.copyNonNullProperties(noticePageDTO, notice);
-        QueryWrapper<Notice> noticeQueryWrapper = new QueryWrapper<Notice>();
-       // if(noticePageDTO.)
-        noticeQueryWrapper.lambda().between(Notice::getCreateTime,noticePageDTO.getStartTime(), noticePageDTO.getEndTime())
-                .like(Notice::getNoticeTittle,noticePageDTO.getNoticeTittle())
-                .eq(Notice::getNoticeStatus,noticePageDTO.getNoticeStatus());
-        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page,noticeQueryWrapper), this::toNoticeVO);*/
     }
 
 }

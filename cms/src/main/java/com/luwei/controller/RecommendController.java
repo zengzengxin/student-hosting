@@ -3,9 +3,7 @@ package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.recommend.Recommend;
-import com.luwei.model.recommend.pojo.cms.RecommendAddDTO;
 import com.luwei.model.recommend.pojo.cms.RecommendQueryDTO;
-import com.luwei.model.recommend.pojo.cms.RecommendUpdateDTO;
 import com.luwei.model.recommend.pojo.cms.RecommendVO;
 import com.luwei.service.recommend.RecommendService;
 import io.swagger.annotations.Api;
@@ -29,11 +27,11 @@ public class RecommendController {
     @Resource
     private RecommendService recommendService;
 
-    @PostMapping
+    /*@PostMapping
     @ApiOperation("新增")
     public RecommendVO saveRecommend(@RequestBody @Valid RecommendAddDTO addDTO) {
         return recommendService.saveRecommend(addDTO);
-    }
+    }*/
 
     @DeleteMapping
     @ApiOperation("删除")
@@ -41,11 +39,11 @@ public class RecommendController {
         recommendService.deleteRecommends(ids);
     }
 
-    @PutMapping
+    /*@PutMapping
     @ApiOperation("修改")
     public RecommendVO updateRecommend(@RequestBody @Valid RecommendUpdateDTO updateDTO) {
         return recommendService.updateRecommend(updateDTO);
-    }
+    }*/
 
     @GetMapping
     @ApiOperation("查询详情")

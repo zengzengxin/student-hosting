@@ -43,6 +43,9 @@ public class School implements Serializable {
     @ApiModelProperty(value = "负责人电话")
     private String leaderPhone;
 
+    @ApiModelProperty(value = "学校负责人电话")
+    private String leaderName;
+
     @ApiModelProperty(value = "学校执照")
     private String license;
 
