@@ -102,5 +102,9 @@ public interface MessageCodes {
     String HOSTING_DELETE_ERROR = "hosting.is.delete.error";//托管班保存失败
     String HOSTING_IS_UPDATE_ERROR = "hosting.is.update.error";//托管班保存失败
 
+    //推荐相关
+    String RECOMMEND_IS_NOT_EXIST = "recomment.is.not.exist";//推荐不存在
+    String RECOMEND_WEIGHT_UPDATE_ERROR = "recomment.weight.update.exist";//推荐不存在
+
 
 }

@@ -8,7 +8,6 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.RecommendMapper;
-import com.luwei.model.recommend.pojo.cms.RecommendAddDTO;
 import com.luwei.model.recommend.pojo.cms.RecommendQueryDTO;
 import com.luwei.model.recommend.pojo.cms.RecommendUpdateDTO;
 import com.luwei.model.recommend.pojo.cms.RecommendVO;
@@ -39,7 +38,7 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
         // 若此id已被逻辑删除,也会返回null
         Recommend recommend = getById(id);
         // TODO 修改MessageCodes
-        Assert.notNull(recommend, MessageCodes.DATA_IS_NOT_EXIST);
+        Assert.notNull(recommend, MessageCodes.RECOMMEND_IS_NOT_EXIST);
         return recommend;
     }
 
@@ -55,23 +54,7 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
         return recommendVO;
     }
 
-    /**
-     * 新增Recommend
-     *
-     * @param addDTO
-     * @return
-     */
-    @Transactional
-    public RecommendVO saveRecommend(RecommendAddDTO addDTO) {
-        Recommend recommend = new Recommend();
-        BeanUtils.copyProperties(addDTO, recommend);
-        LocalDateTime time = LocalDateTime.now();
-        recommend.setUpdateTime(time);
-        recommend.setCreateTime(time);
-        Assert.isTrue(save(recommend), MessageCodes.DATA_SAVE_ERROR);
-        log.info("保存数据: {}", recommend);
-        return toRecommendVO(recommend);
-    }
+
 
     /**
      * 批量删除Recommend
@@ -87,18 +70,18 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
     }
 
     /**
-     * 修改Recommend
+     * 修改权重
      *
      * @param updateDTO
      * @return
      */
     @Transactional
-    public RecommendVO updateRecommend(RecommendUpdateDTO updateDTO) {
+    public RecommendVO updateWeight(RecommendUpdateDTO updateDTO) {
         Recommend recommend = new Recommend();
         BeanUtils.copyProperties(updateDTO, recommend);
         recommend.setUpdateTime(LocalDateTime.now());
         // updateById不会把null的值赋值,修改成功后也不会赋值数据库所有的字段
-        Assert.isTrue(updateById(recommend), MessageCodes.DATA_UPDATE_ERROR);
+        Assert.isTrue(updateById(recommend), MessageCodes.RECOMEND_WEIGHT_UPDATE_ERROR);
         log.info("修改数据: bean {}", updateDTO);
         return getRecommend(recommend.getRecommendId());
     }
@@ -126,5 +109,7 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
         // TODO wrapper根据实际业务封装条件
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toRecommendVO);
     }
+
+
 
 }

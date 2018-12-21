@@ -50,5 +50,7 @@ public class HostingController {
     public IPage<HostingVO> page(@ModelAttribute HostingQueryDTO hostingQueryDTO, Page page) {
         return hostingService.findHostingPage(hostingQueryDTO, page);
     }
+
+
 }
 
