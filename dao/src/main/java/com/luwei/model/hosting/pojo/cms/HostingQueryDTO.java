@@ -1,6 +1,5 @@
 package com.luwei.model.hosting.pojo.cms;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,9 +23,6 @@ public class HostingQueryDTO implements Serializable {
     private String name;
 
 
-    @ApiModelProperty(value = "是否删除")
-    @TableLogic
-    private Boolean deleted;
 
 
 }

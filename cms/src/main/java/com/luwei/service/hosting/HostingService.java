@@ -38,13 +38,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
-
-
-
     @Resource
     private PictureService pictureService;
-
-
 
     private HostingVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
@@ -58,7 +53,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         BeanUtils.copyNonNullProperties(hosting, hostingVO);
         return hostingVO;
     }
-
 
     //添加数据（向hosting表 picture表 套餐表）
 
@@ -75,7 +69,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         Assert.isTrue(isSuccess, MessageCodes.HOSTING_SAVE_ERROR);
         log.info("保存数据---:{}", hosting);
 
-
         //向图片表添加数据
         // 保存课程图片
         List<String> urls = hostingAddDTO.getPictureUrls();
@@ -85,14 +78,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return toHostingVO(hosting).setPictureUrls(urls);
     }
 
-
-/*    private HostingPackageVO toHostingVO2(HostingPackageAddDTO hostingPackageAddDTO) {
-        HostingPackageVO hostingPackageVO = new HostingPackageVO();
-        BeanUtils.copyNonNullProperties(hostingPackageAddDTO, hostingPackageVO);
-        return hostingPackageVO;
-    }*/
-
-
     @Transactional
     public void deleteHostings(Set<Integer> hostingIds) {
         //removeByIds删除0条也是返回true的，所以需要使用baseMapper
@@ -100,7 +85,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         Assert.isTrue(count == hostingIds.size(), MessageCodes.HOSTING_DELETE_ERROR);
         log.info("删除数据:ids{}", hostingIds);
     }
-
 
     @Transactional
     public HostingVO updateHosting(HostingUpdateDTO hostingUpdateDTO) {
@@ -111,8 +95,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
         //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
         Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
-
-
 
         //修改图片
         pictureService.deleteByPictureTypeAndForeignKeyId(PictureTypeEnum.HOSTING.getValue(), hosting.getHostingId());
@@ -127,12 +109,11 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return findById(hosting.getHostingId()).setPictureUrls(urls);
     }
 
-
     public IPage<HostingVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page page) {
         Hosting hosting = new Hosting();
         QueryWrapper<Hosting> wrapper = new QueryWrapper<>(hosting);
         if (hostingQueryDTO.getName() != null && !hostingQueryDTO.getName().equals("")) {
-            wrapper.like("name", hostingQueryDTO.getName());
+            wrapper.lambda().like(Hosting::getName, hostingQueryDTO.getName());
         }
         IPage<HostingVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toHostingVO);
         List<HostingVO> list = iPage.getRecords();

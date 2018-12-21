@@ -7,6 +7,7 @@ import com.luwei.model.teacher.Teacher;
 import com.luwei.model.teacher.TeacherMapper;
 import com.luwei.model.teacher.pojo.cms.TeacherCmsVO;
 import com.luwei.model.teacher.pojo.web.TeacherUpdateDTO;
+import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.miniuser.MiniUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -68,16 +69,17 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         // updateById不会把null的值赋值,修改成功后也不会赋值数据库所有的字段
         Assert.isTrue(updateById(teacher), MessageCodes.TEACHER_UPDATE_ERROR);
         log.info("修改数据: bean {}", updateDTO);
-        return getTeacher(teacher.getTeacherId());
+        return getTeacher();
     }
 
     /**
      * 获取单个Teacher
      *
-     * @param id
+     * @param
      * @return
      */
-    public TeacherCmsVO getTeacher(Integer id) {
+    public TeacherCmsVO getTeacher() {
+        Integer id = UserHelper.getUserId();
         return toTeacherVO(findById(id));
     }
 

@@ -37,8 +37,8 @@ public class TeacherController {
 
     @GetMapping
     @ApiOperation("查询详情")
-    public TeacherCmsVO getTeacher(@RequestParam @ApiParam("id") Integer id) {
-        return teacherService.getTeacher(id);
+    public TeacherCmsVO getTeacher() {
+        return teacherService.getTeacher();
     }
 
 
@@ -51,7 +51,7 @@ public class TeacherController {
         }else {
             return true;
         }
-
+      //--todo--返回教师信息
     }
 
 

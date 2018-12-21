@@ -59,7 +59,7 @@ public class ChildController {
 
 
     @PostMapping("excleAddStudent")
-    @ApiOperation("通过excle导入老师")
+    @ApiOperation("通过excle导入学生")
     public void findTeacher(MultipartFile file) throws Exception {
         childService.importExcel(file);
     }
