@@ -11,7 +11,7 @@ import java.util.Random;
 public class OrderIdUtils {
 
     /**
-     * 时间戳 + 三个随机数, 作为订单编号
+     * 时间 + 三个随机数, 作为订单编号
      *
      * @return
      */
@@ -24,6 +24,21 @@ public class OrderIdUtils {
             result.append(random.nextInt(10));
         }
         return newDate + result;
+    }
+
+    /**
+     * 时间戳 + 三个随机数, 作为订单编号
+     *
+     * @return
+     */
+    public static String getOrderIdByTimestamp() {
+        String timestamp = String.valueOf(new Date().getTime());
+        StringBuilder result = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 3; i++) {
+            result.append(random.nextInt(10));
+        }
+        return timestamp + result;
     }
 
 }
