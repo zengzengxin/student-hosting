@@ -64,18 +64,18 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         LocalDateTime time = LocalDateTime.now();
         hosting.setUpdateTime(time);
         hosting.setCreateTime(time);
-        //设置一些具体逻辑，是否需要加上deleted字段等等
+        //设置一些具体逻辑，是否需要加上deleted字段等
         boolean isSuccess = save(hosting);
         Assert.isTrue(isSuccess, MessageCodes.HOSTING_SAVE_ERROR);
         log.info("保存数据---:{}", hosting);
 
         //向图片表添加数据
-        // 保存课程图片
+        // 保存托管图片
         List<String> urls = hostingAddDTO.getPictureUrls();
         for (String url : urls) {
-            pictureService.savePicture(url, hosting.getHostingId());
+            pictureService.savePicture(url, hosting.getHostingId(),PictureTypeEnum.HOSTING);
         }
-        return toHostingVO(hosting).setPictureUrls(urls);
+        return toHostingVO(hosting).setPictureUrls(urls);//--todo--需要讨论是否需要重新查询一次数据库
     }
 
     @Transactional
@@ -96,17 +96,17 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
         Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
 
-        //修改图片
+        //修改老图片图片
         pictureService.deleteByPictureTypeAndForeignKeyId(PictureTypeEnum.HOSTING.getValue(), hosting.getHostingId());
         // 保存课程图片
         List<String> urls = hostingUpdateDTO.getPictureUrls();
-        Integer courseId = hosting.getHostingId();
+        Integer hostingId = hosting.getHostingId();
         for (String url : urls) {
-            pictureService.savePicture(url, courseId);
+            pictureService.savePicture(url, hostingId,PictureTypeEnum.HOSTING);
         }
 
         log.info("修改数据：bean:{}", hostingUpdateDTO);
-        return findById(hosting.getHostingId()).setPictureUrls(urls);
+        return findById(hosting.getHostingId()).setPictureUrls(pictureService.findAllByForeignKeyId(hosting.getHostingId(),PictureTypeEnum.HOSTING.getValue()));
     }
 
     public IPage<HostingVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page page) {
@@ -124,7 +124,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     private HostingVO dealWith(HostingVO hostingVO) {
         // 设置图片
-        List<String> urls = pictureService.findAllByForeignKeyId(hostingVO.getHostingId());
+        List<String> urls = pictureService.findAllByForeignKeyId(hostingVO.getHostingId(),PictureTypeEnum.HOSTING.getValue());
 
         return hostingVO.setPictureUrls(urls);
     }

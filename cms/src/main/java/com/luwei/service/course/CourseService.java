@@ -104,7 +104,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         // 保存课程图片
         List<String> urls = addDTO.getPictureUrls();
         for (String url : urls) {
-            pictureService.savePicture(url, courseId);
+            pictureService.savePicture(url, courseId,PictureTypeEnum.COURSE);
         }
 
         log.info("保存数据: {}", course);
@@ -172,7 +172,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         List<String> urls = updateDTO.getPictureUrls();
         Integer courseId = course.getCourseId();
         for (String url : urls) {
-            pictureService.savePicture(url, courseId);
+            pictureService.savePicture(url, courseId,PictureTypeEnum.COURSE);
         }
         log.info("修改数据: bean {}", updateDTO);
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
@@ -222,7 +222,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     private CourseVO dealWith(CourseVO courseVO) {
         // 设置图片
-        List<String> urls = pictureService.findAllByForeignKeyId(courseVO.getCourseId());
+        List<String> urls = pictureService.findAllByForeignKeyId(courseVO.getCourseId(),PictureTypeEnum.COURSE.getValue());
 
         // 设置课程套餐列表
         List<CoursePackageVO> list = coursePackageMapper.findAllByCourseId(courseVO.getCourseId());

@@ -7,6 +7,7 @@ import com.luwei.model.picture.PictureMapper;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
@@ -79,12 +80,12 @@ public class PictureService extends ServiceImpl<PictureMapper, Picture> {
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::toPictureVO);
     }*/
 
-
-    public void savePicture(String url, Integer courseId) {
+    @Transactional
+    public void savePicture(String url, Integer courseId, PictureTypeEnum pictureType) {
         Picture picture = new Picture();
         picture.setPictureUrl(url);
         // 图片类型为课程
-        picture.setPictureType(PictureTypeEnum.COURSE);
+        picture.setPictureType(pictureType);
         // 外键ID
         picture.setForeignKeyId(courseId);
         LocalDateTime time = LocalDateTime.now();
@@ -95,12 +96,12 @@ public class PictureService extends ServiceImpl<PictureMapper, Picture> {
         Assert.isTrue(count > 0, MessageCodes.COURSE_SAVE_ERROR);
     }
 
-    public int deleteByPictureTypeAndForeignKeyId(Integer pictureType,Integer foreignKeyId){
-        return baseMapper.deleteByPictureTypeAndForeignKeyId(pictureType,foreignKeyId);
+    @Transactional
+    public int deleteByPictureTypeAndForeignKeyId(Integer pictureType, Integer foreignKeyId) {
+        return baseMapper.deleteByPictureTypeAndForeignKeyId(pictureType, foreignKeyId);
     }
 
-
-    public List<String> findAllByForeignKeyId( Integer foreignKeyId){
-        return baseMapper.findAllByForeignKeyId(foreignKeyId);
+    public List<String> findAllByForeignKeyId(Integer foreignKeyId, Integer pictureType) {
+        return baseMapper.findAllByForeignKeyId(foreignKeyId, pictureType);
     }
 }

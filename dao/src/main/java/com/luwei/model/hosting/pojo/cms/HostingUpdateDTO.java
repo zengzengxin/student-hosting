@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -61,6 +62,7 @@ public class HostingUpdateDTO implements Serializable {
 
     @ApiModelProperty(value = "所在学校id")
     @NotNull(message = "所在学校id不能为空")
+    @Range(min = 0, max = 20000, message = "学校的id范围必须在【{min},{max}】之间")
     private Integer schoolId;
 
     @ApiModelProperty(value = "学校名称")
@@ -89,6 +91,7 @@ public class HostingUpdateDTO implements Serializable {
     private BigDecimal price;
 
     @ApiModelProperty(value = "最大人数")
+    @Range(min = 0, max = 20000, message = "最大人数范围必须在【{min},{max}】之间")
     private Integer maxNumber;
 
     @ApiModelProperty(value = "是否删除")

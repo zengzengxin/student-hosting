@@ -14,6 +14,6 @@ public interface PictureMapper extends BaseMapper<Picture> {
     int deleteByPictureTypeAndForeignKeyId(@Param("pictureType") Integer pictureType,
                                            @Param("foreignKeyId") Integer foreignKeyId);
 
-    List<String> findAllByForeignKeyId(@Param("foreignKeyId") Integer foreignKeyId);
+    List<String> findAllByForeignKeyId(@Param("foreignKeyId") Integer foreignKeyId,@Param("pictureType") Integer pictureType);
 
 }

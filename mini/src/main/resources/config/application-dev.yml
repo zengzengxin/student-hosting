@@ -4,12 +4,13 @@ spring:
     username: student-hosting
     password: bzsFBIP98MSUFg6K
     driver-class-name: com.mysql.jdbc.Driver
-    tomcat:
-      test-while-idle: true
-      max-active: 30
-      initial-size: 3
-      min-idle: 3
-      max-idle: 10
+    hikari:
+      max-lifetime: 150000
+      maximum-pool-size: 3
+      connection-timeout: 30000
+      idle-timeout: 300000
+      read-only: false
+
 
   redis:
     port: 6381
@@ -17,7 +18,7 @@ spring:
     password: q7FIqKnrILC98sTeb2Z2
     database: 12
     timeout: 5000ms
-    jedis:
+    lettuce:
       pool:
         min-idle: 3
         max-idle: 10
