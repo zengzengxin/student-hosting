@@ -229,7 +229,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         order.setUpdateTime(time).setCreateTime(time);
 
         // 生成订单编号
-        order.setOrderId(OrderIdUtils.getOrderIdByTime());
+        order.setOrderId(OrderIdUtils.getOrderIdByTimestamp());
         System.out.println(order.getOrderId());
 
         Assert.isTrue(save(order), MessageCodes.ORDER_SAVE_ERROR);

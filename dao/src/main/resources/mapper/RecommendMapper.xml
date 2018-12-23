@@ -21,4 +21,8 @@
         recommend_id, service_id, service_name, service_price, service_introduction, service_cover_url, weight, create_time, update_time, deleted
     </sql>
 
+    <select id="realDeleteByServiceId" resultType="int">
+        DELETE FROM tb_recommend WHERE service_id = #{serviceId}
+    </select>
+
 </mapper>

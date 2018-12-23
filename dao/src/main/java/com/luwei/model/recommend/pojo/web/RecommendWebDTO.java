@@ -1,19 +1,17 @@
-package com.luwei.model.recommend.pojo.cms;
+package com.luwei.model.recommend.pojo.web;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
  * Author: huanglp
- * Date: 2018-12-20
+ * Date: 2018-12-24
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class RecommendQueryDTO implements Serializable {
+public class RecommendWebDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

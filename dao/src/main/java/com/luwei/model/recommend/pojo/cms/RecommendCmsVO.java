@@ -1,9 +1,5 @@
-package com.luwei.model.recommend;
+package com.luwei.model.recommend.pojo.cms;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +8,6 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * Author: huanglp
@@ -21,14 +16,9 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_recommend")
-public class Recommend implements Serializable {
+public class RecommendCmsVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @ApiModelProperty(value = "推荐表ID")
-    @TableId(value = "recommend_id", type = IdType.AUTO)
-    private Integer recommendId;
 
     @ApiModelProperty(value = "服务ID")
     private Integer serviceId;
@@ -53,15 +43,5 @@ public class Recommend implements Serializable {
 
     @ApiModelProperty(value = "服务类型")
     private ServiceTypeEnum serviceType;
-
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "修改时间")
-    private LocalDateTime updateTime;
-
-    @ApiModelProperty(value = "是否删除(默认为0)")
-    @TableLogic
-    private Boolean deleted;
 
 }

@@ -8,4 +8,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RecommendMapper extends BaseMapper<Recommend> {
 
+    int realDeleteByServiceId(Integer serviceId);
 }
