@@ -211,7 +211,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         CourseVO courseVO = new CourseVO();
         BeanUtils.copyProperties(course, courseVO);
         // 封装图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(id);
+        List<String> urls = pictureMapper.findAllByForeignKeyId(id, 0);
 
         // 封装课程
         List<CoursePackageVO> list = coursePackageMapper.findAllByCourseId(id);

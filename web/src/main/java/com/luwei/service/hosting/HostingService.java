@@ -43,7 +43,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         //TODO记得修改MessageCodes
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         //设置图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(hosting.getHostingId());
+        List<String> urls = pictureMapper.findAllByForeignKeyId(hosting.getHostingId(), 1);
         return toHostingVO(hosting).setPictureUrls(urls);
     }
 
@@ -68,7 +68,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     private HostingVO dealWith(HostingVO hostingVO) {
         // 设置图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(hostingVO.getHostingId());
+        List<String> urls = pictureMapper.findAllByForeignKeyId(hostingVO.getHostingId(), 1);
 
         return hostingVO.setPictureUrls(urls);
     }
