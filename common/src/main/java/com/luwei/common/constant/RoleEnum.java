@@ -1,4 +1,4 @@
-package com.luwei.common.constants;
+package com.luwei.common.constant;
 
 /**
  * <p>超管操作对象：普通管理员、运营者，普通管理员操作对象：运营者

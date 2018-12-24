@@ -1,7 +1,7 @@
 package com.luwei.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import com.luwei.common.constants.RedisKeyPrefix;
+import com.luwei.common.constant.RedisKeyPrefix;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

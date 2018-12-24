@@ -34,13 +34,13 @@ public class OrderController {
 
     @DeleteMapping
     @ApiOperation("删除")
-    public void deleteOrders(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
+    public void deleteOrders(@RequestParam @ApiParam("id列表") Set<String> ids) {
         orderService.deleteOrders(ids);
     }
 
     @GetMapping
     @ApiOperation("查询详情")
-    public OrderVO getOrder(@RequestParam @ApiParam("id") Long id) {
+    public OrderVO getOrder(@RequestParam @ApiParam("id") String id) {
         return orderService.getOrder(id);
     }
 

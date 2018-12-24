@@ -1,6 +1,5 @@
 package com.luwei.service.wechat;
 
-import com.alibaba.fastjson.JSONObject;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.property.WxProperties;
 import com.luwei.model.miniuser.MiniUser;
@@ -12,6 +11,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * Author: huanglp
@@ -38,12 +38,12 @@ public class WeChatService {
     }
 
 
-    public String addMinuuser(JSONObject jsonObject){
+    public String addMinuuser(Map<String, Object> map){
         MiniUser miniUser = new MiniUser();
-        miniUser.setOpenId(jsonObject.get("openId").toString());
-        miniUser.setAvatarUrl(jsonObject.get("avatarUrl").toString());
-        miniUser.setGender((Integer) jsonObject.get("gender"));
-        miniUser.setNickName(jsonObject.get("nickName").toString());
+        miniUser.setOpenId(map.get("openId").toString());
+        miniUser.setAvatarUrl(map.get("avatarUrl").toString());
+        miniUser.setGender((Integer) map.get("gender"));
+        miniUser.setNickName(map.get("nickName").toString());
         LocalDateTime time = LocalDateTime.now();
         miniUser.setUpdateTime(time).setCreateTime(time).setDeleted(false);
         boolean flag = miniUserService.save(miniUser);

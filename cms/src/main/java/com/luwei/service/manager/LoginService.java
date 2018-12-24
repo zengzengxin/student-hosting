@@ -1,12 +1,14 @@
 package com.luwei.service.manager;
 
-import com.luwei.common.constants.RedisKeyPrefix;
-import com.luwei.common.constants.RoleEnum;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.constant.RedisKeyPrefix;
+import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.BcryptUtil;
 import com.luwei.model.manager.Manager;
-import com.luwei.model.manager.ManagerDao;
+import com.luwei.model.manager.ManagerMapper;
 import com.luwei.model.manager.pojo.LoginSuccessVO;
 import com.luwei.model.manager.pojo.ManagerLoginVO;
 import com.luwei.module.shiro.service.ShiroTokenService;
@@ -14,10 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -27,16 +31,13 @@ import java.util.Objects;
  **/
 @Slf4j
 @Service
-public class LoginService {
+public class LoginService extends ServiceImpl<ManagerMapper, Manager> {
 
     @Value("${luwei.config.salt}")
     private String salt;
 
     @Resource
     private ShiroTokenService shiroTokenService;
-
-    @Resource
-    private ManagerDao managerDao;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -47,6 +48,7 @@ public class LoginService {
      * @param loginVO
      * @return LoginSuccessVO
      */
+    @Transactional
     public LoginSuccessVO login(ManagerLoginVO loginVO) {
         //从redis中获得该验证码
         String rightCaptcha = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.captcha(loginVO.getUuid()));
@@ -72,7 +74,8 @@ public class LoginService {
                     log.error("RSAUtil.decrypt exception", e);
                     throw new IllegalArgumentException(MessageCodes.RSAUtil_DECRYPT_ERROR);
                 }
-                Manager manager = managerDao.findByAccountAndPasswordAndDeletedIsFalse(loginVO.getAccount(), md5Password);
+                QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("account", loginVO.getAccount()).eq("password", md5Password).eq("deleted", false);
+                Manager manager = baseMapper.selectOne(wrapper);
                 log.info("manager:[{}]", manager);
                 if (Objects.nonNull(manager)) {
                     if (manager.getDisabled()) {
@@ -81,6 +84,10 @@ public class LoginService {
                     }
                     int managerId = manager.getManagerId();
                     int role = manager.getRole().ordinal();
+
+                    manager.setLastLoginTime(LocalDateTime.now());
+                    saveOrUpdate(manager);
+
                     return new LoginSuccessVO(RoleEnum.values()[role], shiroTokenService.login(String.valueOf(managerId), String.valueOf(role)), manager.getName());
                 } else {
                     //密码错误或账户不存在

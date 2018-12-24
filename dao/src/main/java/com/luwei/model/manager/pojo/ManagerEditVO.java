@@ -19,8 +19,8 @@ public class ManagerEditVO {
     private Integer managerId;
 
     @ApiModelProperty("名称")
-    @NotBlank(message = "请输入管理员名称")
-    @Length(max = 20, message = "名称最大长度限制为20")
-    private String name;
+    @NotBlank(message = "请输入账号")
+    @Length(max = 20, message = "账号最大长度限制为20")
+    private String account;
 
 }

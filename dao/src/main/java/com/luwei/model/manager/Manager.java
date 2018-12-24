@@ -1,45 +1,63 @@
 package com.luwei.model.manager;
 
-import com.luwei.common.constants.RoleEnum;
-import com.luwei.common.util.IdEntity;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.luwei.common.constant.RoleEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
- * @author jdq
- * @date 2017/12/7 11:50
- * 管理员
+ * Author: huanglp
+ * Date: 2018-12-24
  */
-@Entity
 @Data
-public class Manager extends IdEntity {
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("tb_manager")
+public class Manager implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty("管理员id")
-    @Column(insertable = false, updatable = false, columnDefinition = "INT UNSIGNED COMMENT '管理员id'")
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "管理员ID")
+    @TableId(value = "manager_id", type = IdType.AUTO)
     private Integer managerId;
 
-    @ApiModelProperty("账户")
-    @Column(length = 20, columnDefinition = "VARCHAR(255) NOT NULL COMMENT '账户'")
+    @ApiModelProperty(value = "管理员账户")
     private String account;
 
-    @ApiModelProperty("用户名")
-    @Column(length = 50, columnDefinition = "VARCHAR(255) NOT NULL COMMENT '用户名'")
+    @ApiModelProperty(value = "用户名")
     private String name;
 
-    @ApiModelProperty("密码")
-    @Column(length = 32, columnDefinition = "VARCHAR(255) NOT NULL COMMENT '密码'")
+    @ApiModelProperty(value = "密码")
     private String password;
 
-    @ApiModelProperty("角色。0：超级管理员，1：普通管理员")
-    @Column(columnDefinition = "INT(11) NOT NULL COMMENT '角色。0：超级管理员，1：普通管理员'")
+    @ApiModelProperty(value = "角色 0-超级管理员 1-普通管理员")
     private RoleEnum role;
 
-    @ApiModelProperty("是否已被禁用。false：未禁用(默认)，true：已禁用")
-    @Column(columnDefinition = "BOOLEAN NOT NULL COMMENT '是否已被禁用。false：未禁用(默认)，true：已禁用'")
-    private Boolean disabled = false;
+    @ApiModelProperty(value = "是否禁用 0-否 1-是")
+    private Boolean disabled;
+
+    @ApiModelProperty(value = "绑定学校ID")
+    private Integer schoolId;
+
+    @ApiModelProperty(value = "最后登录时间")
+    private LocalDateTime lastLoginTime;
+
+    @ApiModelProperty(value = "创建时间")
+    private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "修改时间")
+    private LocalDateTime updateTime;
+
+    @ApiModelProperty(value = "删除状态true:已删除,false:未删除")
+    @TableLogic
+    private Boolean deleted;
 
 }

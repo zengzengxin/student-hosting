@@ -3,7 +3,7 @@ package com.luwei.service.personalcenter;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BcryptUtil;
 import com.luwei.model.manager.Manager;
-import com.luwei.model.manager.ManagerDao;
+import com.luwei.model.manager.ManagerMapper;
 import com.luwei.model.manager.pojo.ManagerPageVO;
 import com.luwei.model.personalcenter.pojo.PersonalCenterVO;
 import com.luwei.module.shiro.service.UserHelper;
@@ -24,13 +24,13 @@ public class PersonalCenterService {
 
 
     @Resource
-    private ManagerDao managerDao;
+    private ManagerMapper managerMapper;
 
     @Value("${luwei.config.salt}")
     private String salt;
 
     public ManagerPageVO toEdit() {
-        Manager manager = managerDao.findById(UserHelper.getUserId()).orElse(null);
+        Manager manager = managerMapper.selectById(UserHelper.getUserId());
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         ManagerPageVO managerPageVO = new ManagerPageVO();
         BeanUtils.copyProperties(manager, managerPageVO);
@@ -39,7 +39,7 @@ public class PersonalCenterService {
 
     @Transactional
     public ManagerPageVO update(PersonalCenterVO personalCenterVO) {
-        Manager manager = managerDao.findById(UserHelper.getUserId()).orElse(null);
+        Manager manager = managerMapper.selectById(UserHelper.getUserId());
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         manager.setName(personalCenterVO.getName());
         if (Objects.nonNull(personalCenterVO.getPassword())) {
@@ -52,7 +52,7 @@ public class PersonalCenterService {
             }
             manager.setPassword(md5Password);
         }
-        managerDao.save(manager);
+        managerMapper.insert(manager);
 
         ManagerPageVO managerPageVO = new ManagerPageVO();
         BeanUtils.copyProperties(manager, managerPageVO);

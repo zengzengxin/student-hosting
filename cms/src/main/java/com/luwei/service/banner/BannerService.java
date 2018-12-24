@@ -11,7 +11,7 @@ import com.luwei.model.banner.BannerMapper;
 import com.luwei.model.banner.pojo.cms.BannerAddDTO;
 import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
-import com.luwei.model.banner.pojo.cms.BannerVO;
+import com.luwei.model.banner.pojo.cms.BannerCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -48,8 +48,8 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @param banner
      * @return
      */
-    private BannerVO toBannerVO(Banner banner) {
-        BannerVO bannerVO = new BannerVO();
+    private BannerCmsVO toBannerVO(Banner banner) {
+        BannerCmsVO bannerVO = new BannerCmsVO();
         BeanUtils.copyProperties(banner, bannerVO);
         return bannerVO;
     }
@@ -61,7 +61,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @return
      */
     @Transactional
-    public BannerVO saveBanner(BannerAddDTO addDTO) {
+    public BannerCmsVO saveBanner(BannerAddDTO addDTO) {
         Banner banner = new Banner();
         BeanUtils.copyProperties(addDTO, banner);
         LocalDateTime time = LocalDateTime.now();
@@ -92,7 +92,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @return
      */
     @Transactional
-    public BannerVO updateBanner(BannerUpdateDTO updateDTO) {
+    public BannerCmsVO updateBanner(BannerUpdateDTO updateDTO) {
         Banner banner = new Banner();
         BeanUtils.copyProperties(updateDTO, banner);
         banner.setUpdateTime(LocalDateTime.now());
@@ -108,7 +108,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @param id
      * @return
      */
-    public BannerVO getBanner(Integer id) {
+    public BannerCmsVO getBanner(Integer id) {
         return toBannerVO(findById(id));
     }
 
@@ -119,7 +119,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @param page
      * @return
      */
-    public IPage<BannerVO> findPage(BannerQueryDTO queryDTO, Page<Banner> page) {
+    public IPage<BannerCmsVO> findPage(BannerQueryDTO queryDTO, Page<Banner> page) {
 
         // ObjectUtils.isEmpty(queryDTO.getBannerType());
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page,

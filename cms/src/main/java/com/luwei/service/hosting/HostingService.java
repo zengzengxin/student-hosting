@@ -9,18 +9,19 @@ import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.hosting.Hosting;
 import com.luwei.model.hosting.HostingMapper;
-import com.luwei.model.hosting.pojo.cms.HostingAddDTO;
-import com.luwei.model.hosting.pojo.cms.HostingQueryDTO;
-import com.luwei.model.hosting.pojo.cms.HostingUpdateDTO;
-import com.luwei.model.hosting.pojo.cms.HostingVO;
+import com.luwei.model.hosting.pojo.cms.*;
 import com.luwei.model.picture.envm.PictureTypeEnum;
+import com.luwei.model.recommend.Recommend;
+import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import com.luwei.service.picture.PictureService;
+import com.luwei.service.recommend.RecommendService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +41,9 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     @Resource
     private PictureService pictureService;
+
+    @Resource
+    private RecommendService recommendService;
 
     private HostingVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
@@ -127,5 +131,38 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         List<String> urls = pictureService.findAllByForeignKeyId(hostingVO.getHostingId(),PictureTypeEnum.HOSTING.getValue());
 
         return hostingVO.setPictureUrls(urls);
+    }
+
+    @Transactional
+    public HostingVO recommend(@Valid HostingRecommend hostingRecommend) {
+        Hosting hosting = getById(hostingRecommend.getHostingId());
+        Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
+        if (hostingRecommend.getRecommend()) {
+            hosting.setRecommend(true);
+            Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
+
+            Recommend recommend = new Recommend();
+            recommend.setServiceId(hosting.getHostingId())
+                    .setServiceName(hosting.getName())
+                    .setServicePrice(hosting.getPrice())
+                    .setServiceIntroduction(hosting.getIntroduction())
+                    .setServiceCoverUrl(hosting.getCoverUrl())
+                    .setWeight(1)
+                    .setServiceType(ServiceTypeEnum.HOSTING);
+
+            // 创建时间 更新时间
+            LocalDateTime now = LocalDateTime.now();
+            recommend.setCreateTime(now).setUpdateTime(now);
+            recommendService.save(recommend);
+            return toHostingVO(hosting);
+        }
+
+        // 删除一条推荐数据
+        hosting.setRecommend(false);
+        Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
+        boolean success = recommendService.realDeleteByServiceIdAndServiceType(hosting.getHostingId(), 1);
+        Assert.isTrue(success, MessageCodes.RECOMMEND_DELETE_ERROR);
+
+        return toHostingVO(hosting);
     }
 }

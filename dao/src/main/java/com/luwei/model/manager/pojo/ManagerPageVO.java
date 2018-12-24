@@ -1,8 +1,12 @@
 package com.luwei.model.manager.pojo;
 
-import com.luwei.common.constants.RoleEnum;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.luwei.common.config.ToTimeStampSerializer;
+import com.luwei.common.constant.RoleEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 /**
  * @author jdq
@@ -26,4 +30,11 @@ public class ManagerPageVO {
     @ApiModelProperty("是否已被禁用。false：未禁用(默认)，true：已禁用")
     private Boolean disabled;
 
+    @ApiModelProperty(value = "最后登录时间")
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
+    private LocalDateTime lastLoginTime;
+
+    @ApiModelProperty(value = "创建时间")
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
+    private LocalDateTime createTime;
 }

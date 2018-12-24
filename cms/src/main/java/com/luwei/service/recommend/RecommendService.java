@@ -9,15 +9,15 @@ import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.RecommendMapper;
 import com.luwei.model.recommend.pojo.cms.RecommendAddDTO;
+import com.luwei.model.recommend.pojo.cms.RecommendCmsVO;
 import com.luwei.model.recommend.pojo.cms.RecommendQueryDTO;
 import com.luwei.model.recommend.pojo.cms.RecommendUpdateDTO;
-import com.luwei.model.recommend.pojo.cms.RecommendCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -127,8 +127,9 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toRecommendVO);
     }
 
-    public boolean realDeleteByServiceId(Integer serviceId) {
-        int count = baseMapper.realDeleteByServiceId(serviceId);
+    public boolean realDeleteByServiceIdAndServiceType(Integer serviceId, Integer serviceType) {
+        Integer count = baseMapper.realDeleteByServiceIdAndServiceType(serviceId, serviceType);
+        log.info(count.toString());
         return count > 0;
     }
 }

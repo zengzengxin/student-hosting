@@ -7,12 +7,13 @@
     <artifactId>student-hosting</artifactId>
     <version>1.0</version>
     <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.4.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <properties>
@@ -22,8 +23,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <mybatisplus.version>3.0.5</mybatisplus.version>
-
-        <!-- swagger相关-->
+        <!--swagger相关-->
         <swagger.version>2.4.0</swagger.version>
     </properties>
 
@@ -33,13 +33,16 @@
         <module>web</module>
         <module>common</module>
         <module>mini</module>
-        <!--<module>mybatis-plus-generator</module>-->
     </modules>
-
-    <packaging>pom</packaging>
 
 
     <dependencies>
+
+        <!--spring-boot-starter-web-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
         <!--excel-->
         <dependency>
@@ -47,42 +50,35 @@
             <artifactId>poi</artifactId>
             <version>3.9</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>3.9</version>
         </dependency>
 
-        <!-- 时间工具 -->
+        <!--时间工具-->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.9.9</version>
         </dependency>
 
+        <!--httpclient-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
 
-        <!-- swagger -->
+        <!--swagger-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${swagger.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!--七牛云-->
@@ -99,45 +95,14 @@
             <version>0.0.9</version>
         </dependency>
 
+        <!--解密相关-->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.56</version>
         </dependency>
 
-        <!--微信公众号相关工具包-->
-        <!--<dependency>
-            <groupId>cn.com.riversoft</groupId>
-            <artifactId>weixin-mp</artifactId>
-            <version>0.9.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jackson-dataformat-xml</artifactId>
-                    <groupId>com.fasterxml.jackson.dataformat</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
-
-        <dependency>
-            <groupId>cn.com.riversoft</groupId>
-            <artifactId>weixin-open</artifactId>
-            <version>0.9.1</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jackson-module-jaxb-annotations</artifactId>
-                    <groupId>com.fasterxml.jackson.module</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jackson-dataformat-xml</artifactId>
-                    <groupId>com.fasterxml.jackson.dataformat</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
+        <!--mybatis-plus相关-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -147,6 +112,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>
             <version>3.0.5</version>
+        </dependency>
+
+        <!--redis依赖commons-pool 这个依赖一定要添加-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
 
     </dependencies>

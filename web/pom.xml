@@ -26,49 +26,9 @@
         </dependency>
 
         <!--excel-->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.9</version>
-        </dependency>
-
         <!-- 时间工具 -->
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.9.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-
+        <!-- httpclient -->
         <!--阿里短信-->
-        <dependency>
-            <groupId>com.luwei.module</groupId>
-            <artifactId>ali-sms</artifactId>
-            <version>0.0.9</version>
-        </dependency>
-
-        <!-- redis依赖commons-pool 这个依赖一定要添加 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
 
     </dependencies>
 

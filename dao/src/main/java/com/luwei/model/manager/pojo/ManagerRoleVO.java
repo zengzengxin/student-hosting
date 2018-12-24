@@ -1,6 +1,6 @@
 package com.luwei.model.manager.pojo;
 
-import com.luwei.common.constants.RoleEnum;
+import com.luwei.common.constant.RoleEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

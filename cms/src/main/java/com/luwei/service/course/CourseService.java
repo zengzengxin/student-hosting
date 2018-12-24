@@ -17,6 +17,7 @@ import com.luwei.model.coursepackage.pojo.cms.CoursePackageVO;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.RecommendMapper;
+import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import com.luwei.service.picture.PictureService;
 import com.luwei.service.recommend.RecommendService;
 import lombok.extern.slf4j.Slf4j;
@@ -245,18 +246,20 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
                     .setServicePrice(minPrice)
                     .setServiceIntroduction(course.getIntroduction())
                     .setServiceCoverUrl(course.getCoverUrl())
-                    .setWeight(1);
+                    .setWeight(1)
+                    .setServiceType(ServiceTypeEnum.COURSE);
 
             // 创建时间 更新时间
             LocalDateTime now = LocalDateTime.now();
             recommend.setCreateTime(now).setUpdateTime(now);
             recommendService.save(recommend);
+            return toCourseVO(course);
         }
 
         // 删除一条推荐数据
         course.setRecommend(false);
         Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
-        boolean success = recommendService.realDeleteByServiceId(course.getCourseId());
+        boolean success = recommendService.realDeleteByServiceIdAndServiceType(course.getCourseId(), 0);
         Assert.isTrue(success, MessageCodes.RECOMMEND_DELETE_ERROR);
 
         return toCourseVO(course);

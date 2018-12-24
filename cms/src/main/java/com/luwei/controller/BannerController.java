@@ -6,7 +6,7 @@ import com.luwei.model.banner.Banner;
 import com.luwei.model.banner.pojo.cms.BannerAddDTO;
 import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
-import com.luwei.model.banner.pojo.cms.BannerVO;
+import com.luwei.model.banner.pojo.cms.BannerCmsVO;
 import com.luwei.service.banner.BannerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class BannerController {
 
     @PostMapping
     @ApiOperation("新增")
-    public BannerVO saveBanner(@RequestBody @Valid BannerAddDTO addDTO) {
+    public BannerCmsVO saveBanner(@RequestBody @Valid BannerAddDTO addDTO) {
         return bannerService.saveBanner(addDTO);
     }
 
@@ -43,19 +43,19 @@ public class BannerController {
 
     @PutMapping
     @ApiOperation("修改")
-    public BannerVO updateBanner(@RequestBody @Valid BannerUpdateDTO updateDTO) {
+    public BannerCmsVO updateBanner(@RequestBody @Valid BannerUpdateDTO updateDTO) {
         return bannerService.updateBanner(updateDTO);
     }
 
     @GetMapping
     @ApiOperation("查询详情")
-    public BannerVO getBanner(@RequestParam @ApiParam("id") Integer id) {
+    public BannerCmsVO getBanner(@RequestParam @ApiParam("id") Integer id) {
         return bannerService.getBanner(id);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<BannerVO> page(@ModelAttribute @Valid BannerQueryDTO queryDTO, Page<Banner> page) {
+    public IPage<BannerCmsVO> page(@ModelAttribute @Valid BannerQueryDTO queryDTO, Page<Banner> page) {
         return bannerService.findPage(queryDTO, page);
     }
 

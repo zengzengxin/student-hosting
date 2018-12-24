@@ -1,4 +1,4 @@
-package com.luwei.common.constants;
+package com.luwei.common.constant;
 
 /**
  *

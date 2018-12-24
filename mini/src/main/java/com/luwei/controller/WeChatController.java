@@ -1,6 +1,5 @@
 package com.luwei.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.WeiXinUtils;
 import com.luwei.module.shiro.service.ShiroTokenService;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * Author: huanglp
@@ -30,10 +30,8 @@ public class WeChatController {
     @Resource
     private WeChatService weChatService;
 
-
     @Resource
     private MiniUserService miniUserService;
-
 
     @Resource
     private ShiroTokenService shiroTokenService;
@@ -63,9 +61,9 @@ public class WeChatController {
 
         // TODO 小程序授权
         String sessionKey = (String) WeiXinUtils.login(code).get("session_key");
-        JSONObject jsonObject = WeiXinUtils.decryptWxData(encryptedData, sessionKey, iv);
+        Map<String, Object> map = WeiXinUtils.decryptWxData(encryptedData, sessionKey, iv);
 
-       return weChatService.addMinuuser(jsonObject);
+        return weChatService.addMinuuser(map);
     }
 
 }

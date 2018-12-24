@@ -2,8 +2,8 @@ package com.luwei.model.manager.pojo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -19,7 +19,7 @@ public class ManagerResetPasswordVO {
     private Integer managerId;
 
     @ApiModelProperty("密码")
-    @NotBlank(message = "请输入管理员密码")
+    @NotBlank(message = "请输入密码")
     private String password;
 
 }

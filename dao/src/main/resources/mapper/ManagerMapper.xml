@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luwei.model.manager.ManagerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.luwei.model.manager.Manager">
+        <id column="manager_id" property="managerId"/>
+        <result column="account" property="account"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="role" property="role"/>
+        <result column="disabled" property="disabled"/>
+        <result column="school_id" property="schoolId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        manager_id, account, name, password, role, disabled, school_id, create_time, update_time, deleted
+    </sql>
+
+    <select id="selectManagerPage" resultType="com.luwei.model.manager.pojo.ManagerPageVO">
+        <![CDATA[
+        select manager_id, account, name, role, disabled, create_time, last_login_time from tb_manager where role = #{roleEnum} and deleted = false
+      ]]>
+        <if test="name != null">
+            <![CDATA[
+              and (name like CONCAT('%',#{name},'%') or account like CONCAT('%',#{name},'%'))
+            ]]>
+        </if>
+        <if test="managerId != null">
+            <![CDATA[
+              and manager_id = #{managerId}
+            ]]>
+        </if>
+    </select>
+
+    <select id="selectForSpecialCondition" resultType="com.luwei.model.manager.Manager">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_manager
+        where name like '%admin%'
+    </select>
+
+</mapper>

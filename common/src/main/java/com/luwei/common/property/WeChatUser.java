@@ -1,4 +1,4 @@
-package com.luwei.model.user.pojo;
+package com.luwei.common.property;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

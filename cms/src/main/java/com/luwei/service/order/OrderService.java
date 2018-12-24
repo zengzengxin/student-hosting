@@ -35,7 +35,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @param id
      * @return
      */
-    private Order findById(Long id) {
+    private Order findById(String id) {
         // 若此id已被逻辑删除,也会返回null
         Order order = getById(id);
         // TODO 修改MessageCodes
@@ -79,7 +79,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @param ids
      */
     @Transactional
-    public void deleteOrders(Set<Integer> ids) {
+    public void deleteOrders(Set<String> ids) {
         // 若用removeByIds,因为删除不存在的逻辑上属于成功,所以也返回true
         int count = baseMapper.deleteBatchIds(ids);
         Assert.isTrue(count == ids.size(), MessageCodes.ORDER_DELETE_ERROR);
@@ -92,7 +92,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @param id
      * @return
      */
-    public OrderVO getOrder(Long id) {
+    public OrderVO getOrder(String id) {
         Order order = findById(id);
         log.info(order.toString());
         OrderVO orderVO = toOrderVO(order);

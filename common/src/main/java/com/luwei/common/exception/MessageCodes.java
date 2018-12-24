@@ -108,4 +108,6 @@ public interface MessageCodes {
     //推荐服务相关
     String RECOMMEND_DELETE_ERROR = "recommend.delete.error";//推荐删除失败
 
+    String ROOT_CANNOT_DISABLED = "";
+    String ROOT_CANNOT_DELETE = "";
 }

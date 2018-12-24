@@ -1,6 +1,7 @@
 package com.luwei.model.recommend;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Author: huanglp
@@ -8,5 +9,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RecommendMapper extends BaseMapper<Recommend> {
 
-    int realDeleteByServiceId(Integer serviceId);
+    Integer realDeleteByServiceIdAndServiceType(@Param("serviceId") Integer serviceId, @Param("serviceType") Integer serviceType);
 }

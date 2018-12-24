@@ -1,21 +1,20 @@
 package com.luwei.service.manager;
 
-import com.luwei.common.constants.RoleEnum;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
-import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.BcryptUtil;
-import com.luwei.common.util.CommonSpecUtil;
 import com.luwei.model.manager.Manager;
-import com.luwei.model.manager.ManagerDao;
+import com.luwei.model.manager.ManagerMapper;
 import com.luwei.model.manager.pojo.*;
 import com.luwei.module.shiro.service.ShiroTokenService;
-import com.luwei.module.shiro.service.UserHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -31,13 +30,7 @@ import java.util.Set;
  */
 @Slf4j
 @Service
-public class ManagerService {
-
-    @Resource
-    private CommonSpecUtil<Manager> specUtil;
-
-    @Resource
-    private ManagerDao managerDao;
+public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
 
     @Resource
     private ShiroTokenService shiroTokenService;
@@ -49,14 +42,11 @@ public class ManagerService {
      * 获得管理员列表
      *
      * @param managerQueryVO
-     * @param pageable
-     * @return Page<ManagerPageVO>
+     * @param page
+     * @return IPage<ManagerPageVO>
      */
-    public Page<ManagerPageVO> findPage(ManagerQueryVO managerQueryVO, Pageable pageable) {
-        Specification<Manager> spec = Specification.where(specUtil.equal("deleted", false))
-                .and(specUtil.equal("managerId", managerQueryVO.getManagerId()))
-                .and(specUtil.like("name", managerQueryVO.getName()));
-        return managerDao.findAll(spec, pageable).map(this::toManagerPageVO);
+    public IPage<ManagerPageVO> findPage(ManagerQueryVO managerQueryVO, Page page, RoleEnum roleEnum) {
+        return baseMapper.selectManagerPage(page, roleEnum, managerQueryVO.getManagerId(), managerQueryVO.getName());
     }
 
     /**
@@ -78,13 +68,8 @@ public class ManagerService {
      * @return ManagerPageVO
      */
     @Transactional
-    public ManagerPageVO add(ManagerAddVO addVO) {
+    public ManagerPageVO add(ManagerAddVO addVO, RoleEnum roleEnum) {
         String account = addVO.getAccount();
-
-        if (!Objects.equals("luwei", account)
-                && addVO.getRole().equals(RoleEnum.ROOT)) {
-            throw new IllegalArgumentException(MessageCodes.NOT_ALLOW_ADD_LUWEI_EXCEPT_ROOT);
-        }
 
         String password;
         try {
@@ -93,12 +78,15 @@ public class ManagerService {
             log.error("RSAUtil.decrypt exception", e);
             throw new IllegalArgumentException(MessageCodes.RSAUtil_DECRYPT_ERROR);
         }
-        Manager manager = managerDao.findByAccountAndDeletedIsFalse(account);
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("account", account);
+        Manager manager = baseMapper.selectOne(wrapper);
         Assert.isNull(manager, MessageCodes.ACCOUNT_ALREADY_EXIST);
         manager = new Manager();
         BeanUtils.copyProperties(addVO, manager);
+        manager.setName(addVO.getAccount());
+        manager.setRole(roleEnum);
         manager.setPassword(password);
-        managerDao.save(manager);
+        baseMapper.insert(manager);
         return toManagerPageVO(manager);
     }
 
@@ -108,18 +96,14 @@ public class ManagerService {
      * @param managerId
      * @return ManagerEditVO
      */
-    public ManagerEditVO toEdit(int managerId) {
-        Manager manager = managerDao.findById(managerId).orElse(null);
-        Assert.notNull(manager,MessageCodes.MANAGER_NOT_EXIST);
-
-        if (!Objects.equals(manager.getRole(), RoleEnum.ROOT)
-                && !Objects.equals(managerId, UserHelper.getUserId())) {
-            throw new ValidationException(MessageCodes.NOT_ROOT_ONLY_CAN_EDIT_SELF_INFO);
-        }
+    public ManagerEditVO toEdit(int managerId, RoleEnum roleEnum) {
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerId).eq("role", roleEnum);
+        Manager manager = baseMapper.selectOne(wrapper);
+        Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
 
         ManagerEditVO editVO = new ManagerEditVO();
         editVO.setManagerId(managerId);
-        editVO.setName(manager.getName());
+        editVO.setAccount(manager.getAccount());
         return editVO;
     }
 
@@ -130,17 +114,13 @@ public class ManagerService {
      * @return
      */
     @Transactional
-    public ManagerPageVO update(ManagerEditVO editVO) {
-        Manager manager = managerDao.findById(editVO.getManagerId()).orElse(null);
-        Assert.notNull(manager,MessageCodes.MANAGER_NOT_EXIST);
+    public ManagerPageVO update(ManagerEditVO editVO, RoleEnum roleEnum) {
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", editVO.getManagerId()).eq("role", roleEnum);
+        Manager manager = baseMapper.selectOne(wrapper);
+        Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
 
-        if (!Objects.equals(manager.getRole(), RoleEnum.ROOT)
-                && !Objects.equals(editVO.getManagerId(), UserHelper.getUserId())) {
-            throw new ValidationException(MessageCodes.NOT_ROOT_ONLY_CAN_EDIT_SELF_INFO);
-        }
-
-        manager.setName(editVO.getName());
-        managerDao.save(manager);
+        manager.setAccount(editVO.getAccount());
+        saveOrUpdate(manager);
 
         return toManagerPageVO(manager);
     }
@@ -151,15 +131,15 @@ public class ManagerService {
      * @param managerStateVO
      */
     @Transactional
-    public ManagerPageVO handleDisabled(ManagerStateVO managerStateVO) {
-        Manager manager = managerDao.findById(managerStateVO.getManagerId()).orElse(null);
-        Assert.notNull(manager,MessageCodes.MANAGER_NOT_EXIST);
-        Assert.isTrue(Objects.equals(manager.getRole(), RoleEnum.ADMIN), MessageCodes.ADMIN_CANNOT_DISABLED);
-        manager.setDisabled(!manager.getDisabled());
+    public ManagerPageVO handleDisabled(ManagerStateVO managerStateVO, RoleEnum roleEnum) {
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerStateVO.getManagerId()).eq("role", roleEnum);
+        Manager manager = baseMapper.selectOne(wrapper);
+        Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
+        Assert.isTrue(!Objects.equals(manager.getRole(), RoleEnum.ROOT), MessageCodes.ROOT_CANNOT_DISABLED);
         if (manager.getDisabled()) {
             shiroTokenService.logout(managerStateVO.getManagerId().toString());
         }
-        managerDao.save(manager);
+        baseMapper.update(new Manager(), new UpdateWrapper<Manager>().lambda().set(Manager::getDisabled, !manager.getDisabled()).eq(Manager::getManagerId, manager.getManagerId()));
         return toManagerPageVO(manager);
     }
 
@@ -169,27 +149,24 @@ public class ManagerService {
      * @param idList
      */
     @Transactional
-    public void delete(Set<Integer> idList) {
+    public void delete(Set<Integer> idList, RoleEnum roleEnum) {
+        Manager manager;
         for (Integer managerId : idList) {
-            Manager manager = managerDao.findByManagerIdAndDeletedIsFalse(managerId);
+            QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerId).eq("role", roleEnum);
+            manager = baseMapper.selectOne(wrapper);
             if (Objects.nonNull(manager)) {
-                Assert.isTrue(Objects.equals(manager.getRole(), RoleEnum.ADMIN), MessageCodes.ADMIN_CANNOT_DELETE);
+                Assert.isTrue(!Objects.equals(manager.getRole(), RoleEnum.ROOT), MessageCodes.ROOT_CANNOT_DELETE);
                 shiroTokenService.login(managerId.toString());
-                manager.setDeleted(true);
-                managerDao.save(manager);
+                baseMapper.deleteById(managerId);
             }
         }
     }
 
     @Transactional
-    public ManagerPageVO resetPassword(ManagerResetPasswordVO managerResetPasswordVO) {
-
-        Manager manager = managerDao.findById(managerResetPasswordVO.getManagerId()).orElse(null);
+    public ManagerPageVO resetPassword(ManagerResetPasswordVO managerResetPasswordVO, RoleEnum roleEnum) {
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerResetPasswordVO.getManagerId()).eq("role", roleEnum);
+        Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
-        if (!Objects.equals(manager.getRole(), RoleEnum.ROOT)
-                && !Objects.equals(managerResetPasswordVO.getManagerId(), UserHelper.getUserId())) {
-            throw new ValidationException(MessageCodes.NOT_ROOT_ONLY_CAN_EDIT_SELF_INFO);
-        }
         String md5Password;
         try {
             md5Password = DigestUtils.md5DigestAsHex((BcryptUtil.decrypt(managerResetPasswordVO.getPassword()) + salt).getBytes());
@@ -197,8 +174,7 @@ public class ManagerService {
             log.error("RSAUtil.decrypt exception", e);
             throw new IllegalArgumentException(MessageCodes.RSAUtil_DECRYPT_ERROR);
         }
-        manager.setPassword(md5Password);
-        managerDao.save(manager);
+        baseMapper.update(new Manager(), new UpdateWrapper<Manager>().lambda().set(Manager::getPassword, md5Password).eq(Manager::getManagerId, manager.getManagerId()));
 
         return toManagerPageVO(manager);
     }
@@ -208,8 +184,8 @@ public class ManagerService {
      *
      * @param vo
      * @return
-     */
-    public ManagerPageVO editPassword(ManagerEditPasswordVO vo) {
+     *//*
+    public ManagerPageVO editPassword(ManagerEditPasswordVO vo, RoleEnum roleEnum) {
         Manager manager = managerDao.findById(vo.getManagerId()).orElse(null);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         String md5Password = DigestUtils.md5DigestAsHex((BcryptUtil.decrypt(vo.getPassword()) + salt).getBytes());
@@ -229,5 +205,5 @@ public class ManagerService {
         managerDao.save(manager);
 
         return toManagerPageVO(manager);
-    }
+    }*/
 }

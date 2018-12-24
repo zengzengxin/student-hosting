@@ -2,10 +2,7 @@ package com.luwei.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.luwei.model.hosting.pojo.cms.HostingAddDTO;
-import com.luwei.model.hosting.pojo.cms.HostingQueryDTO;
-import com.luwei.model.hosting.pojo.cms.HostingUpdateDTO;
-import com.luwei.model.hosting.pojo.cms.HostingVO;
+import com.luwei.model.hosting.pojo.cms.*;
 import com.luwei.service.hosting.HostingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,6 +48,11 @@ public class HostingController {
         return hostingService.findHostingPage(hostingQueryDTO, page);
     }
 
+    @PutMapping("/recommend")
+    @ApiOperation("设为推荐")
+    public HostingVO recommend(@RequestBody @Valid HostingRecommend recommend) {
+        return hostingService.recommend(recommend);
+    }
 
 }
 
