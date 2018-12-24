@@ -1,8 +1,8 @@
 package com.luwei.controller;
 
 import com.luwei.common.exception.ValidationException;
+import com.luwei.common.property.WeChatUser;
 import com.luwei.common.util.WeChatUtils;
-import com.luwei.model.user.pojo.WeChatUser;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.wechat.WeChatService;
 import io.swagger.annotations.Api;
