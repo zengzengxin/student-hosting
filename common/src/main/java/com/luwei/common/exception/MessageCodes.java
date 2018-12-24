@@ -90,8 +90,7 @@ public interface MessageCodes {
 
     //WeChat相关
     String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;
-    String MINIUSER_SAVE_ERROR = "miniuser.save.fail";//微信用户保存失败;
-
+    String MINIUSER_SAVE_ERROR = "miniuser.save.fail";//小程序用户保存失败;
 
     //excel表相关
     String EXCEL_HAS_NO_DATA = "excel.has.no.data";//excel表没有数据
@@ -106,5 +105,7 @@ public interface MessageCodes {
     String RECOMMEND_IS_NOT_EXIST = "recomment.is.not.exist";//推荐不存在
     String RECOMEND_WEIGHT_UPDATE_ERROR = "recomment.weight.update.exist";//推荐不存在
 
+    //推荐服务相关
+    String RECOMMEND_DELETE_ERROR = "recommend.delete.error";//推荐删除失败
 
 }

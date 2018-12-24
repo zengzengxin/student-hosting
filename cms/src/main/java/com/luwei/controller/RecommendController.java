@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.pojo.cms.RecommendQueryDTO;
-import com.luwei.model.recommend.pojo.cms.RecommendVO;
+import com.luwei.model.recommend.pojo.cms.RecommendCmsVO;
 import com.luwei.service.recommend.RecommendService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,13 +49,13 @@ public class RecommendController {
 
     @GetMapping
     @ApiOperation("查询详情")
-    public RecommendVO getRecommend(@RequestParam @ApiParam("id") Integer id) {
+    public RecommendCmsVO getRecommend(@RequestParam @ApiParam("id") Integer id) {
         return recommendService.getRecommend(id);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<RecommendVO> page(@ModelAttribute @Valid RecommendQueryDTO queryDTO, Page<Recommend> page) {
+    public IPage<RecommendCmsVO> page(@ModelAttribute @Valid RecommendQueryDTO queryDTO, Page<Recommend> page) {
         return recommendService.findPage(queryDTO, page);
     }
 

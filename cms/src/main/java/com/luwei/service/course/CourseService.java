@@ -8,17 +8,17 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.course.Course;
 import com.luwei.model.course.CourseMapper;
-import com.luwei.model.course.pojo.cms.CourseAddDTO;
-import com.luwei.model.course.pojo.cms.CourseQueryDTO;
-import com.luwei.model.course.pojo.cms.CourseUpdateDTO;
-import com.luwei.model.course.pojo.cms.CourseVO;
+import com.luwei.model.course.pojo.cms.*;
 import com.luwei.model.coursepackage.CoursePackage;
 import com.luwei.model.coursepackage.CoursePackageMapper;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageAddDTO;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageUpdateDTO;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageVO;
 import com.luwei.model.picture.envm.PictureTypeEnum;
+import com.luwei.model.recommend.Recommend;
+import com.luwei.model.recommend.RecommendMapper;
 import com.luwei.service.picture.PictureService;
+import com.luwei.service.recommend.RecommendService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +44,11 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     @Resource
     private CoursePackageMapper coursePackageMapper;
 
-
     @Resource
     private PictureService pictureService;
+
+    @Resource
+    private RecommendService recommendService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -111,8 +114,6 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
-
-
     private CoursePackageVO saveCoursePackage(CoursePackageAddDTO addDTO, Integer courseId) {
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(addDTO, coursePackage);
@@ -132,7 +133,6 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         BeanUtils.copyProperties(coursePackage, packageVO);
         return packageVO;
     }
-
 
     /**
      * 批量删除Course
@@ -230,4 +230,35 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return courseVO.setCoursePackageList(list).setPictureUrls(urls);
     }
 
+    public CourseVO recommend(CourseRecommend courseRecommend) {
+        Course course = getById(courseRecommend.getCourseId());
+        Assert.notNull(course, MessageCodes.COURSE_IS_NOT_EXIST);
+        if (courseRecommend.getRecommend()) {
+            course.setRecommend(true);
+            //saveOrUpdate(course);
+            Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
+            // 最低价格
+            BigDecimal minPrice = coursePackageMapper.findMinPriceByCourseId(course.getCourseId());
+            Recommend recommend = new Recommend();
+            recommend.setServiceId(course.getCourseId())
+                    .setServiceName(course.getCourseName())
+                    .setServicePrice(minPrice)
+                    .setServiceIntroduction(course.getIntroduction())
+                    .setServiceCoverUrl(course.getCoverUrl())
+                    .setWeight(1);
+
+            // 创建时间 更新时间
+            LocalDateTime now = LocalDateTime.now();
+            recommend.setCreateTime(now).setUpdateTime(now);
+            recommendService.save(recommend);
+        }
+
+        // 删除一条推荐数据
+        course.setRecommend(false);
+        Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
+        boolean success = recommendService.realDeleteByServiceId(course.getCourseId());
+        Assert.isTrue(success, MessageCodes.RECOMMEND_DELETE_ERROR);
+
+        return toCourseVO(course);
+    }
 }

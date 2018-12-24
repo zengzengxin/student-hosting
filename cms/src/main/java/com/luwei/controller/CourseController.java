@@ -3,10 +3,7 @@ package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.course.Course;
-import com.luwei.model.course.pojo.cms.CourseAddDTO;
-import com.luwei.model.course.pojo.cms.CourseQueryDTO;
-import com.luwei.model.course.pojo.cms.CourseUpdateDTO;
-import com.luwei.model.course.pojo.cms.CourseVO;
+import com.luwei.model.course.pojo.cms.*;
 import com.luwei.service.course.CourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,8 +58,8 @@ public class CourseController {
 
     @PutMapping("/recommend")
     @ApiOperation("设为推荐")
-    public CourseVO recommend(@RequestBody @Valid CourseUpdateDTO updateDTO) {
-        return courseService.updateCourse(updateDTO);
+    public CourseVO recommend(@RequestBody @Valid CourseRecommend recommend) {
+        return courseService.recommend(recommend);
     }
 
 }

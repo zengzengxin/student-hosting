@@ -8,9 +8,10 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.RecommendMapper;
+import com.luwei.model.recommend.pojo.cms.RecommendAddDTO;
 import com.luwei.model.recommend.pojo.cms.RecommendQueryDTO;
 import com.luwei.model.recommend.pojo.cms.RecommendUpdateDTO;
-import com.luwei.model.recommend.pojo.cms.RecommendVO;
+import com.luwei.model.recommend.pojo.cms.RecommendCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
         // 若此id已被逻辑删除,也会返回null
         Recommend recommend = getById(id);
         // TODO 修改MessageCodes
-        Assert.notNull(recommend, MessageCodes.RECOMMEND_IS_NOT_EXIST);
+        Assert.notNull(recommend, MessageCodes.DATA_IS_NOT_EXIST);
         return recommend;
     }
 
@@ -48,13 +49,29 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
      * @param recommend
      * @return
      */
-    private RecommendVO toRecommendVO(Recommend recommend) {
-        RecommendVO recommendVO = new RecommendVO();
+    private RecommendCmsVO toRecommendVO(Recommend recommend) {
+        RecommendCmsVO recommendVO = new RecommendCmsVO();
         BeanUtils.copyProperties(recommend, recommendVO);
         return recommendVO;
     }
 
-
+    /**
+     * 新增Recommend
+     *
+     * @param addDTO
+     * @return
+     */
+    @Transactional
+    public RecommendCmsVO saveRecommend(RecommendAddDTO addDTO) {
+        Recommend recommend = new Recommend();
+        BeanUtils.copyProperties(addDTO, recommend);
+        LocalDateTime time = LocalDateTime.now();
+        recommend.setUpdateTime(time);
+        recommend.setCreateTime(time);
+        Assert.isTrue(save(recommend), MessageCodes.DATA_SAVE_ERROR);
+        log.info("保存数据: {}", recommend);
+        return toRecommendVO(recommend);
+    }
 
     /**
      * 批量删除Recommend
@@ -70,18 +87,18 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
     }
 
     /**
-     * 修改权重
+     * 修改Recommend
      *
      * @param updateDTO
      * @return
      */
     @Transactional
-    public RecommendVO updateWeight(RecommendUpdateDTO updateDTO) {
+    public RecommendCmsVO updateRecommend(RecommendUpdateDTO updateDTO) {
         Recommend recommend = new Recommend();
         BeanUtils.copyProperties(updateDTO, recommend);
         recommend.setUpdateTime(LocalDateTime.now());
         // updateById不会把null的值赋值,修改成功后也不会赋值数据库所有的字段
-        Assert.isTrue(updateById(recommend), MessageCodes.RECOMEND_WEIGHT_UPDATE_ERROR);
+        Assert.isTrue(updateById(recommend), MessageCodes.DATA_UPDATE_ERROR);
         log.info("修改数据: bean {}", updateDTO);
         return getRecommend(recommend.getRecommendId());
     }
@@ -92,7 +109,7 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
      * @param id
      * @return
      */
-    public RecommendVO getRecommend(Integer id) {
+    public RecommendCmsVO getRecommend(Integer id) {
         return toRecommendVO(findById(id));
     }
 
@@ -103,13 +120,15 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
      * @param page
      * @return
      */
-    public IPage<RecommendVO> findPage(RecommendQueryDTO queryDTO, Page<Recommend> page) {
+    public IPage<RecommendCmsVO> findPage(RecommendQueryDTO queryDTO, Page<Recommend> page) {
         Recommend recommend = new Recommend();
         QueryWrapper<Recommend> wrapper = new QueryWrapper<>(recommend);
         // TODO wrapper根据实际业务封装条件
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toRecommendVO);
     }
 
-
-
+    public boolean realDeleteByServiceId(Integer serviceId) {
+        int count = baseMapper.realDeleteByServiceId(serviceId);
+        return count > 0;
+    }
 }

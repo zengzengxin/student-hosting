@@ -121,6 +121,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      */
     public IPage<BannerVO> findPage(BannerQueryDTO queryDTO, Page<Banner> page) {
 
+        // ObjectUtils.isEmpty(queryDTO.getBannerType());
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page,
                 new QueryWrapper<Banner>().lambda().eq(Banner::getBannerType, queryDTO.getBannerType())), this::toBannerVO);
     }
