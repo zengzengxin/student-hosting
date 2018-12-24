@@ -4,13 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.luwei.common.property.WxMiniProperties;
 import com.luwei.common.property.WxProperties;
-import com.riversoft.weixin.common.oauth2.AccessToken;
-import com.riversoft.weixin.common.oauth2.OpenUser;
-import com.riversoft.weixin.open.base.AppSetting;
-import com.riversoft.weixin.open.oauth2.OpenOAuth2s;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Map;
 
 /**
  * Author: huanglp
@@ -26,7 +24,7 @@ public class WeiXinUtils {
      * @param code
      * @return
      */
-    public static JSONObject login(String code) {
+    public static Map<String, Object> login(String code) {
         log.info("==============小程序登录方法开始================");
         WxMiniProperties properties = WeiXinPropertiesUtils.getWxMiniProperties();
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + properties.getAppId()
@@ -50,7 +48,7 @@ public class WeiXinUtils {
     /**
      * 通过encryptedData,sessionKey,iv获得解密信息, 拥有用户丰富的信息, 包含openid,unionid,昵称等
      */
-    public static JSONObject decryptWxData(String encryptedData, String sessionKey, String iv) {
+    public static Map<String, Object> decryptWxData(String encryptedData, String sessionKey, String iv) {
         log.info("============小程序登录解析数据方法开始==========");
         String result = AesCbcUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");
         JSONObject userInfo = new JSONObject();
@@ -68,17 +66,12 @@ public class WeiXinUtils {
      * @param code
      * @return
      */
-    public static OpenUser webSiteLogin(String code) {
+    public static Map<String, Object> webSiteLogin(String code) {
         log.info("============微信公众号(网页)授权开始===========");
         WxProperties properties = WeiXinPropertiesUtils.getWxProperties();
-        AppSetting appSetting = new AppSetting(properties.getAppId(), properties.getAppSecret());
-        OpenOAuth2s openOAuth2s = OpenOAuth2s.with(appSetting);
-        AccessToken accessToken = openOAuth2s.getAccessToken(code);
 
-        //获取用户信息
-        OpenUser openUser = openOAuth2s.userInfo(accessToken.getAccessToken(), accessToken.getOpenId());
         log.info("============微信公众号(网页)授权结束===========");
-        return openUser;
+        return null;
     }
 
 }
