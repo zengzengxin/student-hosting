@@ -80,8 +80,11 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
      */
     public TeacherCmsVO getTeacher() {
         Integer id = UserHelper.getUserId();
-        return toTeacherVO(findById(id));
+
+        return toTeacherVO(baseMapper.findteacherById(id));
     }
+
+
 
     /*
      * 绑定手机号 ,更新miniuser

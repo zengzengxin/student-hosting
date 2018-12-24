@@ -8,6 +8,7 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.common.util.OrderIdUtils;
 import com.luwei.model.child.Child;
+import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.course.Course;
 import com.luwei.model.coursepackage.CoursePackage;
 import com.luwei.model.hosting.Hosting;
@@ -27,7 +28,6 @@ import com.luwei.service.course.CourseService;
 import com.luwei.service.coursepackage.CoursePackageService;
 import com.luwei.service.hosting.HostingService;
 import com.luwei.service.parent.ParentService;
-import com.luwei.service.parentchild.ParentChildService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -39,8 +39,11 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Author: huanglp
@@ -63,11 +66,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
     private CoursePackageService coursePackageService;
 
     @Resource
-    private ParentChildService parentChildService;
-    @Resource
     private HostingService hostingService;
-
-
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -114,12 +113,12 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         Child child = childService.getById(hostingOrderDTO.getChildId());
 
         //判断所选时间是否有效
-/*        if (hosting.getStartTime().compareTo(hostingOrderDTO.getStartTime())>0 || hosting.getEndTime().compareTo(hostingOrderDTO.getStartTime())<0){
+        if (hosting.getStartTime().compareTo(hostingOrderDTO.getStartTime()) < 0 || hosting.getEndTime().compareTo(hostingOrderDTO.getEndTime()) > 0) {
             Assert.isTrue(true, MessageCodes.ORDER_TIME_ERROR);
-        }*/
-
+        }
 
         //判断孩子是不是家长的孩子
+        List<ChildWebVO> childList = parentService.findAllParentById(parentId);
 
 
 
@@ -129,7 +128,6 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         order.setIntroduction(hosting.getIntroduction());
         order.setServiceId(hosting.getHostingId());
         order.setSchoolName(hosting.getSchoolName());
-
 
         //设置关于家长的信息
         order.setParentId(parent.getParentId());
@@ -147,7 +145,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         order.setServiceEndTime(hostingOrderDTO.getEndTime());
 
         //设置价格
-        order.setPrice(getprice(hostingOrderDTO.getStartTime(),hostingOrderDTO.getEndTime()));
+        order.setPrice(getprice(hostingOrderDTO.getStartTime(), hostingOrderDTO.getEndTime()));
 
         // 支付方式 - 待定
         //order.setPayment(PaymentEnum.WECHAT);
@@ -164,57 +162,53 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         order.setOrderId(OrderIdUtils.getOrderIdByTimestamp());
         System.out.println(order.getOrderId());
 
-
         Assert.isTrue(save(order), MessageCodes.ORDER_SAVE_ERROR);
         log.info("保存数据: {}", order);
         return toOrderVO(order);
     }
 
     //计算价格
-    private static BigDecimal getprice(LocalDateTime startTime , LocalDateTime endTime){
+    private static BigDecimal getprice(LocalDateTime startTime, LocalDateTime endTime) {
 
-        int starkWeek =0;
-        int endkWeek =0;
-        int offest=0; //偏移量
+        int starkWeek = 0;
+        int endkWeek = 0;
+        int offest = 0; //偏移量
         long days = 0; //两个时间之间的天数
         long workDays = 0; //工作日
 
-
         //计算偏移量
-        if(startTime.getDayOfWeek().getValue() != 6 && startTime.getDayOfWeek().getValue() != 7){
+        if (startTime.getDayOfWeek().getValue() != 6 && startTime.getDayOfWeek().getValue() != 7) {
             starkWeek = startTime.getDayOfWeek().getValue();
-        }else {
-            starkWeek =  5;
+        } else {
+            starkWeek = 5;
         }
 
-        if(endTime.getDayOfWeek().getValue() != 6 && endTime.getDayOfWeek().getValue() != 7){
+        if (endTime.getDayOfWeek().getValue() != 6 && endTime.getDayOfWeek().getValue() != 7) {
             endkWeek = endTime.getDayOfWeek().getValue();
-        }else {
-            endkWeek =  5;
+        } else {
+            endkWeek = 5;
         }
 
-        if(starkWeek<endkWeek){
-            offest = endkWeek - starkWeek +1;
-        }else if(starkWeek>endkWeek){
-            offest = 5 - starkWeek +endkWeek;
-        }else {
+        if (starkWeek < endkWeek) {
+            offest = endkWeek - starkWeek + 1;
+        } else if (starkWeek > endkWeek) {
+            offest = 5 - starkWeek + endkWeek;
+        } else {
             offest = 1;
         }
 
         Duration be = Duration.between(startTime, endTime);
-        days =  be.toDays();
+        days = be.toDays();
 
+        workDays = ((days + 1) / 7) * 5 + offest;
 
-
-         workDays =  ((days+1)/7)*5 + offest;
-
-         return BigDecimal.valueOf(workDays*100);
+        return BigDecimal.valueOf(workDays * 100);
     }
 
-   /*
-    *
-    * 确认下单/立即购买
-    * */
+    /*
+     *
+     * 确认下单/立即购买
+     * */
     @Transactional
     public OrderVO confirmOrder(ConfirmOrderDTO orderDTO) {
         Order order = new Order();
@@ -324,6 +318,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
 
     /**
      * 私有方法 处理订单,判断订单是否已过期或已完成
+     *
      * @param order
      * @return
      */
@@ -354,12 +349,12 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         return null;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println(LocalDateTime.now().getDayOfWeek());
         LocalDateTime now = LocalDateTime.now();
-        System.out.println(now.compareTo(now));
+        sleep(100);
+        System.out.println(LocalDateTime.now().compareTo(now));
         System.out.println(LocalDateTime.now().minusMonths(1).getDayOfWeek());
-
 
     }
 }

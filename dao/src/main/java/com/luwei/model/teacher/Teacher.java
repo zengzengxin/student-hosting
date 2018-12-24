@@ -66,4 +66,7 @@ public class Teacher implements Serializable {
     @ApiModelProperty(value = "学校类型")
     private SchoolTypeEnum schoolType;
 
+    @ApiModelProperty(value = "家长头像")
+    private String avatarUrl;
+
 }
