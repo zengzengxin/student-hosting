@@ -1,7 +1,7 @@
 # mybatis相关配置
 mybatis-plus:
   # 扫描枚举包
-  type-enums-package: com.luwei.model.**
+  type-enums-package: com.luwei.model.**;com.luwei.common.constant
   # MyBatis Mapper 所对应的 XML 文件位置
   mapper-locations: classpath*:mapper/*.xml
   # MyBaits 别名包扫描路径，注册后在Mapper对应的XML文件中可以直接使用类名，
