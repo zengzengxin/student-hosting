@@ -109,7 +109,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return findById(hosting.getHostingId()).setPictureUrls(pictureService.findAllByForeignKeyId(hosting.getHostingId(),PictureTypeEnum.HOSTING.getValue()));
     }
 
-    public IPage<HostingVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page page) {
+    public IPage<HostingVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
         Hosting hosting = new Hosting();
         QueryWrapper<Hosting> wrapper = new QueryWrapper<>(hosting);
         if (hostingQueryDTO.getName() != null && !hostingQueryDTO.getName().equals("")) {
@@ -117,8 +117,8 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         }
         IPage<HostingVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toHostingVO);
         List<HostingVO> list = iPage.getRecords();
-        List collect = list.stream().map(this::dealWith).collect(Collectors.toList());
-
+        List<HostingVO> collect = list.stream().map(this::dealWith).collect(Collectors.toList());
+        iPage.setRecords(collect);
         return iPage;
     }
 

@@ -9,9 +9,9 @@ import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.hosting.Hosting;
 import com.luwei.model.hosting.HostingMapper;
-import com.luwei.model.hosting.pojo.web.HostingQueryDTO;
-import com.luwei.model.hosting.pojo.web.HostingVO;
+import com.luwei.model.hosting.pojo.web.HostingWebVO;
 import com.luwei.model.picture.PictureMapper;
+import com.luwei.model.picture.envm.PictureTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -38,17 +38,17 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
 
 
-    public HostingVO findById(Integer hostingId) {
+    public HostingWebVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
         //TODO记得修改MessageCodes
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         //设置图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(hosting.getHostingId(), 1);
+        List<String> urls = pictureMapper.findAllByForeignKeyId(hosting.getHostingId(), PictureTypeEnum.HOSTING.getValue());
         return toHostingVO(hosting).setPictureUrls(urls);
     }
 
-    private HostingVO toHostingVO(Hosting hosting) {
-        HostingVO hostingVO = new HostingVO();
+    private HostingWebVO toHostingVO(Hosting hosting) {
+        HostingWebVO hostingVO = new HostingWebVO();
         BeanUtils.copyNonNullProperties(hosting, hostingVO);
         return hostingVO;
     }
@@ -56,19 +56,19 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
 
 
-    public IPage<HostingVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page page) {
+    public IPage<HostingWebVO> findHostingPage(Page page) {
         Hosting hosting = new Hosting();
         QueryWrapper<Hosting> wrapper = new QueryWrapper<>(hosting);
-        IPage<HostingVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toHostingVO);
-        List<HostingVO> list = iPage.getRecords();
+        IPage<HostingWebVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toHostingVO);
+        List<HostingWebVO> list = iPage.getRecords();
         List collect = list.stream().map(this::dealWith).collect(Collectors.toList());
 
         return iPage;
     }
 
-    private HostingVO dealWith(HostingVO hostingVO) {
+    private HostingWebVO dealWith(HostingWebVO hostingVO) {
         // 设置图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(hostingVO.getHostingId(), 1);
+        List<String> urls = pictureMapper.findAllByForeignKeyId(hostingVO.getHostingId(), PictureTypeEnum.HOSTING.getValue());
 
         return hostingVO.setPictureUrls(urls);
     }
