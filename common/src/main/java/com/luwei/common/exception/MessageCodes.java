@@ -110,4 +110,5 @@ public interface MessageCodes {
 
     String ROOT_CANNOT_DISABLED = "";
     String ROOT_CANNOT_DELETE = "";
+    String COURSE_PACKAGE_IS_DISPLAY = "course.package.is.display";//课程套餐已上架不可修改
 }

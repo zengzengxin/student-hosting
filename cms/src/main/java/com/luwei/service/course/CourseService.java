@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.course.Course;
 import com.luwei.model.course.CourseMapper;
@@ -27,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -164,8 +166,15 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
 
         // 修改课程套餐
-        List<CoursePackageVO> list = updateDTO.getCoursePackageList().stream()
-                .map(this::updateCoursePackage).collect(Collectors.toList());
+        // List<CoursePackageVO> list = updateDTO.getCoursePackageList().stream()
+        //         .map(this::updateCoursePackage).collect(Collectors.toList());
+
+        List<CoursePackageUpdateDTO> temp = updateDTO.getCoursePackageList();
+        List<CoursePackageVO> list = new ArrayList<>();
+        for (CoursePackageUpdateDTO coursePackageUpdateDTO : temp) {
+            CoursePackageVO packageVO = updateCoursePackage(coursePackageUpdateDTO, course.getCourseId());
+            list.add(packageVO);
+        }
 
         // 修改课程图片--先删除
         pictureService.deleteByPictureTypeAndForeignKeyId(PictureTypeEnum.COURSE.getValue(), course.getCourseId());
@@ -179,7 +188,28 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
-    private CoursePackageVO updateCoursePackage(CoursePackageUpdateDTO updateDTO) {
+    private CoursePackageVO updateCoursePackage(CoursePackageUpdateDTO updateDTO, Integer courseId) {
+
+        // 课程套餐上架之后不可修改
+        CoursePackage test = coursePackageMapper.selectById(updateDTO.getCoursePackageId());
+        if (test != null && test.getDisplay()) {
+            throw new ValidationException(MessageCodes.COURSE_PACKAGE_IS_DISPLAY);
+        }
+
+        // 修改课程套餐时,也可以新增
+        if (updateDTO.getCoursePackageId() == null) {
+            CoursePackage coursePackage = new CoursePackage();
+            BeanUtils.copyProperties(updateDTO, coursePackage);
+            // 课程管理
+            coursePackage.setCourseId(courseId);
+            LocalDateTime time = LocalDateTime.now();
+            coursePackage.setUpdateTime(time);
+            coursePackage.setCreateTime(time);
+
+            int count = coursePackageMapper.insert(coursePackage);
+            Assert.isTrue(count > 0, MessageCodes.COURSE_SAVE_ERROR);
+            return toCoursePackageVO(coursePackage);
+        }
 
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(updateDTO, coursePackage);
