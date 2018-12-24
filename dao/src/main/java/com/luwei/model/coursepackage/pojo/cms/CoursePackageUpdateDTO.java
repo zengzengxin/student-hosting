@@ -38,4 +38,13 @@ public class CoursePackageUpdateDTO implements Serializable {
     @ApiModelProperty(value = "上架状态")
     private Boolean display;
 
+    @ApiModelProperty(value = "课室")
+    private String classroom;
+
+    @ApiModelProperty(value = "上课时间", dataType = "java.lang.Long")
+    private LocalDateTime classTime;
+
+    @ApiModelProperty(value = "下课时间", dataType = "java.lang.Long")
+    private LocalDateTime quittingTime;
+
 }
