@@ -37,6 +37,7 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -170,9 +171,44 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
     }
 
     //计算价格
-    private static BigDecimal getprice(LocalDateTime stertTime , LocalDateTime endTime){
+    private static BigDecimal getprice(LocalDateTime startTime , LocalDateTime endTime){
 
-        return new BigDecimal(0);
+        int starkWeek =0;
+        int endkWeek =0;
+        int offest=0; //偏移量
+        long days = 0; //两个时间之间的天数
+        long workDays = 0; //工作日
+
+
+        //计算偏移量
+        if(startTime.getDayOfWeek().getValue() != 6 && startTime.getDayOfWeek().getValue() != 7){
+            starkWeek = startTime.getDayOfWeek().getValue();
+        }else {
+            starkWeek =  5;
+        }
+
+        if(endTime.getDayOfWeek().getValue() != 6 && endTime.getDayOfWeek().getValue() != 7){
+            endkWeek = endTime.getDayOfWeek().getValue();
+        }else {
+            endkWeek =  5;
+        }
+
+        if(starkWeek<endkWeek){
+            offest = endkWeek - starkWeek +1;
+        }else if(starkWeek>endkWeek){
+            offest = 5 - starkWeek +endkWeek;
+        }else {
+            offest = 1;
+        }
+
+        Duration be = Duration.between(startTime, endTime);
+        days =  be.toDays();
+
+
+
+         workDays =  ((days+1)/7)*5 + offest;
+
+         return BigDecimal.valueOf(workDays*100);
     }
 
    /*

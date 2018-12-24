@@ -9,7 +9,9 @@ import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -73,8 +75,9 @@ public class HostingAddDTO implements Serializable {
     @NotNull(message = "是否设为推荐(默认为0)不能为空")
     private Boolean recommend;
 
-    @NotNull
-    @ApiModelProperty(value = "课程图片ID(最多3张)")
+    @NotEmpty
+    @Size(min = 1, max = 3, message = "托管图片最少1张，最多3张")
+    @ApiModelProperty(value = "托管图片ID(最多3张)")
     @NotNull(message = "图片不能为空")
     private List<String> pictureUrls;
 

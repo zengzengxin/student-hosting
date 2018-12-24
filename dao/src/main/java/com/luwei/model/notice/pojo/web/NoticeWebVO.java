@@ -41,7 +41,7 @@ public class NoticeWebVO implements Serializable {
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime time;
+    private LocalDateTime createTime;
 
 
 
