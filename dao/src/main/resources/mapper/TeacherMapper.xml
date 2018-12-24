@@ -48,4 +48,11 @@
         </where>
     </select>
 
+
+    <select id="findteacherById" resultType="com.luwei.model.teacher.Teacher" parameterType="integer">
+        select tb_teacher.teacher_id,teacher_name,teacher_class,phone,license,school_name,grade,avatar_url
+        from tb_teacher RIGHT JOIN (select teacher_id,avatar_url from tb_mini_user where mini_user_id = #{id}) mu
+        on tb_teacher.teacher_id = mu.teacher_id
+    </select>
+
 </mapper>

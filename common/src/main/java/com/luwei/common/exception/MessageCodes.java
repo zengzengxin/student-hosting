@@ -86,7 +86,7 @@ public interface MessageCodes {
     String ORDER_IS_NOT_EXIST = "order.is.not.exist";//订单不存在
     String ORDER_SAVE_ERROR = "order.save.error";//订单保存失败
     String ORDER_DELETE_ERROR = "order.delete.error";//订单删除失败
-    String ORDER_TIME_ERROR = "order.time.error";//订单的事件错误
+    String ORDER_TIME_ERROR = "order.time.error";//订单的时间错误
 
     //WeChat相关
     String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;

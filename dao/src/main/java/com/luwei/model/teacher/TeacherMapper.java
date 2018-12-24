@@ -21,4 +21,6 @@ public interface TeacherMapper extends BaseMapper<Teacher> {
     IPage<TeacherCmsVO> getTeacherPage(@Param("page") Page pag, @Param("teacherQueryDTO") TeacherQueryDTO teacherQueryDTO);
 
      Teacher getTeacherByphone(@Param("phone") String phone);
+
+    Teacher findteacherById(Integer id);
 }
