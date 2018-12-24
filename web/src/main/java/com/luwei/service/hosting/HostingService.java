@@ -74,5 +74,15 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     }
 
 
+    /*
+    *
+    * 返回所有托管
+    * */
+
+    public List<Hosting> findList() {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        return baseMapper.selectList(queryWrapper);
+
+    }
 
 }

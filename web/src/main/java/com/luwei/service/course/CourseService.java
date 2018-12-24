@@ -264,4 +264,17 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return courseVO.setCoursePackageList(list).setPictureUrls(urls);
     }*/
 
+
+    /*
+    * 返回所有的课程
+    * */
+
+
+
+    public List<Course> findList() {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        return baseMapper.selectList(queryWrapper);
+
+    }
+
 }
