@@ -8,9 +8,9 @@ import com.luwei.common.util.BeanUtils;
 import com.luwei.model.notice.Notice;
 import com.luwei.model.notice.NoticeMapper;
 import com.luwei.model.notice.pojo.cms.NoticeAddDTO;
+import com.luwei.model.notice.pojo.cms.NoticeCmsVO;
 import com.luwei.model.notice.pojo.cms.NoticeQueryDTO;
 import com.luwei.model.notice.pojo.cms.NoticeUpdateDTO;
-import com.luwei.model.notice.pojo.cms.NoticeCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,7 +63,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         Boolean flag = updateById(notice);
         Assert.isTrue(flag, MessageCodes.NOTICE_UPDATE_ERROR);
         log.info("----更新一条公告----");
-        return toNoticeVO(notice);
+        return toNoticeVO(baseMapper.selectById(notice));
     }
 
 
