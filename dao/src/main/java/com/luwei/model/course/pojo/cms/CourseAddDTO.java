@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -33,7 +35,8 @@ public class CourseAddDTO implements Serializable {
     @ApiModelProperty(value = "课程简介")
     private String introduction;
 
-    @NotNull
+    @NotEmpty
+    @Size(min = 1, max = 3, message = "课程图片最少1张，最多3张")
     @ApiModelProperty(value = "课程图片ID(最多3张)")
     private List<String> pictureUrls;
 
@@ -61,7 +64,7 @@ public class CourseAddDTO implements Serializable {
     @ApiModelProperty(value = "上架到公众号")
     private Boolean display;
 
-    @NotNull
+    @NotEmpty
     @ApiModelProperty(value = "课程套餐列表")
     private List<CoursePackageAddDTO> coursePackageList;
 
