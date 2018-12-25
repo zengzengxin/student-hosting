@@ -59,7 +59,6 @@ public class WeChatController {
     @ApiOperation("小程序授权接口")
     public String miniAuthorize(@RequestParam String encryptedData, @RequestParam String iv, @RequestParam String code) {
 
-        // TODO 小程序授权
         String sessionKey = (String) WeiXinUtils.login(code).get("session_key");
         Map<String, Object> map = WeiXinUtils.decryptWxData(encryptedData, sessionKey, iv);
 

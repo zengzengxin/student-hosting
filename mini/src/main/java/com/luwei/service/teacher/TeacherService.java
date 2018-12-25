@@ -38,7 +38,6 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
     private Teacher findById(Integer id) {
         // 若此id已被逻辑删除,也会返回null
         Teacher teacher = getById(id);
-        // TODO 修改MessageCodes
         Assert.notNull(teacher, MessageCodes.TEACHER_IS_NOT_EXIST);
         return teacher;
     }

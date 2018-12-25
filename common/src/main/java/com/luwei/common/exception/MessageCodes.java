@@ -87,6 +87,7 @@ public interface MessageCodes {
     String ORDER_SAVE_ERROR = "order.save.error";//订单保存失败
     String ORDER_DELETE_ERROR = "order.delete.error";//订单删除失败
     String ORDER_TIME_ERROR = "order.time.error";//订单的时间错误
+    String ORDER_CHILD_ERROR = "order.child.error";//孩子不是该家长的孩子
 
     //WeChat相关
     String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;
@@ -111,4 +112,6 @@ public interface MessageCodes {
     String ROOT_CANNOT_DISABLED = "";
     String ROOT_CANNOT_DELETE = "";
     String COURSE_PACKAGE_IS_DISPLAY = "course.package.is.display";//课程套餐已上架不可修改
+
+
 }

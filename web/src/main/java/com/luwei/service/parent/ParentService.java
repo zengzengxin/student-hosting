@@ -75,7 +75,6 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
      */
     public List<ChildWebVO> findAllParentById(Integer parentId) {
         List<ChildWebVO> childList = childMapper.webFindChildsByParentsId(parentId);
-        // TODO 记得修改MessageCodes
         Assert.notNull(childList, MessageCodes.CHILD_IS_NOT_EXIST);
         return childList;
     }

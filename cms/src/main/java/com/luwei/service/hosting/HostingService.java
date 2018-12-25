@@ -79,7 +79,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         for (String url : urls) {
             pictureService.savePicture(url, hosting.getHostingId(),PictureTypeEnum.HOSTING);
         }
-        return toHostingVO(hosting).setPictureUrls(urls);//--todo--需要讨论是否需要重新查询一次数据库
+        return toHostingVO(hosting).setPictureUrls(urls);//
     }
 
     @Transactional
