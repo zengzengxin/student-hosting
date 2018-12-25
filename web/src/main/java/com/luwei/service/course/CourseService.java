@@ -280,7 +280,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     public List<Course> findList(String name) {
         QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
         if (name != null || "".equals(name)){
-            queryWrapper.lambda().eq(Course::getCourseName, name);
+            queryWrapper.lambda().like(Course::getCourseName, name);
         }
         return baseMapper.selectList(queryWrapper);
 

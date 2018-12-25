@@ -4,11 +4,11 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * @author ffq
@@ -17,26 +17,21 @@ import java.time.LocalDateTime;
 @ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ChildUpdateDTO implements Serializable {
+@Accessors(chain = true)
+public class ChildBindingDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "孩子的主键id")
-    private Integer childId;
+    @ApiModelProperty(value = "孩子的姓名")
+    @NotBlank
+    private String name;
 
-    @ApiModelProperty(value = "孩子的生日")
+    @ApiModelProperty(value = "（孩子）学生的学号")
+    @NotBlank
+    private String studentNo;
+
+    @ApiModelProperty(value = "学校的id")
     @NotNull
-    private LocalDateTime birthday;
-
-
-    @ApiModelProperty(value = "孩子的班主任的电话")
-    @NotBlank
-    private String headteacherPhone;
-
-    @ApiModelProperty(value = "孩子的班主任的姓名")
-    @NotBlank
-    private String headteacherName;
-
-
+    private Integer schoolId;
 
 }

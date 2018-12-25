@@ -85,7 +85,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     public List<Hosting> findList(String name) {
         QueryWrapper<Hosting> queryWrapper = new QueryWrapper<>();
         if (name != null || "".equals(name)){
-            queryWrapper.lambda().eq(Hosting::getName, name);
+            queryWrapper.lambda().like(Hosting::getName, name);
         }
         return baseMapper.selectList(queryWrapper);
 

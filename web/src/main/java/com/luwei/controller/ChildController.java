@@ -2,7 +2,7 @@ package com.luwei.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.luwei.common.exception.MessageCodes;
-import com.luwei.model.child.pojo.web.ChildAddDTO;
+import com.luwei.model.child.pojo.web.ChildBindingDTO;
 import com.luwei.model.child.pojo.web.ChildUpdateDTO;
 import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.service.child.ChildService;
@@ -27,10 +27,9 @@ public class ChildController {
 
     //finish
     @PostMapping
-    @ApiOperation("添加孩子")
-    public ChildWebVO save(@RequestBody @Valid ChildAddDTO childAddDTO) {
-
-        return childService.saveChild(childAddDTO);
+    @ApiOperation("绑定孩子")
+    public ChildWebVO save(@RequestBody @Valid ChildBindingDTO childBindingDTO) {
+        return childService.bindingChild(childBindingDTO);
     }
 
     // @ApiIgnore

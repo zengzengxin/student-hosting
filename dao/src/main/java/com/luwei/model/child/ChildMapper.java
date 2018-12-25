@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.child.pojo.cms.ChildQueryDTO;
 import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.child.pojo.web.ChildBindingDTO;
 import com.luwei.model.child.pojo.web.ChildWebVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,8 @@ public interface ChildMapper extends BaseMapper<Child> {
 
 
     IPage<ChildVO> findPage(@Param("page") Page<Child> page,@Param("childQueryDTO") ChildQueryDTO childQueryDTO);
+
+    Child findChildByStunoAndNameAndSchoolId(@Param("childBindingDTO") ChildBindingDTO childBindingDTO);
+
+
 }

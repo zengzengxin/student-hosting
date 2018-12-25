@@ -6,7 +6,7 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.model.child.Child;
 import com.luwei.model.child.ChildMapper;
-import com.luwei.model.child.pojo.web.ChildAddDTO;
+import com.luwei.model.child.pojo.web.ChildBindingDTO;
 import com.luwei.model.child.pojo.web.ChildUpdateDTO;
 import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.parentChild.ParentChild;
@@ -34,6 +34,9 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     @Autowired
     private ParentChildService parentChildService;
 
+    @Autowired
+    private ChildService childService;
+
     public ChildWebVO findById(Integer id) {
         Child child = getById(id);
         //TODO记得修改MessageCodes
@@ -49,16 +52,16 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
     //finish
     @Transactional
-    public ChildWebVO saveChild(ChildAddDTO childAddDTO) {
-        Child child = new Child();
-        BeanUtils.copyNonNullProperties(childAddDTO, child);
-        LocalDateTime time = LocalDateTime.now();
-        child.setUpdateTime(time);
-        child.setCreateTime(time);
-        //设置一些具体逻辑，是否需要加上deleted字段等等
-        save(child);
+    public ChildWebVO bindingChild(ChildBindingDTO childBindingDTO) {
+        Child child = findChildByStunoAndNameAndSchoolId(childBindingDTO);
 
-        //更新中间表
+        if (child == null) {
+            Assert.isTrue(true, MessageCodes.CHILD_IS_NOT_EXIST);
+        }
+
+        LocalDateTime time = LocalDateTime.now();
+
+        //绑定孩子（更新中间表）
         ParentChild parentChild = new ParentChild();
         parentChild.setParentId(UserHelper.getUserId());
         parentChild.setChildId(child.getChildId());
@@ -93,6 +96,9 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     }
     */
 
-
+    //通过孩子的学号 姓名 学校id来查找这个学生
+    private Child findChildByStunoAndNameAndSchoolId(ChildBindingDTO childBindingDTO) {
+        return baseMapper.findChildByStunoAndNameAndSchoolId(childBindingDTO);
+    }
 
 }

@@ -75,6 +75,7 @@ public interface MessageCodes {
     String TEACHER_UPDATE_ERROR = "teacher.update.error";//老师更新失败
     String TEACHER_HASBINDING = "teacher.has.binding";//老师已经被绑定
     String TEACHER_BINGDING_ERROR = "teacher.binding.error";//老师绑定失败
+    String PHONR_IS_INVALID = "teacher.is.invalid";//电话号码不可用
 
     //与学校相关
     String SCHOOL_IS_NOT_EXIST = "school.is.not.exist";//学校不存在
@@ -113,4 +114,6 @@ public interface MessageCodes {
     String ROOT_CANNOT_DELETE = "";
     String COURSE_PACKAGE_IS_DISPLAY = "course.package.is.display";//课程套餐已上架不可修改
     String MINIUSER_IS_NOT_EXIST = "miniuser.is.not.exist";//小程序用户不存在
+
+
 }

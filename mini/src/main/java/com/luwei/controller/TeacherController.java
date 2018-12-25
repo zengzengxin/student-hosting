@@ -43,7 +43,7 @@ public class TeacherController {
 
 
     @GetMapping("/checkout")
-    @ApiOperation("判断微信用户是否绑定手机号,返回true或false")
+    @ApiOperation("判断微信用户是否绑定孩子,返回true或false")
     public boolean wechatUserBingding() {
         Integer userId = UserHelper.getUserId();
         if (miniUserService.getById(userId).getTeacherId() == 0){
