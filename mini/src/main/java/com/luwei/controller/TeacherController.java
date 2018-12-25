@@ -1,7 +1,7 @@
 package com.luwei.controller;
 
 import com.luwei.model.teacher.Teacher;
-import com.luwei.model.teacher.pojo.cms.TeacherCmsVO;
+import com.luwei.model.teacher.pojo.mini.TeacherMiniVO;
 import com.luwei.model.teacher.pojo.web.TeacherUpdateDTO;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.miniuser.MiniUserService;
@@ -31,13 +31,13 @@ public class TeacherController {
 
     @PutMapping
     @ApiOperation("修改")
-    public TeacherCmsVO updateTeacher(@RequestBody @Valid TeacherUpdateDTO updateDTO) {
+    public TeacherMiniVO updateTeacher(@RequestBody @Valid TeacherUpdateDTO updateDTO) {
         return teacherService.updateTeacher(updateDTO);
     }
 
     @GetMapping
     @ApiOperation("查询详情")
-    public TeacherCmsVO getTeacher() {
+    public TeacherMiniVO getTeacher() {
         return teacherService.getTeacher();
     }
 

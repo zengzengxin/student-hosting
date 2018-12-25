@@ -12,6 +12,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MiniUserMapper extends BaseMapper<MiniUser> {
 
-
-
+    MiniUser findUserByOpenId(String openId);
 }

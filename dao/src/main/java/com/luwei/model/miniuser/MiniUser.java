@@ -34,7 +34,7 @@ public class MiniUser implements Serializable {
     private String avatarUrl;
 
     @ApiModelProperty(value = "昵称")
-    @TableField("nickName")
+    @TableField("nick_name")
     private String nickName;
 
     @ApiModelProperty(value = "性别 0为不确定，1为男，2为女 默认为0")

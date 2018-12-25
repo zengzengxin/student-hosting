@@ -1,4 +1,4 @@
-package com.luwei.model.teacher.pojo.cms;
+package com.luwei.model.teacher.pojo.mini;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class TeacherCmsVO implements Serializable {
+public class TeacherMiniVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -39,6 +39,8 @@ public class TeacherCmsVO implements Serializable {
     @ApiModelProperty(value = "所在班级")
     private String teacherClass;
 
+    @ApiModelProperty(value = "家长头像")
+    private String avatarUrl;
 
 
 

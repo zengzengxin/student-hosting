@@ -34,7 +34,7 @@
 
 
     <select id="getTeacherPage" resultType="com.luwei.model.teacher.pojo.cms.TeacherCmsVO" parameterType="com.luwei.model.teacher.pojo.cms.TeacherQueryDTO">
-        select *
+        select tb_teacher.teacher_id,teacher_name,teacher_class,phone,license,school_name,grade
         From tb_teacher
         <where>
             deleted=0
@@ -49,7 +49,7 @@
     </select>
 
 
-    <select id="findteacherById" resultType="com.luwei.model.teacher.Teacher" parameterType="integer">
+    <select id="findteacherById" resultType="com.luwei.model.teacher.pojo.mini.TeacherMiniVO" parameterType="integer">
         select tb_teacher.teacher_id,teacher_name,teacher_class,phone,license,school_name,grade,avatar_url
         from tb_teacher RIGHT JOIN (select teacher_id,avatar_url from tb_mini_user where mini_user_id = #{id}) mu
         on tb_teacher.teacher_id = mu.teacher_id

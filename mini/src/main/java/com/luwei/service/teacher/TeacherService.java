@@ -5,7 +5,7 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.miniuser.MiniUser;
 import com.luwei.model.teacher.Teacher;
 import com.luwei.model.teacher.TeacherMapper;
-import com.luwei.model.teacher.pojo.cms.TeacherCmsVO;
+import com.luwei.model.teacher.pojo.mini.TeacherMiniVO;
 import com.luwei.model.teacher.pojo.web.TeacherUpdateDTO;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.miniuser.MiniUserService;
@@ -49,10 +49,10 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
      * @param teacher
      * @return
      */
-    private TeacherCmsVO toTeacherVO(Teacher teacher) {
-        TeacherCmsVO teacherVO = new TeacherCmsVO();
-        BeanUtils.copyProperties(teacher, teacherVO);
-        return teacherVO;
+    private TeacherMiniVO toTeacherVO(Teacher teacher) {
+        TeacherMiniVO teacherMiniVO = new TeacherMiniVO();
+        BeanUtils.copyProperties(teacher, teacherMiniVO);
+        return teacherMiniVO;
     }
 
     /**
@@ -62,7 +62,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
      * @return
      */
     @Transactional
-    public TeacherCmsVO updateTeacher(TeacherUpdateDTO updateDTO) {
+    public TeacherMiniVO updateTeacher(TeacherUpdateDTO updateDTO) {
         Teacher teacher = new Teacher();
         BeanUtils.copyProperties(updateDTO, teacher);
         teacher.setUpdateTime(LocalDateTime.now());
@@ -78,10 +78,10 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
      * @param
      * @return
      */
-    public TeacherCmsVO getTeacher() {
+    public TeacherMiniVO getTeacher() {
         Integer id = UserHelper.getUserId();
 
-        return toTeacherVO(baseMapper.findteacherById(id));
+        return baseMapper.findteacherById(id);
     }
 
 

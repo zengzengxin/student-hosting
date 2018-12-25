@@ -7,7 +7,7 @@
                     <id column="mini_user_id" property="miniUserId"/>
                     <result column="open_id" property="openId"/>
                     <result column="avatar_url" property="avatarUrl"/>
-                    <result column="nickName" property="nickName"/>
+                    <result column="nick_name" property="nickName"/>
                     <result column="gender" property="gender"/>
                     <result column="teacher_id" property="teacherId"/>
                     <result column="create_time" property="createTime" />
@@ -17,7 +17,7 @@
 
         <!-- 通用查询结果列 -->
         <sql id="Base_Column_List">
-        mini_user_id, open_id, avatar_url, nickName, gender
+        mini_user_id, open_id, avatar_url, nick_name, gender
     </sql>
 
 
@@ -32,6 +32,10 @@
             AND deleted=0
         </where>
     </select>-->
+
+    <select id="findUserByOpenId" resultType="com.luwei.model.miniuser.MiniUser">
+        select * from tb_mini_user where openid = #{openid}
+    </select>
     
 
 

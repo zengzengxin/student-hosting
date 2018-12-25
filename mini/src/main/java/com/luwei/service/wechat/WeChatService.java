@@ -1,6 +1,7 @@
 package com.luwei.service.wechat;
 
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.exception.ValidationException;
 import com.luwei.common.property.WxProperties;
 import com.luwei.model.miniuser.MiniUser;
 import com.luwei.module.shiro.service.ShiroTokenService;
@@ -39,17 +40,26 @@ public class WeChatService {
 
 
     public String addMinuuser(Map<String, Object> map){
-        MiniUser miniUser = new MiniUser();
-        miniUser.setOpenId(map.get("openId").toString());
-        miniUser.setAvatarUrl(map.get("avatarUrl").toString());
-        miniUser.setGender((Integer) map.get("gender"));
-        miniUser.setNickName(map.get("nickName").toString());
-        LocalDateTime time = LocalDateTime.now();
-        miniUser.setUpdateTime(time).setCreateTime(time).setDeleted(false);
-        boolean flag = miniUserService.save(miniUser);
-        Assert.isTrue(flag, MessageCodes.MINIUSER_SAVE_ERROR);
+        MiniUser miniUser;
+        //判断是否已经授权
+        String openId = map.get("openId").toString();
+        if (openId == null || "".equals(openId)) {
+            throw new ValidationException("授权失败");
+        }
+         miniUser = miniUserService.findUserByOpenId(openId);
+        if(miniUser == null) {
+            miniUser = new MiniUser();
+            miniUser.setOpenId(map.get("openId").toString());
+            miniUser.setAvatarUrl(map.get("avatarUrl").toString());
+            miniUser.setGender((Integer) map.get("gender"));
+            miniUser.setNickName(map.get("nickName").toString());
+            LocalDateTime time = LocalDateTime.now();
+            miniUser.setUpdateTime(time).setCreateTime(time).setDeleted(false);
+            boolean flag = miniUserService.save(miniUser);
+            Assert.isTrue(flag, MessageCodes.MINIUSER_SAVE_ERROR);
+        }
 
-
+        //不为空直接返回
         String token = shiroTokenService.login(miniUser.getMiniUserId().toString());
 
         return token;

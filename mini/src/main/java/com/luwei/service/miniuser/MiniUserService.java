@@ -19,6 +19,13 @@ import org.springframework.stereotype.Service;
 public class MiniUserService extends ServiceImpl<MiniUserMapper, MiniUser> {
 
 
+    public MiniUser findUserByOpenId(String openId) {
+
+        MiniUser miniUser = baseMapper.findUserByOpenId(openId);
+        return miniUser;
+    }
+
+
    /* public MiniUserCmsVO findById(Integer miniuserId) {
         MiniUser miniuser = getById(miniuserId);
         //TODO记得修改MessageCodes
