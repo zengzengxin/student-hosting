@@ -191,9 +191,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     private CoursePackageVO updateCoursePackage(CoursePackageUpdateDTO updateDTO, Integer courseId) {
 
         // 课程套餐上架之后不可修改
-        CoursePackage test = coursePackageMapper.selectById(updateDTO.getCoursePackageId());
-        if (test != null && test.getDisplay()) {
-            throw new ValidationException(MessageCodes.COURSE_PACKAGE_IS_DISPLAY);
+        CoursePackage p = coursePackageMapper.selectById(updateDTO.getCoursePackageId());
+        if (p != null && p.getDisplay()) {
+            return toCoursePackageVO(p);
         }
 
         // 修改课程套餐时,也可以新增
