@@ -11,10 +11,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import javax.validation.Valid;
 import java.util.Set;
-import ${package.Entity}.${cfg.voDTODir}.${entity}QueryDTO;
-import ${package.Entity}.${cfg.voDTODir}.${entity}UpdateDTO;
-import ${package.Entity}.${cfg.voDTODir}.${entity}VO;
-import ${package.Entity}.${cfg.voDTODir}.${entity}AddDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}CmsQueryDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}CmsUpdateDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}CmsVO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}CmsAddDTO;
 import ${package.Service}.${table.serviceName};
 #if(${restControllerStyle})
 import org.springframework.web.bind.annotation.RestController;
@@ -55,14 +55,14 @@ class ${table.controllerName}#if(${superControllerClass}) : ${superControllerCla
 
     @GetMapping
     @ApiOperation("查询详情")
-    public ${entity}VO findById(@RequestParam @ApiParam("${start}${end}Id") Integer ${start}${end}Id) {
+    public ${entity}CmsVO findById(@RequestParam @ApiParam("${start}${end}Id") Integer ${start}${end}Id) {
         return ${start}${end}Service.findById(${start}${end}Id);
     }
 
 
     @PostMapping
     @ApiOperation("添加")
-    public ${entity}VO save(@RequestBody @Valid ${entity}AddDTO ${start}${end}AddDTO) {
+    public ${entity}CmsVO save(@RequestBody @Valid ${entity}CmsAddDTO ${start}${end}AddDTO) {
     return ${start}${end}Service.save${entity}(${start}${end}AddDTO);
     }
 
@@ -74,13 +74,13 @@ class ${table.controllerName}#if(${superControllerClass}) : ${superControllerCla
 
     @PutMapping
     @ApiOperation("修改")
-    public ${entity}VO update(@RequestBody @Valid ${entity}UpdateDTO ${start}${end}UpdateDTO) {
+    public ${entity}CmsVO update(@RequestBody @Valid ${entity}CmsUpdateDTO ${start}${end}UpdateDTO) {
          return ${start}${end}Service.update${entity}(${start}${end}UpdateDTO);
     }
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public IPage<${entity}VO> page(@ModelAttribute ${entity}QueryDTO ${start}${end}QueryDTO, Page page) {
+    public IPage<${entity}CmsVO> page(@ModelAttribute ${entity}CmsQueryDTO ${start}${end}QueryDTO, Page page) {
         return ${start}${end}Service.find${entity}Page(${start}${end}QueryDTO,page);
     }
 }

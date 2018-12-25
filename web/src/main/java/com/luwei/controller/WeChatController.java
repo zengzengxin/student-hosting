@@ -54,9 +54,9 @@ public class WeChatController {
         Map<String, Object> authorizeMap = weChatUtils.authorize(code);
         log.info("------authorizeMap: {}-------", authorizeMap.toString());
         Map<String, Object> userInfoMap = weChatUtils.getUserInfo((String) authorizeMap.get("access_token"),
-                (String) authorizeMap.get("openid"));
+                (String) authorizeMap.get("openId"));
         log.info("------userInfo: {}-----------", userInfoMap.toString());
-        String openId = (String) userInfoMap.get("openid");
+        String openId = (String) userInfoMap.get("openId");
         if (openId == null || "".equals(openId)) {
             throw new ValidationException("授权失败");
         }

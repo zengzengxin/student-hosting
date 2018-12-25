@@ -17,9 +17,9 @@ public class WeChatUser {
     private String openId;
 
     /**
-     * unionId
+     * unionid
      */
-    private String unionId;
+    private String unionid;
 
     /**
      * 用户头像

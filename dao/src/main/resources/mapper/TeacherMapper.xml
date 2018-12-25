@@ -17,7 +17,7 @@
         <result column="avatar_url" property="avatarUrl" />
         <result column="gender" property="gender" />
         <result column="nick_name" property="nickName" />
-        <result column="openid" property="openid" />
+        <result column="open_id" property="openId" />
         <result column="binding" property="binding" />
     </resultMap>
 

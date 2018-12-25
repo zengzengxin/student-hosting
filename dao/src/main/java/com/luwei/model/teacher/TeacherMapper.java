@@ -23,5 +23,5 @@ public interface TeacherMapper extends BaseMapper<Teacher> {
 
      Teacher getTeacherByphone(@Param("phone") String phone);
 
-    TeacherMiniVO  findteacherById(Integer id);
+    TeacherMiniVO  findteacherById(@Param("id") Integer id);
 }

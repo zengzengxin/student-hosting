@@ -26,11 +26,11 @@ import lombok.experimental.Accessors;
     #end
 #end
 #if(${superEntityClass})
-public class ${entity}QueryDTO extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
+public class ${entity}CmsQueryDTO extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
 #elseif(${activeRecord})
-public class ${entity}QueryDTO extends Model<${entity}> {
+public class ${entity}CmsQueryDTO extends Model<${entity}> {
 #else
-public class ${entity}QueryDTO implements Serializable {
+public class ${entity}CmsQueryDTO implements Serializable {
 #end
 
 private static final long serialVersionUID = 1L;
@@ -40,8 +40,15 @@ private static final long serialVersionUID = 1L;
     #if(${field.keyFlag})
         #set($keyPropertyName=${field.propertyName})
     #end
-    #if("$!field.comment" != "")
-    @ApiModelProperty(value = "${field.comment}")
+    #if($!field.comment != "" )
+        #if("$!field.propertyName"=="createTime" || "$!field.propertyName"=="updateTime" &&
+            "$!field.propertyType"=="LocalDateTime"  )
+        @ApiModelProperty(value = "${field.comment}", dataType = "java.lang.Long")
+        #elseif("${logicDeleteFieldName}"=="${field.name}")
+        #elseif("${versionFieldName}"=="${field.name}")
+        #else
+        @ApiModelProperty(value = "${field.comment}")
+        #end
     #end
 ## 普通字段
     #if(${field.fill})

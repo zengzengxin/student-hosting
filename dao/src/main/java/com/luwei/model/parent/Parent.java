@@ -51,8 +51,8 @@ public class Parent implements Serializable {
     @ApiModelProperty(value = "家长昵称")
     private String nickName;
 
-    @ApiModelProperty(value = "微信用户openid")
-    private String openid;
+    @ApiModelProperty(value = "微信用户openId")
+    private String openId;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

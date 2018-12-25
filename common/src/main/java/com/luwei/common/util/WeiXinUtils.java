@@ -19,7 +19,7 @@ public class WeiXinUtils {
     private static Logger log = LoggerFactory.getLogger(WeiXinUtils.class);
 
     /**
-     * 通过前端传过来的code, 调用小程序登录接口, 获取到message并返回 (包含openid session_key等)
+     * 通过前端传过来的code, 调用小程序登录接口, 获取到message并返回 (包含openId session_key等)
      *
      * @param code
      * @return

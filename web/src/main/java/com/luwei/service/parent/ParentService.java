@@ -80,8 +80,8 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
         return childList;
     }
 
-    public Parent findByOpenid(String openid) {
-        return parentMapper.findByOpenid(openid);
+    public Parent findByOpenid(String openId) {
+        return parentMapper.findByOpenid(openId);
     }
 
 

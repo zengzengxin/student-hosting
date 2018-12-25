@@ -12,7 +12,7 @@
         <result column="avatar_url" property="avatarUrl"/>
         <result column="gender" property="gender"/>
         <result column="nick_name" property="nickName"/>
-        <result column="openid" property="openid"/>
+        <result column="open_id" property="openId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
@@ -20,7 +20,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        parent_id, parent_name, phone, family_relation, children_number, address, avatar_url, gender, nick_name, openid, create_time, update_time, deleted
+        parent_id, parent_name, phone, family_relation, children_number, address, avatar_url, gender, nick_name, open_id, create_time, update_time, deleted
     </sql>
 
     <select id="findParentPage" resultType="com.luwei.model.parent.pojo.cms.ParentCmsVO"
@@ -38,7 +38,7 @@
     </select>
 
     <select id="findByOpenid" resultType="com.luwei.model.parent.Parent">
-        select * from tb_parent where openid = #{openid}
+        select * from tb_parent where open_id = #{openId}
     </select>
 
 </mapper>

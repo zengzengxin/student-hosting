@@ -5,10 +5,10 @@ import ${package.Mapper}.${table.mapperName};
 
 import ${superServiceImplClassPackage};
 
-import ${package.Entity}.${cfg.voDTODir}.${entity}QueryDTO;
-import ${package.Entity}.${cfg.voDTODir}.${entity}UpdateDTO;
-import ${package.Entity}.${cfg.voDTODir}.${entity}VO;
-import ${package.Entity}.${cfg.voDTODir}.${entity}AddDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}CmsQueryDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}CmsUpdateDTO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}CmsVO;
+import ${package.Entity}.${cfg.voDTODir}.${entity}CmsAddDTO;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.utils.BeanUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-
+import com.luwei.utils.QueryWrapperDecorator;
 import javax.transaction.Transactional;
 import java.util.Set;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -41,32 +41,29 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 }
 #else
 public class ${table.serviceName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> {
-public ${entity}VO findById(Integer ${start}${end}Id) {
+public ${entity}CmsVO findById(Integer ${start}${end}Id) {
     ${entity} ${start}${end} = getById(${start}${end}Id);
     //TODO记得修改MessageCodes
 Assert.notNull(${start}${end}, MessageCodes.DATA_IS_NOT_EXIST);
-return to${entity}VO(${start}${end});
+return to${entity}CmsVO(${start}${end});
 }
 
-private ${entity}VO to${entity}VO(${entity} ${start}${end}) {
-    ${entity}VO ${start}${end}VO = new ${entity}VO();
-BeanUtils.copyNonNullProperties(${start}${end}, ${start}${end}VO);
-return ${start}${end}VO;
+private ${entity}CmsVO to${entity}CmsVO(${entity} ${start}${end}) {
+    ${entity}CmsVO ${start}${end}VO=BeanUtils.copyNonNullProperties(${start}${end}, ${entity}CmsVO.class);
+    return ${start}${end}VO;
 }
 
 
     @Transactional
-    public ${entity}VO save${entity}(${entity}AddDTO ${start}${end}AddDTO) {
-        ${entity} ${start}${end} = new ${entity}();
-        BeanUtils.copyNonNullProperties(${start}${end}AddDTO, ${start}${end});
+    public ${entity}CmsVO save${entity}(${entity}CmsAddDTO ${start}${end}AddDTO) {
+        ${entity} ${start}${end}=BeanUtils.copyNonNullProperties(${start}${end}AddDTO, ${entity}.class);
         LocalDateTime time=LocalDateTime.now();
-        ${start}${end}.setUpdateTime(time);
-        ${start}${end}.setCreateTime(time);
+        ${start}${end}.setUpdateTime(time).setCreateTime(time).setDeleted(false);
         //设置一些具体逻辑，是否需要加上deleted字段等等
         boolean isSuccess = save(${start}${end});
         Assert.isTrue(isSuccess,MessageCodes.DATA_SAVE_ERROR);
         log.info("保存数据---:{}", ${start}${end});
-        return to${entity}VO(${start}${end});
+        return to${entity}CmsVO(${start}${end});
     }
 
     @Transactional
@@ -78,10 +75,8 @@ return ${start}${end}VO;
     }
 
     @Transactional
-    public ${entity}VO update${entity}(${entity}UpdateDTO ${start}${end}UpdateDTO) {
-        ${entity} ${start}${end} = new ${entity}();
-        BeanUtils.copyNonNullProperties(${start}${end}UpdateDTO, ${start}${end});
-
+    public ${entity}CmsVO update${entity}(${entity}CmsUpdateDTO ${start}${end}UpdateDTO) {
+        ${entity} ${start}${end}=BeanUtils.copyNonNullProperties(${start}${end}UpdateDTO, ${entity}.class);
         ${start}${end}.setUpdateTime(LocalDateTime.now());
 
         //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
@@ -90,12 +85,12 @@ return ${start}${end}VO;
         return findById(${start}${end}.get${entity}Id());
     }
 
-    public IPage<${entity}VO> find${entity}Page (${entity}QueryDTO ${start}${end}QueryDTO, Page page) {
-        ${entity} ${start}${end} = new ${entity}();
-        BeanUtils.copyNonNullProperties(${start}${end}QueryDTO, ${start}${end});
-        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
+    public IPage<${entity}CmsVO> find${entity}Page (${entity}CmsQueryDTO ${start}${end}QueryDTO, Page page) {
+        ${entity} ${start}${end}=BeanUtils.copyNonNullProperties(${start}${end}QueryDTO, ${entity}.class);
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapperDecorator<>();
         //查询业务
-        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::to${entity}VO);
+        queryWrapper.lambda().eq(${entity}::get${entity}Id, ${start}${end}.get${entity}Id());
+        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::to${entity}CmsVO);
     }
 }
 #end

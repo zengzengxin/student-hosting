@@ -38,16 +38,17 @@ public class WeChatService {
         return shiroTokenService.login(userId.toString());
     }
 
+    public String addMinuuser(Map<String, Object> map) {
+        log.info(map.toString());
 
-    public String addMinuuser(Map<String, Object> map){
         MiniUser miniUser;
         //判断是否已经授权
         String openId = map.get("openId").toString();
         if (openId == null || "".equals(openId)) {
             throw new ValidationException("授权失败");
         }
-         miniUser = miniUserService.findUserByOpenId(openId);
-        if(miniUser == null) {
+        miniUser = miniUserService.findUserByOpenId(openId);
+        if (miniUser == null) {
             miniUser = new MiniUser();
             miniUser.setOpenId(map.get("openId").toString());
             miniUser.setAvatarUrl(map.get("avatarUrl").toString());

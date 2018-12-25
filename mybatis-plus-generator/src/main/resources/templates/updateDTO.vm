@@ -32,11 +32,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 #end
 #if(${superEntityClass})
-public class ${entity}UpdateDTO extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
+public class ${entity}CmsUpdateDTO extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
 #elseif(${activeRecord})
-public class ${entity}UpdateDTO extends Model<${entity}> {
+public class ${entity}CmsUpdateDTO extends Model<${entity}> {
 #else
-public class ${entity}UpdateDTO implements Serializable {
+public class ${entity}CmsUpdateDTO implements Serializable {
 #end
 
 private static final long serialVersionUID = 1L;
@@ -46,8 +46,14 @@ private static final long serialVersionUID = 1L;
     #if(${field.keyFlag})
         #set($keyPropertyName=${field.propertyName})
     #end
-    #if("$!field.comment" != "" && !${field.keyFlag})
-    @ApiModelProperty(value = "${field.comment}")
+    #if($!field.comment != "" )
+        #if("$!field.propertyName"=="createTime" || "$!field.propertyName"=="updateTime" &&
+            "$!field.propertyType"=="LocalDateTime"  )
+        #elseif("${logicDeleteFieldName}"=="${field.name}")
+        #elseif("${versionFieldName}"=="${field.name}")
+        #else
+        @ApiModelProperty(value = "${field.comment}")
+        #end
     #end
 ## 普通字段
     #if(${field.fill})
@@ -67,7 +73,8 @@ private static final long serialVersionUID = 1L;
     #if(${logicDeleteFieldName}==${field.name})
     #end
 ##  私有属性
-    #if(${logicDeleteFieldName}==${field.name} ||${versionFieldName}==${field.name} || ${field.keyFlag})
+    #if(${logicDeleteFieldName}==${field.name} ||${versionFieldName}==${field.name}
+    || ${field.propertyName}=="createTime" || ${field.propertyName}=="updateTime")
     #else
     ##校验注解
         #if("${field.propertyType}"=="String")
@@ -78,7 +85,7 @@ private static final long serialVersionUID = 1L;
         #if("${field.propertyType}"=="Integer")
         @Range(min = 0, max = 20000, message = "${field.comment}范围必须在【{min},{max}】之间")
         #elseif("${field.propertyType}"=="String")
-        @Size(min = 1, max = 12, message = "${field.comment}长度必须在【{min}和{max}】之间")
+        @Size(min = 1, max = 100, message = "${field.comment}长度必须在【{min}和{max}】之间")
         #end
     private ${field.propertyType} ${field.propertyName};
     #end

@@ -21,27 +21,68 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.sql.*;
 import java.util.*;
 
 @Slf4j
 public class GeneratorCode {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         //user -> UserService, 设置成true: user -> IUserService
         boolean serviceNameStartWithI = false;
+        //判断是否是全表生成
+        if (propertiesBean.getIsAllTablesGenerator()) {
+            //获取所有的表数据
+            propertiesBean.setTableNames(setAllTableNameData(connection));
+        }
         generateByTables(serviceNameStartWithI, propertiesBean.getPackageName(),
                 propertiesBean.getTableNames());
 
-        //创建所有的实体VO DTO
+        if (Objects.nonNull(connection)) {
+            connection.close();
+        }
 
-        //删除指定文件
-        File srcFile = new File(new StringBuilder().append(outDir).append("/")
-                .append(propertiesBean.getPackageName().replace(".", "/"))
-                .append("/")
-                .append(mapper).toString());
-        org.apache.commons.io.FileUtils.deleteDirectory(srcFile);
-        //创建web文件
-        createPOJO();
+    }
+
+    /**
+     * @param
+     * @Author: ffq
+     * @Date: 2018/12/14 15:34
+     * @Description:获取并设置所有的表数据
+     */
+    private static String[] setAllTableNameData(Connection conn) {
+        List<String> tableList = new ArrayList<>();
+        ResultSet rs = null;
+        try {
+            DatabaseMetaData dbm = conn.getMetaData();
+            rs = dbm.getTables(null, null, "tb_%", null);//通配符获取表名称中所有含有字符o的表
+            List<String> execTable = null;
+            if (Objects.nonNull(propertiesBean.getTableNames())) {
+                execTable = Arrays.asList(propertiesBean.getTableNames());
+            } else {
+                execTable = new ArrayList<>();
+            }
+            while (rs.next()) {
+                String table = rs.getString(3);
+                //判断是否是排除的对象
+                if (execTable.contains(table)) continue;
+                tableList.add(table);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (Objects.nonNull(rs)) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return tableList.toArray(new String[tableList.size()]);
     }
 
     /**
@@ -50,14 +91,14 @@ public class GeneratorCode {
      * @Date: 2018/12/7 17:12
      * @Description:创建所有的VO、DTO
      */
-    private static void createPOJO() throws IOException {
+    private static void createPOJO(int i) throws IOException {
         //获取实体文件的路径
         String srcDir = new StringBuilder().append(outDir).append("/")
                 .append(propertiesBean.getPackageName().replace(".", "/"))
                 .append("/")
                 .append(entity)
                 .append("/")
-                .append(propertiesBean.getBeanNames())
+                .append(propertiesBean.getBeanNames().get(i))
                 .append("/")
                 .append(propertiesBean.getVoDTODir().replace(".", "/")).toString();
         File srcFile = new File(srcDir);
@@ -78,7 +119,7 @@ public class GeneratorCode {
             String parentDir = srcDir.substring(0, srcDir.lastIndexOf("/") + 1) + "web";
             File parentFileDir = new File(parentDir);
             parentFileDir.mkdir();
-            IOReadWriter(file, new File(parentFileDir, file.getName()));
+            IOReadWriter(file, new File(parentFileDir, file.getName().replace("Cms", "Web")));
         }
 
     }
@@ -95,8 +136,7 @@ public class GeneratorCode {
 
     private static PropertiesBean propertiesBean = null;
 
-    //保存所有实体的名字
-    private static Set<String> entityName = new HashSet<>();
+    private static Connection connection = null;
 
     static {
         InputStream inputStream = null;
@@ -107,6 +147,20 @@ public class GeneratorCode {
         }
         Yaml yaml = new Yaml();
         propertiesBean = yaml.loadAs(inputStream, PropertiesBean.class);
+
+        //生成数据源
+        try {
+            Class.forName(propertiesBean.getDriverClassName());
+        } catch (ClassNotFoundException e) {
+            log.error("找不到驱动类！", e);
+        }
+
+        try {
+            connection = DriverManager.getConnection(propertiesBean.getUrl(), propertiesBean.getUsername(), propertiesBean.getPassword());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -135,7 +189,9 @@ public class GeneratorCode {
                     isDelete = true;
                     return;
                 }
-
+                if (line.contains("class")) {
+                    line = line.replace("Cms", "Web");
+                }
                 if (line.contains("package")) {
 //                    com.luwei.models.user.pojo.cms
                     line = line.substring(0, line.lastIndexOf(".") + 1) + "web;";
@@ -194,7 +250,8 @@ public class GeneratorCode {
     private static String[] baseDir = {entity, mapper, service, impl, controller};
 
 
-    private static void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) {
+    private static void generateByTables(boolean serviceNameStartWithI, String packageName, String... tableNames) throws
+            IOException {
         GlobalConfig config = new GlobalConfig();
         String dbUrl = propertiesBean.getUrl();
         DataSourceConfig dataSourceConfig = new DataSourceConfig();
@@ -216,9 +273,9 @@ public class GeneratorCode {
                 .setColumnNaming(NamingStrategy.underline_to_camel)
                 .setRestControllerStyle(propertiesBean.getRestControllerStyle())
                 .entityTableFieldAnnotationEnable(false)
-                .setNaming(NamingStrategy.underline_to_camel)
-                //修改替换成你需要的表名，多个表名传数组
-                .setInclude(tableNames);
+                .setNaming(NamingStrategy.underline_to_camel);
+//                //修改替换成你需要的表名，多个表名传数组
+//                .setInclude(tableNames);
         config.setActiveRecord(true)
                 .setAuthor(propertiesBean.getAuthor())
                 .setOutputDir(System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java")
@@ -239,67 +296,80 @@ public class GeneratorCode {
             config.setServiceName("%sService");
         }
 
-        PackageConfig pcf = initPackage();
+
         TemplateConfig tc = initTemplateConfig(packageName);
 
 
-        // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
-        InjectionConfig abc = new InjectionConfig() {
-            @Override
-            public void initMap() {
-                Map<String, Object> map = new HashMap<>();
+        for (int i = 0; i < tableNames.length; i++) {
+            PackageConfig pcf = initPackage(i);
+            strategyConfig.setInclude(tableNames[i]);
+
+            // 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
+            InjectionConfig abc = new InjectionConfig() {
+                @Override
+                public void initMap() {
+                    Map<String, Object> map = new HashMap<>();
 //                map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
-                map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
-                map.put("voDTODir", propertiesBean.getVoDTODir());
-                this.setMap(map);
-            }
-        };
-        //自定义文件输出位置（非必须）
-        List<FileOutConfig> fileOutList = new ArrayList<>();
-        fileOutList.add(new FileOutConfig("/templates/mapper.xml.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-            }
-        });
-        //VO、DTO对应的位置
+                    map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
+                    map.put("voDTODir", propertiesBean.getVoDTODir());
+                    this.setMap(map);
+                }
+            };
+            //自定义文件输出位置（非必须）
+            List<FileOutConfig> fileOutList = new ArrayList<>();
+            fileOutList.add(new FileOutConfig("/templates/mapper.xml.vm") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    return System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                }
+            });
+            //VO、DTO对应的位置
 
-        String voDTODir = System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java/" + packageName.replace(".", "/")
-                + "/" + entity + "/" + propertiesBean.getBeanNames().replace(".", "/") + "/" + propertiesBean.getVoDTODir().replace(".", "/") + "/";
-        fileOutList.add(new FileOutConfig("/templates/vo.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return voDTODir + tableInfo.getEntityName() + "VO" + StringPool.DOT_JAVA;
-            }
-        });
-        fileOutList.add(new FileOutConfig("/templates/addDTO.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return voDTODir + tableInfo.getEntityName() + "AddDTO" + StringPool.DOT_JAVA;
-            }
-        });
-        fileOutList.add(new FileOutConfig("/templates/updateDTO.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return voDTODir + tableInfo.getEntityName() + "UpdateDTO" + StringPool.DOT_JAVA;
-            }
-        });
-        fileOutList.add(new FileOutConfig("/templates/queryDTO.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return voDTODir + tableInfo.getEntityName() + "QueryDTO" + StringPool.DOT_JAVA;
-            }
-        });
-        abc.setFileOutConfigList(fileOutList);
+            String voDTODir = System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java/" + packageName.replace(".", "/")
+                    + "/" + entity + "/" + propertiesBean.getBeanNames().get(i).replace(".", "/") + "/" + propertiesBean.getVoDTODir().replace(".", "/") + "/";
+            fileOutList.add(new FileOutConfig("/templates/vo.vm") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    return voDTODir + tableInfo.getEntityName() + "CmsVO" + StringPool.DOT_JAVA;
+                }
+            });
+            fileOutList.add(new FileOutConfig("/templates/addDTO.vm") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    return voDTODir + tableInfo.getEntityName() + "CmsAddDTO" + StringPool.DOT_JAVA;
+                }
+            });
+            fileOutList.add(new FileOutConfig("/templates/updateDTO.vm") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    return voDTODir + tableInfo.getEntityName() + "CmsUpdateDTO" + StringPool.DOT_JAVA;
+                }
+            });
+            fileOutList.add(new FileOutConfig("/templates/queryDTO.vm") {
+                @Override
+                public String outputFile(TableInfo tableInfo) {
+                    return voDTODir + tableInfo.getEntityName() + "CmsQueryDTO" + StringPool.DOT_JAVA;
+                }
+            });
+            abc.setFileOutConfigList(fileOutList);
 
-        new AutoGenerator()
-                .setCfg(abc)
-                .setGlobalConfig(config)
-                .setDataSource(dataSourceConfig)
-                .setStrategy(strategyConfig)
-                .setPackageInfo(pcf)
-                .setTemplate(tc)
-                .execute();
+
+            new AutoGenerator()
+                    .setCfg(abc)
+                    .setGlobalConfig(config)
+                    .setDataSource(dataSourceConfig)
+                    .setStrategy(strategyConfig)
+                    .setPackageInfo(pcf)
+                    .setTemplate(tc)
+                    .execute();
+            File srcFile = new File(new StringBuilder().append(outDir).append("/")
+                    .append(propertiesBean.getPackageName().replace(".", "/"))
+                    .append("/")
+                    .append(mapper).toString());
+            org.apache.commons.io.FileUtils.deleteDirectory(srcFile);
+            //创建web文件
+            createPOJO(i);
+        }
     }
 
     /**
@@ -377,18 +447,18 @@ public class GeneratorCode {
      *
      * @return
      */
-    private static PackageConfig initPackage() {
+    private static PackageConfig initPackage(int i) {
         PackageConfig packageConfig = new PackageConfig();
         //没什么用，就是parent.module.controller，不是我们想要的效果
 //        packageConfig.setModuleName("test");
         packageConfig.setParent(propertiesBean.getPackageName());
-        packageConfig.setService(service + "." + propertiesBean.getBeanNames());
-        packageConfig.setServiceImpl(impl + "." + propertiesBean.getBeanNames());
+        packageConfig.setService(service + "." + propertiesBean.getBeanNames().get(i));
+        packageConfig.setServiceImpl(impl + "." + propertiesBean.getBeanNames().get(i));
         packageConfig.setController(controller);
-        packageConfig.setEntity(entity + "." + propertiesBean.getBeanNames());
+        packageConfig.setEntity(entity + "." + propertiesBean.getBeanNames().get(i));
 //        packageConfig.setXml(xml);
 //        packageConfig.setXml(null);
-        packageConfig.setMapper(entity + "." + propertiesBean.getBeanNames());
+        packageConfig.setMapper(entity + "." + propertiesBean.getBeanNames().get(i));
         return packageConfig;
     }
 }

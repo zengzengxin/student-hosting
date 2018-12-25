@@ -1,6 +1,7 @@
 package com.luwei.model.miniuser;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MiniUserMapper extends BaseMapper<MiniUser> {
 
-    MiniUser findUserByOpenId(String openId);
+    MiniUser findUserByOpenId(@Param("openId") String openId);
 }

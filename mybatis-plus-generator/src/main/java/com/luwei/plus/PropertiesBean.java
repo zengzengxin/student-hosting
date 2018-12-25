@@ -1,6 +1,10 @@
 package com.luwei.plus;
 
+import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: ffq
@@ -54,9 +58,29 @@ public class PropertiesBean {
     private String xmlVM = "";
 
     //生成的实体包名
-    private String beanNames = "";
+    private List<String> beanNames;
 
+    //是否全库生成所有表
+    private Boolean isAllTablesGenerator;
 
     //VO、DTO位置
-    private String voDTODir = "";
+    private String voDTODir = "pojo.cms";
+
+    public void setTableNames(String[] tableNames) {
+        this.tableNames = tableNames;
+        //设置 beanNames的值
+        addBeanNames(tableNames);
+    }
+
+    private void addBeanNames(String[] tableNames) {
+        if (ArrayUtils.isEmpty(tableNames)) {
+            return;
+        }
+        beanNames = new ArrayList<>();
+        //修改包名
+        for (String tableName : tableNames) {
+            //名字
+            beanNames.add(tableName.toLowerCase().replace(tablePrefix, "").replace("_", ""));
+        }
+    }
 }

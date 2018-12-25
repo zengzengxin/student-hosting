@@ -34,7 +34,7 @@
     </select>-->
 
     <select id="findUserByOpenId" resultType="com.luwei.model.miniuser.MiniUser">
-        select * from tb_mini_user where openid = #{openid}
+        select * from tb_mini_user where open_id = #{openId}
     </select>
     
 
