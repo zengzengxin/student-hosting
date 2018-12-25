@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.luwei.model.banner.envm.BannerTypeEnum;
+import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -52,6 +53,9 @@ public class Banner implements Serializable {
 
     @ApiModelProperty(value = "是否显示 0-否 1-是")
     private Boolean display;
+
+    @ApiModelProperty(value = "服务类型 0-课程 1-托管")
+    private ServiceTypeEnum serviceType;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

@@ -1,5 +1,6 @@
 package com.luwei.model.banner.pojo.web;
 
+import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -26,6 +27,9 @@ public class BannerWebVO implements Serializable {
 
     @ApiModelProperty(value = "跳转服务ID")
     private Integer jumpId;
+
+    @ApiModelProperty(value = "服务类型 0-课程 1-托管")
+    private ServiceTypeEnum serviceType;
 
     @ApiModelProperty(value = "外链url")
     private String linkUrl;

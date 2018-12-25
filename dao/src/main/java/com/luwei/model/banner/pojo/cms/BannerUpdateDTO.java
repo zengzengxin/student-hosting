@@ -1,12 +1,14 @@
 package com.luwei.model.banner.pojo.cms;
 
 import com.luwei.model.banner.envm.BannerTypeEnum;
+import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -21,11 +23,11 @@ public class BannerUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
+    @NotBlank
     @ApiModelProperty(value = "主键ID")
     private Integer bannerId;
 
-    @NotNull
+    @NotBlank
     @ApiModelProperty(value = "图片")
     private String picture;
 
@@ -33,9 +35,13 @@ public class BannerUpdateDTO implements Serializable {
     @ApiModelProperty(value = "跳转服务ID")
     private Integer jumpId;
 
-    @NotNull
+    @NotBlank
     @ApiModelProperty(value = "跳转服务名称")
     private String jumpName;
+
+    @NotNull
+    @ApiModelProperty(value = "服务类型 0-课程 1-托管")
+    private ServiceTypeEnum serviceType;
 
     @NotNull
     @Min(1)

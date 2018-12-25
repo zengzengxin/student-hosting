@@ -1,6 +1,7 @@
 package com.luwei.model.banner.pojo.cms;
 
 import com.luwei.model.banner.envm.BannerTypeEnum;
+import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,6 +31,9 @@ public class BannerCmsVO implements Serializable {
 
     @ApiModelProperty(value = "跳转服务名称")
     private String jumpName;
+
+    @ApiModelProperty(value = "服务类型 0-课程 1-托管")
+    private ServiceTypeEnum serviceType;
 
     @ApiModelProperty(value = "权重,越小越大")
     private Integer weight;

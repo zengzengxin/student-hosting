@@ -41,11 +41,10 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @return
      */
     public IPage<BannerWebVO> findPage(BannerQueryDTO queryDTO, Page<Banner> page) {
-        Banner banner = new Banner();
-        QueryWrapper<Banner> wrapper = new QueryWrapper<>(banner);
-        wrapper.eq("banner_type", queryDTO.getBannerType());
-        wrapper.eq("display", true);
-        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toBannerWebVO);
+        return ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Banner>().lambda()
+                .eq(Banner::getBannerType, queryDTO.getBannerType())
+                .eq(Banner::getDisplay, true)
+        ), this::toBannerWebVO);
     }
 
 }
