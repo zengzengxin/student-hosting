@@ -19,6 +19,8 @@ import com.luwei.model.coursepackage.pojo.cms.CoursePackageVO;
 import com.luwei.model.picture.Picture;
 import com.luwei.model.picture.PictureMapper;
 import com.luwei.model.picture.envm.PictureTypeEnum;
+import com.luwei.model.school.School;
+import com.luwei.model.school.SchoolMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -45,6 +47,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     @Resource
     private PictureMapper pictureMapper;
+
+    @Resource
+    private SchoolMapper schoolMapper;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -109,7 +114,6 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         log.info("保存数据: {}", course);
         return CourseWebVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }*/
-
     private void savePicture(String url, Integer courseId) {
         Picture picture = new Picture();
         picture.setPictureUrl(url);
@@ -188,7 +192,6 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         log.info("修改数据: bean {}", updateDTO);
         return CourseWebVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }*/
-
     private CoursePackageVO updateCoursePackage(CoursePackageUpdateDTO updateDTO) {
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(updateDTO, coursePackage);
@@ -210,13 +213,18 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         Course course = findById(id);
         CourseVO courseVO = new CourseVO();
         BeanUtils.copyProperties(course, courseVO);
+
         // 封装图片
         List<String> urls = pictureMapper.findAllByForeignKeyId(id, 0);
 
         // 封装课程
         List<CoursePackageVO> list = coursePackageMapper.findAllByCourseId(id);
 
-        courseVO.setCoursePackageList(list).setPictureUrls(urls);
+        // 负责人电话
+        School school = schoolMapper.selectById(course.getSchoolId());
+        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+
+        courseVO.setCoursePackageList(list).setPictureUrls(urls).setLeaderPhone(school.getLeaderPhone());
         return courseVO;
     }
 
@@ -266,10 +274,8 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
 
     /*
-    * 返回所有的课程
-    * */
-
-
+     * 返回所有的课程
+     * */
 
     public List<Course> findList() {
         QueryWrapper queryWrapper = new QueryWrapper();

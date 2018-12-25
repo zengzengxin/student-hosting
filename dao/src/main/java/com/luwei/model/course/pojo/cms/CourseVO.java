@@ -59,4 +59,7 @@ public class CourseVO implements Serializable {
     @ApiModelProperty(value = "课程套餐列表")
     private List<CoursePackageVO> coursePackageList;
 
+    @ApiModelProperty(value = "负责人电话")
+    private String leaderPhone;
+
 }

@@ -6,7 +6,6 @@ import com.luwei.model.course.Course;
 import com.luwei.model.course.pojo.cms.CourseQueryDTO;
 import com.luwei.model.course.pojo.cms.CourseVO;
 import com.luwei.model.course.pojo.web.CourseWebVO;
-import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.course.CourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,13 +26,9 @@ public class CourseController {
     @Resource
     private CourseService courseService;
 
-    @Resource
-    private ShiroTokenService shiroTokenService;
-
     @GetMapping
     @ApiOperation("查询详情")
     public CourseVO getCourse(@RequestParam @ApiParam("courseId") Integer id) {
-        //shiroTokenService.login("11");
         return courseService.getCourse(id);
     }
 

@@ -35,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -342,7 +341,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         return order;
     }
 
-    public OrderVO payForOrder(@Valid PayForOrderDTO addDTO) {
+    public OrderVO payForOrder(PayForOrderDTO addDTO) {
 
         // TODO 立即支付接口 未完成
 

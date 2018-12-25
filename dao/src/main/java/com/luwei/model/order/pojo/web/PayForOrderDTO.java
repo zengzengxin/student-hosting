@@ -15,6 +15,6 @@ import lombok.experimental.Accessors;
 public class PayForOrderDTO {
 
     @ApiModelProperty(value = "订单编号(ID)")
-    private Long orderId;
+    private String orderId;
 
 }
