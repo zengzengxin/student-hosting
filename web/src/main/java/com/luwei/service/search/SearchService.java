@@ -2,7 +2,8 @@ package com.luwei.service.search;
 
 import com.luwei.model.course.Course;
 import com.luwei.model.hosting.Hosting;
-import com.luwei.model.search.SearchVO;
+import com.luwei.model.recommend.envm.ServiceTypeEnum;
+import com.luwei.model.search.SearchWebVO;
 import com.luwei.service.course.CourseService;
 import com.luwei.service.hosting.HostingService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,29 +22,29 @@ import java.util.List;
 public class SearchService {
 
     @Resource
-    CourseService courseService;
+    private CourseService courseService;
 
     @Resource
-    HostingService hostingService;
+    private HostingService hostingService;
 
-    public List<SearchVO> findSever() {
-        List<SearchVO> searchVOS = new ArrayList<SearchVO>();
+    public List<SearchWebVO> findSever() {
+        List<SearchWebVO> searchVOS = new ArrayList<>();
 
-        List<Course> Courselist = courseService.findList();
-        for (Course c : Courselist) {
-            SearchVO searchVO = new SearchVO();
+        List<Course> courseList = courseService.findList();
+        for (Course c : courseList) {
+            SearchWebVO searchVO = new SearchWebVO();
             searchVO.setSeverId(c.getCourseId());
             searchVO.setSeverName(c.getCourseName());
-            searchVO.setSeverType(0);
+            searchVO.setSeverType(ServiceTypeEnum.COURSE);
             searchVOS.add(searchVO);
         }
 
-        List<Hosting> hostinglist = hostingService.findList();
-        for (Hosting h : hostinglist) {
-            SearchVO searchVO = new SearchVO();
+        List<Hosting> hostingList = hostingService.findList();
+        for (Hosting h : hostingList) {
+            SearchWebVO searchVO = new SearchWebVO();
             searchVO.setSeverId(h.getHostingId());
             searchVO.setSeverName(h.getName());
-            searchVO.setSeverType(1);
+            searchVO.setSeverType(ServiceTypeEnum.HOSTING);
             searchVOS.add(searchVO);
         }
 

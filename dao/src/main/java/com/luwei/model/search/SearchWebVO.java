@@ -1,5 +1,6 @@
 package com.luwei.model.search;
 
+import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,7 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SearchVO {
+public class SearchWebVO {
 
     @ApiModelProperty(value = "课程/托管id")
     private Integer severId;
@@ -19,5 +20,5 @@ public class SearchVO {
     private String severName;
 
     @ApiModelProperty(value = "类型 0课程 1托管")
-    private Integer severType;
+    private ServiceTypeEnum severType;
 }

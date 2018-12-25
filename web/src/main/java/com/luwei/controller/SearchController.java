@@ -1,6 +1,6 @@
 package com.luwei.controller;
 
-import com.luwei.model.search.SearchVO;
+import com.luwei.model.search.SearchWebVO;
 import com.luwei.service.search.SearchService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,9 +23,9 @@ public class SearchController {
     @Resource
     private SearchService searchService;
 
-    @GetMapping("List")
-    @ApiOperation("返回所有学校")
-    public List<SearchVO> schoolList() {
+    @GetMapping("list")
+    @ApiOperation("返回所有课程/托管")
+    public List<SearchWebVO> schoolList() {
         return searchService.findSever();
     }
 }

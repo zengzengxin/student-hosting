@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.banner.Banner;
 import com.luwei.model.banner.pojo.cms.BannerAddDTO;
+import com.luwei.model.banner.pojo.cms.BannerCmsVO;
 import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
-import com.luwei.model.banner.pojo.cms.BannerCmsVO;
+import com.luwei.model.search.SearchCmsVO;
 import com.luwei.service.banner.BannerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -57,6 +59,12 @@ public class BannerController {
     @ApiOperation("分页获取")
     public IPage<BannerCmsVO> page(@ModelAttribute @Valid BannerQueryDTO queryDTO, Page<Banner> page) {
         return bannerService.findPage(queryDTO, page);
+    }
+
+    @GetMapping("/service/list")
+    @ApiOperation("返回所有课程/托管")
+    public List<SearchCmsVO> listServices() {
+        return bannerService.listServices();
     }
 
 }

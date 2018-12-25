@@ -9,16 +9,25 @@ import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.banner.Banner;
 import com.luwei.model.banner.BannerMapper;
 import com.luwei.model.banner.pojo.cms.BannerAddDTO;
+import com.luwei.model.banner.pojo.cms.BannerCmsVO;
 import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
-import com.luwei.model.banner.pojo.cms.BannerCmsVO;
+import com.luwei.model.course.Course;
+import com.luwei.model.hosting.Hosting;
+import com.luwei.model.recommend.envm.ServiceTypeEnum;
+import com.luwei.model.search.SearchCmsVO;
+import com.luwei.service.course.CourseService;
+import com.luwei.service.hosting.HostingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,6 +37,12 @@ import java.util.Set;
 @Service
 @Slf4j
 public class BannerService extends ServiceImpl<BannerMapper, Banner> {
+
+    @Resource
+    private CourseService courseService;
+
+    @Resource
+    private HostingService hostingService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -126,4 +141,34 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
                 new QueryWrapper<Banner>().lambda().eq(Banner::getBannerType, queryDTO.getBannerType())), this::toBannerVO);
     }
 
+    /**
+     * 在Banner模块,需要查询所有的服务
+     *
+     * @return
+     */
+    public List<SearchCmsVO> listServices() {
+        List<SearchCmsVO> list = new ArrayList<>();
+
+        courseService.list(null);
+
+        List<Course> courseList = courseService.list(null);
+        for (Course course : courseList) {
+            SearchCmsVO searchVO = new SearchCmsVO();
+            searchVO.setSeverId(course.getCourseId());
+            searchVO.setSeverName(course.getCourseName());
+            searchVO.setSeverType(ServiceTypeEnum.COURSE);
+            list.add(searchVO);
+        }
+
+        List<Hosting> hostingList = hostingService.list(null);
+        for (Hosting hosting : hostingList) {
+            SearchCmsVO searchVO = new SearchCmsVO();
+            searchVO.setSeverId(hosting.getHostingId());
+            searchVO.setSeverName(hosting.getName());
+            searchVO.setSeverType(ServiceTypeEnum.HOSTING);
+            list.add(searchVO);
+        }
+
+        return list;
+    }
 }
