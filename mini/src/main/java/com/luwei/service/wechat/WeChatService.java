@@ -31,13 +31,6 @@ public class WeChatService {
     @Resource
     private WxProperties wxProperties;
 
-    public String miniAuthorize() {
-
-        Integer userId = 1;
-        shiroTokenService.logout(userId.toString());
-        return shiroTokenService.login(userId.toString());
-    }
-
     public String addMinuuser(Map<String, Object> map) {
         log.info(map.toString());
 
