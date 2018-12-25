@@ -1,7 +1,6 @@
 package com.luwei.model.hosting.pojo.web;
 
 import com.luwei.model.hosting.envm.HostingTypeEnum;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,7 +16,6 @@ import java.util.List;
  * @author zzx
  * @since 2018-12-17
  */
-@ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
@@ -61,11 +59,10 @@ public class HostingWebVO implements Serializable {
     @ApiModelProperty(value = "是否设为推荐(默认为0)")
     private Boolean recommend;
 
-
-    @ApiModelProperty(value = "托管开始时间",dataType = "java.lang.Long")
+    @ApiModelProperty(value = "托管开始时间", dataType = "java.lang.Long")
     private LocalDateTime startTime;
 
-    @ApiModelProperty(value = "托管结束时间",dataType = "java.lang.Long")
+    @ApiModelProperty(value = "托管结束时间", dataType = "java.lang.Long")
     private LocalDateTime endTime;
 
     @ApiModelProperty(value = "托管价格")
@@ -77,5 +74,8 @@ public class HostingWebVO implements Serializable {
     @NotNull
     @ApiModelProperty(value = "课程图片ID(最多3张)")
     private List<String> pictureUrls;
+
+    @ApiModelProperty(value = "负责人电话")
+    private String leaderPhone;
 
 }

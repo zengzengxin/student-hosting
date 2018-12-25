@@ -18,17 +18,14 @@ import java.util.List;
 @Api(tags = "搜索模块")
 @RestController
 @RequestMapping("/api/search")
-public class searchController {
+public class SearchController {
 
     @Resource
-    SearchService searchService;
-
-
+    private SearchService searchService;
 
     @GetMapping("List")
     @ApiOperation("返回所有学校")
     public List<SearchVO> schoolList() {
-        List<SearchVO> sever = searchService.findSever();
-        return sever;
+        return searchService.findSever();
     }
 }

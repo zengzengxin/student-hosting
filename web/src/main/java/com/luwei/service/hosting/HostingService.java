@@ -12,6 +12,8 @@ import com.luwei.model.hosting.HostingMapper;
 import com.luwei.model.hosting.pojo.web.HostingWebVO;
 import com.luwei.model.picture.PictureMapper;
 import com.luwei.model.picture.envm.PictureTypeEnum;
+import com.luwei.model.school.School;
+import com.luwei.model.school.SchoolMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -32,11 +34,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
-
     @Resource
     private PictureMapper pictureMapper;
 
-
+    @Resource
+    private SchoolMapper schoolMapper;
 
     public HostingWebVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
@@ -44,7 +46,11 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         //设置图片
         List<String> urls = pictureMapper.findAllByForeignKeyId(hosting.getHostingId(), PictureTypeEnum.HOSTING.getValue());
-        return toHostingVO(hosting).setPictureUrls(urls);
+        //负责人电话
+        School school = schoolMapper.selectById(hosting.getSchoolId());
+        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+
+        return toHostingVO(hosting).setPictureUrls(urls).setLeaderPhone(school.getLeaderPhone());
     }
 
     private HostingWebVO toHostingVO(Hosting hosting) {
@@ -52,9 +58,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         BeanUtils.copyNonNullProperties(hosting, hostingVO);
         return hostingVO;
     }
-
-
-
 
     public IPage<HostingWebVO> findHostingPage(Page page) {
         Hosting hosting = new Hosting();
@@ -75,9 +78,9 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
 
     /*
-    *
-    * 返回所有托管
-    * */
+     *
+     * 返回所有托管
+     * */
 
     public List<Hosting> findList() {
         QueryWrapper queryWrapper = new QueryWrapper();
