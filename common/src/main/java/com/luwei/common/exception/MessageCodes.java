@@ -87,6 +87,7 @@ public interface MessageCodes {
     String ORDER_SAVE_ERROR = "order.save.error";//订单保存失败
     String ORDER_DELETE_ERROR = "order.delete.error";//订单删除失败
     String ORDER_TIME_ERROR = "order.time.error";//订单的时间错误
+    String ORDER_CHILD_ERROR = "order.child.error";//孩子不是该家长的孩子
 
     //WeChat相关
     String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;
@@ -102,8 +103,8 @@ public interface MessageCodes {
     String HOSTING_IS_UPDATE_ERROR = "hosting.is.update.error";//托管班保存失败
 
     //推荐相关
-    String RECOMMEND_IS_NOT_EXIST = "recommend.is.not.exist";//推荐不存在
-    String RECOMMEND_WEIGHT_UPDATE_ERROR = "recommend.weight.update.exist";//推荐不存在
+    String RECOMMEND_IS_NOT_EXIST = "recomment.is.not.exist";//推荐不存在
+    String RECOMEND_WEIGHT_UPDATE_ERROR = "recomment.weight.update.exist";//推荐不存在
 
     //推荐服务相关
     String RECOMMEND_DELETE_ERROR = "recommend.delete.error";//推荐删除失败

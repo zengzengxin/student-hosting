@@ -29,7 +29,6 @@ public class ParentController {
     public IPage<ParentCmsVO> page(@ModelAttribute ParentQueryDTO parentQueryDTO , Page page) {
         return parentService.getParentPage(parentQueryDTO, page);
     }
-    //--todo--改为了按名字和联系方式来查询
 
     @DeleteMapping
     @ApiOperation("删除")

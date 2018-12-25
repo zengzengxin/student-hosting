@@ -117,9 +117,16 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         }
 
         //判断孩子是不是家长的孩子
+        Boolean flag = false;
         List<ChildWebVO> childList = parentService.findAllParentById(parentId);
-         //--todo 及得加上
-
+        for (ChildWebVO c : childList) {
+            if (c.getChildId() == hostingOrderDTO.getChildId()) {
+                flag = true;
+            }
+        }
+        if (!flag) {
+            Assert.isTrue(true, MessageCodes.ORDER_CHILD_ERROR);
+        }
 
         //设置关于托管班的信息
         order.setServiceName(hosting.getName());
@@ -211,12 +218,24 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
     @Transactional
     public OrderVO confirmOrder(ConfirmOrderDTO orderDTO) {
         Order order = new Order();
+        Integer parentId = UserHelper.getUserId();
 
         // TODO 判断该家长是否绑定此学生
+        Boolean flag = false;
+        List<ChildWebVO> childList = parentService.findAllParentById(parentId);
+        for (ChildWebVO c : childList) {
+            if (c.getChildId() == orderDTO.getChildId()) {
+                flag = true;
+            }
+        }
+        if (!flag) {
+            Assert.isTrue(true, MessageCodes.ORDER_CHILD_ERROR);
+        }
+
         // TODO 判断该套餐是否是该课程的
 
         // 封装下单用户 ID, 手机号
-        Parent parent = parentService.getById(UserHelper.getUserId());
+        Parent parent = parentService.getById(parentId);
         Assert.notNull(parent, MessageCodes.PARENT_IS_NOT_EXIST);
         order.setParentId(parent.getParentId())
                 .setParentPhone(parent.getPhone());

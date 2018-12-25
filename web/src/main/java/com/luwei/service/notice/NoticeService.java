@@ -45,7 +45,6 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
     public IPage<NoticeWebVO> getNoticePage(Page<Notice> page) {
         QueryWrapper queryWrapper = new QueryWrapper();
         return baseMapper.selectPage(page, queryWrapper);
-        //TODO---这个方法没有测
        /* Notice notice = new Notice();
         BeanUtils.copyNonNullProperties(noticePageDTO, notice);
         QueryWrapper<Notice> noticeQueryWrapper = new QueryWrapper<Notice>();

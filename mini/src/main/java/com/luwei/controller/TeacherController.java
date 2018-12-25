@@ -51,7 +51,6 @@ public class TeacherController {
         }else {
             return true;
         }
-      //--todo--返回教师信息
     }
 
 
