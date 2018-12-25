@@ -35,7 +35,7 @@ public class WeChatService {
         if (parent == null) {
             parent = new Parent();
 
-            parent.setOpenid(weChatUser.getOpenId());
+            parent.setOpenId(weChatUser.getOpenId());
             parent.setNickName(weChatUser.getNickname());
             parent.setGender(weChatUser.getGender());
             parent.setAvatarUrl(weChatUser.getAvatar());
