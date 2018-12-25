@@ -25,7 +25,7 @@ public class SearchController {
 
     @GetMapping("list")
     @ApiOperation("返回所有课程/托管")
-    public List<SearchWebVO> schoolList() {
-        return searchService.findSever();
+    public List<SearchWebVO> schoolList(String name) {
+        return searchService.findSever(name);
     }
 }

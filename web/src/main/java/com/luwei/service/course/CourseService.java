@@ -79,7 +79,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     /**
      * 新增Course 并新增课程套餐
      *
-     * @param addDTO
+     * @param
      * @return
      */
     /*@Transactional
@@ -277,8 +277,11 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * 返回所有的课程
      * */
 
-    public List<Course> findList() {
-        QueryWrapper queryWrapper = new QueryWrapper();
+    public List<Course> findList(String name) {
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
+        if (name != null || "".equals(name)){
+            queryWrapper.lambda().eq(Course::getCourseName, name);
+        }
         return baseMapper.selectList(queryWrapper);
 
     }

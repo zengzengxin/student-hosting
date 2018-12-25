@@ -27,10 +27,10 @@ public class SearchService {
     @Resource
     private HostingService hostingService;
 
-    public List<SearchWebVO> findSever() {
+    public List<SearchWebVO> findSever(String name) {
         List<SearchWebVO> searchVOS = new ArrayList<>();
 
-        List<Course> courseList = courseService.findList();
+        List<Course> courseList = courseService.findList(name);
         for (Course c : courseList) {
             SearchWebVO searchVO = new SearchWebVO();
             searchVO.setSeverId(c.getCourseId());
@@ -39,7 +39,7 @@ public class SearchService {
             searchVOS.add(searchVO);
         }
 
-        List<Hosting> hostingList = hostingService.findList();
+        List<Hosting> hostingList = hostingService.findList(name);
         for (Hosting h : hostingList) {
             SearchWebVO searchVO = new SearchWebVO();
             searchVO.setSeverId(h.getHostingId());
