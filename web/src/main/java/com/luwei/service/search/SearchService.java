@@ -33,18 +33,18 @@ public class SearchService {
         List<Course> courseList = courseService.findList(name);
         for (Course c : courseList) {
             SearchWebVO searchVO = new SearchWebVO();
-            searchVO.setSeverId(c.getCourseId());
-            searchVO.setSeverName(c.getCourseName());
-            searchVO.setSeverType(ServiceTypeEnum.COURSE);
+            searchVO.setServiceId(c.getCourseId());
+            searchVO.setServiceName(c.getCourseName());
+            searchVO.setServiceType(ServiceTypeEnum.COURSE);
             searchVOS.add(searchVO);
         }
 
         List<Hosting> hostingList = hostingService.findList(name);
         for (Hosting h : hostingList) {
             SearchWebVO searchVO = new SearchWebVO();
-            searchVO.setSeverId(h.getHostingId());
-            searchVO.setSeverName(h.getName());
-            searchVO.setSeverType(ServiceTypeEnum.HOSTING);
+            searchVO.setServiceId(h.getHostingId());
+            searchVO.setServiceName(h.getName());
+            searchVO.setServiceType(ServiceTypeEnum.HOSTING);
             searchVOS.add(searchVO);
         }
 

@@ -149,23 +149,21 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
     public List<SearchCmsVO> listServices() {
         List<SearchCmsVO> list = new ArrayList<>();
 
-        courseService.list(null);
-
         List<Course> courseList = courseService.list(null);
         for (Course course : courseList) {
             SearchCmsVO searchVO = new SearchCmsVO();
-            searchVO.setSeverId(course.getCourseId());
-            searchVO.setSeverName(course.getCourseName());
-            searchVO.setSeverType(ServiceTypeEnum.COURSE);
+            searchVO.setServiceId(course.getCourseId());
+            searchVO.setServiceName(course.getCourseName());
+            searchVO.setServiceType(ServiceTypeEnum.COURSE);
             list.add(searchVO);
         }
 
         List<Hosting> hostingList = hostingService.list(null);
         for (Hosting hosting : hostingList) {
             SearchCmsVO searchVO = new SearchCmsVO();
-            searchVO.setSeverId(hosting.getHostingId());
-            searchVO.setSeverName(hosting.getName());
-            searchVO.setSeverType(ServiceTypeEnum.HOSTING);
+            searchVO.setServiceId(hosting.getHostingId());
+            searchVO.setServiceName(hosting.getName());
+            searchVO.setServiceType(ServiceTypeEnum.HOSTING);
             list.add(searchVO);
         }
 
