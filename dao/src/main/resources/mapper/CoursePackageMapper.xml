@@ -34,7 +34,7 @@
     </select>
 
     <select id="findAllByTime" resultType="com.luwei.model.course.pojo.mini.MyCourseVO">
-        SELECT course_package_id,course_name,classroom,class_time,quitting_time,max_number
+        SELECT course_package_id,course_name,classroom,start_time,end_time,class_time,quitting_time,max_number
         FROM tb_course_package WHERE course_package_id NOT IN
         (SELECT course_package_id FROM tb_course_package
         WHERE (start_time &gt;= #{endTime}

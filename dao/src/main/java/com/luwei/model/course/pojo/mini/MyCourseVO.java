@@ -31,6 +31,14 @@ public class MyCourseVO implements Serializable {
     private String classroom;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
+    @ApiModelProperty(value = "开始时间")
+    private LocalDateTime startTime;
+
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
+    @ApiModelProperty(value = "结束时间")
+    private LocalDateTime endTime;
+
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "上课时间")
     private LocalDateTime classTime;
 
