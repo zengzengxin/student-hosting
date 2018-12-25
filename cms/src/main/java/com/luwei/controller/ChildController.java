@@ -22,7 +22,7 @@ import java.util.Set;
  * @author ffq
  * @since 2018-12-11
  */
-@Api(tags = {"孩子模块"})
+@Api(tags = {"学生模块"})
 @RestController
 @RequestMapping("/api/child")
 public class ChildController {
@@ -31,7 +31,7 @@ public class ChildController {
 
     //finish
     @PostMapping
-    @ApiOperation("添加孩子")
+    @ApiOperation("添加孩子/学生")
     public ChildVO save(@RequestBody @Valid ChildAddDTO childAddDTO) {
 
         return childService.saveChild(childAddDTO);
@@ -39,7 +39,7 @@ public class ChildController {
 
     // @ApiIgnore
     @PutMapping
-    @ApiOperation("修改孩子")
+    @ApiOperation("修改孩子/学生")
     public ChildVO update(@RequestBody @Valid ChildUpdateDTO childUpdateDTO) {
         return childService.updateChild(childUpdateDTO);
     }

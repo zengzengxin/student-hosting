@@ -109,6 +109,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
             child.setSchoolName(map.get(3));
             child.setGrade(map.get(4));
             child.setChildClass(map.get(5));
+            child.setSchoolId(1);
 
             LocalDateTime time = LocalDateTime.now();
             child.setUpdateTime(time);

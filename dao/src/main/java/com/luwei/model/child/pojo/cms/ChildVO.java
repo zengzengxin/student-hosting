@@ -7,7 +7,6 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * @author ffq
@@ -33,9 +32,6 @@ public class ChildVO implements Serializable {
     @ApiModelProperty(value = "（孩子）学生的学号")
     private String studentNo;
 
-    @ApiModelProperty(value = "孩子的生日")
-    private LocalDateTime birthday;
-
     @ApiModelProperty(value = "学校的id")
     private Integer schoolId;
 
@@ -48,16 +44,6 @@ public class ChildVO implements Serializable {
     @ApiModelProperty(value = "孩子的班级")
     private String childClass;
 
-    @ApiModelProperty(value = "孩子的班主任的电话")
-    private String headteacherPhone;
 
-    @ApiModelProperty(value = "孩子的班主任的姓名")
-    private String headteacherName;
-
-    @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(value = "更新时间")
-    private LocalDateTime updateTime;
 
 }

@@ -9,7 +9,6 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * @author ffq
@@ -35,13 +34,7 @@ public class ChildAddDTO implements Serializable {
     @NotBlank
     private String studentNo;
 
-    @ApiModelProperty(value = "孩子的生日",dataType = "java.lang.Long")
-    @NotNull
-    private LocalDateTime birthday;
 
-    @ApiModelProperty(value = "学校的id")
-    @NotNull
-    private Integer schoolId;
 
     @ApiModelProperty(value = "孩子所在的学校")
     @NotBlank
@@ -55,12 +48,5 @@ public class ChildAddDTO implements Serializable {
     @NotBlank
     private String childClass;
 
-    @ApiModelProperty(value = "孩子的班主任的电话")
-    @NotBlank
-    private String headteacherPhone;
-
-    @ApiModelProperty(value = "孩子的班主任的姓名")
-    @NotBlank
-    private String headteacherName;
 
 }
