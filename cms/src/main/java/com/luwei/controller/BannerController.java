@@ -33,32 +33,32 @@ public class BannerController {
 
     @PostMapping
     @ApiOperation("新增")
-    public BannerCmsVO saveBanner(@RequestBody @Valid BannerAddDTO addDTO) {
-        return bannerService.saveBanner(addDTO);
+    public BannerCmsVO saveBanner(@RequestBody @Valid BannerAddDTO bannerAddDTO) {
+        return bannerService.saveBanner(bannerAddDTO);
     }
 
     @DeleteMapping
     @ApiOperation("删除")
-    public void deleteBanners(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
-        bannerService.deleteBanners(ids);
+    public void deleteBanners(@RequestParam @ApiParam("bannerId列表") Set<Integer> bannerIds) {
+        bannerService.deleteBanners(bannerIds);
     }
 
     @PutMapping
     @ApiOperation("修改")
-    public BannerCmsVO updateBanner(@RequestBody @Valid BannerUpdateDTO updateDTO) {
-        return bannerService.updateBanner(updateDTO);
+    public BannerCmsVO updateBanner(@RequestBody @Valid BannerUpdateDTO bannerUpdateDTO) {
+        return bannerService.updateBanner(bannerUpdateDTO);
     }
 
     @GetMapping
     @ApiOperation("查询详情")
-    public BannerCmsVO getBanner(@RequestParam @ApiParam("id") Integer id) {
-        return bannerService.getBanner(id);
+    public BannerCmsVO getBanner(@RequestParam @ApiParam("bannerId") Integer bannerId) {
+        return bannerService.getBanner(bannerId);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<BannerCmsVO> page(@ModelAttribute @Valid BannerQueryDTO queryDTO, Page<Banner> page) {
-        return bannerService.findPage(queryDTO, page);
+    public IPage<BannerCmsVO> page(@ModelAttribute @Valid BannerQueryDTO bannerQueryDTO, Page<Banner> page) {
+        return bannerService.findPage(bannerQueryDTO, page);
     }
 
     @GetMapping("/service/list")

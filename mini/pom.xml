@@ -25,14 +25,6 @@
             <version>1.0</version>
         </dependency>
 
-        <!--excel-->
-
-        <!-- 时间工具 -->
-
-        <!-- httpclient -->
-
-        <!--阿里短信-->
-
     </dependencies>
 
     <build>

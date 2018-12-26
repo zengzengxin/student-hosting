@@ -98,18 +98,20 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         LocalDateTime endTime = myCourseVO.getEndTime();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String start = startTime.format(formatter);
-        String end = endTime.format(formatter);
+        // String start = startTime.format(formatter);
+        // String end = endTime.format(formatter);
+        LocalDate start = startTime.toLocalDate();
+        LocalDate end = endTime.toLocalDate();
 
         List<String> betweenDate = getBetweenDate(start, end);
 
         return myCourseVO.setDays(betweenDate);
     }
 
-    private List<String> getBetweenDate(String start, String end) {
+    private List<String> getBetweenDate(LocalDate startDate, LocalDate endDate) {
         List<String> list = new ArrayList<>();
-        LocalDate startDate = LocalDate.parse(start);
-        LocalDate endDate = LocalDate.parse(end);
+        // LocalDate startDate = LocalDate.parse(start);
+        // LocalDate endDate = LocalDate.parse(end);
 
 
         long distance = ChronoUnit.DAYS.between(startDate, endDate);
