@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -25,10 +26,12 @@ public class RecommendUpdateDTO implements Serializable {
 
     @ApiModelProperty(value = "推荐表ID")
     @TableId(value = "recommend_id", type = IdType.AUTO)
+    @NotNull(message = "推荐表ID不能为空")
     private Integer recommendId;
 
 
     @ApiModelProperty(value = "权重")
+    @NotNull(message = "权重不能为空")
     private Integer weight;
 
 

@@ -1,5 +1,6 @@
 package com.luwei.controller;
 
+import com.luwei.model.teacher.Teacher;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -22,8 +23,9 @@ public class TemplateController {
 
     @GetMapping
     @ApiOperation("查询单条")
-    public Object findOne(@ModelAttribute @Valid Object object) {
-        return null;
+    public Teacher findOne(@ModelAttribute @Valid Object object) {
+        Teacher teacher=new Teacher().setBinding(true);
+        return teacher;
     }
 
 

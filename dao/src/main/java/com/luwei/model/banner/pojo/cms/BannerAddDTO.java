@@ -23,7 +23,7 @@ public class BannerAddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotBlank(message = "图片地址不能为空")
+    @NotBlank(message = "图片不能为空")
     @ApiModelProperty(value = "图片")
     private String picture;
 
@@ -31,7 +31,7 @@ public class BannerAddDTO implements Serializable {
     @ApiModelProperty(value = "跳转服务ID")
     private Integer jumpId;
 
-    @NotBlank(message = "跳转服务名称不能为空")
+    @NotBlank(message = "服务名称不能为空")
     @ApiModelProperty(value = "跳转服务名称")
     private String jumpName;
 
@@ -43,6 +43,7 @@ public class BannerAddDTO implements Serializable {
     @Min(1)
     @ApiModelProperty(value = "权重,越小越大")
     private Integer weight;
+
 
     @ApiModelProperty(value = "外链url")
     private String linkUrl;

@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,35 +29,45 @@ public class RecommendAddDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "推荐表ID")
-            @TableId(value = "recommend_id", type = IdType.AUTO)
-                            private Integer recommendId;
+    @TableId(value = "recommend_id", type = IdType.AUTO)
+    @NotNull(message = "推荐表ID不能为空")
+    private Integer recommendId;
 
     @ApiModelProperty(value = "服务ID")
-                    private Integer serviceId;
+    @NotNull(message = "服务ID不能为空")
+    private Integer serviceId;
 
     @ApiModelProperty(value = "服务名称")
-                    private String serviceName;
+    @NotBlank(message = "服务名称不能为空")
+    private String serviceName;
 
     @ApiModelProperty(value = "服务价格")
-                    private BigDecimal servicePrice;
+    @NotNull(message = "服务价格不能为空")
+    private BigDecimal servicePrice;
 
     @ApiModelProperty(value = "服务简介")
-                    private String serviceIntroduction;
+    @NotBlank(message = "服务简介不能为空")
+    private String serviceIntroduction;
 
     @ApiModelProperty(value = "服务图片地址")
-                    private String serviceCoverUrl;
+    @NotBlank(message = "服务图片地址不能为空")
+    private String serviceCoverUrl;
 
     @ApiModelProperty(value = "权重")
-                    private Integer weight;
+    @NotNull(message = "权重不能为空")
+    private Integer weight;
 
     @ApiModelProperty(value = "创建时间")
-                    private LocalDateTime createTime;
+    @NotNull(message = "创建时间不能为空")
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "修改时间")
-                    private LocalDateTime updateTime;
+    @NotNull(message = "修改时间不能为空")
+    private LocalDateTime updateTime;
 
     @ApiModelProperty(value = "是否删除(默认为0)")
-                    @TableLogic
+    @TableLogic
+    @NotNull(message = "是否删除不能为空")
     private Boolean deleted;
 
 }

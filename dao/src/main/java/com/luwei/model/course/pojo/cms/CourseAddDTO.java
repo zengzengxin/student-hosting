@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -23,15 +24,15 @@ public class CourseAddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "课程名称不能为空")
+    @NotBlank(message = "课程名称不能为空")
     @ApiModelProperty(value = "课程名称")
     private String courseName;
 
-    @NotNull(message = "课程封面不能为空")
+    @NotBlank(message = "课程封面不能为空")
     @ApiModelProperty(value = "课程封面")
     private String coverUrl;
 
-    @NotNull(message = "课程简介不能为空")
+    @NotBlank(message = "课程简介不能为空")
     @ApiModelProperty(value = "课程简介")
     private String introduction;
 
@@ -40,7 +41,7 @@ public class CourseAddDTO implements Serializable {
     @ApiModelProperty(value = "课程图片ID(最多3张)")
     private List<String> pictureUrls;
 
-    @NotNull(message = "课程详情不能为空")
+    @NotBlank(message = "课程详情不能为空")
     @ApiModelProperty(value = "课程详情")
     private String details;
 
@@ -48,7 +49,7 @@ public class CourseAddDTO implements Serializable {
     @ApiModelProperty(value = "教师ID")
     private Integer teacherId;
 
-    @NotNull(message = "教师名称不能为空")
+    @NotBlank(message = "教师名称不能为空")
     @ApiModelProperty(value = "教师名称")
     private String teacherName;
 
@@ -56,7 +57,7 @@ public class CourseAddDTO implements Serializable {
     @ApiModelProperty(value = "所在学校ID")
     private Integer schoolId;
 
-    @NotNull(message = "学校名称不能为空")
+    @NotBlank(message = "学校名称不能为空")
     @ApiModelProperty(value = "学校名称")
     private String schoolName;
 

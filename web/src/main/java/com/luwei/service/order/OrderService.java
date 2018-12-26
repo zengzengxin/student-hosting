@@ -151,7 +151,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         order.setServiceEndTime(hostingOrderDTO.getEndTime());
 
         //设置价格
-        order.setPrice(getPrice(hostingOrderDTO.getStartTime(), hostingOrderDTO.getEndTime()));
+        BigDecimal severPrice = hostingService.getById(hostingOrderDTO.getServiceId()).getPrice();
+        order.setPrice(severPrice.multiply(BigDecimal.valueOf(getdays(hostingOrderDTO.getStartTime(), hostingOrderDTO.getEndTime()))));
+
 
         // 支付方式 - 待定
         //order.setPayment(PaymentEnum.WECHAT);
@@ -174,10 +176,10 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     }
 
     //计算价格
-    private static BigDecimal getPrice(LocalDateTime startTime, LocalDateTime endTime) {
+    private static long getdays(LocalDateTime startTime, LocalDateTime endTime) {
 
-        int startWeek;
-        int endWeek;
+        int startWeek;  //开始日期
+        int endWeek;    //结束日期
         int offset;     //偏移量
         long days;      //两个时间之间的天数
         long workDays;  //工作日
@@ -198,18 +200,23 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         if (startWeek < endWeek) {
             offset = endWeek - startWeek + 1;
         } else if (startWeek > endWeek) {
-            offset = 5 - startWeek + endWeek;
+            offset = 5 - startWeek + 1 + endWeek;
         } else {
             offset = 1;
         }
 
+        if(offset == 5){
+            offset = 0;
+        }
+
         Duration be = Duration.between(startTime, endTime);
         days = be.toDays();
-
         workDays = ((days + 1) / 7) * 5 + offset;
 
-        return BigDecimal.valueOf(workDays * 100);
+        return workDays;
     }
+
+
 
     /*
      *
