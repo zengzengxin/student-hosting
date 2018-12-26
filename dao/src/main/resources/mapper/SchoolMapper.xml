@@ -32,7 +32,7 @@
                 and name like '%${schoolQueryDTO.name}%'
             </if>
             <if test="schoolQueryDTO.leaderPhone!=null">
-                and name like '%${schoolQueryDTO.leaderPhone}%'
+                and leader_phone = #{schoolQueryDTO.leaderPhone}
             </if>
         </where>
     </select>
