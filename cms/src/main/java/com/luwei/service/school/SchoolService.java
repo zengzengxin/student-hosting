@@ -122,4 +122,9 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         return true;
     }
 
+
+    public Integer findSchoolIdBySchoolname(String schoolname){
+        return  baseMapper.findSchoolIdBySchoolname(schoolname);
+    }
+
 }

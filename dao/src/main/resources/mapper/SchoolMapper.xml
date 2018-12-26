@@ -34,5 +34,9 @@
         </where>
     </select>
 
+    <select id="findSchoolIdBySchoolname" parameterType="string" resultType="java.lang.Integer">
+        SELECT school_id from tb_school where name = #{schoolname}
+    </select>
+
 
 </mapper>

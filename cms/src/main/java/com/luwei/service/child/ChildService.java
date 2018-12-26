@@ -13,11 +13,13 @@ import com.luwei.model.child.pojo.cms.ChildAddDTO;
 import com.luwei.model.child.pojo.cms.ChildQueryDTO;
 import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
 import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.service.school.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,6 +38,9 @@ import java.util.Set;
 @Service
 @Slf4j
 public class ChildService extends ServiceImpl<ChildMapper, Child> {
+
+    @Resource
+    SchoolService schoolService;
 
     public ChildVO findById(Integer id) {
         Child child = getById(id);
@@ -58,6 +63,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         child.setUpdateTime(time);
         child.setCreateTime(time);
         //设置一些具体逻辑，是否需要加上deleted字段等等
+        child.setSchoolName(schoolService.findById(childAddDTO.getSchoolId()).getName());
         save(child);
         log.info("保存数据---:{}", child);
         return toChildVO(child);
@@ -106,7 +112,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
             child.setSchoolName(map.get(3));
             child.setGrade(map.get(4));
             child.setChildClass(map.get(5));
-            child.setSchoolId(1);
+            child.setSchoolId(schoolService.findSchoolIdBySchoolname(map.get(3)));
 
             LocalDateTime time = LocalDateTime.now();
             child.setUpdateTime(time);
