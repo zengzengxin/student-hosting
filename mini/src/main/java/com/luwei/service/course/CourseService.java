@@ -17,7 +17,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Author: huanglp
@@ -79,8 +87,74 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     }
 
     public List<MyCourseVO> listMyCourse(MyCourseQuery query) {
-        return coursePackageService.findAllByTime(query.getStartTime(), query.getEndTime());
+        List<MyCourseVO> list = coursePackageService.findAllByTime(query.getStartTime(), query.getEndTime());
+        return list.stream().map(this::dellWith).collect(Collectors.toList());
     }
+
+    private MyCourseVO dellWith(MyCourseVO myCourseVO) {
+        List<Integer> list = new ArrayList<>();
+
+        LocalDateTime startTime = myCourseVO.getStartTime();
+        LocalDateTime endTime = myCourseVO.getEndTime();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String start = startTime.format(formatter);
+        String end = endTime.format(formatter);
+
+        List<String> betweenDate = getBetweenDate(start, end);
+
+        return myCourseVO.setDays(betweenDate);
+    }
+
+    private List<String> getBetweenDate(String start, String end) {
+        List<String> list = new ArrayList<>();
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+
+
+        long distance = ChronoUnit.DAYS.between(startDate, endDate);
+        if (distance < 1) {
+            return list;
+        }
+        Stream.iterate(startDate, d -> {
+            return d.plusDays(1);
+        }).limit(distance + 1).forEach(f -> {
+            if (f.getDayOfWeek() != DayOfWeek.SATURDAY && f.getDayOfWeek() != DayOfWeek.SUNDAY) {
+                list.add(f.toString());
+            }
+        });
+
+        // Stream.iterate(startDate, d -> d.plusDays(1)).limit(distance + 1).forEach(f -> list.add(f.toString()));
+        return list;
+    }
+
+    /*public static void main(String[] args) {
+        String start = "2018-12-01";
+        String end = "2018-12-31";
+
+        // Instant instant = Instant.ofEpochMilli(1546226223000L);
+        // ZoneId zone = ZoneId.systemDefault();
+        // LocalDateTime end = LocalDateTime.ofInstant(instant, zone);
+
+        // LocalDateTime start = LocalDateTime.now();
+        // LocalDateTime start = LocalDateTime.now();
+
+        LocalDate startDate = LocalDate.now();
+        DayOfWeek dayOfWeek = startDate.getDayOfWeek();
+        System.out.println(dayOfWeek);
+        System.out.println(dayOfWeek.getValue());
+
+        System.out.println(LocalDateTime.now());
+        System.out.println(LocalDate.now());
+
+        *//*List<String> betweenDate = getBetweenDate(start, end);
+        System.out.println(betweenDate);
+        Stream.iterate(startDate, d -> {
+            return d.plusDays(1);
+        }).limit(distance + 1).forEach(f -> {
+            list.add(f.toString());
+        });*//*
+    }*/
 
     /**
      * 私有方法 将实体类转为对应的VO类
