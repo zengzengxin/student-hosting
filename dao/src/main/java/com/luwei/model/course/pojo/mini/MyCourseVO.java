@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Author: huanglp
@@ -49,5 +50,9 @@ public class MyCourseVO implements Serializable {
     // TODO 已报名人数
     @ApiModelProperty(value = "最大人数")
     private Integer maxNumber;
+
+    // 新增
+    @ApiModelProperty(value = "课程所在日期(年-月-日)")
+    private List<String> days;
 
 }
