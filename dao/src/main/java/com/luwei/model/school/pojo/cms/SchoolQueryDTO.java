@@ -22,6 +22,11 @@ public class SchoolQueryDTO implements Serializable {
     @ApiModelProperty(value = "学校名称")
     private String name;
 
+    @ApiModelProperty(value = "负责人电话")
+    private String leaderPhone;
+
+
+
 
 
 
