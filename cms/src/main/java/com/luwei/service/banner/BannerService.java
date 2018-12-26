@@ -50,7 +50,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @param id
      * @return
      */
-    private Banner findById(Integer id) {
+    public Banner findById(Integer id) {
         // 若此id已被逻辑删除,也会返回null
         Banner banner = getById(id);
         Assert.notNull(banner, MessageCodes.BANNER_IS_NOT_EXIST);
@@ -135,38 +135,37 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @return
      */
     public IPage<BannerCmsVO> findPage(BannerQueryDTO queryDTO, Page<Banner> page) {
-
         // ObjectUtils.isEmpty(queryDTO.getBannerType());
-        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page,
-                new QueryWrapper<Banner>().lambda().eq(Banner::getBannerType, queryDTO.getBannerType())), this::toBannerVO);
+        return ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Banner>().lambda()
+                .eq(Banner::getBannerType, queryDTO.getBannerType())
+        ), this::toBannerVO);
     }
 
-    /**
-     * 在Banner模块,需要查询所有的服务
-     *
-     * @return
-     */
-    public List<SearchCmsVO> listServices() {
+    public List<SearchCmsVO> listCourses() {
+        // 后续可优化为只查需要的字段
         List<SearchCmsVO> list = new ArrayList<>();
-
         List<Course> courseList = courseService.list(null);
         for (Course course : courseList) {
-            SearchCmsVO searchVO = new SearchCmsVO();
-            searchVO.setServiceId(course.getCourseId());
-            searchVO.setServiceName(course.getCourseName());
-            searchVO.setServiceType(ServiceTypeEnum.COURSE);
-            list.add(searchVO);
+            SearchCmsVO cmsVO = new SearchCmsVO();
+            cmsVO.setServiceId(course.getCourseId());
+            cmsVO.setServiceName(course.getCourseName());
+            cmsVO.setServiceType(ServiceTypeEnum.COURSE);
+            list.add(cmsVO);
         }
+        return list;
+    }
 
+    public List<SearchCmsVO> listHosting() {
+        // 后续可优化为只查需要的字段
+        List<SearchCmsVO> list = new ArrayList<>();
         List<Hosting> hostingList = hostingService.list(null);
         for (Hosting hosting : hostingList) {
-            SearchCmsVO searchVO = new SearchCmsVO();
-            searchVO.setServiceId(hosting.getHostingId());
-            searchVO.setServiceName(hosting.getName());
-            searchVO.setServiceType(ServiceTypeEnum.HOSTING);
-            list.add(searchVO);
+            SearchCmsVO cmsVO = new SearchCmsVO();
+            cmsVO.setServiceId(hosting.getHostingId());
+            cmsVO.setServiceName(hosting.getName());
+            cmsVO.setServiceType(ServiceTypeEnum.HOSTING);
+            list.add(cmsVO);
         }
-
         return list;
     }
 }
