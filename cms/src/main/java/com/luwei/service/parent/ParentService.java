@@ -8,8 +8,8 @@ import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.cms.ChildVO;
 import com.luwei.model.parent.Parent;
 import com.luwei.model.parent.ParentMapper;
-import com.luwei.model.parent.pojo.cms.ParentQueryDTO;
 import com.luwei.model.parent.pojo.cms.ParentCmsVO;
+import com.luwei.model.parent.pojo.cms.ParentQueryDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -31,12 +31,11 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
 
     public IPage<ParentCmsVO> getParentPage(ParentQueryDTO parentQueryDTO, Page page) {
 
-        IPage<ParentCmsVO> iPage = baseMapper.findParentPage( page,parentQueryDTO);
+        IPage<ParentCmsVO> iPage = baseMapper.findParentPage(page, parentQueryDTO);
         iPage.setRecords(iPage.getRecords().stream().map(this::getchilds).collect(Collectors.toList()));
         return iPage;
 
     }
-
 
     private ParentCmsVO getchilds(ParentCmsVO parentCmsVO) {
         List<ChildVO> list = childMapper.findChildsByParentsId(parentCmsVO.getParentId());
@@ -45,13 +44,10 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
         return parentCmsVO.setListChild(list);
     }
 
-
-    public void deleteParent(Integer id){
+    public void deleteParent(Integer id) {
         boolean flag = removeById(id);
         Assert.isTrue(flag, MessageCodes.PARENT_DELETE_ERROR);
         log.info("----删除一条父母记录----");
     }
-
-
 
 }

@@ -19,11 +19,11 @@ public class CourseRecommend implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
+    @NotNull(message = "课程ID不能为空")
     @ApiModelProperty(value = "课程ID")
     private Integer courseId;
 
-    @NotNull
+    @NotNull(message = "是否设为推荐不能为空")
     @ApiModelProperty(value = "是否设为推荐(true/false)")
     private Boolean recommend;
 

@@ -23,48 +23,48 @@ public class CourseAddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
+    @NotNull(message = "课程名称不能为空")
     @ApiModelProperty(value = "课程名称")
     private String courseName;
 
-    @NotNull
+    @NotNull(message = "课程封面不能为空")
     @ApiModelProperty(value = "课程封面")
     private String coverUrl;
 
-    @NotNull
+    @NotNull(message = "课程简介不能为空")
     @ApiModelProperty(value = "课程简介")
     private String introduction;
 
-    @NotEmpty
+    @NotEmpty(message = "课程图片不能为空")
     @Size(min = 1, max = 3, message = "课程图片最少1张，最多3张")
     @ApiModelProperty(value = "课程图片ID(最多3张)")
     private List<String> pictureUrls;
 
-    @NotNull
+    @NotNull(message = "课程详情不能为空")
     @ApiModelProperty(value = "课程详情")
     private String details;
 
-    @NotNull
+    @NotNull(message = "教师ID不能为空")
     @ApiModelProperty(value = "教师ID")
     private Integer teacherId;
 
-    @NotNull
+    @NotNull(message = "教师名称不能为空")
     @ApiModelProperty(value = "教师名称")
     private String teacherName;
 
-    @NotNull
+    @NotNull(message = "所在学校ID不能为空")
     @ApiModelProperty(value = "所在学校ID")
     private Integer schoolId;
 
-    @NotNull
+    @NotNull(message = "学校名称不能为空")
     @ApiModelProperty(value = "学校名称")
     private String schoolName;
 
-    @NotNull
+    @NotNull(message = "上架到公众号不能为空")
     @ApiModelProperty(value = "上架到公众号")
     private Boolean display;
 
-    @NotEmpty
+    @NotEmpty(message = "课程套餐列表不能为空")
     @ApiModelProperty(value = "课程套餐列表")
     private List<CoursePackageAddDTO> coursePackageList;
 

@@ -29,7 +29,6 @@ public class ChildController {
     @Autowired
     private ChildService childService;
 
-    //finish
     @PostMapping
     @ApiOperation("添加孩子/学生")
     public ChildVO save(@RequestBody @Valid ChildAddDTO childAddDTO) {
@@ -37,7 +36,6 @@ public class ChildController {
         return childService.saveChild(childAddDTO);
     }
 
-    // @ApiIgnore
     @PutMapping
     @ApiOperation("修改孩子/学生")
     public ChildVO update(@RequestBody @Valid ChildUpdateDTO childUpdateDTO) {

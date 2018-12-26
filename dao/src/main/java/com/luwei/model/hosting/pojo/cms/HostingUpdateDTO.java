@@ -64,7 +64,7 @@ public class HostingUpdateDTO implements Serializable {
 
     @ApiModelProperty(value = "所在学校id")
     @NotNull(message = "所在学校id不能为空")
-    @Range(min = 0, max = 20000, message = "学校的id范围必须在【{min},{max}】之间")
+    @Range(min = 0, max = 2000000, message = "学校的id范围必须在【{min},{max}】之间")
     private Integer schoolId;
 
     @ApiModelProperty(value = "学校名称")
@@ -79,25 +79,30 @@ public class HostingUpdateDTO implements Serializable {
     @NotNull(message = "是否设为推荐(默认为0)不能为空")
     private Boolean recommend;
 
-    @NotEmpty
+    @NotEmpty(message = "托管图片不能为空")
     @Size(min = 1, max = 3, message = "托管图片最少1张，最多3张")
     @ApiModelProperty(value = "托管图片ID(最多3张)")
     private List<String> pictureUrls;
 
     @ApiModelProperty(value = "托管开始时间",dataType = "java.lang.Long")
+    @NotNull(message = "托管开始时间不能为空")
     private LocalDateTime startTime;
 
     @ApiModelProperty(value = "托管结束时间",dataType = "java.lang.Long")
+    @NotNull(message = "托管结束时间不能为空")
     private LocalDateTime endTime;
 
     @ApiModelProperty(value = "托管价格")
+    @NotNull(message = "托管价格不能为空")
     private BigDecimal price;
 
     @ApiModelProperty(value = "最大人数")
+    @NotNull(message = "最大人数不能为空")
     @Range(min = 0, max = 20000, message = "最大人数范围必须在【{min},{max}】之间")
     private Integer maxNumber;
 
     @ApiModelProperty(value = "是否删除")
+    @NotNull(message = "是否删除不能为空")
     @TableLogic
     private Boolean deleted;
 

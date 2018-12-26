@@ -25,14 +25,14 @@ public class ChildController {
     @Autowired
     private ChildService childService;
 
-    //finish
+
     @PostMapping
     @ApiOperation("绑定孩子")
     public ChildWebVO save(@RequestBody @Valid ChildBindingDTO childBindingDTO) {
         return childService.bindingChild(childBindingDTO);
     }
 
-    // @ApiIgnore
+
     @PutMapping
     @ApiOperation("修改孩子")
     public ChildWebVO update(@RequestBody @Valid ChildUpdateDTO childUpdateDTO) {

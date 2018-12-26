@@ -37,10 +37,8 @@ import java.util.Set;
 @Slf4j
 public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
-
     public ChildVO findById(Integer id) {
         Child child = getById(id);
-        //TODO记得修改MessageCodes
         org.springframework.util.Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
         return toChildVO(child);
     }
@@ -80,15 +78,14 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     }
 
     public void deleteChilds(Set<Integer> ids) {
-        int count =baseMapper.deleteBatchIds(ids);
+        int count = baseMapper.deleteBatchIds(ids);
         Assert.isTrue(count == ids.size(), MessageCodes.CHILD_DELETE_ERROR);
         log.info("删除数据:ids{}", ids);
     }
 
-    public IPage<ChildVO> findPage(Page<Child> page,@Valid ChildQueryDTO childQueryDTO ) {
-        return baseMapper.findPage(page,childQueryDTO);
+    public IPage<ChildVO> findPage(Page<Child> page, @Valid ChildQueryDTO childQueryDTO) {
+        return baseMapper.findPage(page, childQueryDTO);
     }
-
 
     public void importExcel(MultipartFile file) {
         ReadExcelUtil readExcelUtil = new ReadExcelUtil();
@@ -99,11 +96,11 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
             Child child = new Child();
             child.setName(map.get(0));
             child.setStudentNo(map.get(1));
-            if("男".equals(map.get(2))){
+            if ("男".equals(map.get(2))) {
                 child.setGender(1);
-            }else if("女".equals(map.get(2))){
+            } else if ("女".equals(map.get(2))) {
                 child.setGender(2);
-            }else {
+            } else {
                 child.setGender(0);
             }
             child.setSchoolName(map.get(3));
@@ -120,18 +117,5 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         Assert.isTrue(flag, MessageCodes.CHILD_IMPORT_FROM_EXCLE_ERROR);
 
     }
-
-
-  /*
-    public IPage<ChildVO> findChildPage(ChildQueryDTO childQueryDTO, Page page) {
-        Child child = new Child();
-        BeanUtils.copyNonNullProperties(childQueryDTO, child);
-        QueryWrapper<Child> queryWrapper = new QueryWrapper<>();
-        //查询业务
-        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::toChildVO);
-    }
-    */
-
-
 
 }

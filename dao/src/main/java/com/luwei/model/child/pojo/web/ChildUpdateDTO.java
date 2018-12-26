@@ -22,19 +22,20 @@ public class ChildUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "孩子的主键id")
+    @NotNull(message = "Id不能为空")
     private Integer childId;
 
     @ApiModelProperty(value = "孩子的生日")
-    @NotNull
+    @NotNull(message = "生日不能为空")
     private LocalDateTime birthday;
 
 
     @ApiModelProperty(value = "孩子的班主任的电话")
-    @NotBlank
+    @NotBlank(message = "班主任的电话不能为空")
     private String headteacherPhone;
 
     @ApiModelProperty(value = "孩子的班主任的姓名")
-    @NotBlank
+    @NotBlank(message = "班主任的姓名不能为空")
     private String headteacherName;
 
 

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,30 +23,39 @@ public class CoursePackageUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "课程套餐ID")
+    @NotNull(message = "课程套餐ID不能为空")
     private Integer coursePackageId;
 
     @ApiModelProperty(value = "课程开始时间")
+    @NotNull(message = "课程开始时间不能为空")
     private LocalDateTime startTime;
 
     @ApiModelProperty(value = "课程结束时间")
+    @NotNull(message = "课程结束时间不能为空")
     private LocalDateTime endTime;
 
     @ApiModelProperty(value = "课程价格")
+    @NotNull(message = "课程价格不能为空")
     private BigDecimal price;
 
     @ApiModelProperty(value = "最大人数")
+    @NotNull(message = "最大人数不能为空")
     private Integer maxNumber;
 
     @ApiModelProperty(value = "上架状态")
+    @NotNull(message = "上架状态不能为空")
     private Boolean display;
 
     @ApiModelProperty(value = "课室")
+    @NotBlank(message = "课室不能为空")
     private String classroom;
 
     @ApiModelProperty(value = "上课时间", dataType = "java.lang.Long")
+    @NotNull(message = "上课时间不能为空")
     private LocalDateTime classTime;
 
     @ApiModelProperty(value = "下课时间", dataType = "java.lang.Long")
+    @NotNull(message = "下课时间不能为空")
     private LocalDateTime quittingTime;
 
 }

@@ -19,11 +19,11 @@ public class HostingRecommend implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
+    @NotNull(message = "托管ID不能为空")
     @ApiModelProperty(value = "托管ID")
     private Integer hostingId;
 
-    @NotNull
+    @NotNull(message = "是否设为推荐不能为空")
     @ApiModelProperty(value = "是否设为推荐(true/false)")
     private Boolean recommend;
 

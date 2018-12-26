@@ -44,6 +44,4 @@ public class ChildVO implements Serializable {
     @ApiModelProperty(value = "孩子的班级")
     private String childClass;
 
-
-
 }

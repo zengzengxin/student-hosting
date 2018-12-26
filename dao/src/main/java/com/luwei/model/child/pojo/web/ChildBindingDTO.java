@@ -23,15 +23,15 @@ public class ChildBindingDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "孩子的姓名")
-    @NotBlank
+    @NotBlank(message = "姓名不能为空")
     private String name;
 
     @ApiModelProperty(value = "（孩子）学生的学号")
-    @NotBlank
+    @NotBlank(message = "学号不能为空")
     private String studentNo;
 
     @ApiModelProperty(value = "学校的id")
-    @NotNull
+    @NotNull(message = "学校的id不能为空")
     private Integer schoolId;
 
 }

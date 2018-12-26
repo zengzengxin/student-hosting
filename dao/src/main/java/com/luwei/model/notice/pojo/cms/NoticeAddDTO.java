@@ -21,19 +21,19 @@ import java.io.Serializable;
 public class NoticeAddDTO implements Serializable {
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
-    @NotNull
+    @NotNull(message = "通告状态不能为空")
     private Boolean display;
 
     @ApiModelProperty(value = "通告的内容")
-    @NotBlank
+    @NotBlank(message = "通告的内容不能为空")
     private String content;
 
     @ApiModelProperty(value = "公告标题")
-    @NotBlank
+    @NotBlank(message = "公告标题不能为空")
     private String title;
 
     @ApiModelProperty(value = "公告摘要")
-    @NotBlank
+    @NotBlank(message = "公告摘要不能为空")
     private String summary;
 
 

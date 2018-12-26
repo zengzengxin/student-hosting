@@ -51,7 +51,7 @@ public class HostingAddDTO implements Serializable {
 
     @ApiModelProperty(value = "教师ID")
     @NotNull(message = "教师ID不能为空")
-    @Range(min = 0, max = 20000, message = "教师的id范围必须在【{min},{max}】之间")
+    @Range(min = 0, max = 2000000, message = "教师的id范围必须在【{min},{max}】之间")
     private Integer teacherId;
 
     @ApiModelProperty(value = "教师名称")
@@ -60,7 +60,7 @@ public class HostingAddDTO implements Serializable {
 
     @ApiModelProperty(value = "所在学校id")
     @NotNull(message = "所在学校id不能为空")
-    @Range(min = 0, max = 20000, message = "学校的id范围必须在【{min},{max}】之间")
+    @Range(min = 0, max = 2000000, message = "学校的id范围必须在【{min},{max}】之间")
     private Integer schoolId;
 
     @ApiModelProperty(value = "学校名称")
@@ -96,7 +96,7 @@ public class HostingAddDTO implements Serializable {
 
     @ApiModelProperty(value = "最大人数")
     @NotNull(message = "最大人数不能为空")
-    @Range(min = 0, max = 20000, message = "最大人数范围必须在【{min},{max}】之间")
+    @Range(min = 0, max = 200000, message = "最大人数范围必须在【{min},{max}】之间")
     private Integer maxNumber;
 
 

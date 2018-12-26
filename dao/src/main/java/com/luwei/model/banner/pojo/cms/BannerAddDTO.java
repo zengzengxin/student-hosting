@@ -22,26 +22,27 @@ public class BannerAddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
+    @NotNull(message = "图片不能为空")
     @ApiModelProperty(value = "图片")
     private String picture;
 
-    @NotNull
+    @NotNull(message = "跳转服务ID不能为空")
     @ApiModelProperty(value = "跳转服务ID")
     private Integer jumpId;
 
-    @NotNull
+    @NotNull(message = "服务名称不能为空")
     @ApiModelProperty(value = "跳转服务名称")
     private String jumpName;
 
-    @NotNull
+    @NotNull(message = "服务类型不能为空")
     @ApiModelProperty(value = "服务类型 0-课程 1-托管")
     private ServiceTypeEnum serviceType;
 
-    @NotNull
+    @NotNull(message = "权重不能为空")
     @Min(1)
     @ApiModelProperty(value = "权重,越小越大")
     private Integer weight;
+
 
     @ApiModelProperty(value = "外链url")
     private String linkUrl;
@@ -49,11 +50,11 @@ public class BannerAddDTO implements Serializable {
     @ApiModelProperty(value = "是否为外链 0-否 1-是")
     private Boolean outsideLink;
 
-    @NotNull
+    @NotNull(message = "轮播图类型不能为空")
     @ApiModelProperty(value = "轮播图类型 0-首页 1-订课 2-点餐")
     private BannerTypeEnum bannerType;
 
-    @NotNull
+    @NotNull(message = "是否显示不能为空")
     @ApiModelProperty(value = "是否显示 0-否 1-是")
     private Boolean display;
 

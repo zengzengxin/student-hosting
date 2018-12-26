@@ -50,7 +50,6 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return childVO;
     }
 
-    //finish
     @Transactional
     public ChildWebVO bindingChild(ChildBindingDTO childBindingDTO) {
         Child child = findChildByStunoAndNameAndSchoolId(childBindingDTO);
@@ -71,7 +70,6 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return toChildVO(child);
     }
 
-    //finish
     @Transactional
     public ChildWebVO updateChild(ChildUpdateDTO childUpdateDTO) {
         Child child = new Child();
@@ -84,17 +82,6 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         log.info("修改数据：bean:{}", childUpdateDTO);
         return findById(child.getChildId());
     }
-
-
-  /*
-    public IPage<ChildVO> findChildPage(ChildQueryDTO childQueryDTO, Page page) {
-        Child child = new Child();
-        BeanUtils.copyNonNullProperties(childQueryDTO, child);
-        QueryWrapper<Child> queryWrapper = new QueryWrapper<>();
-        //查询业务
-        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::toChildVO);
-    }
-    */
 
     //通过孩子的学号 姓名 学校id来查找这个学生
     private Child findChildByStunoAndNameAndSchoolId(ChildBindingDTO childBindingDTO) {
