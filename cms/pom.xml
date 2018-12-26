@@ -25,12 +25,6 @@
             <version>1.0</version>
         </dependency>
 
-        <!--excel-->
-        <!-- 时间工具 -->
-        <!-- httpclient -->
-        <!--阿里短信-->
-        <!--以上已在父模块中依赖-->
-
         <!-- 验证码 -->
         <dependency>
             <groupId>com.github.penggle</groupId>
@@ -39,16 +33,11 @@
         </dependency>
 
         <!-- redis -->
-        <dependency>
+        <!--暂不需要-->
+        <!--<dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
             <version>2.1.1.RELEASE</version>
-        </dependency>
-
-        <!-- spring data jpa -->
-<!--        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>-->
 
     </dependencies>
