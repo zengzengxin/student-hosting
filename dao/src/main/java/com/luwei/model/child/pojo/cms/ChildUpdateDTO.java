@@ -33,9 +33,10 @@ public class ChildUpdateDTO implements Serializable {
     @NotBlank(message = "孩子的姓名不能为空")
     private String name;
 
-    @ApiModelProperty(value = "孩子的性别，0为男，1为女，默认为0")
+
     @NotNull(message = "孩子的性别不能为空")
-    private Boolean gender;
+    @ApiModelProperty(value = "孩子的性别，0为不确定，1为男，2为女 默认为0")
+    private Integer gender;
 
     @ApiModelProperty(value = "（孩子）学生的学号")
     @NotBlank(message = "学生的学号不能为空")

@@ -26,8 +26,8 @@ public class ChildVO implements Serializable {
     @ApiModelProperty(value = "孩子的姓名")
     private String name;
 
-    @ApiModelProperty(value = "孩子的性别，0为男，1为女，默认为0")
-    private Boolean gender;
+    @ApiModelProperty(value = "孩子的性别，0为不确定，1为男，2为女 默认为0")
+    private Integer gender;
 
     @ApiModelProperty(value = "（孩子）学生的学号")
     private String studentNo;

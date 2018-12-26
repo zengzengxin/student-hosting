@@ -106,7 +106,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
                 child.setGender(1);
             } else if ("女".equals(map.get(2))) {
                 child.setGender(2);
-            } else {
+            }else {
                 child.setGender(0);
             }
             child.setSchoolName(map.get(3));

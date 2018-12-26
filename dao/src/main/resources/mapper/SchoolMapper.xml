@@ -31,6 +31,9 @@
             <if test="schoolQueryDTO.name!=null">
                 and name like '%${schoolQueryDTO.name}%'
             </if>
+            <if test="schoolQueryDTO.leaderPhone!=null">
+                and leader_phone = #{schoolQueryDTO.leaderPhone}
+            </if>
         </where>
     </select>
 
