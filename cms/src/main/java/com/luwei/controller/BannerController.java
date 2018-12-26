@@ -61,10 +61,16 @@ public class BannerController {
         return bannerService.findPage(bannerQueryDTO, page);
     }
 
-    @GetMapping("/service/list")
-    @ApiOperation("返回所有课程/托管")
-    public List<SearchCmsVO> listServices() {
-        return bannerService.listServices();
+    @GetMapping("/course")
+    @ApiOperation("返回所有课程")
+    public List<SearchCmsVO> listCourses() {
+        return bannerService.listCourses();
+    }
+
+    @GetMapping("/hosting")
+    @ApiOperation("返回所有托管")
+    public List<SearchCmsVO> listHosting() {
+        return bannerService.listHosting();
     }
 
 }

@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class SearchCmsVO {
 
-    @ApiModelProperty(value = "课程/托管id")
+    @ApiModelProperty(value = "课程/托管ID")
     private Integer serviceId;
 
     @ApiModelProperty(value = "课程/托管名称")
