@@ -98,15 +98,14 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
             school.setName(map.get(0));
             school.setIntroduction(map.get(1));
             school.setCode(map.get(2));
-            school.setLeaderName(map.get(3));
-            school.setLeaderPhone(map.get(4));
-            school.setLicense(map.get(5));
-            school.setStudentNumber(Integer.valueOf(map.get(6)));
-            String schoolType = map.get(7);
-            if ("学校".equals(schoolType)) {
+            school.setLeaderPhone(map.get(3));
+            school.setStudentNumber(Integer.valueOf(map.get(4)));
+            school.setLeaderName(map.get(6));
+            String schoolType = map.get(5);
+            if ("0".equals(schoolType)) {
                 school.setSchoolType(SchoolTypeEnum.PRIMARY_SCHOOL);
             }
-            if ("机构".equals(schoolType)) {
+            if ("1".equals(schoolType)) {
                 school.setSchoolType(SchoolTypeEnum.TRINING_INSTITUTION);
             }
 
