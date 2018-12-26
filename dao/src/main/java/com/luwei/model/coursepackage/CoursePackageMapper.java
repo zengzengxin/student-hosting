@@ -2,7 +2,7 @@ package com.luwei.model.coursepackage;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.luwei.model.course.pojo.mini.MyCourseVO;
-import com.luwei.model.coursepackage.pojo.cms.CoursePackageVO;
+import com.luwei.model.coursepackage.pojo.cms.CoursePackageCmsVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface CoursePackageMapper extends BaseMapper<CoursePackage> {
 
-    List<CoursePackageVO> findAllByCourseId(@Param("courseId") Integer courseId);
+    List<CoursePackageCmsVO> findAllByCourseId(@Param("courseId") Integer courseId);
 
     BigDecimal findMinPriceByCourseId(Integer courseId);
 

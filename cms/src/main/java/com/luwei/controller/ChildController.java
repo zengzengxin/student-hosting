@@ -6,7 +6,7 @@ import com.luwei.model.child.Child;
 import com.luwei.model.child.pojo.cms.ChildAddDTO;
 import com.luwei.model.child.pojo.cms.ChildQueryDTO;
 import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
-import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.child.pojo.cms.ChildCmsVO;
 import com.luwei.service.child.ChildService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,14 +31,14 @@ public class ChildController {
 
     @PostMapping
     @ApiOperation("添加孩子/学生")
-    public ChildVO save(@RequestBody @Valid ChildAddDTO childAddDTO) {
+    public ChildCmsVO save(@RequestBody @Valid ChildAddDTO childAddDTO) {
 
         return childService.saveChild(childAddDTO);
     }
 
     @PutMapping
     @ApiOperation("修改孩子/学生")
-    public ChildVO update(@RequestBody @Valid ChildUpdateDTO childUpdateDTO) {
+    public ChildCmsVO update(@RequestBody @Valid ChildUpdateDTO childUpdateDTO) {
         return childService.updateChild(childUpdateDTO);
     }
 
@@ -51,7 +51,7 @@ public class ChildController {
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<ChildVO> page(Page<Child> page,@ModelAttribute @Valid ChildQueryDTO childQueryDTO ) {
+    public IPage<ChildCmsVO> page(Page<Child> page, @ModelAttribute @Valid ChildQueryDTO childQueryDTO ) {
         return childService.findPage(page,childQueryDTO);
     }
 

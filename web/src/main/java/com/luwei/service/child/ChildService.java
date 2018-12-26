@@ -7,7 +7,7 @@ import com.luwei.common.util.BeanUtils;
 import com.luwei.model.child.Child;
 import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.web.ChildBindingDTO;
-import com.luwei.model.child.pojo.web.ChildUpdateDTO;
+import com.luwei.model.child.pojo.web.ChildEditDTO;
 import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.parentChild.ParentChild;
 import com.luwei.module.shiro.service.UserHelper;
@@ -71,7 +71,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     }
 
     @Transactional
-    public ChildWebVO updateChild(ChildUpdateDTO childUpdateDTO) {
+    public ChildWebVO updateChild(ChildEditDTO childUpdateDTO) {
         Child child = new Child();
         BeanUtils.copyNonNullProperties(childUpdateDTO, child);
 

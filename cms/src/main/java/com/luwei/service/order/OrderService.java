@@ -11,7 +11,7 @@ import com.luwei.model.order.Order;
 import com.luwei.model.order.OrderMapper;
 import com.luwei.model.order.pojo.cms.OrderAddDTO;
 import com.luwei.model.order.pojo.cms.OrderQueryDTO;
-import com.luwei.model.order.pojo.cms.OrderVO;
+import com.luwei.model.order.pojo.cms.OrderCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -49,8 +49,8 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @param order
      * @return
      */
-    private OrderVO toOrderVO(Order order) {
-        OrderVO orderVO = new OrderVO();
+    private OrderCmsVO toOrderVO(Order order) {
+        OrderCmsVO orderVO = new OrderCmsVO();
         BeanUtils.copyProperties(order, orderVO);
         return orderVO;
     }
@@ -62,7 +62,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @return
      */
     @Transactional
-    public OrderVO saveOrder(OrderAddDTO addDTO) {
+    public OrderCmsVO saveOrder(OrderAddDTO addDTO) {
         Order order = new Order();
         BeanUtils.copyProperties(addDTO, order);
         LocalDateTime time = LocalDateTime.now();
@@ -92,10 +92,10 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @param id
      * @return
      */
-    public OrderVO getOrder(String id) {
+    public OrderCmsVO getOrder(String id) {
         Order order = findById(id);
         log.info(order.toString());
-        OrderVO orderVO = toOrderVO(order);
+        OrderCmsVO orderVO = toOrderVO(order);
         log.info(orderVO.toString());
         return orderVO;
     }
@@ -107,7 +107,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @param page
      * @return
      */
-    public IPage<OrderVO> findPage(OrderQueryDTO queryDTO, Page<Order> page) {
+    public IPage<OrderCmsVO> findPage(OrderQueryDTO queryDTO, Page<Order> page) {
         LambdaQueryWrapper<Order> wrapper = new QueryWrapper<Order>().lambda();
 
         if (queryDTO.getServiceName() != null && !queryDTO.getServiceName().equals("")) {

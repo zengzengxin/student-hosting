@@ -12,7 +12,7 @@ import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.cms.ChildAddDTO;
 import com.luwei.model.child.pojo.cms.ChildQueryDTO;
 import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
-import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.child.pojo.cms.ChildCmsVO;
 import com.luwei.service.school.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,21 +42,21 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     @Resource
     SchoolService schoolService;
 
-    public ChildVO findById(Integer id) {
+    public ChildCmsVO findById(Integer id) {
         Child child = getById(id);
         org.springframework.util.Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
         return toChildVO(child);
     }
 
-    private ChildVO toChildVO(Child child) {
-        ChildVO childVO = new ChildVO();
+    private ChildCmsVO toChildVO(Child child) {
+        ChildCmsVO childVO = new ChildCmsVO();
         BeanUtils.copyNonNullProperties(child, childVO);
         return childVO;
     }
 
     //finish
     @Transactional
-    public ChildVO saveChild(ChildAddDTO childAddDTO) {
+    public ChildCmsVO saveChild(ChildAddDTO childAddDTO) {
         Child child = new Child();
         BeanUtils.copyNonNullProperties(childAddDTO, child);
         LocalDateTime time = LocalDateTime.now();
@@ -71,7 +71,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
     //finish
     @Transactional
-    public ChildVO updateChild(ChildUpdateDTO childUpdateDTO) {
+    public ChildCmsVO updateChild(ChildUpdateDTO childUpdateDTO) {
         Child child = new Child();
         BeanUtils.copyNonNullProperties(childUpdateDTO, child);
 
@@ -89,7 +89,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         log.info("删除数据:ids{}", ids);
     }
 
-    public IPage<ChildVO> findPage(Page<Child> page, @Valid ChildQueryDTO childQueryDTO) {
+    public IPage<ChildCmsVO> findPage(Page<Child> page, @Valid ChildQueryDTO childQueryDTO) {
         return baseMapper.findPage(page, childQueryDTO);
     }
 

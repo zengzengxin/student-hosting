@@ -2,7 +2,7 @@ package com.luwei.controller;
 
 import com.luwei.model.teacher.Teacher;
 import com.luwei.model.teacher.pojo.mini.TeacherMiniVO;
-import com.luwei.model.teacher.pojo.web.TeacherUpdateDTO;
+import com.luwei.model.teacher.pojo.web.TeacherEditDTO;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.miniuser.MiniUserService;
 import com.luwei.service.teacher.TeacherService;
@@ -31,7 +31,7 @@ public class TeacherController {
 
     @PutMapping
     @ApiOperation("修改")
-    public TeacherMiniVO updateTeacher(@RequestBody @Valid TeacherUpdateDTO updateDTO) {
+    public TeacherMiniVO updateTeacher(@RequestBody @Valid TeacherEditDTO updateDTO) {
         return teacherService.updateTeacher(updateDTO);
     }
 

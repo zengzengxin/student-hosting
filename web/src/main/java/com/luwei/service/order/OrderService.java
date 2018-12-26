@@ -16,7 +16,7 @@ import com.luwei.model.order.Order;
 import com.luwei.model.order.OrderMapper;
 import com.luwei.model.order.envm.OrderStatusEnum;
 import com.luwei.model.order.envm.OrderTypeEnum;
-import com.luwei.model.order.pojo.cms.OrderVO;
+import com.luwei.model.order.pojo.cms.OrderCmsVO;
 import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
 import com.luwei.model.order.pojo.web.HostingOrderDTO;
 import com.luwei.model.order.pojo.web.MyOrderQueryDTO;
@@ -87,8 +87,8 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @param order
      * @return
      */
-    private OrderVO toOrderVO(Order order) {
-        OrderVO orderVO = new OrderVO();
+    private OrderCmsVO toOrderVO(Order order) {
+        OrderCmsVO orderVO = new OrderCmsVO();
         BeanUtils.copyProperties(order, orderVO);
         return orderVO;
     }
@@ -100,7 +100,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @return
      */
     @Transactional
-    public OrderVO hostingOrder(HostingOrderDTO hostingOrderDTO) {
+    public OrderCmsVO hostingOrder(HostingOrderDTO hostingOrderDTO) {
         Order order = new Order();
         BeanUtils.copyProperties(hostingOrderDTO, order);
 
@@ -245,7 +245,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * 确认下单/立即购买
      * */
     @Transactional
-    public OrderVO confirmOrder(ConfirmOrderDTO orderDTO) {
+    public OrderCmsVO confirmOrder(ConfirmOrderDTO orderDTO) {
         Order order = new Order();
         Integer parentId = UserHelper.getUserId();
 
@@ -333,7 +333,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @param id
      * @return
      */
-    public OrderVO getOrder(Long id) {
+    public OrderCmsVO getOrder(Long id) {
         Order order = findById(id);
         return toOrderVO(order);
     }
@@ -346,7 +346,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @return
      */
     @Transactional
-    public IPage<OrderVO> findPage(MyOrderQueryDTO queryDTO, Page<Order> page) {
+    public IPage<OrderCmsVO> findPage(MyOrderQueryDTO queryDTO, Page<Order> page) {
 
         // 先分页查询
         Order order = new Order();
@@ -389,7 +389,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         return order;
     }
 
-    public OrderVO payForOrder(PayForOrderDTO addDTO) {
+    public OrderCmsVO payForOrder(PayForOrderDTO addDTO) {
 
         // TODO 立即支付接口 未完成
 

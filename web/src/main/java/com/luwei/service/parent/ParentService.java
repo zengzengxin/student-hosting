@@ -7,8 +7,8 @@ import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.parent.Parent;
 import com.luwei.model.parent.ParentMapper;
-import com.luwei.model.parent.pojo.web.ParentUpdateDTO;
-import com.luwei.model.parent.pojo.web.ParentwebVO;
+import com.luwei.model.parent.pojo.web.ParentEditDTO;
+import com.luwei.model.parent.pojo.web.ParentWebVO;
 import com.luwei.module.shiro.service.UserHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,22 +37,22 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     @Resource
     private ParentMapper parentMapper;
 
-    public ParentwebVO findParentById(Integer id) {
+    public ParentWebVO findParentById(Integer id) {
         Parent parent = getById(id);
         //TODO记得修改MessageCodes
         Assert.notNull(parent, MessageCodes.PARENT_IS_NOT_EXIST);
         return toParentVO(parent);
     }
 
-    private ParentwebVO toParentVO(Parent parent) {
-        ParentwebVO parentVO = new ParentwebVO();
+    private ParentWebVO toParentVO(Parent parent) {
+        ParentWebVO parentVO = new ParentWebVO();
         BeanUtils.copyNonNullProperties(parent, parentVO);
         return parentVO;
     }
 
     //更新
     @Transactional
-    public ParentwebVO updateParent(ParentUpdateDTO parentUpdateDTO) {
+    public ParentWebVO updateParent(ParentEditDTO parentUpdateDTO) {
         Parent parent = new Parent();
         BeanUtils.copyNonNullProperties(parentUpdateDTO, parent);
         parent.setUpdateTime(LocalDateTime.now());

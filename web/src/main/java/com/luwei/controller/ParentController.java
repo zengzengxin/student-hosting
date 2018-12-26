@@ -1,8 +1,8 @@
 package com.luwei.controller;
 
 import com.luwei.model.child.pojo.web.ChildWebVO;
-import com.luwei.model.parent.pojo.web.ParentUpdateDTO;
-import com.luwei.model.parent.pojo.web.ParentwebVO;
+import com.luwei.model.parent.pojo.web.ParentEditDTO;
+import com.luwei.model.parent.pojo.web.ParentWebVO;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.parent.ParentService;
 import io.swagger.annotations.Api;
@@ -28,14 +28,14 @@ public class ParentController {
 
     @GetMapping
     @ApiOperation("查询家长详情")
-    public ParentwebVO findById() {
+    public ParentWebVO findById() {
         Integer parentId = UserHelper.getUserId();
         return parentService.findParentById(parentId);
     }
 
     @PutMapping
     @ApiOperation("修改")
-    public ParentwebVO update(@RequestBody @Valid ParentUpdateDTO parentUpdateDTO) {
+    public ParentWebVO update(@RequestBody @Valid ParentEditDTO parentUpdateDTO) {
         return parentService.updateParent(parentUpdateDTO);
     }
 

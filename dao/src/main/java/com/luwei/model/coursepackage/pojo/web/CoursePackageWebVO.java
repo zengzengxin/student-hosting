@@ -1,4 +1,4 @@
-package com.luwei.model.coursepackage.pojo.cms;
+package com.luwei.model.coursepackage.pojo.web;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.luwei.common.config.ToTimeStampSerializer;
@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 
 /**
  * Author: huanglp
- * Date: 2018-12-11
+ * Date: 2018-12-27
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class CoursePackageVO implements Serializable {
+public class CoursePackageWebVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,6 +53,5 @@ public class CoursePackageVO implements Serializable {
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "下课时间", dataType = "java.lang.Long")
     private LocalDateTime quittingTime;
-
 
 }

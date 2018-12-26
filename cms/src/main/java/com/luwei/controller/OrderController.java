@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.order.Order;
 import com.luwei.model.order.pojo.cms.OrderQueryDTO;
-import com.luwei.model.order.pojo.cms.OrderVO;
+import com.luwei.model.order.pojo.cms.OrderCmsVO;
 import com.luwei.service.order.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,13 +40,13 @@ public class OrderController {
 
     @GetMapping
     @ApiOperation("查询详情")
-    public OrderVO getOrder(@RequestParam @ApiParam("id") String id) {
+    public OrderCmsVO getOrder(@RequestParam @ApiParam("id") String id) {
         return orderService.getOrder(id);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<OrderVO> page(@ModelAttribute OrderQueryDTO queryDTO, Page<Order> page) {
+    public IPage<OrderCmsVO> page(@ModelAttribute OrderQueryDTO queryDTO, Page<Order> page) {
         return orderService.findPage(queryDTO, page);
     }
 

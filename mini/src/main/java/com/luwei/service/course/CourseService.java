@@ -8,7 +8,7 @@ import com.luwei.model.course.pojo.mini.MyCourseQuery;
 import com.luwei.model.course.pojo.mini.MyCourseVO;
 import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.model.coursepackage.CoursePackage;
-import com.luwei.model.coursepackage.pojo.cms.CoursePackageVO;
+import com.luwei.model.coursepackage.pojo.cms.CoursePackageCmsVO;
 import com.luwei.model.picture.PictureMapper;
 import com.luwei.service.coursepackage.CoursePackageService;
 import lombok.extern.slf4j.Slf4j;
@@ -64,8 +64,8 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return courseVO;
     }
 
-    private CoursePackageVO toCoursePackageVO(CoursePackage coursePackage) {
-        CoursePackageVO packageVO = new CoursePackageVO();
+    private CoursePackageCmsVO toCoursePackageVO(CoursePackage coursePackage) {
+        CoursePackageCmsVO packageVO = new CoursePackageCmsVO();
         BeanUtils.copyProperties(coursePackage, packageVO);
         return packageVO;
     }

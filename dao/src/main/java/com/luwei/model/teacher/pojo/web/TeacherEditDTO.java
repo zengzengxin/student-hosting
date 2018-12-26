@@ -5,43 +5,32 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * @author zzx
- * @since 2018-12-13
+ * Author: huanglp
+ * Date: 2018-12-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class TeacherVO implements Serializable {
+public class TeacherEditDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @NotNull
     @ApiModelProperty(value = "教师ID")
+    @NotNull(message = "教师id不能为空")
     private Integer teacherId;
-
-    @ApiModelProperty(value = "教师名称")
-    private String teacherName;
-
-    @ApiModelProperty(value = "老师电话")
-    private String phone;
-
-    @ApiModelProperty(value = "老师资质执照")
-    private String license;
-
-    @ApiModelProperty(value = "老师所在学校")
-    private String schoolName;
-
+    
     @ApiModelProperty(value = "任课年级")
+    @NotBlank(message = "任课年级不能为空")
     private String grade;
 
     @ApiModelProperty(value = "所在班级")
+    @NotBlank(message = "所在班级不能为空")
     private String teacherClass;
-
-    @ApiModelProperty(value = "学校id")
-    private Integer schoolId;
-
-
 
 }

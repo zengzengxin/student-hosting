@@ -26,7 +26,7 @@ public class HostingController {
 
     @PostMapping
     @ApiOperation("添加")
-    public HostingVO save(@RequestBody @Valid HostingAddDTO hostingAddDTO) {
+    public HostingCmsVO save(@RequestBody @Valid HostingAddDTO hostingAddDTO) {
         return hostingService.saveHosting(hostingAddDTO);
     }
 
@@ -38,19 +38,19 @@ public class HostingController {
 
     @PutMapping
     @ApiOperation("修改")
-    public HostingVO update(@RequestBody @Valid HostingUpdateDTO hostingUpdateDTO) {
+    public HostingCmsVO update(@RequestBody @Valid HostingUpdateDTO hostingUpdateDTO) {
         return hostingService.updateHosting(hostingUpdateDTO);
     }
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public IPage<HostingVO> page(@ModelAttribute HostingQueryDTO hostingQueryDTO, Page page) {
+    public IPage<HostingCmsVO> page(@ModelAttribute HostingQueryDTO hostingQueryDTO, Page page) {
         return hostingService.findHostingPage(hostingQueryDTO, page);
     }
 
     @PutMapping("/recommend")
     @ApiOperation("设为推荐")
-    public HostingVO recommend(@RequestBody @Valid HostingRecommend recommend) {
+    public HostingCmsVO recommend(@RequestBody @Valid HostingRecommend recommend) {
         return hostingService.recommend(recommend);
     }
 

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.course.Course;
 import com.luwei.model.course.pojo.cms.CourseQueryDTO;
-import com.luwei.model.course.pojo.cms.CourseVO;
+import com.luwei.model.course.pojo.cms.CourseCmsVO;
 import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.service.course.CourseService;
 import io.swagger.annotations.Api;
@@ -28,7 +28,7 @@ public class CourseController {
 
     @GetMapping
     @ApiOperation("查询详情")
-    public CourseVO getCourse(@RequestParam @ApiParam("courseId") Integer id) {
+    public CourseCmsVO getCourse(@RequestParam @ApiParam("courseId") Integer id) {
         return courseService.getCourse(id);
     }
 

@@ -1,8 +1,8 @@
 package com.luwei.controller;
 
 import com.luwei.model.manager.pojo.ManagerPageVO;
-import com.luwei.model.personalcenter.pojo.PersonalCenterVO;
-import com.luwei.service.personalcenter.PersonalCenterService;
+import com.luwei.model.manager.pojo.PersonalCenterVO;
+import com.luwei.service.manager.PersonalCenterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;

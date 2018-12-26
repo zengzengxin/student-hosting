@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ChildUpdateDTO implements Serializable {
+public class ChildEditDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

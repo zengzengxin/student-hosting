@@ -1,8 +1,7 @@
 package com.luwei.controller;
 
-import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.child.pojo.web.ChildBindingDTO;
-import com.luwei.model.child.pojo.web.ChildUpdateDTO;
+import com.luwei.model.child.pojo.web.ChildEditDTO;
 import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.service.child.ChildService;
 import io.swagger.annotations.Api;
@@ -33,7 +32,7 @@ public class ChildController {
 
     @PutMapping
     @ApiOperation("修改孩子")
-    public ChildWebVO update(@RequestBody @Valid ChildUpdateDTO childUpdateDTO) {
+    public ChildWebVO update(@RequestBody @Valid ChildEditDTO childUpdateDTO) {
         return childService.updateChild(childUpdateDTO);
     }
 

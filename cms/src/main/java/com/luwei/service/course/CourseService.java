@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
-import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.course.Course;
 import com.luwei.model.course.CourseMapper;
@@ -14,10 +13,9 @@ import com.luwei.model.coursepackage.CoursePackage;
 import com.luwei.model.coursepackage.CoursePackageMapper;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageAddDTO;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageUpdateDTO;
-import com.luwei.model.coursepackage.pojo.cms.CoursePackageVO;
+import com.luwei.model.coursepackage.pojo.cms.CoursePackageCmsVO;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.recommend.Recommend;
-import com.luwei.model.recommend.RecommendMapper;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import com.luwei.service.picture.PictureService;
 import com.luwei.service.recommend.RecommendService;
@@ -28,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -72,8 +69,8 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param course
      * @return
      */
-    private CourseVO toCourseVO(Course course) {
-        CourseVO courseVO = new CourseVO();
+    private CourseCmsVO toCourseVO(Course course) {
+        CourseCmsVO courseVO = new CourseCmsVO();
         BeanUtils.copyProperties(course, courseVO);
         return courseVO;
     }
@@ -85,7 +82,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @return
      */
     @Transactional
-    public CourseVO saveCourse(CourseAddDTO addDTO) {
+    public CourseCmsVO saveCourse(CourseAddDTO addDTO) {
         // 保存课程
         Course course = new Course();
         BeanUtils.copyProperties(addDTO, course);
@@ -101,9 +98,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         //        .map(this::saveCoursePackage).collect(Collectors.toList());
 
         List<CoursePackageAddDTO> temp = addDTO.getCoursePackageList();
-        List<CoursePackageVO> list = new ArrayList<>();
+        List<CoursePackageCmsVO> list = new ArrayList<>();
         for (CoursePackageAddDTO coursePackageAddDTO : temp) {
-            CoursePackageVO packageVO = saveCoursePackage(coursePackageAddDTO, courseId);
+            CoursePackageCmsVO packageVO = saveCoursePackage(coursePackageAddDTO, courseId);
             list.add(packageVO);
         }
 
@@ -117,7 +114,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
-    private CoursePackageVO saveCoursePackage(CoursePackageAddDTO addDTO, Integer courseId) {
+    private CoursePackageCmsVO saveCoursePackage(CoursePackageAddDTO addDTO, Integer courseId) {
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(addDTO, coursePackage);
         // 课程管理
@@ -131,8 +128,8 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCoursePackageVO(coursePackage);
     }
 
-    private CoursePackageVO toCoursePackageVO(CoursePackage coursePackage) {
-        CoursePackageVO packageVO = new CoursePackageVO();
+    private CoursePackageCmsVO toCoursePackageVO(CoursePackage coursePackage) {
+        CoursePackageCmsVO packageVO = new CoursePackageCmsVO();
         BeanUtils.copyProperties(coursePackage, packageVO);
         return packageVO;
     }
@@ -157,7 +154,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @return
      */
     @Transactional
-    public CourseVO updateCourse(CourseUpdateDTO updateDTO) {
+    public CourseCmsVO updateCourse(CourseUpdateDTO updateDTO) {
         // 修改课程
         Course course = new Course();
         BeanUtils.copyProperties(updateDTO, course);
@@ -170,9 +167,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         //         .map(this::updateCoursePackage).collect(Collectors.toList());
 
         List<CoursePackageUpdateDTO> temp = updateDTO.getCoursePackageList();
-        List<CoursePackageVO> list = new ArrayList<>();
+        List<CoursePackageCmsVO> list = new ArrayList<>();
         for (CoursePackageUpdateDTO coursePackageUpdateDTO : temp) {
-            CoursePackageVO packageVO = updateCoursePackage(coursePackageUpdateDTO, course.getCourseId());
+            CoursePackageCmsVO packageVO = updateCoursePackage(coursePackageUpdateDTO, course.getCourseId());
             list.add(packageVO);
         }
 
@@ -188,7 +185,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
-    private CoursePackageVO updateCoursePackage(CoursePackageUpdateDTO updateDTO, Integer courseId) {
+    private CoursePackageCmsVO updateCoursePackage(CoursePackageUpdateDTO updateDTO, Integer courseId) {
 
         // 课程套餐上架之后不可修改
         CoursePackage p = coursePackageMapper.selectById(updateDTO.getCoursePackageId());
@@ -226,7 +223,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param id
      * @return
      */
-    public CourseVO getCourse(Integer id) {
+    public CourseCmsVO getCourse(Integer id) {
         return toCourseVO(findById(id));
     }
 
@@ -238,30 +235,30 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @return
      */
     @Transactional
-    public IPage<CourseVO> findPage(CourseQueryDTO queryDTO, Page<Course> page) {
+    public IPage<CourseCmsVO> findPage(CourseQueryDTO queryDTO, Page<Course> page) {
         Course course = new Course();
         QueryWrapper<Course> wrapper = new QueryWrapper<>(course);
         if (queryDTO.getCourseName() != null && !queryDTO.getCourseName().equals("")) {
             wrapper.like("course_name", queryDTO.getCourseName());
         }
-        IPage<CourseVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toCourseVO);
-        List<CourseVO> list = iPage.getRecords();
+        IPage<CourseCmsVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toCourseVO);
+        List<CourseCmsVO> list = iPage.getRecords();
         List collect = list.stream().map(this::dealWith).collect(Collectors.toList());
 
         return iPage;
     }
 
-    private CourseVO dealWith(CourseVO courseVO) {
+    private CourseCmsVO dealWith(CourseCmsVO courseVO) {
         // 设置图片
         List<String> urls = pictureService.findAllByForeignKeyId(courseVO.getCourseId(),PictureTypeEnum.COURSE.getValue());
 
         // 设置课程套餐列表
-        List<CoursePackageVO> list = coursePackageMapper.findAllByCourseId(courseVO.getCourseId());
+        List<CoursePackageCmsVO> list = coursePackageMapper.findAllByCourseId(courseVO.getCourseId());
 
         return courseVO.setCoursePackageList(list).setPictureUrls(urls);
     }
 
-    public CourseVO recommend(CourseRecommend courseRecommend) {
+    public CourseCmsVO recommend(CourseRecommend courseRecommend) {
         Course course = getById(courseRecommend.getCourseId());
         Assert.notNull(course, MessageCodes.COURSE_IS_NOT_EXIST);
         if (courseRecommend.getRecommend()) {

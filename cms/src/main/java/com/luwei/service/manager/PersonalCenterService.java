@@ -1,11 +1,11 @@
-package com.luwei.service.personalcenter;
+package com.luwei.service.manager;
 
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BcryptUtil;
 import com.luwei.model.manager.Manager;
 import com.luwei.model.manager.ManagerMapper;
 import com.luwei.model.manager.pojo.ManagerPageVO;
-import com.luwei.model.personalcenter.pojo.PersonalCenterVO;
+import com.luwei.model.manager.pojo.PersonalCenterVO;
 import com.luwei.module.shiro.service.UserHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

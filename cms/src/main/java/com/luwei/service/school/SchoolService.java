@@ -11,7 +11,7 @@ import com.luwei.model.school.School;
 import com.luwei.model.school.SchoolMapper;
 import com.luwei.model.school.envm.SchoolTypeEnum;
 import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
-import com.luwei.model.school.pojo.cms.SchoolVO;
+import com.luwei.model.school.pojo.cms.SchoolCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,15 +36,15 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SchoolService extends ServiceImpl<SchoolMapper, School> {
 
-    public SchoolVO findById(Integer schoolId) {
+    public SchoolCmsVO findById(Integer schoolId) {
         School school = getById(schoolId);
         //TODO记得修改MessageCodes
         Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
         return toSchoolVO(school);
     }
 
-    private SchoolVO toSchoolVO(School school) {
-        SchoolVO schoolVO = new SchoolVO();
+    private SchoolCmsVO toSchoolVO(School school) {
+        SchoolCmsVO schoolVO = new SchoolCmsVO();
         BeanUtils.copyNonNullProperties(school, schoolVO);
         return schoolVO;
     }
@@ -70,11 +70,11 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         return findById(school.getSchoolId());
     }*/
 
-    public IPage<SchoolVO> findSchoolPage(SchoolQueryDTO schoolQueryDTO, Page page) {
+    public IPage<SchoolCmsVO> findSchoolPage(SchoolQueryDTO schoolQueryDTO, Page page) {
         return baseMapper.getSchoolPage(page, schoolQueryDTO);
     }
 
-    public List<SchoolVO> findSchoolPage() {
+    public List<SchoolCmsVO> findSchoolPage() {
         return list(new QueryWrapper<>()).stream().map(this::toSchoolVO).collect(Collectors.toList());
         // QueryWrapper queryWrapper = new QueryWrapper();
         // return baseMapper.selectPage(page,queryWrapper);

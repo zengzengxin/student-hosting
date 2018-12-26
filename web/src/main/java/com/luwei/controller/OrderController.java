@@ -3,7 +3,7 @@ package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.order.Order;
-import com.luwei.model.order.pojo.cms.OrderVO;
+import com.luwei.model.order.pojo.cms.OrderCmsVO;
 import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
 import com.luwei.model.order.pojo.web.HostingOrderDTO;
 import com.luwei.model.order.pojo.web.MyOrderQueryDTO;
@@ -32,13 +32,13 @@ public class OrderController {
 
     @PostMapping("/confirm")
     @ApiOperation("确认下单/立即购买（课程）")
-    public OrderVO confirmOrder(@RequestBody @Valid ConfirmOrderDTO orderDTO) {
+    public OrderCmsVO confirmOrder(@RequestBody @Valid ConfirmOrderDTO orderDTO) {
         return orderService.confirmOrder(orderDTO);
     }
 
     @PostMapping("/payFor")
     @ApiOperation("立即支付")
-    public OrderVO payForOrder(@RequestBody @Valid PayForOrderDTO orderDTO) {
+    public OrderCmsVO payForOrder(@RequestBody @Valid PayForOrderDTO orderDTO) {
         return orderService.payForOrder(orderDTO);
     }
 
@@ -50,20 +50,20 @@ public class OrderController {
 
     @GetMapping
     @ApiOperation("查询详情")
-    public OrderVO getOrder(@RequestParam @ApiParam("id") Long id) {
+    public OrderCmsVO getOrder(@RequestParam @ApiParam("id") Long id) {
         return orderService.getOrder(id);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<OrderVO> page(@ModelAttribute MyOrderQueryDTO queryDTO, Page<Order> page) {
+    public IPage<OrderCmsVO> page(@ModelAttribute MyOrderQueryDTO queryDTO, Page<Order> page) {
         return orderService.findPage(queryDTO, page);
     }
 
     //创建托管订单
     @PostMapping("/hostingConfirm")
     @ApiOperation("确认下单/立即购买（托管）")
-    public OrderVO confirmHostingOrder(@RequestBody @Valid HostingOrderDTO hostingOrderDTO) {
+    public OrderCmsVO confirmHostingOrder(@RequestBody @Valid HostingOrderDTO hostingOrderDTO) {
         return orderService.hostingOrder(hostingOrderDTO);
     }
 }

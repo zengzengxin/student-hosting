@@ -23,7 +23,7 @@
 
 
 
-    <select id="getSchoolPage" resultType="com.luwei.model.school.pojo.cms.SchoolVO" parameterType="com.luwei.model.school.pojo.cms.SchoolQueryDTO">
+    <select id="getSchoolPage" resultType="com.luwei.model.school.pojo.cms.SchoolCmsVO" parameterType="com.luwei.model.school.pojo.cms.SchoolQueryDTO">
         select *
         From tb_school
         <where>

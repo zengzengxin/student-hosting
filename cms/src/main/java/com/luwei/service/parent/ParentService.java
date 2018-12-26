@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.child.ChildMapper;
-import com.luwei.model.child.pojo.cms.ChildVO;
+import com.luwei.model.child.pojo.cms.ChildCmsVO;
 import com.luwei.model.parent.Parent;
 import com.luwei.model.parent.ParentMapper;
 import com.luwei.model.parent.pojo.cms.ParentCmsVO;
@@ -38,7 +38,7 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     }
 
     private ParentCmsVO getchilds(ParentCmsVO parentCmsVO) {
-        List<ChildVO> list = childMapper.findChildsByParentsId(parentCmsVO.getParentId());
+        List<ChildCmsVO> list = childMapper.findChildsByParentsId(parentCmsVO.getParentId());
         int childNumber = list.size();
         parentCmsVO.setChildNumber(childNumber);
         return parentCmsVO.setListChild(list);

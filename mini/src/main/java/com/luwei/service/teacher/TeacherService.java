@@ -6,7 +6,7 @@ import com.luwei.model.miniuser.MiniUser;
 import com.luwei.model.teacher.Teacher;
 import com.luwei.model.teacher.TeacherMapper;
 import com.luwei.model.teacher.pojo.mini.TeacherMiniVO;
-import com.luwei.model.teacher.pojo.web.TeacherUpdateDTO;
+import com.luwei.model.teacher.pojo.web.TeacherEditDTO;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.miniuser.MiniUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +61,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
      * @return
      */
     @Transactional
-    public TeacherMiniVO updateTeacher(TeacherUpdateDTO updateDTO) {
+    public TeacherMiniVO updateTeacher(TeacherEditDTO updateDTO) {
         Teacher teacher = new Teacher();
         BeanUtils.copyProperties(updateDTO, teacher);
         teacher.setUpdateTime(LocalDateTime.now());

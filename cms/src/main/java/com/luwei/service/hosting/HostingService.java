@@ -45,15 +45,15 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     @Resource
     private RecommendService recommendService;
 
-    private HostingVO findById(Integer hostingId) {
+    private HostingCmsVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
         //TODO记得修改MessageCodes
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         return toHostingVO(hosting);
     }
 
-    private HostingVO toHostingVO(Hosting hosting) {
-        HostingVO hostingVO = new HostingVO();
+    private HostingCmsVO toHostingVO(Hosting hosting) {
+        HostingCmsVO hostingVO = new HostingCmsVO();
         BeanUtils.copyNonNullProperties(hosting, hostingVO);
         return hostingVO;
     }
@@ -61,7 +61,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     //添加数据（向hosting表 picture表 套餐表）
 
     @Transactional
-    public HostingVO saveHosting(HostingAddDTO hostingAddDTO) {
+    public HostingCmsVO saveHosting(HostingAddDTO hostingAddDTO) {
 
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingAddDTO, hosting);
@@ -91,7 +91,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     }
 
     @Transactional
-    public HostingVO updateHosting(HostingUpdateDTO hostingUpdateDTO) {
+    public HostingCmsVO updateHosting(HostingUpdateDTO hostingUpdateDTO) {
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingUpdateDTO, hosting);
 
@@ -113,20 +113,20 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return findById(hosting.getHostingId()).setPictureUrls(pictureService.findAllByForeignKeyId(hosting.getHostingId(),PictureTypeEnum.HOSTING.getValue()));
     }
 
-    public IPage<HostingVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
+    public IPage<HostingCmsVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
         Hosting hosting = new Hosting();
         QueryWrapper<Hosting> wrapper = new QueryWrapper<>(hosting);
         if (hostingQueryDTO.getName() != null && !hostingQueryDTO.getName().equals("")) {
             wrapper.lambda().like(Hosting::getName, hostingQueryDTO.getName());
         }
-        IPage<HostingVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toHostingVO);
-        List<HostingVO> list = iPage.getRecords();
-        List<HostingVO> collect = list.stream().map(this::dealWith).collect(Collectors.toList());
+        IPage<HostingCmsVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toHostingVO);
+        List<HostingCmsVO> list = iPage.getRecords();
+        List<HostingCmsVO> collect = list.stream().map(this::dealWith).collect(Collectors.toList());
         iPage.setRecords(collect);
         return iPage;
     }
 
-    private HostingVO dealWith(HostingVO hostingVO) {
+    private HostingCmsVO dealWith(HostingCmsVO hostingVO) {
         // 设置图片
         List<String> urls = pictureService.findAllByForeignKeyId(hostingVO.getHostingId(),PictureTypeEnum.HOSTING.getValue());
 
@@ -134,7 +134,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     }
 
     @Transactional
-    public HostingVO recommend(@Valid HostingRecommend hostingRecommend) {
+    public HostingCmsVO recommend(@Valid HostingRecommend hostingRecommend) {
         Hosting hosting = getById(hostingRecommend.getHostingId());
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         if (hostingRecommend.getRecommend()) {

@@ -1,4 +1,4 @@
-package com.luwei.model.personalcenter.pojo;
+package com.luwei.model.manager.pojo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

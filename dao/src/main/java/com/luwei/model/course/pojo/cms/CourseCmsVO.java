@@ -1,6 +1,6 @@
 package com.luwei.model.course.pojo.cms;
 
-import com.luwei.model.coursepackage.pojo.cms.CoursePackageVO;
+import com.luwei.model.coursepackage.pojo.cms.CoursePackageCmsVO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class CourseVO implements Serializable {
+public class CourseCmsVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,7 +57,7 @@ public class CourseVO implements Serializable {
     private Boolean recommend;
 
     @ApiModelProperty(value = "课程套餐列表")
-    private List<CoursePackageVO> coursePackageList;
+    private List<CoursePackageCmsVO> coursePackageList;
 
     @ApiModelProperty(value = "负责人电话")
     private String leaderPhone;
