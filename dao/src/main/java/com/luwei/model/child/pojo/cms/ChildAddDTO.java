@@ -34,9 +34,9 @@ public class ChildAddDTO implements Serializable {
     @NotBlank(message = "学号不能为空")
     private String studentNo;
 
-    @ApiModelProperty(value = "孩子所在的学校")
-    @NotBlank(message = "所在学校不能为空")
-    private String schoolName;
+    @ApiModelProperty(value = "学校的id")
+    @NotNull(message = "学校的id不能为空")
+    private Integer schoolId;
 
     @ApiModelProperty(value = "孩子的年级")
     @NotBlank(message = "年级不能为空")
