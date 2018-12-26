@@ -152,8 +152,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
 
         //设置价格
         BigDecimal severPrice = hostingService.getById(hostingOrderDTO.getServiceId()).getPrice();
-        order.setPrice(severPrice.multiply(BigDecimal.valueOf(getdays(hostingOrderDTO.getStartTime(), hostingOrderDTO.getEndTime()))));
-
+        order.setPrice(severPrice.multiply(BigDecimal.valueOf(getDays(hostingOrderDTO.getStartTime(), hostingOrderDTO.getEndTime()))));
 
         // 支付方式 - 待定
         //order.setPayment(PaymentEnum.WECHAT);
@@ -175,9 +174,35 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         return toOrderVO(order);
     }
 
-    //计算价格
-    private static long getdays(LocalDateTime startTime, LocalDateTime endTime) {
+    /**
+     * 计算天数, 排除周六周日
+     *
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    private static long getDays(LocalDateTime startTime, LocalDateTime endTime) {
 
+        // 方式一
+        /*class MyCount {
+            private long count;
+        }
+        MyCount myCount = new MyCount();
+        LocalDate startDate = startTime.toLocalDate();
+        LocalDate endDate = endTime.toLocalDate();
+        long distance = ChronoUnit.DAYS.between(startDate, endDate);
+        if (distance < 0) {
+            return 0;
+        }
+        Stream.iterate(startDate, d -> d.plusDays(1)).limit(distance + 1).forEach(f -> {
+            // 不计算周六日
+            if (f.getDayOfWeek() != DayOfWeek.SATURDAY && f.getDayOfWeek() != DayOfWeek.SUNDAY) {
+                myCount.count++;
+            }
+        });
+        return myCount.count;*/
+
+        // 方式二
         int startWeek;  //开始日期
         int endWeek;    //结束日期
         int offset;     //偏移量
@@ -204,8 +229,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         } else {
             offset = 1;
         }
-
-        if(offset == 5){
+        if (offset == 5) {
             offset = 0;
         }
 
@@ -216,8 +240,6 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         return workDays;
     }
 
-
-
     /*
      *
      * 确认下单/立即购买
@@ -227,7 +249,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         Order order = new Order();
         Integer parentId = UserHelper.getUserId();
 
-        // TODO 判断该家长是否绑定此学生
+        // 判断该家长是否绑定此学生
         Boolean flag = false;
         List<ChildWebVO> childList = parentService.findAllParentById(parentId);
         for (ChildWebVO c : childList) {
@@ -374,6 +396,11 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         return null;
     }
 
+    /**
+     * 支付成功后的调用此方法
+     *
+     * @param wxNotifyResultVo
+     */
     @Override
     public void notify(WXNotifyResultVo wxNotifyResultVo) {
         log.info("支付成功，调用支付成功后的业务逻辑");
