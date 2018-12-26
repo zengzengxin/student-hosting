@@ -31,7 +31,7 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/confirm")
-    @ApiOperation("确认下单/立即购买(课程)")
+    @ApiOperation("确认下单/立即购买（课程）")
     public OrderVO confirmOrder(@RequestBody @Valid ConfirmOrderDTO orderDTO) {
         return orderService.confirmOrder(orderDTO);
     }

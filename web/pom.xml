@@ -25,6 +25,13 @@
             <version>1.0</version>
         </dependency>
 
+        <!--微信支付模块-->
+        <dependency>
+            <groupId>com.luwei.module.pay</groupId>
+            <artifactId>wxpay</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
         <!--excel-->
         <!-- 时间工具 -->
         <!-- httpclient -->

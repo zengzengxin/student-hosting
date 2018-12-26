@@ -22,6 +22,8 @@ import com.luwei.model.order.pojo.web.HostingOrderDTO;
 import com.luwei.model.order.pojo.web.MyOrderQueryDTO;
 import com.luwei.model.order.pojo.web.PayForOrderDTO;
 import com.luwei.model.parent.Parent;
+import com.luwei.module.pay.model.WXNotifyResultVo;
+import com.luwei.module.pay.service.WXPayNotifyService;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.child.ChildService;
 import com.luwei.service.course.CourseService;
@@ -42,15 +44,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.lang.Thread.sleep;
-
 /**
  * Author: huanglp
  * Date: 2018-12-13
  */
 @Service
 @Slf4j
-public class OrderService extends ServiceImpl<OrderMapper, Order> {
+public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXPayNotifyService {
 
     @Resource
     private ParentService parentService;
@@ -120,7 +120,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         Boolean flag = false;
         List<ChildWebVO> childList = parentService.findAllParentById(parentId);
         for (ChildWebVO c : childList) {
-            if (c.getChildId() == hostingOrderDTO.getChildId()) {
+            if (c.getChildId().equals(hostingOrderDTO.getChildId())) {
                 flag = true;
             }
         }
@@ -151,7 +151,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         order.setServiceEndTime(hostingOrderDTO.getEndTime());
 
         //设置价格
-        order.setPrice(getprice(hostingOrderDTO.getStartTime(), hostingOrderDTO.getEndTime()));
+        order.setPrice(getPrice(hostingOrderDTO.getStartTime(), hostingOrderDTO.getEndTime()));
 
         // 支付方式 - 待定
         //order.setPayment(PaymentEnum.WECHAT);
@@ -174,39 +174,39 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
     }
 
     //计算价格
-    private static BigDecimal getprice(LocalDateTime startTime, LocalDateTime endTime) {
+    private static BigDecimal getPrice(LocalDateTime startTime, LocalDateTime endTime) {
 
-        int starkWeek = 0;
-        int endkWeek = 0;
-        int offest = 0; //偏移量
-        long days = 0; //两个时间之间的天数
-        long workDays = 0; //工作日
+        int startWeek;
+        int endWeek;
+        int offset;     //偏移量
+        long days;      //两个时间之间的天数
+        long workDays;  //工作日
 
         //计算偏移量
         if (startTime.getDayOfWeek().getValue() != 6 && startTime.getDayOfWeek().getValue() != 7) {
-            starkWeek = startTime.getDayOfWeek().getValue();
+            startWeek = startTime.getDayOfWeek().getValue();
         } else {
-            starkWeek = 5;
+            startWeek = 5;
         }
 
         if (endTime.getDayOfWeek().getValue() != 6 && endTime.getDayOfWeek().getValue() != 7) {
-            endkWeek = endTime.getDayOfWeek().getValue();
+            endWeek = endTime.getDayOfWeek().getValue();
         } else {
-            endkWeek = 5;
+            endWeek = 5;
         }
 
-        if (starkWeek < endkWeek) {
-            offest = endkWeek - starkWeek + 1;
-        } else if (starkWeek > endkWeek) {
-            offest = 5 - starkWeek + endkWeek;
+        if (startWeek < endWeek) {
+            offset = endWeek - startWeek + 1;
+        } else if (startWeek > endWeek) {
+            offset = 5 - startWeek + endWeek;
         } else {
-            offest = 1;
+            offset = 1;
         }
 
         Duration be = Duration.between(startTime, endTime);
         days = be.toDays();
 
-        workDays = ((days + 1) / 7) * 5 + offest;
+        workDays = ((days + 1) / 7) * 5 + offset;
 
         return BigDecimal.valueOf(workDays * 100);
     }
@@ -224,7 +224,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         Boolean flag = false;
         List<ChildWebVO> childList = parentService.findAllParentById(parentId);
         for (ChildWebVO c : childList) {
-            if (c.getChildId() == orderDTO.getChildId()) {
+            if (c.getChildId().equals(orderDTO.getChildId())) {
                 flag = true;
             }
         }
@@ -367,12 +367,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         return null;
     }
 
-    public static void main(String[] args) throws Exception {
-        System.out.println(LocalDateTime.now().getDayOfWeek());
-        LocalDateTime now = LocalDateTime.now();
-        sleep(100);
-        System.out.println(LocalDateTime.now().compareTo(now));
-        System.out.println(LocalDateTime.now().minusMonths(1).getDayOfWeek());
-
+    @Override
+    public void notify(WXNotifyResultVo wxNotifyResultVo) {
+        log.info("支付成功，调用支付成功后的业务逻辑");
     }
+
 }
