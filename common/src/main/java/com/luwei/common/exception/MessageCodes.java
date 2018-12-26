@@ -38,8 +38,8 @@ public interface MessageCodes {
     //Notice先关
     String NOTICE_UPDATE_ERROR = "notice.update.fail";//公告更新失败
     String NOTICE_DELETE_ERROR = "notice.delete.error";//公告删除失败
+    String NOTICE_IS_NOT_EXIST = "notice.is.not.exist";//公告不存在
     String NOTICE_SAVE_ERROR = "notice.save.error";//公告保存失败
-    String NOTICE_IS_NOT_EXIST = "notice.is.not.exist";//公告保存失败
 
     //Banner相关
     String BANNER_DELETE_ERROR = "banner.delete.error";//轮播图删除失败
@@ -49,15 +49,13 @@ public interface MessageCodes {
 
     //孩子相关
     String CHILD_IS_NOT_EXIST = "child.is.not.exist";//孩子不存在
-    String CHILD_IS_UPDATE_ERROR = "child.is.update.error"; //孩子更新错误
+    String CHILD_UPDATE_ERROR = "child.is.update.error"; //孩子更新错误
     String CHILD_DELETE_ERROR = "child.is.delete.error"; //孩子删除错误
-    String CHILD_IMPORT_FROM_EXCLE_ERROR = "child.import.is.excle.error"; //孩子excle导入错误
-    String CHILD_IMPORT_FROM_EXCLE_GENDER_ERROR = "child.import.is.excle.gender.error"; //孩子excle导入错误
-
+    String CHILD_IMPORT_FROM_EXCEL_ERROR = "child.import.is.excel.error"; //孩子excel导入错误
 
     //家长相关
-    String PARENT_IS_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
-    String PARENT_IS_NOT_EXIST = "parent.is.not.exist";//根据id家长查找失败
+    String PARENT_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
+    String PARENT_IS_NOT_EXIST = "parent.is.not.exist";//根据id查找家长失败
     String PARENT_DELETE_ERROR = "parent.delete。error";//家长删除失败
 
     //Course相关
@@ -71,16 +69,15 @@ public interface MessageCodes {
     String TEACHER_SAVE_ERROR = "teacher.save.error";//老师不存在
     String TEACHER_DELETE_ERROR = "teacher.delete.error";//老师删除失败
     String TEACHER_IS_UPDATE_ERROR = "teacher.is.update.error";//老师删除失败
-    String TEACHER_IMPORT_FROM_EXCLE_ERROR = "teacher.import.from.excle.error";//老师删除失败
+    String TEACHER_IMPORT_FROM_EXCEL_ERROR = "teacher.import.from.excel.error";//老师删除失败
     String TEACHER_UPDATE_ERROR = "teacher.update.error";//老师更新失败
-    String TEACHER_HASBINDING = "teacher.has.binding";//老师已经被绑定
-    String TEACHER_BINGDING_ERROR = "teacher.binding.error";//老师绑定失败
-    String PHONR_IS_INVALID = "teacher.is.invalid";//电话号码不可用
+    String TEACHER_HAS_BINDING = "teacher.has.binding";//老师已经被绑定
+    String TEACHER_BINDING_ERROR = "teacher.binding.error";//老师绑定失败
+    String PHONE_IS_INVALID = "phone.is.invalid";//电话号码不可用
 
     //与学校相关
     String SCHOOL_IS_NOT_EXIST = "school.is.not.exist";//学校不存在
     String SCHOOL_DELETE_ERROR = "school.delete.error";//学校不存在
-    String SCHOOLID_IS_NOT_NULL = "schoolId.is.null";//学校id不存在
     String SCHOOL_SAVE_ERROR = "school.save.error";//学校保存失败
 
     //Order相关

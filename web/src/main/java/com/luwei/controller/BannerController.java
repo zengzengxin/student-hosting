@@ -30,8 +30,8 @@ public class BannerController {
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<BannerWebVO> page(@ModelAttribute @Valid BannerQueryDTO queryDTO, Page<Banner> page) {
-        return bannerService.findPage(queryDTO, page);
+    public IPage<BannerWebVO> page(@ModelAttribute @Valid BannerQueryDTO bannerQueryDTO, Page<Banner> page) {
+        return bannerService.findPage(bannerQueryDTO, page);
     }
 
 }

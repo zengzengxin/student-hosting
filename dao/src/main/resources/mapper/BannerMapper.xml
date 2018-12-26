@@ -4,17 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.luwei.model.banner.Banner">
-        <id column="banner_id" property="bannerId" />
-        <result column="picture" property="picture" />
-        <result column="jump_id" property="jumpId" />
-        <result column="jump_name" property="jumpName" />
-        <result column="weight" property="weight" />
-        <result column="link_url" property="linkUrl" />
-        <result column="outside_link" property="outsideLink" />
-        <result column="banner_type" property="bannerType" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
+        <id column="banner_id" property="bannerId"/>
+        <result column="picture" property="picture"/>
+        <result column="jump_id" property="jumpId"/>
+        <result column="jump_name" property="jumpName"/>
+        <result column="weight" property="weight"/>
+        <result column="link_url" property="linkUrl"/>
+        <result column="outside_link" property="outsideLink"/>
+        <result column="banner_type" property="bannerType"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
