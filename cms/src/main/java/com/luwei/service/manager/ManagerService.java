@@ -83,13 +83,14 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.isNull(manager, MessageCodes.ACCOUNT_ALREADY_EXIST);
         manager = new Manager();
-        BeanUtils.copyProperties(addVO, manager);
-        manager.setName(addVO.getAccount());
-        manager.setRole(roleEnum);
-        manager.setPassword(password);
         LocalDateTime now = LocalDateTime.now();
-        manager.setCreateTime(now);
-        manager.setUpdateTime(now);
+        manager.setAccount(account)
+                .setName(addVO.getAccount())
+                .setRole(roleEnum)
+                .setPassword(password)
+                .setDisabled(false)
+                .setCreateTime(now)
+                .setUpdateTime(now);
         baseMapper.insert(manager);
         return toManagerPageVO(manager);
     }
