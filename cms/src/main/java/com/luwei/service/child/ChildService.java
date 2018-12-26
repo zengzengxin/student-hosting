@@ -78,7 +78,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         child.setUpdateTime(LocalDateTime.now());
 
         //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
-        Assert.isTrue(updateById(child), MessageCodes.CHILD_IS_UPDATE_ERROR);
+        Assert.isTrue(updateById(child), MessageCodes.CHILD_UPDATE_ERROR);
         log.info("修改数据：bean:{}", childUpdateDTO);
         return findById(child.getChildId());
     }
@@ -120,7 +120,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
             list.add(child);
         }
         boolean flag = saveBatch(list);
-        Assert.isTrue(flag, MessageCodes.CHILD_IMPORT_FROM_EXCLE_ERROR);
+        Assert.isTrue(flag, MessageCodes.CHILD_IMPORT_FROM_EXCEL_ERROR);
 
     }
 

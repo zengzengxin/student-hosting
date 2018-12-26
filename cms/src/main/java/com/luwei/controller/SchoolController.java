@@ -22,7 +22,7 @@ import java.util.Set;
  * @author zzx
  * @since 2018-12-13
  */
-@Api(tags = {"机构管理"})
+@Api(tags = "学校机构管理")
 @RestController
 @RequestMapping("/api/school")
 public class SchoolController {
@@ -36,21 +36,19 @@ public class SchoolController {
         return schoolService.findById(schoolId);
     }
 
-
     @DeleteMapping
     @ApiOperation("删除")
     public void delete(@RequestParam @ApiParam("schoolId列表") Set<Integer> schoolIds) {
         schoolService.deleteSchools(schoolIds);
     }
 
-
-    @GetMapping("page")
+    @GetMapping("/page")
     @ApiOperation("分页")
     public IPage<SchoolVO> page(@ModelAttribute SchoolQueryDTO schoolQueryDTO, Page page) {
         return schoolService.findSchoolPage(schoolQueryDTO, page);
     }
 
-    @GetMapping("List")
+    @GetMapping("/list")
     @ApiOperation("返回所有学校")
     public List<SchoolVO> schoolList() {
         return schoolService.findSchoolPage();

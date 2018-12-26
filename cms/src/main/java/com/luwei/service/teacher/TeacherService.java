@@ -135,7 +135,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
             list.add(teacher);
         }
         boolean flag = saveBatch(list);
-        Assert.isTrue(flag, MessageCodes.TEACHER_IMPORT_FROM_EXCLE_ERROR);
+        Assert.isTrue(flag, MessageCodes.TEACHER_IMPORT_FROM_EXCEL_ERROR);
         //--todo-- 需要从redis获得managerId，再由managerId获得学校id，再从学校id获得学校名称存入数据库，这里的学校名称将来要舍弃
 
     }

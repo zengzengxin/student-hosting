@@ -92,16 +92,16 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         Teacher teacher = baseMapper.getTeacherByphone(phone);
         log.info(teacher.toString());
         if(teacher == null){
-            Assert.isTrue(true, MessageCodes.PHONR_IS_INVALID);
+            Assert.isTrue(true, MessageCodes.PHONE_IS_INVALID);
         }
-        Assert.isTrue(!teacher.getBinding(), MessageCodes.TEACHER_HASBINDING);
+        Assert.isTrue(!teacher.getBinding(), MessageCodes.TEACHER_HAS_BINDING);
         //绑定老师
         MiniUser miniUser = miniUserService.getById(id);
         miniUser.setTeacherId(teacher.getTeacherId());
         LocalDateTime time = LocalDateTime.now();
         miniUser.setUpdateTime(time).setCreateTime(time).setDeleted(false);
 
-        Assert.isTrue(miniUserService.updateById(miniUser), MessageCodes.TEACHER_BINGDING_ERROR);
+        Assert.isTrue(miniUserService.updateById(miniUser), MessageCodes.TEACHER_BINDING_ERROR);
 
         //将老师的binding字段设置为1
         Teacher teacher1 = new Teacher();

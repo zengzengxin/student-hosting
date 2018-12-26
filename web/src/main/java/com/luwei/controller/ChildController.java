@@ -1,6 +1,5 @@
 package com.luwei.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.child.pojo.web.ChildBindingDTO;
 import com.luwei.model.child.pojo.web.ChildUpdateDTO;
@@ -9,9 +8,9 @@ import com.luwei.service.child.ChildService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
@@ -22,16 +21,15 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/child")
 public class ChildController {
-    @Autowired
-    private ChildService childService;
 
+    @Resource
+    private ChildService childService;
 
     @PostMapping
     @ApiOperation("绑定孩子")
     public ChildWebVO save(@RequestBody @Valid ChildBindingDTO childBindingDTO) {
         return childService.bindingChild(childBindingDTO);
     }
-
 
     @PutMapping
     @ApiOperation("修改孩子")
@@ -41,10 +39,9 @@ public class ChildController {
 
     @GetMapping
     @ApiOperation("判断孩子是否有购买权限")
-    public boolean children_buy(@RequestParam @ApiParam("childId") Integer childid, @RequestParam @ApiParam("schoolId") Integer schoolId) {
-        ChildWebVO child = childService.findById(childid);
-        Assert.isTrue(schoolId != null, MessageCodes.SCHOOLID_IS_NOT_NULL);
-        return (schoolId.equals(child.getSchoolId()));
+    public boolean children_buy(@RequestParam @ApiParam("childId") Integer childId, @RequestParam @ApiParam("schoolId") Integer schoolId) {
+        ChildWebVO child = childService.findById(childId);
+        return schoolId != null && (schoolId.equals(child.getSchoolId()));
     }
 
 }
