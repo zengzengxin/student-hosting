@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -86,6 +87,9 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         manager.setName(addVO.getAccount());
         manager.setRole(roleEnum);
         manager.setPassword(password);
+        LocalDateTime now = LocalDateTime.now();
+        manager.setCreateTime(now);
+        manager.setUpdateTime(now);
         baseMapper.insert(manager);
         return toManagerPageVO(manager);
     }
