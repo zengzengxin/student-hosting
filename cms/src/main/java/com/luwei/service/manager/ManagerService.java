@@ -139,7 +139,7 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         if (manager.getDisabled()) {
             shiroTokenService.logout(managerStateVO.getManagerId().toString());
         }
-        baseMapper.update(new Manager(), new UpdateWrapper<Manager>().lambda().set(Manager::getDisabled, !manager.getDisabled()).eq(Manager::getManagerId, manager.getManagerId()));
+        baseMapper.update(manager, new UpdateWrapper<Manager>().lambda().set(Manager::getDisabled, !manager.getDisabled()).eq(Manager::getManagerId, manager.getManagerId()));
         return toManagerPageVO(manager);
     }
 
