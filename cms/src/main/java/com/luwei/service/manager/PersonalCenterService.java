@@ -1,5 +1,6 @@
 package com.luwei.service.manager;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BcryptUtil;
 import com.luwei.model.manager.Manager;
@@ -15,22 +16,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.DigestUtils;
 
-import javax.annotation.Resource;
 import java.util.Objects;
 
 @Slf4j
 @Service
-public class PersonalCenterService {
-
-
-    @Resource
-    private ManagerMapper managerMapper;
+public class PersonalCenterService extends ServiceImpl<ManagerMapper, Manager> {
 
     @Value("${luwei.config.salt}")
     private String salt;
 
     public ManagerPageVO toEdit() {
-        Manager manager = managerMapper.selectById(UserHelper.getUserId());
+        Manager manager = baseMapper.selectById(UserHelper.getUserId());
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         ManagerPageVO managerPageVO = new ManagerPageVO();
         BeanUtils.copyProperties(manager, managerPageVO);
@@ -39,7 +35,7 @@ public class PersonalCenterService {
 
     @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO update(PersonalCenterVO personalCenterVO) {
-        Manager manager = managerMapper.selectById(UserHelper.getUserId());
+        Manager manager = baseMapper.selectById(UserHelper.getUserId());
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         manager.setName(personalCenterVO.getName());
         if (Objects.nonNull(personalCenterVO.getPassword())) {
@@ -52,7 +48,7 @@ public class PersonalCenterService {
             }
             manager.setPassword(md5Password);
         }
-        managerMapper.insert(manager);
+        baseMapper.insert(manager);
 
         ManagerPageVO managerPageVO = new ManagerPageVO();
         BeanUtils.copyProperties(manager, managerPageVO);
