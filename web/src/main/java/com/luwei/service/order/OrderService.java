@@ -1,5 +1,6 @@
 package com.luwei.service.order;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -353,13 +354,13 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     @Transactional(rollbackFor = Exception.class)
     public IPage<OrderCmsVO> findPage(MyOrderQueryDTO queryDTO, Page<Order> page) {
 
-        // 先分页查询
-        Order order = new Order();
-        QueryWrapper<Order> wrapper = new QueryWrapper<>(order);
+        LambdaQueryWrapper<Order> wrapper = new QueryWrapper<Order>().lambda();
+        wrapper.eq(Order::getParentId, UserHelper.getUserId());
         if (queryDTO.getOrderStatus() != null) {
-            wrapper.eq("order_status", queryDTO.getOrderStatus().getValue());
+            wrapper.eq(Order::getOrderStatus, queryDTO.getOrderStatus());
         }
-        IPage<Order> orderIPage = baseMapper.selectPage(page, wrapper);
+        // 分页查询
+        IPage<Order> orderIPage = page(page, new QueryWrapper<Order>().lambda());
 
         // 处理订单: 是否已过期 是否已完成
         orderIPage.setRecords(orderIPage.getRecords().stream().map(this::updateStatus).collect(Collectors.toList()));
