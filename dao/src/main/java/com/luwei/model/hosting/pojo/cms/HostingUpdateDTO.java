@@ -1,6 +1,5 @@
 package com.luwei.model.hosting.pojo.cms;
 
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.luwei.model.hosting.envm.HostingTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -100,11 +99,6 @@ public class HostingUpdateDTO implements Serializable {
     @NotNull(message = "最大人数不能为空")
     @Range(min = 0, max = 20000, message = "最大人数范围必须在【{min},{max}】之间")
     private Integer maxNumber;
-
-    @ApiModelProperty(value = "是否删除")
-    @NotNull(message = "是否删除不能为空")
-    @TableLogic
-    private Boolean deleted;
 
 
 
