@@ -68,11 +68,11 @@ luwei:
     # 微信支付参数
     pay:
       wechat:
-        appid:
-        mch-id:
+        appid: wx286aefff1a6b3c75
+        mch-id: 1521645131
         mch-key:
         device-info:
-        notify-url:
+        notify-url: http://student-hosting-web.t.haikevr.com/api/module/pay/wechat/notify
 
 # swagger开关/默认打开
 swagger:

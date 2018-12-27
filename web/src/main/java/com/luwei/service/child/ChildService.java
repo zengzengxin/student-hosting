@@ -14,11 +14,10 @@ import com.luwei.model.parentChild.ParentChild;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.parentchild.ParentChildService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.xmlbeans.impl.piccolo.util.DuplicateKeyException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
@@ -29,10 +28,10 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
-    @Autowired
+    @Resource
     private ParentChildService parentChildService;
 
-    @Autowired
+    @Resource
     private ChildService childService;
 
     public ChildWebVO findById(Integer id) {
@@ -52,9 +51,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     public ChildWebVO bindingChild(ChildBindingDTO childBindingDTO) {
         Child child = findChildByStunoAndNameAndSchoolId(childBindingDTO);
 
-        if (child == null) {
-            Assert.isTrue(true, MessageCodes.CHILD_IS_NOT_EXIST);
-        }
+        Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
 
         LocalDateTime time = LocalDateTime.now();
 
