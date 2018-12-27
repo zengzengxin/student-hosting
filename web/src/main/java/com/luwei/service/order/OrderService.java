@@ -38,11 +38,14 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.time.Duration;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Author: huanglp
@@ -184,7 +187,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     private static long getDays(LocalDateTime startTime, LocalDateTime endTime) {
 
         // 方式一
-        /*class MyCount {
+        class MyCount {
             private long count;
         }
         MyCount myCount = new MyCount();
@@ -200,9 +203,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
                 myCount.count++;
             }
         });
-        return myCount.count;*/
+        return myCount.count;
 
-        // 方式二
+/*        // 方式二
         int startWeek;  //开始日期
         int endWeek;    //结束日期
         int offset;     //偏移量
@@ -237,8 +240,10 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         days = be.toDays();
         workDays = ((days + 1) / 7) * 5 + offset;
 
-        return workDays;
+        return workDays;*/
     }
+
+
 
     /*
      *
