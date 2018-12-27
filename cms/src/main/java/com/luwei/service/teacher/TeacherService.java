@@ -63,7 +63,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         LocalDateTime time = LocalDateTime.now();
         teacher.setUpdateTime(time);
         teacher.setCreateTime(time);
-        teacher.setSchoolId(schoolService.findSchoolIdBySchoolname(teacherAddDTO.getSchoolName()));
+        teacher.setSchoolId(schoolService.findSchoolIdBySchoolName(teacherAddDTO.getSchoolName()));
         //设置一些具体逻辑，是否需要加上deleted字段等等
         boolean isSuccess = save(teacher);
         Assert.isTrue(isSuccess, MessageCodes.TEACHER_SAVE_ERROR);
@@ -129,7 +129,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
             teacher.setSchoolName(map.get(2));
             teacher.setGrade(map.get(3));
             teacher.setTeacherClass(map.get(4));
-            teacher.setSchoolId(schoolService.findSchoolIdBySchoolname(map.get(2)));
+            teacher.setSchoolId(schoolService.findSchoolIdBySchoolName(map.get(2)));
             LocalDateTime time = LocalDateTime.now();
             teacher.setUpdateTime(time);
             teacher.setCreateTime(time);
