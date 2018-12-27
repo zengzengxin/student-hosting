@@ -184,7 +184,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @param endTime
      * @return
      */
-    private static long getDays(LocalDateTime startTime, LocalDateTime endTime) {
+    public static long getDays(LocalDateTime startTime, LocalDateTime endTime) {
 
         // 方式一
         class MyCount {

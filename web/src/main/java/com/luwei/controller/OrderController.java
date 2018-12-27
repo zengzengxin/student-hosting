@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -66,4 +67,14 @@ public class OrderController {
     public OrderCmsVO confirmHostingOrder(@RequestBody @Valid HostingOrderDTO hostingOrderDTO) {
         return orderService.hostingOrder(hostingOrderDTO);
     }
+
+    //创建托管订单
+    @PostMapping("/countMoney")
+    @ApiOperation("计算托管价格")
+    public int countMoney(LocalDateTime startTime, LocalDateTime endTime,int price) {
+        long days =  orderService.getDays(startTime,endTime);
+        return (int)(days*price);
+
+    }
+
 }
