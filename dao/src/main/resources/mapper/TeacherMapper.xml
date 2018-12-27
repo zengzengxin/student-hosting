@@ -19,6 +19,7 @@
         <result column="nick_name" property="nickName" />
         <result column="open_id" property="openId" />
         <result column="binding" property="binding" />
+        <result column="school_id" property="schoolId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -34,7 +35,7 @@
 
 
     <select id="getTeacherPage" resultType="com.luwei.model.teacher.pojo.cms.TeacherCmsVO" parameterType="com.luwei.model.teacher.pojo.cms.TeacherQueryDTO">
-        select tb_teacher.teacher_id,teacher_name,teacher_class,phone,license,school_name,grade
+        select tb_teacher.teacher_id,teacher_name,teacher_class,phone,license,school_name,grade,school_id
         From tb_teacher
         <where>
             deleted=0
