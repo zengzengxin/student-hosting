@@ -11,11 +11,12 @@ import com.luwei.common.util.ReadExcelUtil;
 import com.luwei.model.teacher.Teacher;
 import com.luwei.model.teacher.TeacherMapper;
 import com.luwei.model.teacher.pojo.cms.TeacherAddDTO;
+import com.luwei.model.teacher.pojo.cms.TeacherCmsVO;
 import com.luwei.model.teacher.pojo.cms.TeacherQueryDTO;
 import com.luwei.model.teacher.pojo.cms.TeacherUpdateDTO;
-import com.luwei.model.teacher.pojo.cms.TeacherCmsVO;
-import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.school.SchoolService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -43,6 +44,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
 
+    @Autowired
+    SchoolService schoolService;
+
     public TeacherCmsVO findById(Integer teacherId) {
         Teacher teacher = getById(teacherId);
         //TODO记得修改MessageCodes
@@ -63,7 +67,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         LocalDateTime time = LocalDateTime.now();
         teacher.setUpdateTime(time);
         teacher.setCreateTime(time);
-        teacher.setSchoolId(UserHelper.getUserId());
+        teacher.setSchoolId(schoolService.findSchoolIdBySchoolname(teacherAddDTO.getSchoolName()));
         //设置一些具体逻辑，是否需要加上deleted字段等等
         boolean isSuccess = save(teacher);
         Assert.isTrue(isSuccess, MessageCodes.TEACHER_SAVE_ERROR);
@@ -129,7 +133,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
             teacher.setSchoolName(map.get(2));
             teacher.setGrade(map.get(3));
             teacher.setTeacherClass(map.get(4));
-            teacher.setSchoolId(UserHelper.getUserId());
+            teacher.setSchoolId(schoolService.findSchoolIdBySchoolname(map.get(2)));
             LocalDateTime time = LocalDateTime.now();
             teacher.setUpdateTime(time);
             teacher.setCreateTime(time);

@@ -8,6 +8,7 @@ import com.luwei.model.banner.pojo.cms.BannerCmsVO;
 import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
 import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
 import com.luwei.model.search.SearchCmsVO;
+import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.banner.BannerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,15 @@ public class BannerController {
 
     @Resource
     private BannerService bannerService;
+
+    @Resource
+    private ShiroTokenService shiroTokenService;
+
+    @GetMapping("/test")
+    @ApiOperation("test")
+    public void test() {
+        shiroTokenService.login("2");
+    }
 
     @PostMapping
     @ApiOperation("新增")
