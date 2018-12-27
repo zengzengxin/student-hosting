@@ -396,8 +396,6 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
 
     public OrderCmsVO payForOrder(PayForOrderDTO addDTO) {
 
-        // TODO 立即支付接口 未完成
-
         return null;
     }
 

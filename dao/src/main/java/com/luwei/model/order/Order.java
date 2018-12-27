@@ -102,13 +102,4 @@ public class Order implements Serializable {
     @TableLogic
     private Boolean deleted;
 
-    public static void main(String[] args) {
-        Integer i =10;
-        Integer x =10;
-        int j = 10;
-        System.out.println(i == x);
-        System.out.println(x == j);
-
-    }
-
 }
