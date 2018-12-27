@@ -51,7 +51,7 @@ public class OrderController {
 
     @GetMapping
     @ApiOperation("查询详情")
-    public OrderCmsVO getOrder(@RequestParam @ApiParam("id") Long id) {
+    public OrderCmsVO getOrder(@RequestParam @ApiParam("id") String id) {
         return orderService.getOrder(id);
     }
 

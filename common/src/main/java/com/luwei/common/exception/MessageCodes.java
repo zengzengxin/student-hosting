@@ -89,6 +89,7 @@ public interface MessageCodes {
     String ORDER_DELETE_ERROR = "order.delete.error";//订单删除失败
     String ORDER_TIME_ERROR = "order.time.error";//订单的时间错误
     String ORDER_CHILD_ERROR = "order.child.error";//孩子不是该家长的孩子
+    String ORDER_STATUS_UPDATE_ERROR = "order.status.update.error";//订单状态更新失败
 
     //WeChat相关
     String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;

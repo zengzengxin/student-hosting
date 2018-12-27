@@ -2,6 +2,7 @@ package com.luwei.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luwei.model.hosting.Hosting;
 import com.luwei.model.hosting.pojo.cms.*;
 import com.luwei.service.hosting.HostingService;
 import io.swagger.annotations.Api;
@@ -44,7 +45,7 @@ public class HostingController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public IPage<HostingCmsVO> page(@ModelAttribute HostingQueryDTO hostingQueryDTO, Page page) {
+    public IPage<HostingCmsVO> page(@ModelAttribute HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
         return hostingService.findHostingPage(hostingQueryDTO, page);
     }
 

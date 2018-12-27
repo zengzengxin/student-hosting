@@ -267,6 +267,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
                     .setServiceIntroduction(course.getIntroduction())
                     .setServiceCoverUrl(course.getCoverUrl())
                     .setWeight(1)
+                    .setSchoolId(course.getSchoolId())
                     .setServiceType(ServiceTypeEnum.COURSE);
 
             // 创建时间 更新时间

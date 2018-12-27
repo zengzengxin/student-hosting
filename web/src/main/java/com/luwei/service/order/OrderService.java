@@ -1,5 +1,6 @@
 package com.luwei.service.order;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -76,7 +77,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @param id
      * @return
      */
-    private Order findById(Long id) {
+    private Order findById(String id) {
         // 若此id已被逻辑删除,也会返回null
         Order order = getById(id);
         // TODO 修改MessageCodes
@@ -338,7 +339,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @param id
      * @return
      */
-    public OrderCmsVO getOrder(Long id) {
+    public OrderCmsVO getOrder(String id) {
         Order order = findById(id);
         return toOrderVO(order);
     }
@@ -353,13 +354,13 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     @Transactional(rollbackFor = Exception.class)
     public IPage<OrderCmsVO> findPage(MyOrderQueryDTO queryDTO, Page<Order> page) {
 
-        // 先分页查询
-        Order order = new Order();
-        QueryWrapper<Order> wrapper = new QueryWrapper<>(order);
+        LambdaQueryWrapper<Order> wrapper = new QueryWrapper<Order>().lambda();
+        wrapper.eq(Order::getParentId, UserHelper.getUserId());
         if (queryDTO.getOrderStatus() != null) {
-            wrapper.eq("order_status", queryDTO.getOrderStatus().getValue());
+            wrapper.eq(Order::getOrderStatus, queryDTO.getOrderStatus());
         }
-        IPage<Order> orderIPage = baseMapper.selectPage(page, wrapper);
+        // 分页查询
+        IPage<Order> orderIPage = page(page, new QueryWrapper<Order>().lambda());
 
         // 处理订单: 是否已过期 是否已完成
         orderIPage.setRecords(orderIPage.getRecords().stream().map(this::updateStatus).collect(Collectors.toList()));
@@ -396,8 +397,6 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
 
     public OrderCmsVO payForOrder(PayForOrderDTO addDTO) {
 
-        // TODO 立即支付接口 未完成
-
         return null;
     }
 
@@ -407,8 +406,21 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @param wxNotifyResultVo
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void notify(WXNotifyResultVo wxNotifyResultVo) {
         log.info("支付成功，调用支付成功后的业务逻辑");
+        Order order = findById(wxNotifyResultVo.getOutTradeNo());
+        if (order.getOrderStatus() == OrderStatusEnum.PAID) {
+            return;
+        }
+        // 判断金额是否一致
+        // if (order.getPrice() != )
+
+        // 修改当前订单状态
+        order.setPayTime(LocalDateTime.now());
+        order.setOrderStatus(OrderStatusEnum.PAID);
+        Assert.isTrue(updateById(order), MessageCodes.ORDER_STATUS_UPDATE_ERROR);
+        log.info("订单编号: {} 修改状态为已支付", order.getOrderId());
     }
 
 }

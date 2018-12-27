@@ -144,6 +144,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
                     .setServiceIntroduction(hosting.getIntroduction())
                     .setServiceCoverUrl(hosting.getCoverUrl())
                     .setWeight(1)
+                    .setSchoolId(hosting.getSchoolId())
                     .setServiceType(ServiceTypeEnum.HOSTING);
 
             // 创建时间 更新时间
