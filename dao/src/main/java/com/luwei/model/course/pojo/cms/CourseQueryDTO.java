@@ -19,7 +19,4 @@ public class CourseQueryDTO implements Serializable {
     @ApiModelProperty(value = "课程名称")
     private String courseName;
 
-    @ApiModelProperty(value = "学校ID")
-    private Integer schoolId;
-
 }

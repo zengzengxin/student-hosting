@@ -9,6 +9,7 @@ import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.hosting.Hosting;
 import com.luwei.model.hosting.HostingMapper;
+import com.luwei.model.hosting.pojo.web.HostingQuery;
 import com.luwei.model.hosting.pojo.web.HostingWebVO;
 import com.luwei.model.picture.PictureMapper;
 import com.luwei.model.picture.envm.PictureTypeEnum;
@@ -17,6 +18,7 @@ import com.luwei.model.school.SchoolMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -55,10 +57,12 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return hostingVO;
     }
 
-    public IPage<HostingWebVO> findHostingPage(Page page) {
-        Hosting hosting = new Hosting();
-        QueryWrapper<Hosting> wrapper = new QueryWrapper<>(hosting);
-        IPage<HostingWebVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toHostingVO);
+    public IPage<HostingWebVO> findHostingPage(HostingQuery query, Page<Hosting> page) {
+        // 分页查
+        IPage<HostingWebVO> iPage = ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Hosting>().lambda()
+                .eq(Hosting::getSchoolId, query.getSchoolId())
+        ), this::toHostingVO);
+
         List<HostingWebVO> list = iPage.getRecords();
         List collect = list.stream().map(this::dealWith).collect(Collectors.toList());
 
@@ -80,7 +84,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     public List<Hosting> findList(String name) {
         QueryWrapper<Hosting> queryWrapper = new QueryWrapper<>();
-        if (name != null || "".equals(name)){
+        if (!ObjectUtils.isEmpty(name)){
             queryWrapper.lambda().like(Hosting::getName, name);
         }
         return baseMapper.selectList(queryWrapper);

@@ -12,8 +12,8 @@ import com.luwei.model.course.pojo.cms.*;
 import com.luwei.model.coursepackage.CoursePackage;
 import com.luwei.model.coursepackage.CoursePackageMapper;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageAddDTO;
-import com.luwei.model.coursepackage.pojo.cms.CoursePackageUpdateDTO;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageCmsVO;
+import com.luwei.model.coursepackage.pojo.cms.CoursePackageUpdateDTO;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
@@ -90,13 +90,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         course.setUpdateTime(time);
         course.setCreateTime(time);
         Assert.isTrue(save(course), MessageCodes.COURSE_SAVE_ERROR);
-
         Integer courseId = course.getCourseId();
 
         // 保存课程套餐
-        //List<CoursePackageVO> list = addDTO.getCoursePackageList().stream()
-        //        .map(this::saveCoursePackage).collect(Collectors.toList());
-
         List<CoursePackageAddDTO> temp = addDTO.getCoursePackageList();
         List<CoursePackageCmsVO> list = new ArrayList<>();
         for (CoursePackageAddDTO coursePackageAddDTO : temp) {
@@ -107,7 +103,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         // 保存课程图片
         List<String> urls = addDTO.getPictureUrls();
         for (String url : urls) {
-            pictureService.savePicture(url, courseId,PictureTypeEnum.COURSE);
+            pictureService.savePicture(url, courseId, PictureTypeEnum.COURSE);
         }
 
         log.info("保存数据: {}", course);
@@ -124,7 +120,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         coursePackage.setCreateTime(time);
 
         int count = coursePackageMapper.insert(coursePackage);
-        Assert.isTrue(count > 0, MessageCodes.COURSE_SAVE_ERROR);
+        Assert.isTrue(count > 0, MessageCodes.COURSE_PACKAGE_SAVE_ERROR);
         return toCoursePackageVO(coursePackage);
     }
 
@@ -159,13 +155,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         Course course = new Course();
         BeanUtils.copyProperties(updateDTO, course);
         course.setUpdateTime(LocalDateTime.now());
-        // updateById不会把null的值赋值,修改成功后也不会赋值数据库所有的字段
         Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
 
         // 修改课程套餐
-        // List<CoursePackageVO> list = updateDTO.getCoursePackageList().stream()
-        //         .map(this::updateCoursePackage).collect(Collectors.toList());
-
         List<CoursePackageUpdateDTO> temp = updateDTO.getCoursePackageList();
         List<CoursePackageCmsVO> list = new ArrayList<>();
         for (CoursePackageUpdateDTO coursePackageUpdateDTO : temp) {
@@ -179,7 +171,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         List<String> urls = updateDTO.getPictureUrls();
         Integer courseId = course.getCourseId();
         for (String url : urls) {
-            pictureService.savePicture(url, courseId,PictureTypeEnum.COURSE);
+            pictureService.savePicture(url, courseId, PictureTypeEnum.COURSE);
         }
         log.info("修改数据: bean {}", updateDTO);
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
@@ -204,7 +196,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             coursePackage.setCreateTime(time);
 
             int count = coursePackageMapper.insert(coursePackage);
-            Assert.isTrue(count > 0, MessageCodes.COURSE_SAVE_ERROR);
+            Assert.isTrue(count > 0, MessageCodes.COURSE_PACKAGE_SAVE_ERROR);
             return toCoursePackageVO(coursePackage);
         }
 
@@ -212,7 +204,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         BeanUtils.copyProperties(updateDTO, coursePackage);
         coursePackage.setUpdateTime(LocalDateTime.now());
         int count = coursePackageMapper.updateById(coursePackage);
-        Assert.isTrue(count > 0, MessageCodes.COURSE_UPDATE_ERROR);
+        Assert.isTrue(count > 0, MessageCodes.COURSE_PACKAGE_UPDATE_ERROR);
         // 套餐是否过期
         return toCoursePackageVO(coursePackageMapper.selectById(coursePackage.getCoursePackageId()));
     }
@@ -238,6 +230,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     public IPage<CourseCmsVO> findPage(CourseQueryDTO queryDTO, Page<Course> page) {
         Course course = new Course();
         QueryWrapper<Course> wrapper = new QueryWrapper<>(course);
+        wrapper.orderByDesc("recommend");
         if (queryDTO.getCourseName() != null && !queryDTO.getCourseName().equals("")) {
             wrapper.like("course_name", queryDTO.getCourseName());
         }
@@ -250,7 +243,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     private CourseCmsVO dealWith(CourseCmsVO courseVO) {
         // 设置图片
-        List<String> urls = pictureService.findAllByForeignKeyId(courseVO.getCourseId(),PictureTypeEnum.COURSE.getValue());
+        List<String> urls = pictureService.findAllByForeignKeyId(courseVO.getCourseId(), PictureTypeEnum.COURSE.getValue());
 
         // 设置课程套餐列表
         List<CoursePackageCmsVO> list = coursePackageMapper.findAllByCourseId(courseVO.getCourseId());
