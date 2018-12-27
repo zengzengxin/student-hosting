@@ -28,8 +28,8 @@ public class CourseController {
 
     @PostMapping
     @ApiOperation("新增")
-    public CourseCmsVO saveCourse(@RequestBody @Valid CourseAddDTO addDTO) {
-        return courseService.saveCourse(addDTO);
+    public CourseCmsVO saveCourse(@RequestBody @Valid CourseAddDTO courseAddDTO) {
+        return courseService.saveCourse(courseAddDTO);
     }
 
     @DeleteMapping
@@ -40,8 +40,8 @@ public class CourseController {
 
     @PutMapping
     @ApiOperation("修改")
-    public CourseCmsVO updateCourse(@RequestBody @Valid CourseUpdateDTO updateDTO) {
-        return courseService.updateCourse(updateDTO);
+    public CourseCmsVO updateCourse(@RequestBody @Valid CourseUpdateDTO courseUpdateDTO) {
+        return courseService.updateCourse(courseUpdateDTO);
     }
 
     @GetMapping
@@ -52,8 +52,8 @@ public class CourseController {
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<CourseCmsVO> page(@ModelAttribute CourseQueryDTO queryDTO, Page<Course> page) {
-        return courseService.findPage(queryDTO, page);
+    public IPage<CourseCmsVO> page(@ModelAttribute CourseQueryDTO courseQueryDTO, Page<Course> page) {
+        return courseService.findPage(courseQueryDTO, page);
     }
 
     @PutMapping("/recommend")

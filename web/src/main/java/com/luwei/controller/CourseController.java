@@ -3,8 +3,8 @@ package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.course.Course;
-import com.luwei.model.course.pojo.cms.CourseQueryDTO;
 import com.luwei.model.course.pojo.cms.CourseCmsVO;
+import com.luwei.model.course.pojo.web.CourseQuery;
 import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.service.course.CourseService;
 import io.swagger.annotations.Api;
@@ -34,8 +34,8 @@ public class CourseController {
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<CourseWebVO> page(@ModelAttribute CourseQueryDTO queryDTO, Page<Course> page) {
-        return courseService.findPage(queryDTO, page);
+    public IPage<CourseWebVO> page(@ModelAttribute CourseQuery courseQuery, Page<Course> page) {
+        return courseService.findPage(courseQuery, page);
     }
 
 }

@@ -54,7 +54,6 @@ public interface MessageCodes {
     String CHILD_IMPORT_FROM_EXCEL_ERROR = "child.import.is.excel.error"; //孩子excel导入错误
     String CHILD_BINDING_ERROR = "child.binding.error"; //孩子绑定错误
 
-
     //家长相关
     String PARENT_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
     String PARENT_IS_NOT_EXIST = "parent.is.not.exist";//根据id查找家长失败
@@ -65,6 +64,8 @@ public interface MessageCodes {
     String COURSE_SAVE_ERROR = "course.save.error";//课程保存失败
     String COURSE_DELETE_ERROR = "course.delete.error";//课程删除失败
     String COURSE_UPDATE_ERROR = "course.update.error";//课程更新失败
+    String COURSE_PACKAGE_SAVE_ERROR = "course.package.save.error";//课程套餐保存失败
+    String COURSE_PACKAGE_UPDATE_ERROR = "course.package.update.error";//课程套餐更新失败
 
     //老师相关
     String TEACHER_IS_NOT_EXIST = "teacher.is.not.exist";//老师不存在
@@ -113,6 +114,5 @@ public interface MessageCodes {
     String ROOT_CANNOT_DELETE = "";
     String COURSE_PACKAGE_IS_DISPLAY = "course.package.is.display";//课程套餐已上架不可修改
     String MINIUSER_IS_NOT_EXIST = "miniuser.is.not.exist";//小程序用户不存在
-
 
 }

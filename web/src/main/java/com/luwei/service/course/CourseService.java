@@ -10,6 +10,7 @@ import com.luwei.model.course.Course;
 import com.luwei.model.course.CourseMapper;
 import com.luwei.model.course.pojo.cms.CourseCmsVO;
 import com.luwei.model.course.pojo.cms.CourseQueryDTO;
+import com.luwei.model.course.pojo.web.CourseQuery;
 import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.model.coursepackage.CoursePackage;
 import com.luwei.model.coursepackage.CoursePackageMapper;
@@ -110,23 +111,15 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public IPage<CourseWebVO> findPage(CourseQueryDTO queryDTO, Page<Course> page) {
-        // 封装条件
-        Course course = new Course();
-        QueryWrapper<Course> wrapper = new QueryWrapper<>(course);
-        if (queryDTO.getCourseName() != null && !queryDTO.getCourseName().equals("")) {
-            wrapper.like("course_name", queryDTO.getCourseName());
-        }
-        wrapper.eq("school_id", queryDTO.getSchoolId());
+    public IPage<CourseWebVO> findPage(CourseQuery queryDTO, Page<Course> page) {
 
         // 分页查
-        IPage<CourseWebVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toCourseWebVO);
+        IPage<CourseWebVO> iPage = ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Course>().lambda()
+                .eq(Course::getSchoolId, queryDTO.getSchoolId())
+        ), this::toCourseWebVO);
 
         // 设置最低价格
         List<CourseWebVO> collect = iPage.getRecords().stream().map(this::dealWith2).collect(Collectors.toList());
-
-        //List<CourseWebVO> list = iPage.getRecords();
-        //List collect = list.stream().map(this::dealWith).collect(Collectors.toList());
 
         return iPage.setRecords(collect);
     }
