@@ -51,4 +51,5 @@ public class SchoolCmsVO implements Serializable {
     @ApiModelProperty(value = "权限(0/1)")
     private Integer permission;
 
+
 }
