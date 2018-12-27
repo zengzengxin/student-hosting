@@ -3,6 +3,7 @@ package com.luwei.service.child;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.model.child.Child;
 import com.luwei.model.child.ChildMapper;
@@ -13,6 +14,7 @@ import com.luwei.model.parentChild.ParentChild;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.parentchild.ParentChildService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.xmlbeans.impl.piccolo.util.DuplicateKeyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,13 +58,18 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
         LocalDateTime time = LocalDateTime.now();
 
-        //绑定孩子（更新中间表）
-        ParentChild parentChild = new ParentChild();
-        parentChild.setParentId(UserHelper.getUserId());
-        parentChild.setChildId(child.getChildId());
-        parentChild.setCreateTime(time);
-        parentChildService.save(parentChild);
-        log.info("保存数据---:{}", child);
+         try{
+                //绑定孩子（更新中间表）
+                ParentChild parentChild = new ParentChild();
+                parentChild.setParentId(UserHelper.getUserId());
+                parentChild.setChildId(child.getChildId());
+                parentChild.setCreateTime(time);
+                parentChildService.save(parentChild);
+                log.info("保存数据---:{}", child);
+         }catch (Exception e){
+             throw new ValidationException(MessageCodes.CHILD_BINDING_ERROR);
+         }
+
         return toChildVO(child);
     }
 

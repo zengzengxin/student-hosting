@@ -52,6 +52,8 @@ public interface MessageCodes {
     String CHILD_UPDATE_ERROR = "child.is.update.error"; //孩子更新错误
     String CHILD_DELETE_ERROR = "child.is.delete.error"; //孩子删除错误
     String CHILD_IMPORT_FROM_EXCEL_ERROR = "child.import.is.excel.error"; //孩子excel导入错误
+    String CHILD_BINDING_ERROR = "child.binding.error"; //孩子绑定错误，孩子已经被绑定
+
 
     //家长相关
     String PARENT_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
