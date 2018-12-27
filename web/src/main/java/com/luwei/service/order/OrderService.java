@@ -360,7 +360,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
             wrapper.eq(Order::getOrderStatus, queryDTO.getOrderStatus());
         }
         // 分页查询
-        IPage<Order> orderIPage = page(page, new QueryWrapper<Order>().lambda());
+        IPage<Order> orderIPage = page(page, wrapper);
 
         // 处理订单: 是否已过期 是否已完成
         orderIPage.setRecords(orderIPage.getRecords().stream().map(this::updateStatus).collect(Collectors.toList()));
