@@ -71,7 +71,7 @@ public class OrderController {
     //创建托管订单
     @PostMapping("/countMoney")
     @ApiOperation("计算托管价格")
-    public int countMoney(LocalDateTime startTime, LocalDateTime endTime,int price) {
+    public int countMoney(@RequestParam("startTime") LocalDateTime startTime, @RequestParam("endTime") LocalDateTime endTime,@RequestParam("price") int price) {
         long days =  orderService.getDays(startTime,endTime);
         return (int)(days*price);
 
