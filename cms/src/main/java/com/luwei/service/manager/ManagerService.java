@@ -68,7 +68,7 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      * @param addVO
      * @return ManagerPageVO
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO add(ManagerAddVO addVO, RoleEnum roleEnum) {
         String account = addVO.getAccount();
 
@@ -118,7 +118,7 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      * @param editVO
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO update(ManagerEditVO editVO, RoleEnum roleEnum) {
         QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", editVO.getManagerId()).eq("role", roleEnum);
         Manager manager = baseMapper.selectOne(wrapper);
@@ -135,7 +135,7 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      *
      * @param managerStateVO
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO handleDisabled(ManagerStateVO managerStateVO, RoleEnum roleEnum) {
         QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerStateVO.getManagerId()).eq("role", roleEnum);
         Manager manager = baseMapper.selectOne(wrapper);
@@ -153,7 +153,7 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      *
      * @param idList
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Set<Integer> idList, RoleEnum roleEnum) {
         Manager manager;
         for (Integer managerId : idList) {
@@ -167,7 +167,7 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         }
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO resetPassword(ManagerResetPasswordVO managerResetPasswordVO, RoleEnum roleEnum) {
         QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerResetPasswordVO.getManagerId()).eq("role", roleEnum);
         Manager manager = baseMapper.selectOne(wrapper);

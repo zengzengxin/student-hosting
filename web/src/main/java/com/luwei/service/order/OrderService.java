@@ -99,7 +99,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @param
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public OrderCmsVO hostingOrder(HostingOrderDTO hostingOrderDTO) {
         Order order = new Order();
         BeanUtils.copyProperties(hostingOrderDTO, order);
@@ -244,7 +244,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      *
      * 确认下单/立即购买
      * */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public OrderCmsVO confirmOrder(ConfirmOrderDTO orderDTO) {
         Order order = new Order();
         Integer parentId = UserHelper.getUserId();
@@ -319,7 +319,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      *
      * @param ids
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteOrders(Set<String> ids) {
         // 若用removeByIds,因为删除不存在的逻辑上属于成功,所以也返回true
         int count = baseMapper.deleteBatchIds(ids);
@@ -345,7 +345,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @param page
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public IPage<OrderCmsVO> findPage(MyOrderQueryDTO queryDTO, Page<Order> page) {
 
         // 先分页查询

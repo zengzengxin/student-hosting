@@ -8,11 +8,7 @@ import com.luwei.model.parent.pojo.cms.ParentCmsVO;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author ffq
+ * @author zzx
  * @since 2018-12-12
  */
 public interface ParentMapper extends BaseMapper<Parent> {

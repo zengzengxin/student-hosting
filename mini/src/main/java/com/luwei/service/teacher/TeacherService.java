@@ -60,7 +60,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
      * @param updateDTO
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public TeacherMiniVO updateTeacher(TeacherEditDTO updateDTO) {
         Teacher teacher = new Teacher();
         BeanUtils.copyProperties(updateDTO, teacher);

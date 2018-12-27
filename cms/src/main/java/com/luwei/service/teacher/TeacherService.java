@@ -32,10 +32,6 @@ import java.util.stream.Collectors;
 ;
 
 /**
- * <p>
- * 服务类
- * </p>
- *
  * @author zzx
  * @since 2018-12-13
  */
@@ -56,7 +52,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         return teacherVO;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public TeacherCmsVO saveTeacher(TeacherAddDTO teacherAddDTO) {
         Teacher teacher = new Teacher();
         BeanUtils.copyNonNullProperties(teacherAddDTO, teacher);
@@ -72,7 +68,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
     }
 
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteTeachers(Set<Integer> teacherIds) {
         //removeByIds删除0条也是返回true的，所以需要使用baseMapper
         int count = baseMapper.deleteBatchIds(teacherIds);
@@ -80,7 +76,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         log.info("删除数据:ids{}", teacherIds);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public TeacherCmsVO updateTeacher(TeacherUpdateDTO teacherUpdateDTO) {
         Teacher teacher = new Teacher();
         BeanUtils.copyNonNullProperties(teacherUpdateDTO, teacher);

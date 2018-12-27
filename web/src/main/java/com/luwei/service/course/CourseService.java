@@ -109,7 +109,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param page
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public IPage<CourseWebVO> findPage(CourseQueryDTO queryDTO, Page<Course> page) {
         // 封装条件
         Course course = new Course();

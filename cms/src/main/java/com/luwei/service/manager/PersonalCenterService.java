@@ -37,7 +37,7 @@ public class PersonalCenterService {
         return managerPageVO;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO update(PersonalCenterVO personalCenterVO) {
         Manager manager = managerMapper.selectById(UserHelper.getUserId());
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);

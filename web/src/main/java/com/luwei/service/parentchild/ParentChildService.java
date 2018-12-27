@@ -7,10 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
- * 服务类
- * </p>
- *
  * @author zzx
  * @since 2018-12-12
  */

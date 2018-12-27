@@ -61,7 +61,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      * @param addDTO
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public OrderCmsVO saveOrder(OrderAddDTO addDTO) {
         Order order = new Order();
         BeanUtils.copyProperties(addDTO, order);
@@ -78,7 +78,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      *
      * @param ids
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteOrders(Set<String> ids) {
         // 若用removeByIds,因为删除不存在的逻辑上属于成功,所以也返回true
         int count = baseMapper.deleteBatchIds(ids);

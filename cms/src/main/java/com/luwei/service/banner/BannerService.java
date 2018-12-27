@@ -75,7 +75,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @param addDTO
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public BannerCmsVO saveBanner(BannerAddDTO addDTO) {
         Banner banner = new Banner();
         BeanUtils.copyProperties(addDTO, banner);
@@ -92,7 +92,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      *
      * @param ids
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteBanners(Set<Integer> ids) {
         // 若用removeByIds,因为删除不存在的逻辑上属于成功,所以也返回true
         int count = baseMapper.deleteBatchIds(ids);
@@ -106,7 +106,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      * @param updateDTO
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public BannerCmsVO updateBanner(BannerUpdateDTO updateDTO) {
         Banner banner = new Banner();
         BeanUtils.copyProperties(updateDTO, banner);

@@ -31,6 +31,15 @@ public class BannerController {
     @Resource
     private BannerService bannerService;
 
+    // @Resource
+    // private ShiroTokenService shiroTokenService;
+    //
+    // @GetMapping("test")
+    // @ApiOperation("test")
+    // public void test() {
+    //     shiroTokenService.login("2");
+    // }
+
     @PostMapping
     @ApiOperation("新增")
     public BannerCmsVO saveBanner(@RequestBody @Valid BannerAddDTO bannerAddDTO) {

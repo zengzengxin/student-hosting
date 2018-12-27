@@ -8,11 +8,7 @@ import com.luwei.model.notice.pojo.cms.NoticeCmsVO;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author ffq
+ * @author zzx
  * @since 2018-12-05
  */
 public interface NoticeMapper extends BaseMapper<Notice> {
