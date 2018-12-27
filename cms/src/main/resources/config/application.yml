@@ -59,7 +59,7 @@ luwei:
       bucket: edin
       access-key: 9YThA2ZpNq4UnyRRz_ZigkzgH6davcLehUPogG4C
       secret-key: RoZdZeQ8_a0efxTRMisMufPZbTQxLrBy3flc4kLf
-      link-address: http://pji6i8gq1.bkt.clouddn.com
+      link-address: http://pji6i8gq1.bkt.clouddn.com/
     sms:
       redus-prefix:
       access-key-id:
