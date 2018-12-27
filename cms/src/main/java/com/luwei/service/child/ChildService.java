@@ -10,9 +10,9 @@ import com.luwei.common.util.ReadExcelUtil;
 import com.luwei.model.child.Child;
 import com.luwei.model.child.ChildMapper;
 import com.luwei.model.child.pojo.cms.ChildAddDTO;
+import com.luwei.model.child.pojo.cms.ChildCmsVO;
 import com.luwei.model.child.pojo.cms.ChildQueryDTO;
 import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
-import com.luwei.model.child.pojo.cms.ChildCmsVO;
 import com.luwei.service.school.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,11 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * <p>
- * 服务类
- * </p>
- *
- * @author ffq
+ * @author zzx
  * @since 2018-12-11
  */
 @Service
@@ -40,7 +36,7 @@ import java.util.Set;
 public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
     @Resource
-    SchoolService schoolService;
+    private SchoolService schoolService;
 
     public ChildCmsVO findById(Integer id) {
         Child child = getById(id);
@@ -55,7 +51,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     }
 
     //finish
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ChildCmsVO saveChild(ChildAddDTO childAddDTO) {
         Child child = new Child();
         BeanUtils.copyNonNullProperties(childAddDTO, child);
@@ -70,7 +66,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     }
 
     //finish
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ChildCmsVO updateChild(ChildUpdateDTO childUpdateDTO) {
         Child child = new Child();
         BeanUtils.copyNonNullProperties(childUpdateDTO, child);
@@ -106,13 +102,13 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
                 child.setGender(1);
             } else if ("女".equals(map.get(2))) {
                 child.setGender(2);
-            }else {
+            } else {
                 child.setGender(0);
             }
             child.setSchoolName(map.get(3));
             child.setGrade(map.get(4));
             child.setChildClass(map.get(5));
-            child.setSchoolId(schoolService.findSchoolIdBySchoolname(map.get(3)));
+            child.setSchoolId(schoolService.findSchoolIdBySchoolName(map.get(3)));
 
             LocalDateTime time = LocalDateTime.now();
             child.setUpdateTime(time);

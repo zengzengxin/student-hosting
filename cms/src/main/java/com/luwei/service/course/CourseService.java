@@ -81,7 +81,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param addDTO
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public CourseCmsVO saveCourse(CourseAddDTO addDTO) {
         // 保存课程
         Course course = new Course();
@@ -139,7 +139,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      *
      * @param ids
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteCourses(Set<Integer> ids) {
         // 若用removeByIds,因为删除不存在的逻辑上属于成功,所以也返回true
         int count = baseMapper.deleteBatchIds(ids);
@@ -153,7 +153,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param updateDTO
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public CourseCmsVO updateCourse(CourseUpdateDTO updateDTO) {
         // 修改课程
         Course course = new Course();
@@ -234,7 +234,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param page
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public IPage<CourseCmsVO> findPage(CourseQueryDTO queryDTO, Page<Course> page) {
         Course course = new Course();
         QueryWrapper<Course> wrapper = new QueryWrapper<>(course);

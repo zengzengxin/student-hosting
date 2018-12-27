@@ -19,10 +19,10 @@ import javax.validation.Valid;
 import java.util.Set;
 
 /**
- * @author ffq
+ * @author zzx
  * @since 2018-12-11
  */
-@Api(tags = {"学生模块"})
+@Api(tags = "学生模块")
 @RestController
 @RequestMapping("/api/child")
 public class ChildController {

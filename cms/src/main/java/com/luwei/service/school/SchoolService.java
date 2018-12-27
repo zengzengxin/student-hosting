@@ -10,8 +10,8 @@ import com.luwei.common.util.ReadExcelUtil;
 import com.luwei.model.school.School;
 import com.luwei.model.school.SchoolMapper;
 import com.luwei.model.school.envm.SchoolTypeEnum;
-import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
 import com.luwei.model.school.pojo.cms.SchoolCmsVO;
+import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +25,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- * 服务类
- * </p>
- *
  * @author zzx
  * @since 2018-12-13
  */
@@ -49,26 +45,13 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         return schoolVO;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteSchools(Set<Integer> schoolIds) {
         //removeByIds删除0条也是返回true的，所以需要使用baseMapper
         int count = baseMapper.deleteBatchIds(schoolIds);
         Assert.isTrue(count == schoolIds.size(), MessageCodes.SCHOOL_DELETE_ERROR);
         log.info("删除数据:ids{}", schoolIds);
     }
-
-    /*@Transactional
-    public SchoolVO updateSchool(SchoolUpdateDTO schoolUpdateDTO) {
-        School school = new School();
-        BeanUtils.copyNonNullProperties(schoolUpdateDTO, school);
-
-        school.setUpdateTime(LocalDateTime.now());
-
-        //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
-        Assert.isTrue(updateById(school), MessageCodes.DATA_IS_UPDATE_ERROR);
-        log.info("修改数据：bean:{}", schoolUpdateDTO);
-        return findById(school.getSchoolId());
-    }*/
 
     public IPage<SchoolCmsVO> findSchoolPage(SchoolQueryDTO schoolQueryDTO, Page page) {
         return baseMapper.getSchoolPage(page, schoolQueryDTO);
@@ -79,8 +62,6 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         // QueryWrapper queryWrapper = new QueryWrapper();
         // return baseMapper.selectPage(page,queryWrapper);
     }
-
-
 
     public Boolean readExcelFile(MultipartFile file) {
         String result;
@@ -121,9 +102,8 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         return true;
     }
 
-
-    public Integer findSchoolIdBySchoolname(String schoolname){
-        return  baseMapper.findSchoolIdBySchoolname(schoolname);
+    public Integer findSchoolIdBySchoolName(String schoolName) {
+        return baseMapper.findSchoolIdBySchoolName(schoolName);
     }
 
 }

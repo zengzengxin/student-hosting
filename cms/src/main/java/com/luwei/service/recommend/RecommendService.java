@@ -61,7 +61,7 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
      * @param addDTO
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public RecommendCmsVO saveRecommend(RecommendAddDTO addDTO) {
         Recommend recommend = new Recommend();
         BeanUtils.copyProperties(addDTO, recommend);
@@ -78,7 +78,7 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
      *
      * @param ids
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteRecommends(Set<Integer> ids) {
         // 若用removeByIds,因为删除不存在的逻辑上属于成功,所以也返回true
         int count = baseMapper.deleteBatchIds(ids);
@@ -92,7 +92,7 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
      * @param updateDTO
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public RecommendCmsVO updateRecommend(RecommendUpdateDTO updateDTO) {
         Recommend recommend = new Recommend();
         BeanUtils.copyProperties(updateDTO, recommend);

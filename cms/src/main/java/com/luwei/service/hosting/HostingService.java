@@ -28,10 +28,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- * 服务类
- * </p>
- *
  * @author zzx
  * @since 2018-12-17
  */
@@ -60,7 +56,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     //添加数据（向hosting表 picture表 套餐表）
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public HostingCmsVO saveHosting(HostingAddDTO hostingAddDTO) {
 
         Hosting hosting = new Hosting();
@@ -82,7 +78,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return toHostingVO(hosting).setPictureUrls(urls);//
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void deleteHostings(Set<Integer> hostingIds) {
         //removeByIds删除0条也是返回true的，所以需要使用baseMapper
         int count = baseMapper.deleteBatchIds(hostingIds);
@@ -90,7 +86,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         log.info("删除数据:ids{}", hostingIds);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public HostingCmsVO updateHosting(HostingUpdateDTO hostingUpdateDTO) {
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingUpdateDTO, hosting);
@@ -133,7 +129,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return hostingVO.setPictureUrls(urls);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public HostingCmsVO recommend(@Valid HostingRecommend hostingRecommend) {
         Hosting hosting = getById(hostingRecommend.getHostingId());
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);

@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
- * @author ffq
+ * @author zzx
  * @since 2018-12-05
  */
 @Api(tags = {"公告模块"})

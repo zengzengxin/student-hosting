@@ -20,7 +20,7 @@ public interface SchoolMapper extends BaseMapper<School> {
 
     IPage<SchoolCmsVO> getSchoolPage(@Param("page") Page page, @Param("schoolQueryDTO") SchoolQueryDTO schoolQueryDTO);
 
-    Integer findSchoolIdBySchoolname(@Param("schoolname") String schoolname);
+    Integer findSchoolIdBySchoolName(@Param("schoolName") String schoolName);
 
 
 }

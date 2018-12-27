@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * @author ffq
+ * @author zzx
  * @since 2018-12-11
  */
 @ApiModel(value = "")

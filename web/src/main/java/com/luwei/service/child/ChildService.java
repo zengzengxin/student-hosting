@@ -20,11 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 服务类
- * </p>
- *
- * @author ffq
+ * @author zzx
  * @since 2018-12-11
  */
 @Service
@@ -50,7 +46,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return childVO;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ChildWebVO bindingChild(ChildBindingDTO childBindingDTO) {
         Child child = findChildByStunoAndNameAndSchoolId(childBindingDTO);
 
@@ -70,7 +66,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return toChildVO(child);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ChildWebVO updateChild(ChildEditDTO childUpdateDTO) {
         Child child = new Child();
         BeanUtils.copyNonNullProperties(childUpdateDTO, child);

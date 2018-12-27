@@ -12,11 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
- * @author ffq
+ * @author zzx
  * @since 2018-12-11
  */
 public interface ChildMapper extends BaseMapper<Child> {

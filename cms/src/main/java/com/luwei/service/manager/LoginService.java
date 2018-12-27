@@ -48,7 +48,7 @@ public class LoginService extends ServiceImpl<ManagerMapper, Manager> {
      * @param loginVO
      * @return LoginSuccessVO
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public LoginSuccessVO login(ManagerLoginVO loginVO) {
         //从redis中获得该验证码
         String rightCaptcha = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.captcha(loginVO.getUuid()));

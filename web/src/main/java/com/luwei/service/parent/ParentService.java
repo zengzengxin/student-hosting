@@ -20,11 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * <p>
- * 服务类
- * </p>
- *
- * @author ffq
+ * @author zzx
  * @since 2018-12-12
  */
 @Service
@@ -51,7 +47,7 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
     }
 
     //更新
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ParentWebVO updateParent(ParentEditDTO parentUpdateDTO) {
         Parent parent = new Parent();
         BeanUtils.copyNonNullProperties(parentUpdateDTO, parent);
