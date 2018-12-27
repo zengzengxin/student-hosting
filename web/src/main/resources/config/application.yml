@@ -65,14 +65,20 @@ luwei:
     wx:
       appId: wx286aefff1a6b3c75
       appSecret: a41ea923e49dac2bf1ecd2144d6e8b9b
-    # 微信支付参数
+    # 微信支付相关参数
     pay:
       wechat:
         appid: wx286aefff1a6b3c75
-        mch-id: 1521645131
-        mch-key:
-        device-info:
-        notify-url: http://student-hosting-web.t.haikevr.com/api/module/pay/wechat/notify
+        mchId: 1521645131
+        mchKey: asdjfdsafwa933fsfafk03irkokfpivk
+        notifyUrl: http://student-hosting-web.t.haikevr.com/api/module/pay/wechat/notify
+        deviceInfo:
+
+wechat:
+  mchId: 1521645131
+  spbillCreateIp: 127.0.0.1
+  mchKey: asdjfdsafwa933fsfafk03irkokfpivk
+
 
 # swagger开关/默认打开
 swagger:

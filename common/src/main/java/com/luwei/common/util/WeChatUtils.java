@@ -468,13 +468,20 @@ public class WeChatUtils {
         wechatPayApply.setAttch(attach);
         wechatPayApply.setOutTradeNo(outTradeNo);
         wechatPayApply.setTotalFee(totalFee);
+        //
+        wechatPayApply.setTotalFee("1");
         wechatPayApply.setTradeType(tradeType);
         wechatPayApply.setNotifyUrl(notifyUrl);
         wechatPayApply.setAppId(appId);
         wechatPayApply.setMchId(mchId);
         wechatPayApply.setNonceStr(getNonceStr());
+        //
+        // wechatPayApply.setNonceStr("1835045380");
         wechatPayApply.setSpbillCreateIp(spbillCreateIp);
+        //
         wechatPayApply.setSign(getWeixinPaySign(wechatPayApply));
+
+        // wechatPayApply.setSign("C19BE132AF057DB308876595E8C71242");
 
         String xml = "<xml>"
                 + "<appid>" + wechatPayApply.getAppId() + "</appid>"
@@ -551,12 +558,15 @@ public class WeChatUtils {
         packageParams.put("appid", weixinPayApply.getAppId());
         packageParams.put("mch_id", weixinPayApply.getMchId());
 
+        logger.info("======================================: {}", packageParams.toString());
+
         //使用URL键值对的格式（即key1=value1&key2=value2…）拼接成字符串stringA
         String stringA = mapMontageAsString(packageParams);
 
         //在stringA最后拼接上key得到stringSignTemp字符串
         String stringSignTemp = stringA + "&key=" + mchKey;
 
+        logger.info("=================================:{}", stringSignTemp);
         //对stringSignTemp进行MD5运算，再将得到的字符串所有字符转换为大写
         return MD5Digest(stringSignTemp).toUpperCase();
     }
