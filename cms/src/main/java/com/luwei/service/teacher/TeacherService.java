@@ -129,6 +129,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
             teacher.setSchoolName(map.get(2));
             teacher.setGrade(map.get(3));
             teacher.setTeacherClass(map.get(4));
+            teacher.setSchoolId(UserHelper.getUserId());
             LocalDateTime time = LocalDateTime.now();
             teacher.setUpdateTime(time);
             teacher.setCreateTime(time);

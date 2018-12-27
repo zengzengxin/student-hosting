@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
 @ApiModel(value = "公告")
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 public class NoticeQueryDTO {
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
