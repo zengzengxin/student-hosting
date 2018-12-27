@@ -6,8 +6,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.exception.ValidationException;
+import com.luwei.common.property.WechatPayPackage;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.common.util.OrderIdUtils;
+import com.luwei.common.util.WeChatUtils;
 import com.luwei.model.child.Child;
 import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.course.Course;
@@ -17,6 +20,7 @@ import com.luwei.model.order.Order;
 import com.luwei.model.order.OrderMapper;
 import com.luwei.model.order.envm.OrderStatusEnum;
 import com.luwei.model.order.envm.OrderTypeEnum;
+import com.luwei.model.order.envm.PaymentEnum;
 import com.luwei.model.order.pojo.cms.OrderCmsVO;
 import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
 import com.luwei.model.order.pojo.web.HostingOrderDTO;
@@ -33,6 +37,7 @@ import com.luwei.service.hosting.HostingService;
 import com.luwei.service.parent.ParentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -45,6 +50,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -70,6 +76,12 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
 
     @Resource
     private HostingService hostingService;
+
+    @Resource
+    private WeChatUtils weChatUtils;
+
+    @Value("${luwei.module.pay.wechat.notify-url}")
+    private String notifyUrl;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -185,7 +197,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
      * @param endTime
      * @return
      */
-    public static long getDays(LocalDateTime startTime, LocalDateTime endTime) {
+    public long getDays(LocalDateTime startTime, LocalDateTime endTime) {
 
         // 方式一
         class MyCount {
@@ -243,8 +255,6 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
 
         return workDays;*/
     }
-
-
 
     /*
      *
@@ -395,9 +405,20 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         return order;
     }
 
-    public OrderCmsVO payForOrder(PayForOrderDTO addDTO) {
+    public WechatPayPackage payForOrder(PayForOrderDTO addDTO) {
 
-        return null;
+        Integer userId = UserHelper.getUserId();
+        Parent parent = parentService.getById(userId);
+        Assert.notNull(parent, MessageCodes.PARENT_IS_NOT_EXIST);
+
+        Order order = findById(addDTO.getOrderId());
+
+        //生成预支付信息
+        System.out.println(notifyUrl);
+        return weChatUtils.getWechatPayPackage(
+                parent.getOpenId(), "hosting-order-pay", "hosting-order-pay", order.getOrderId(),
+                String.valueOf(order.getPrice()), "JSAPI", notifyUrl);
+
     }
 
     /**
@@ -408,19 +429,30 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void notify(WXNotifyResultVo wxNotifyResultVo) {
-        log.info("支付成功，调用支付成功后的业务逻辑");
+        log.info("WXNotifyResultVO: {}", wxNotifyResultVo.toString());
+        log.info("==========支付成功，调用支付成功后的业务逻辑============");
         Order order = findById(wxNotifyResultVo.getOutTradeNo());
         if (order.getOrderStatus() == OrderStatusEnum.PAID) {
             return;
         }
         // 判断金额是否一致
-        // if (order.getPrice() != )
-
+        String totalFee = wxNotifyResultVo.getTotalFee();
+        BigDecimal dgTotalFee = new BigDecimal("1");// 测试,支付1分钱
+        if (order.getPrice().compareTo(dgTotalFee) != 0) {
+            throw new ValidationException(MessageCodes.ORDER_PAY_AMOUNT_ERROR);
+        }
         // 修改当前订单状态
         order.setPayTime(LocalDateTime.now());
         order.setOrderStatus(OrderStatusEnum.PAID);
+        order.setPayment(PaymentEnum.WECHAT);
+        order.setTransactionId(wxNotifyResultVo.getTransactionId());
         Assert.isTrue(updateById(order), MessageCodes.ORDER_STATUS_UPDATE_ERROR);
         log.info("订单编号: {} 修改状态为已支付", order.getOrderId());
+    }
+
+    public static void main(String[] args) {
+        System.out.println(UUID.randomUUID());
+        // 315811ea13654888a1b7297bcd17347d
     }
 
 }

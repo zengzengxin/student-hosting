@@ -2,6 +2,7 @@ package com.luwei.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.luwei.common.property.WechatPayPackage;
 import com.luwei.model.order.Order;
 import com.luwei.model.order.pojo.cms.OrderCmsVO;
 import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
@@ -39,7 +40,7 @@ public class OrderController {
 
     @PostMapping("/payFor")
     @ApiOperation("立即支付")
-    public OrderCmsVO payForOrder(@RequestBody @Valid PayForOrderDTO orderDTO) {
+    public WechatPayPackage payForOrder(@RequestBody @Valid PayForOrderDTO orderDTO) {
         return orderService.payForOrder(orderDTO);
     }
 
@@ -61,19 +62,17 @@ public class OrderController {
         return orderService.findPage(queryDTO, page);
     }
 
-    //创建托管订单
     @PostMapping("/hostingConfirm")
     @ApiOperation("确认下单/立即购买（托管）")
     public OrderCmsVO confirmHostingOrder(@RequestBody @Valid HostingOrderDTO hostingOrderDTO) {
         return orderService.hostingOrder(hostingOrderDTO);
     }
 
-    //创建托管订单
     @PostMapping("/countMoney")
     @ApiOperation("计算托管价格")
-    public int countMoney(LocalDateTime startTime, LocalDateTime endTime,int price) {
-        long days =  orderService.getDays(startTime,endTime);
-        return (int)(days*price);
+    public int countMoney(LocalDateTime startTime, LocalDateTime endTime, int price) {
+        long days = orderService.getDays(startTime, endTime);
+        return (int) (days * price);
 
     }
 

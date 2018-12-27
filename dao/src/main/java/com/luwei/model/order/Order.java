@@ -86,6 +86,9 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "支付时间")
     private LocalDateTime payTime;
 
+    @ApiModelProperty(value = "微信支付订单号")
+    private String transactionId;
+
     @ApiModelProperty(value = "订单类型 0-课程 1-托管 2-餐品")
     private OrderTypeEnum orderType;
 

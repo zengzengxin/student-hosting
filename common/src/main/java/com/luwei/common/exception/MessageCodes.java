@@ -105,8 +105,8 @@ public interface MessageCodes {
     String HOSTING_IS_UPDATE_ERROR = "hosting.is.update.error";//托管班保存失败
 
     //推荐相关
-    String RECOMMEND_IS_NOT_EXIST = "recomment.is.not.exist";//推荐不存在
-    String RECOMEND_WEIGHT_UPDATE_ERROR = "recomment.weight.update.exist";//推荐不存在
+    String RECOMMEND_IS_NOT_EXIST = "recommend.is.not.exist";//推荐不存在
+    String RECOMMEND_WEIGHT_UPDATE_ERROR = "recommend.weight.update.exist";//推荐不存在
 
     //推荐服务相关
     String RECOMMEND_DELETE_ERROR = "recommend.delete.error";//推荐删除失败
@@ -116,4 +116,5 @@ public interface MessageCodes {
     String COURSE_PACKAGE_IS_DISPLAY = "course.package.is.display";//课程套餐已上架不可修改
     String MINIUSER_IS_NOT_EXIST = "miniuser.is.not.exist";//小程序用户不存在
 
+    String ORDER_PAY_AMOUNT_ERROR = "order.pay.amount.error";//订单支付金额不一致
 }
