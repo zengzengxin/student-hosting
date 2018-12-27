@@ -45,6 +45,10 @@ public class TeacherUpdateDTO implements Serializable {
     @NotBlank(message = "老师所在学校不能为空")
     private String schoolName;
 
+    @ApiModelProperty(value = "学校的id")
+    @NotNull(message = "schoolId不能为空")
+    private Integer schoolId;
+
     @ApiModelProperty(value = "任课年级")
     @NotBlank(message = "任课年级不能为空")
     private String grade;
