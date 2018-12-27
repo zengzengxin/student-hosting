@@ -90,6 +90,7 @@ public interface MessageCodes {
     String ORDER_TIME_ERROR = "order.time.error";//订单的时间错误
     String ORDER_CHILD_ERROR = "order.child.error";//孩子不是该家长的孩子
     String ORDER_STATUS_UPDATE_ERROR = "order.status.update.error";//订单状态更新失败
+    String DATE_IS_TO_LONG = "data.is.to.long";//所选日期过长
 
     //WeChat相关
     String WECHAT_AUTHORIZE_FAIL = "wechat.authorize.fail";//微信授权失败;

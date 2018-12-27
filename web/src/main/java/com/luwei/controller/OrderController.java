@@ -62,17 +62,19 @@ public class OrderController {
         return orderService.findPage(queryDTO, page);
     }
 
+    //创建托管订单
     @PostMapping("/hostingConfirm")
     @ApiOperation("确认下单/立即购买（托管）")
     public OrderCmsVO confirmHostingOrder(@RequestBody @Valid HostingOrderDTO hostingOrderDTO) {
         return orderService.hostingOrder(hostingOrderDTO);
     }
 
-    @PostMapping("/countMoney")
+    //创建托管订单
+    @GetMapping("/countMoney")
     @ApiOperation("计算托管价格")
-    public int countMoney(LocalDateTime startTime, LocalDateTime endTime, int price) {
-        long days = orderService.getDays(startTime, endTime);
-        return (int) (days * price);
+    public int countMoney(@RequestParam("startTime") LocalDateTime startTime, @RequestParam("endTime") LocalDateTime endTime,@RequestParam("price") int price) {
+        long days =  orderService.getDays(startTime,endTime);
+        return (int)(days*price);
 
     }
 

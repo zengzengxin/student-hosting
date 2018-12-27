@@ -207,6 +207,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         LocalDate startDate = startTime.toLocalDate();
         LocalDate endDate = endTime.toLocalDate();
         long distance = ChronoUnit.DAYS.between(startDate, endDate);
+        if(distance>1000){
+            Assert.isTrue(false, MessageCodes.DATE_IS_TO_LONG);
+        }
         if (distance < 0) {
             return 0;
         }
