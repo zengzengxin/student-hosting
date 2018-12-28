@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -117,6 +118,18 @@ public class GlobalControllerExceptionHandler {
     public Result handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
         logger.error("", e);
         String eMessage = e.getMessage();
+        return new Result(MessageCodes.REQUEST_ARGUMENT, StringUtils.isEmpty(eMessage) ? "请求参数缺失" : eMessage);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BindException.class)
+    public Result handleRequestBindException(BindException e) {
+        logger.error("error: {}", e);
+        StringBuffer eMessageBuf = new StringBuffer();
+        e.getBindingResult().getAllErrors().forEach(error -> {
+            eMessageBuf.append(error.getDefaultMessage()).append(" ");
+        });
+        String eMessage = eMessageBuf.toString();
         return new Result(MessageCodes.REQUEST_ARGUMENT, StringUtils.isEmpty(eMessage) ? "请求参数缺失" : eMessage);
     }
 
