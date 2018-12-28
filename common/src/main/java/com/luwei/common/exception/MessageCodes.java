@@ -112,8 +112,8 @@ public interface MessageCodes {
     //推荐服务相关
     String RECOMMEND_DELETE_ERROR = "recommend.delete.error";//推荐删除失败
 
-    String ROOT_CANNOT_DISABLED = "";
-    String ROOT_CANNOT_DELETE = "";
+    String ROOT_CANNOT_DISABLED = "root.cannot.disabled";//超管不可禁用
+    String ROOT_CANNOT_DELETE = "root.cannot.delete";//超管不可删除
     String COURSE_PACKAGE_IS_DISPLAY = "course.package.is.display";//课程套餐已上架不可修改
     String MINIUSER_IS_NOT_EXIST = "miniuser.is.not.exist";//小程序用户不存在
 
