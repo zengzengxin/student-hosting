@@ -1,5 +1,6 @@
 package com.luwei.service.course;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -141,6 +142,12 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         int count = baseMapper.deleteBatchIds(ids);
         Assert.isTrue(count == ids.size(), MessageCodes.COURSE_DELETE_ERROR);
         log.info("删除数据: id {}", ids);
+
+        // 删除推荐表数据
+        for (Integer id : ids) {
+            recommendService.realDeleteByServiceIdAndServiceType(id, ServiceTypeEnum.COURSE.getValue());
+        }
+        log.info("删除推荐表中课程ID为: {} 的数据", ids);
     }
 
     /**
@@ -174,6 +181,14 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             pictureService.savePicture(url, courseId, PictureTypeEnum.COURSE);
         }
         log.info("修改数据: bean {}", updateDTO);
+
+        // 删除推荐表对应数据
+        recommendService.realDeleteByServiceIdAndServiceType(courseId, ServiceTypeEnum.COURSE.getValue());
+        // 推荐表
+        CourseRecommend courseRecommend = new CourseRecommend();
+        courseRecommend.setCourseId(courseId).setRecommend(true);
+        recommend(courseRecommend);
+
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
@@ -228,11 +243,11 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      */
     @Transactional(rollbackFor = Exception.class)
     public IPage<CourseCmsVO> findPage(CourseQueryDTO queryDTO, Page<Course> page) {
-        Course course = new Course();
-        QueryWrapper<Course> wrapper = new QueryWrapper<>(course);
-        wrapper.orderByDesc("recommend");
+        LambdaQueryWrapper<Course> wrapper = new QueryWrapper<Course>().lambda();
+        // noinspection unchecked
+        wrapper.orderByDesc(Course::getRecommend);
         if (queryDTO.getCourseName() != null && !queryDTO.getCourseName().equals("")) {
-            wrapper.like("course_name", queryDTO.getCourseName());
+            wrapper.like(Course::getCourseName, queryDTO.getCourseName());
         }
         IPage<CourseCmsVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toCourseVO);
         List<CourseCmsVO> list = iPage.getRecords();
