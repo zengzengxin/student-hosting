@@ -79,6 +79,9 @@ public class OrderCmsVO implements Serializable {
     @ApiModelProperty(value = "下单用户名称")
     private String parentName;
 
+    @ApiModelProperty(value = "下单用户昵称")
+    private String nickName;
+
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "下单时间")
     private LocalDateTime createTime;
