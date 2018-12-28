@@ -22,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -144,7 +143,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public HostingCmsVO recommend(@Valid HostingRecommend hostingRecommend) {
+    public HostingCmsVO recommend( HostingRecommend hostingRecommend) {
         Hosting hosting = getById(hostingRecommend.getHostingId());
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         if (hostingRecommend.getRecommend()) {
@@ -174,6 +173,21 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         boolean success = recommendService.realDeleteByServiceIdAndServiceType(hosting.getHostingId(), 1);
         Assert.isTrue(success, MessageCodes.RECOMMEND_DELETE_ERROR);
 
+        return toHostingVO(hosting);
+    }
+
+
+    //上下架
+    public HostingCmsVO display( HostingDisplay hostingDisplay) {
+        Hosting hosting = getById(hostingDisplay.getHostingId());
+        Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
+        if (hostingDisplay.getDisplay()) {
+            hosting.setDisplay(true);
+            Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
+        }else {
+            hosting.setDisplay(false);
+            Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
+        }
         return toHostingVO(hosting);
     }
 }

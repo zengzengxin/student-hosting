@@ -65,9 +65,6 @@ public class CourseUpdateDTO implements Serializable {
     @ApiModelProperty(value = "学校名称")
     private String schoolName;
 
-    @NotNull(message = "上架到公众号不能为空")
-    @ApiModelProperty(value = "上架到公众号")
-    private Boolean display;
 
     @NotEmpty(message = "课程套餐列表不能为空")
     @ApiModelProperty(value = "课程套餐列表")

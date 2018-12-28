@@ -300,4 +300,18 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
         return toCourseVO(course);
     }
+
+    //上下架
+    public CourseCmsVO display(CourseDisplay courseDisplay) {
+        Course course = getById(courseDisplay.getCourseId());
+        Assert.notNull(course, MessageCodes.COURSE_IS_NOT_EXIST);
+        if (courseDisplay.getDisplay()) {
+            course.setDisplay(true);
+            Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
+        }else {
+            course.setDisplay(false);
+            Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
+        }
+        return toCourseVO(course);
+    }
 }

@@ -70,13 +70,6 @@ public class HostingUpdateDTO implements Serializable {
     @NotBlank(message = "学校名称不能为空")
     private String schoolName;
 
-    @ApiModelProperty(value = "上架到公众号")
-    @NotNull(message = "上架到公众号不能为空")
-    private Boolean display;
-
-    @ApiModelProperty(value = "是否设为推荐(默认为0)")
-    @NotNull(message = "是否设为推荐(默认为0)不能为空")
-    private Boolean recommend;
 
     @NotEmpty(message = "托管图片不能为空")
     @Size(min = 1, max = 3, message = "托管图片最少1张，最多3张")
