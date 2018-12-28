@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.banner.Banner;
 import com.luwei.model.banner.BannerMapper;
-import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
+import com.luwei.model.banner.pojo.web.BannerQuery;
 import com.luwei.model.banner.pojo.web.BannerWebVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -36,13 +36,13 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
     /**
      * 分页获取Banner
      *
-     * @param queryDTO
+     * @param bannerQuery
      * @param page
      * @return
      */
-    public IPage<BannerWebVO> findPage(BannerQueryDTO queryDTO, Page<Banner> page) {
+    public IPage<BannerWebVO> findPage(BannerQuery bannerQuery, Page<Banner> page) {
         return ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Banner>().lambda()
-                .eq(Banner::getBannerType, queryDTO.getBannerType())
+                .eq(Banner::getBannerType, bannerQuery.getBannerType())
                 .eq(Banner::getDisplay, true)
         ), this::toBannerWebVO);
     }
