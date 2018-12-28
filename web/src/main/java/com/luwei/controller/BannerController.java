@@ -3,7 +3,7 @@ package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.model.banner.Banner;
-import com.luwei.model.banner.pojo.cms.BannerQueryDTO;
+import com.luwei.model.banner.pojo.web.BannerQuery;
 import com.luwei.model.banner.pojo.web.BannerWebVO;
 import com.luwei.service.banner.BannerService;
 import io.swagger.annotations.Api;
@@ -30,8 +30,8 @@ public class BannerController {
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    public IPage<BannerWebVO> page(@ModelAttribute @Valid BannerQueryDTO bannerQueryDTO, Page<Banner> page) {
-        return bannerService.findPage(bannerQueryDTO, page);
+    public IPage<BannerWebVO> page(@ModelAttribute @Valid BannerQuery bannerQuery, Page<Banner> page) {
+        return bannerService.findPage(bannerQuery, page);
     }
 
 }
