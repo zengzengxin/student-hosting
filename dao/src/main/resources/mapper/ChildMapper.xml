@@ -38,7 +38,7 @@
     <select id="findPage" parameterType="com.luwei.model.child.pojo.cms.ChildQueryDTO" resultType="com.luwei.model.child.pojo.cms.ChildCmsVO">
         SELECT * from tb_child
         <where>
-            deleted=0
+            deleted=0 AND school_id = #{schoolId}
             <if test="childQueryDTO.name!=null">
                 and name = #{childQueryDTO.name}
             </if>

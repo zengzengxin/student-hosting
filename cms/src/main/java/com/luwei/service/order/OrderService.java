@@ -17,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -109,8 +110,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      */
     public IPage<OrderCmsVO> findPage(OrderQueryDTO queryDTO, Page<Order> page) {
         LambdaQueryWrapper<Order> wrapper = new QueryWrapper<Order>().lambda();
-
-        if (queryDTO.getServiceName() != null && !queryDTO.getServiceName().equals("")) {
+        if (!ObjectUtils.isEmpty(queryDTO.getServiceName())) {
             wrapper.like(Order::getServiceName, queryDTO.getServiceName());
         }
         wrapper.eq(Order::getOrderType, queryDTO.getOrderType());

@@ -11,9 +11,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.Set;
 
@@ -25,7 +25,8 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/hosting")
 public class HostingController {
-    @Autowired
+
+    @Resource
     private HostingService hostingService;
 
     @PostMapping
@@ -50,10 +51,9 @@ public class HostingController {
 
     }
 
-
     @GetMapping("page")
     @ApiOperation("分页")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN,RoleConstant.ROOT})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN, RoleConstant.ROOT})
     public IPage<HostingCmsVO> page(@ModelAttribute HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
         return hostingService.findHostingPage(hostingQueryDTO, page);
     }
@@ -65,12 +65,12 @@ public class HostingController {
         return hostingService.recommend(recommend);
     }
 
-
     @PutMapping("/display")
     @ApiOperation("上下架")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
     public HostingCmsVO display(@RequestBody @Valid HostingDisplay hostingDisplay) {
         return hostingService.display(hostingDisplay);
     }
+
 }
 

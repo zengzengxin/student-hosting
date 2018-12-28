@@ -12,6 +12,9 @@ import com.luwei.model.child.pojo.cms.ChildAddDTO;
 import com.luwei.model.child.pojo.cms.ChildCmsVO;
 import com.luwei.model.child.pojo.cms.ChildQueryDTO;
 import com.luwei.model.child.pojo.cms.ChildUpdateDTO;
+import com.luwei.model.manager.Manager;
+import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.manager.ManagerService;
 import com.luwei.service.school.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,9 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
     @Resource
     private SchoolService schoolService;
+
+    @Resource
+    private ManagerService managerService;
 
     public ChildCmsVO findById(Integer id) {
         Child child = getById(id);
@@ -79,14 +85,16 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return findById(child.getChildId());
     }
 
-    public void deleteChilds(Set<Integer> ids) {
+    public void deleteChildren(Set<Integer> ids) {
         int count = baseMapper.deleteBatchIds(ids);
         Assert.isTrue(count == ids.size(), MessageCodes.CHILD_DELETE_ERROR);
         log.info("删除数据:ids{}", ids);
     }
 
     public IPage<ChildCmsVO> findPage(Page<Child> page, @Valid ChildQueryDTO childQueryDTO) {
-        return baseMapper.findPage(page, childQueryDTO);
+        Manager manager = managerService.getById(UserHelper.getUserId());
+        Integer schoolId = manager.getSchoolId();
+        return baseMapper.findPage(page, childQueryDTO, schoolId);
     }
 
     public void importExcel(MultipartFile file) {

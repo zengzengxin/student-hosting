@@ -9,6 +9,7 @@
         <result column="content" property="content"/>
         <result column="tittle" property="title"/>
         <result column="summary" property="summary"/>
+        <result column="type" property="type"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
@@ -19,18 +20,20 @@
         notice_id, display, ncontent, title, summary, create_time, update_time, deleted
     </sql>
 
-
-
-    <select id="getNoticePage" resultType="com.luwei.model.notice.pojo.cms.NoticeCmsVO" parameterType="com.luwei.model.notice.pojo.cms.NoticeQueryDTO">
+    <select id="getNoticePage" resultType="com.luwei.model.notice.pojo.cms.NoticeCmsVO"
+            parameterType="com.luwei.model.notice.pojo.cms.NoticeQueryDTO">
         select *
         From tb_notice
         <where>
             deleted=0
+            <if test="type!=null">
+                and type = #{type}
+            </if>
             <if test="noticePageDTO.startTime!=null">
                 and create_time &gt;= #{noticePageDTO.startTime}
             </if>
             <if test="noticePageDTO.endTime!=null">
-               and create_time &lt;= #{noticePageDTO.endTime}
+                and create_time &lt;= #{noticePageDTO.endTime}
             </if>
             <if test="noticePageDTO.title!=null">
                 and title like '%${noticePageDTO.title}%'
@@ -40,6 +43,5 @@
             </if>
         </where>
     </select>
-
 
 </mapper>

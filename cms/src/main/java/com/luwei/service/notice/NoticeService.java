@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
-import com.luwei.common.util.BeanUtils;
 import com.luwei.model.manager.Manager;
 import com.luwei.model.notice.Notice;
 import com.luwei.model.notice.NoticeMapper;
@@ -16,6 +15,7 @@ import com.luwei.model.notice.pojo.cms.NoticeUpdateDTO;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.manager.ManagerService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -37,14 +37,15 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
     @Transactional(rollbackFor = Exception.class)
     public NoticeCmsVO saveNotice(NoticeAddDTO noticeAddDTO) {
 
+        Notice notice = new Notice();
+        BeanUtils.copyProperties(noticeAddDTO, notice);
+
+        // 公告类型
         Manager manager = managerService.getById(UserHelper.getUserId());
         RoleEnum role = manager.getRole();
-
-        Notice notice = new Notice();
-        BeanUtils.copyNonNullProperties(noticeAddDTO, notice);
         notice.setType(role.getValue());
 
-        //添加一些没有的参数
+        // 添加一些没有的参数
         notice.setCreateTime(LocalDateTime.now());
         notice.setUpdateTime(LocalDateTime.now());
         boolean flag = saveOrUpdate(notice);
@@ -55,17 +56,16 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
     private NoticeCmsVO toNoticeVO(Notice notice) {
         NoticeCmsVO noticeVO = new NoticeCmsVO();
-        BeanUtils.copyNonNullProperties(notice, noticeVO);
+        BeanUtils.copyProperties(notice, noticeVO);
         return noticeVO;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public NoticeCmsVO updateNotice(NoticeUpdateDTO noticeUpdateDTO) {
         Notice notice = new Notice();
-        BeanUtils.copyNonNullProperties(noticeUpdateDTO, notice);
+        BeanUtils.copyProperties(noticeUpdateDTO, notice);
         //添加一些没有的参数
         notice.setUpdateTime(LocalDateTime.now());
-        // saveOrUpdate(notice);
         Boolean flag = updateById(notice);
         Assert.isTrue(flag, MessageCodes.NOTICE_UPDATE_ERROR);
         log.info("----更新一条公告----");
@@ -80,7 +80,11 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
     }
 
     public IPage<NoticeCmsVO> getNoticePage(Page<Notice> page, NoticeQueryDTO noticePageDTO) {
-        return baseMapper.getNoticePage(page, noticePageDTO);
+        Integer type = managerService.getById(UserHelper.getUserId()).getRole().getValue();
+        if (type == 0) {
+            type = null;
+        }
+        return baseMapper.getNoticePage(page, noticePageDTO, type);
     }
 
 }
