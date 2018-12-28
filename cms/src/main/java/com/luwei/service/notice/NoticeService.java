@@ -3,19 +3,24 @@ package com.luwei.service.notice;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
+import com.luwei.model.manager.Manager;
 import com.luwei.model.notice.Notice;
 import com.luwei.model.notice.NoticeMapper;
 import com.luwei.model.notice.pojo.cms.NoticeAddDTO;
 import com.luwei.model.notice.pojo.cms.NoticeCmsVO;
 import com.luwei.model.notice.pojo.cms.NoticeQueryDTO;
 import com.luwei.model.notice.pojo.cms.NoticeUpdateDTO;
+import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.manager.ManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
@@ -26,10 +31,18 @@ import java.time.LocalDateTime;
 @Service
 public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
+    @Resource
+    private ManagerService managerService;
+
     @Transactional(rollbackFor = Exception.class)
     public NoticeCmsVO saveNotice(NoticeAddDTO noticeAddDTO) {
+
+        Manager manager = managerService.getById(UserHelper.getUserId());
+        RoleEnum role = manager.getRole();
+
         Notice notice = new Notice();
         BeanUtils.copyNonNullProperties(noticeAddDTO, notice);
+        notice.setType(role.getValue());
 
         //添加一些没有的参数
         notice.setCreateTime(LocalDateTime.now());

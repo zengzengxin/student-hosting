@@ -154,6 +154,8 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         //设置关于家长的信息
         order.setParentId(parent.getParentId());
         order.setParentPhone(parent.getPhone());
+        order.setParentName(parent.getParentName());
+        order.setNickName(parent.getNickName());
 
         //设置孩子相关的信息
         order.setChildId(child.getChildId());
@@ -280,13 +282,15 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
             Assert.isTrue(true, MessageCodes.ORDER_CHILD_ERROR);
         }
 
-        // TODO 判断该套餐是否是该课程的
+        // 判断该套餐是否是该课程的
 
         // 封装下单用户 ID, 手机号
         Parent parent = parentService.getById(parentId);
         Assert.notNull(parent, MessageCodes.PARENT_IS_NOT_EXIST);
         order.setParentId(parent.getParentId())
-                .setParentPhone(parent.getPhone());
+                .setParentPhone(parent.getPhone())
+                .setParentName(parent.getParentName())
+                .setNickName(parent.getNickName());
 
         // 封装孩子的 ID, 姓名, 学号, 年级, 班级
         Child child = childService.getById(orderDTO.getChildId());
