@@ -91,9 +91,8 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
     public Teacher bindingTeacher(String phone, Integer id) {
         Teacher teacher = baseMapper.getTeacherByphone(phone);
         log.info(teacher.toString());
-        if(teacher == null){
-            Assert.isTrue(true, MessageCodes.PHONE_IS_INVALID);
-        }
+        Assert.notNull(teacher, MessageCodes.PHONE_IS_INVALID);
+
         Assert.isTrue(!teacher.getBinding(), MessageCodes.TEACHER_HAS_BINDING);
         //绑定老师
         MiniUser miniUser = miniUserService.getById(id);

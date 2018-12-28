@@ -31,7 +31,7 @@ public class WeChatService {
     @Resource
     private WxProperties wxProperties;
 
-    public String addMinuuser(Map<String, Object> map) {
+    public String  addMinuuser(Map<String, Object> map) {
         log.info(map.toString());
 
         MiniUser miniUser;
