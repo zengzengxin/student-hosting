@@ -1,5 +1,6 @@
 package com.luwei.service.hosting;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -84,6 +85,10 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         int count = baseMapper.deleteBatchIds(hostingIds);
         Assert.isTrue(count == hostingIds.size(), MessageCodes.HOSTING_DELETE_ERROR);
         log.info("删除数据:ids{}", hostingIds);
+        //删除推荐表中的数据
+        for (Integer id :hostingIds) {
+            recommendService.realDeleteByServiceIdAndServiceType(id, ServiceTypeEnum.HOSTING.getValue());
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -106,14 +111,23 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         }
 
         log.info("修改数据：bean:{}", hostingUpdateDTO);
+
+        //删除推荐表中的数据
+        recommendService.realDeleteByServiceIdAndServiceType(hostingId,ServiceTypeEnum.HOSTING.getValue());
+        //重新插入推荐表
+        HostingRecommend hostingRecommend = new HostingRecommend();
+        hostingRecommend.setHostingId(hostingId);
+        hostingRecommend.setRecommend(true);
+        recommend(hostingRecommend);
+
         return findById(hosting.getHostingId()).setPictureUrls(pictureService.findAllByForeignKeyId(hosting.getHostingId(),PictureTypeEnum.HOSTING.getValue()));
     }
 
     public IPage<HostingCmsVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
-        Hosting hosting = new Hosting();
-        QueryWrapper<Hosting> wrapper = new QueryWrapper<>(hosting);
+        LambdaQueryWrapper<Hosting> wrapper = new QueryWrapper<Hosting>().lambda();
+        wrapper.orderByDesc(Hosting::getRecommend);
         if (hostingQueryDTO.getName() != null && !hostingQueryDTO.getName().equals("")) {
-            wrapper.lambda().like(Hosting::getName, hostingQueryDTO.getName());
+            wrapper.like(Hosting::getName, hostingQueryDTO.getName());
         }
         IPage<HostingCmsVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toHostingVO);
         List<HostingCmsVO> list = iPage.getRecords();
