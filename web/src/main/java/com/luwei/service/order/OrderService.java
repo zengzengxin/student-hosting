@@ -446,12 +446,20 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         if (order.getOrderStatus() == OrderStatusEnum.PAID) {
             return;
         }
+        log.info("========{}", wxNotifyResultVo.getOpenid());
+        log.info("========{}", wxNotifyResultVo.getTradeType());
+        log.info("========{}", wxNotifyResultVo.getBankType());
+        log.info("========{}", wxNotifyResultVo.getTotalFee());
+        log.info("========{}", wxNotifyResultVo.getTransactionId());
+        log.info("========{}", wxNotifyResultVo.getOutTradeNo());
+        log.info("========{}", wxNotifyResultVo.getAttach());
+        log.info("========{}", wxNotifyResultVo.getTimeEnd());
         // 判断金额是否一致
         String totalFee = wxNotifyResultVo.getTotalFee();
         BigDecimal dgTotalFee = new BigDecimal("1");// 测试,支付1分钱
-        if (order.getPrice().compareTo(dgTotalFee) != 0) {
-            throw new ValidationException(MessageCodes.ORDER_PAY_AMOUNT_ERROR);
-        }
+        // if (order.getPrice().compareTo(dgTotalFee) != 0) {
+        //     throw new ValidationException(MessageCodes.ORDER_PAY_AMOUNT_ERROR);
+        // }
         // 修改当前订单状态
         order.setPayTime(LocalDateTime.now());
         order.setOrderStatus(OrderStatusEnum.PAID);
