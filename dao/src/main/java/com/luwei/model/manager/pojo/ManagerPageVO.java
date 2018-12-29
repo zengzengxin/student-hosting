@@ -24,6 +24,12 @@ public class ManagerPageVO {
     @ApiModelProperty("名称")
     private String name;
 
+    @ApiModelProperty("学校ID")
+    private Integer schoolId;
+
+    @ApiModelProperty("学校名称")
+    private String schoolName;
+
     @ApiModelProperty("admin：普通管理员，root：超级管理员,operator 运营人员")
     private RoleEnum role;
 

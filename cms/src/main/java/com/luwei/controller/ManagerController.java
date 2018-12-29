@@ -73,4 +73,11 @@ public class ManagerController {
         return managerService.handleDisabled(managerStateVO, RoleEnum.ADMIN);
     }
 
+    @PutMapping("/school")
+    @ApiOperation("绑定学校")
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
+    public ManagerPageVO bindingSchool(@RequestBody @Valid ManagerBindingSchool bindingSchool) {
+        return managerService.bindingSchool(bindingSchool);
+    }
+
 }

@@ -47,6 +47,9 @@ public class Manager implements Serializable {
     @ApiModelProperty(value = "绑定学校ID")
     private Integer schoolId;
 
+    @ApiModelProperty(value = "学校名称")
+    private String schoolName;
+
     @ApiModelProperty(value = "最后登录时间")
     private LocalDateTime lastLoginTime;
 

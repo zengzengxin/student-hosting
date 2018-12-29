@@ -11,7 +11,9 @@ import com.luwei.common.util.BcryptUtil;
 import com.luwei.model.manager.Manager;
 import com.luwei.model.manager.ManagerMapper;
 import com.luwei.model.manager.pojo.*;
+import com.luwei.model.school.School;
 import com.luwei.module.shiro.service.ShiroTokenService;
+import com.luwei.service.school.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +37,9 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
 
     @Resource
     private ShiroTokenService shiroTokenService;
+
+    @Resource
+    private SchoolService schoolService;
 
     @Value("${luwei.config.salt}")
     private String salt;
@@ -184,31 +189,16 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         return toManagerPageVO(manager);
     }
 
-    /**
-     * 修改管理员名称和密码
-     *
-     * @param vo
-     * @return
-     *//*
-    public ManagerPageVO editPassword(ManagerEditPasswordVO vo, RoleEnum roleEnum) {
-        Manager manager = managerDao.findById(vo.getManagerId()).orElse(null);
+    @Transactional(rollbackFor = Exception.class)
+    public ManagerPageVO bindingSchool(ManagerBindingSchool bindingSchool) {
+        Manager manager = getById(bindingSchool.getManagerId());
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
-        String md5Password = DigestUtils.md5DigestAsHex((BcryptUtil.decrypt(vo.getPassword()) + salt).getBytes());
-        manager.setPassword(md5Password);
+        School school = schoolService.getById(bindingSchool.getSchoolId());
+        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+        manager.setSchoolId(school.getSchoolId())
+                .setSchoolName(school.getName());
+        Assert.isTrue(save(manager), MessageCodes.MANAGER_BINDING_SCHOOL_ERROR);
         return toManagerPageVO(manager);
     }
 
-    public ManagerPageVO handleRole(ManagerRoleVO managerRoleVO) {
-        Manager manager = managerDao.findById(managerRoleVO.getManagerId()).orElse(null);
-        Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
-
-        Manager currentManager = managerDao.findById(UserHelper.getUserId()).orElse(null);
-        Assert.notNull(currentManager, MessageCodes.MANAGER_NOT_EXIST);
-
-        Assert.isTrue(currentManager.getRole().ordinal() < manager.getRole().ordinal(),MessageCodes.NOT_ALLOW_SUPERIOR_ROLE);
-        manager.setRole(managerRoleVO.getRole());
-        managerDao.save(manager);
-
-        return toManagerPageVO(manager);
-    }*/
 }

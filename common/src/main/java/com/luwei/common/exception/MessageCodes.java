@@ -118,4 +118,5 @@ public interface MessageCodes {
     String MINIUSER_IS_NOT_EXIST = "miniuser.is.not.exist";//小程序用户不存在
 
     String ORDER_PAY_AMOUNT_ERROR = "order.pay.amount.error";//订单支付金额不一致
+    String MANAGER_BINDING_SCHOOL_ERROR = "manager.binding.school.error";//管理员绑定学校失败
 }
