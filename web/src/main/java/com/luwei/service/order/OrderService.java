@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.exception.ValidationException;
 import com.luwei.common.property.WechatPayPackage;
+import com.luwei.common.property.WechatPayPackageVO;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.common.util.OrderIdUtils;
 import com.luwei.common.util.WeChatUtils;
@@ -412,7 +413,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         return order;
     }
 
-    public WechatPayPackage payForOrder(PayForOrderDTO addDTO) {
+    public WechatPayPackageVO payForOrder(PayForOrderDTO addDTO) {
 
         Integer userId = UserHelper.getUserId();
         Parent parent = parentService.getById(userId);
@@ -422,10 +423,13 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
 
         //生成预支付信息
         System.out.println(notifyUrl);
-        return weChatUtils.getWechatPayPackage(
+        WechatPayPackage wechatPayPackage = weChatUtils.getWechatPayPackage(
                 parent.getOpenId(), "hosting-order-pay", "hosting-order-pay", order.getOrderId(),
                 String.valueOf(order.getPrice()), "JSAPI", notifyUrl);
 
+        WechatPayPackageVO packageVO = new WechatPayPackageVO();
+        BeanUtils.copyProperties(wechatPayPackage, packageVO);
+        return packageVO.setTimestamp(Long.valueOf(wechatPayPackage.getTimestamp()));
     }
 
     /**

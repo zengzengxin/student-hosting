@@ -972,7 +972,7 @@ public class WeChatUtils {
      * 生成时间戳
      */
     private static String create_timestamp() {
-        return Long.toString(System.currentTimeMillis() / 1000);
+        return Long.toString(System.currentTimeMillis());
     }
 
     /**
