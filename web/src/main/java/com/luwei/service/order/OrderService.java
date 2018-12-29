@@ -50,7 +50,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -80,7 +79,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     @Resource
     private WeChatUtils weChatUtils;
 
-    @Value("${luwei.module.pay.wechat.notify-url}")
+    @Value("${luwei.module.pay.wechat.notifyUrl}")
     private String notifyUrl;
 
     /**
@@ -372,7 +371,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     public IPage<OrderCmsVO> findPage(MyOrderQueryDTO queryDTO, Page<Order> page) {
 
         LambdaQueryWrapper<Order> wrapper = new QueryWrapper<Order>().lambda();
-        wrapper.eq(Order::getParentId, UserHelper.getUserId());
+        // noinspection unchecked
+        wrapper.eq(Order::getParentId, UserHelper.getUserId())
+                .orderByDesc(Order::getCreateTime);
         if (queryDTO.getOrderStatus() != null) {
             wrapper.eq(Order::getOrderStatus, queryDTO.getOrderStatus());
         }
@@ -458,11 +459,6 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         order.setTransactionId(wxNotifyResultVo.getTransactionId());
         Assert.isTrue(updateById(order), MessageCodes.ORDER_STATUS_UPDATE_ERROR);
         log.info("订单编号: {} 修改状态为已支付", order.getOrderId());
-    }
-
-    public static void main(String[] args) {
-        System.out.println(UUID.randomUUID());
-        // 315811ea13654888a1b7297bcd17347d
     }
 
 }

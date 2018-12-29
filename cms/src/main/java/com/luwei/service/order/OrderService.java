@@ -110,6 +110,8 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      */
     public IPage<OrderCmsVO> findPage(OrderQueryDTO queryDTO, Page<Order> page) {
         LambdaQueryWrapper<Order> wrapper = new QueryWrapper<Order>().lambda();
+        // noinspection unchecked
+        wrapper.orderByDesc(Order::getCreateTime);
         if (!ObjectUtils.isEmpty(queryDTO.getServiceName())) {
             wrapper.like(Order::getServiceName, queryDTO.getServiceName());
         }
