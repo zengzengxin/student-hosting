@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
-import com.luwei.common.exception.ValidationException;
 import com.luwei.common.property.WechatPayPackage;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.common.util.OrderIdUtils;
@@ -423,9 +422,10 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
 
         //生成预支付信息
         System.out.println(notifyUrl);
+        // TODO 正式上线需改为实际价格
         return weChatUtils.getWechatPayPackage(
                 parent.getOpenId(), "hosting-order-pay", "hosting-order-pay", order.getOrderId(),
-                String.valueOf(order.getPrice()), "JSAPI", notifyUrl);
+                String.valueOf(1), "JSAPI", notifyUrl);
 
         // WechatPayPackageVO packageVO = new WechatPayPackageVO();
         // BeanUtils.copyProperties(wechatPayPackage, packageVO);
@@ -446,17 +446,10 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         if (order.getOrderStatus() == OrderStatusEnum.PAID) {
             return;
         }
-        log.info("========{}", wxNotifyResultVo.getOpenid());
-        log.info("========{}", wxNotifyResultVo.getTradeType());
-        log.info("========{}", wxNotifyResultVo.getBankType());
-        log.info("========{}", wxNotifyResultVo.getTotalFee());
-        log.info("========{}", wxNotifyResultVo.getTransactionId());
-        log.info("========{}", wxNotifyResultVo.getOutTradeNo());
-        log.info("========{}", wxNotifyResultVo.getAttach());
-        log.info("========{}", wxNotifyResultVo.getTimeEnd());
         // 判断金额是否一致
         String totalFee = wxNotifyResultVo.getTotalFee();
-        BigDecimal dgTotalFee = new BigDecimal("1");// 测试,支付1分钱
+        BigDecimal dgTotalFee = new BigDecimal(totalFee);// 测试,支付1分钱
+        // TODO 正式上线需要改成实际价格
         // if (order.getPrice().compareTo(dgTotalFee) != 0) {
         //     throw new ValidationException(MessageCodes.ORDER_PAY_AMOUNT_ERROR);
         // }

@@ -13,6 +13,7 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
+        <result column="school_id" property="schoolId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -28,6 +29,9 @@
             deleted=0
             <if test="type!=null">
                 and type = #{type}
+            </if>
+            <if test="schoolId!=null">
+                and school_id = #{schoolId}
             </if>
             <if test="noticePageDTO.startTime!=null">
                 and create_time &gt;= #{noticePageDTO.startTime}
