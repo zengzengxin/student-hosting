@@ -313,8 +313,7 @@ public class WeChatUtils {
     /**
      * 获取accesstoken,每隔1小时执行一次
      */
-    // @Scheduled(cron = "0 0 0/1 * * ?")
-    @Scheduled(cron = "0 */1 * * * ?")
+    @Scheduled(cron = "0 0 0/1 * * ?")
     public void getToken() {
         logger.info("-------" + appId);
         logger.info("-------" + appSecret);

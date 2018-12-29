@@ -79,12 +79,17 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         log.info("----删除一条公告----");
     }
 
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     public IPage<NoticeCmsVO> getNoticePage(Page<Notice> page, NoticeQueryDTO noticePageDTO) {
-        Integer type = managerService.getById(UserHelper.getUserId()).getRole().getValue();
+        Manager manager = managerService.getById(UserHelper.getUserId());
+        Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
+        Integer type = manager.getRole().getValue();
+        Integer schoolId = manager.getSchoolId();
         if (type == 0) {
             type = null;
+            schoolId = null;
         }
-        return baseMapper.getNoticePage(page, noticePageDTO, type);
+        return baseMapper.getNoticePage(page, noticePageDTO, type, schoolId);
     }
 
 }
