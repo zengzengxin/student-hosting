@@ -1,12 +1,14 @@
 package com.luwei.controller;
 
 import com.luwei.common.exception.ValidationException;
+import com.luwei.common.property.ShareParam;
 import com.luwei.common.property.WeChatUser;
 import com.luwei.common.util.WeChatUtils;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.wechat.WeChatService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -74,6 +76,15 @@ public class WeChatController {
         //String url = weChatService.authorize(code, state);
         //log.info("最终url:{}", url);
         //return url;
+    }
+
+    @GetMapping(value = "getShareParam")
+    @ApiOperation("获取js调用信息")
+    @ResponseBody
+    public ShareParam getShareParam(@RequestParam @ApiParam(value = "当前页面的url") String shareUrl) {
+        ShareParam shareParam = weChatUtils.sign(shareUrl);
+        System.out.println("=====" + shareParam);
+        return shareParam;
     }
 
 }

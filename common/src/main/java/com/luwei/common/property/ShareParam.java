@@ -8,7 +8,7 @@ public class ShareParam {
 
     @ApiModelProperty(value = "流水")
     private String nonceStr;
-    @ApiModelProperty(value = "时间撮")
+    @ApiModelProperty(value = "时间戳")
     private String timestamp;
     @ApiModelProperty(value = "签名url")
     private String signature;

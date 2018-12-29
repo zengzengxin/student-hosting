@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -312,7 +313,8 @@ public class WeChatUtils {
     /**
      * 获取accesstoken,每隔1小时执行一次
      */
-//    @Scheduled(cron = "0 0 0/1 * * ?")
+    // @Scheduled(cron = "0 0 0/1 * * ?")
+    @Scheduled(cron = "0 */1 * * * ?")
     public void getToken() {
         logger.info("-------" + appId);
         logger.info("-------" + appSecret);
@@ -972,7 +974,7 @@ public class WeChatUtils {
      * 生成时间戳
      */
     private static String create_timestamp() {
-        return Long.toString(System.currentTimeMillis());
+        return Long.toString(System.currentTimeMillis() / 1000);
     }
 
     /**
