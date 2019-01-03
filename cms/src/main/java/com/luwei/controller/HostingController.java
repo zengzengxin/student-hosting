@@ -31,21 +31,21 @@ public class HostingController {
 
     @PostMapping
     @ApiOperation("添加")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
     public HostingCmsVO save(@RequestBody @Valid HostingAddDTO hostingAddDTO) {
         return hostingService.saveHosting(hostingAddDTO);
     }
 
     @DeleteMapping
     @ApiOperation("删除")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
     public void delete(@RequestParam @ApiParam("hostingId列表") Set<Integer> hostingIds) {
         hostingService.deleteHostings(hostingIds);
     }
 
     @PutMapping
     @ApiOperation("修改")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
     public HostingCmsVO update(@RequestBody @Valid HostingUpdateDTO hostingUpdateDTO) {
         return hostingService.updateHosting(hostingUpdateDTO);
 
@@ -53,7 +53,7 @@ public class HostingController {
 
     @GetMapping("page")
     @ApiOperation("分页")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN, RoleConstant.ROOT})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN, RoleConstant.ROOT,RoleConstant.OPERATOR})
     public IPage<HostingCmsVO> page(@ModelAttribute HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
         return hostingService.findHostingPage(hostingQueryDTO, page);
     }

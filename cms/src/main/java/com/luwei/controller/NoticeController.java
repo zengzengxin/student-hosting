@@ -33,14 +33,14 @@ public class NoticeController {
 
     @PostMapping
     @ApiOperation("添加")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
     public NoticeCmsVO save(@RequestBody @Valid NoticeAddDTO notice) {
         return noticeService.saveNotice(notice);
     }
 
     @DeleteMapping
     @ApiOperation("删除")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
     public void delete(@RequestParam @ApiParam("+") Integer ids) {
         noticeService.deleteNotice(ids);
 
@@ -48,14 +48,14 @@ public class NoticeController {
 
     @PutMapping
     @ApiOperation("修改")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
     public NoticeCmsVO update(@RequestBody NoticeUpdateDTO noticeUpdateDTO) {
         return noticeService.updateNotice(noticeUpdateDTO);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
     public IPage<NoticeCmsVO> page(@ModelAttribute NoticeQueryDTO noticeQueryDTO, Page<Notice> page) {
         return noticeService.getNoticePage(page, noticeQueryDTO);
     }

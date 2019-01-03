@@ -30,25 +30,46 @@ public class ManagerController {
     @Resource
     private ManagerService managerService;
 
-    @PostMapping
-    @ApiOperation("添加")
+    @PostMapping("addEducationManager")
+    @ApiOperation("添加教育局管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO add(@RequestBody @Valid ManagerAddVO addVO) {
+    public ManagerPageVO addEducationManager(@RequestBody @Valid ManagerAddVO addVO) {
         return managerService.add(addVO, RoleEnum.ADMIN);
     }
 
-    @DeleteMapping
-    @ApiOperation("删除")
+    @PostMapping("addSchoolManager")
+    @ApiOperation("添加学校/机构管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public void delete(@RequestParam @ApiParam("id列表") Set<Integer> managerIds) {
+    public ManagerPageVO addSchoolManager(@RequestBody @Valid ManagerAddVO addVO) {
+        return managerService.add(addVO, RoleEnum.OPERATOR);
+    }
+
+    @DeleteMapping("deleteEducationManager")
+    @ApiOperation("删除教育局管理员")
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
+    public void deleteEducationManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds) {
         managerService.delete(managerIds, RoleEnum.ADMIN);
     }
 
-    @PutMapping
-    @ApiOperation("修改")
+    @DeleteMapping("deleteSchoolManager")
+    @ApiOperation("删除学校/机构管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO update(@RequestBody @Valid ManagerEditVO editVO) {
+    public void deleteSchoolManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds) {
+        managerService.delete(managerIds, RoleEnum.OPERATOR);
+    }
+
+    @PutMapping("updateEducationManager")
+    @ApiOperation("修改教育局管理员")
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
+    public ManagerPageVO updateEducationManager(@RequestBody @Valid ManagerEditVO editVO) {
         return managerService.update(editVO, RoleEnum.ADMIN);
+    }
+
+    @PutMapping("updateSchoolManager")
+    @ApiOperation("修改学校/机构管理员")
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
+    public ManagerPageVO updateSchoolManager(@RequestBody @Valid ManagerEditVO editVO) {
+        return managerService.update(editVO, RoleEnum.OPERATOR);
     }
 
     @GetMapping("page")

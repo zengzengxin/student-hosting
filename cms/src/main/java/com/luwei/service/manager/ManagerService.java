@@ -125,7 +125,8 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      */
     @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO update(ManagerEditVO editVO, RoleEnum roleEnum) {
-        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", editVO.getManagerId()).eq("role", roleEnum);
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
+        wrapper.lambda().eq(Manager::getManagerId, editVO.getManagerId()).eq(Manager::getRole, roleEnum);
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
 
@@ -142,7 +143,8 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      */
     @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO handleDisabled(ManagerStateVO managerStateVO, RoleEnum roleEnum) {
-        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerStateVO.getManagerId()).eq("role", roleEnum);
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
+        wrapper.lambda().eq(Manager::getManagerId, managerStateVO.getManagerId()).eq(Manager::getRole, roleEnum);
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         Assert.isTrue(!Objects.equals(manager.getRole(), RoleEnum.ROOT), MessageCodes.ROOT_CANNOT_DISABLED);
@@ -162,19 +164,20 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
     public void delete(Set<Integer> idList, RoleEnum roleEnum) {
         Manager manager;
         for (Integer managerId : idList) {
-            QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerId).eq("role", roleEnum);
+            QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
+            wrapper.lambda().eq(Manager::getManagerId, managerId).eq(Manager::getRole, roleEnum);
             manager = baseMapper.selectOne(wrapper);
-            if (Objects.nonNull(manager)) {
-                Assert.isTrue(!Objects.equals(manager.getRole(), RoleEnum.ROOT), MessageCodes.ROOT_CANNOT_DELETE);
-                shiroTokenService.login(managerId.toString());
-                baseMapper.deleteById(managerId);
-            }
+            Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
+            Assert.isTrue(!Objects.equals(manager.getRole(), RoleEnum.ROOT), MessageCodes.ROOT_CANNOT_DELETE);
+            shiroTokenService.login(managerId.toString());
+            baseMapper.deleteById(managerId);
         }
     }
 
     @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO resetPassword(ManagerResetPasswordVO managerResetPasswordVO, RoleEnum roleEnum) {
-        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerResetPasswordVO.getManagerId()).eq("role", roleEnum);
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
+        wrapper.lambda().eq(Manager::getManagerId, managerResetPasswordVO.getManagerId()).eq(Manager::getRole, roleEnum);
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         String md5Password;
@@ -195,10 +198,16 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         School school = schoolService.getById(bindingSchool.getSchoolId());
         Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
-        manager.setSchoolId(school.getSchoolId())
-                .setSchoolName(school.getName());
+        manager.setSchoolId(school.getSchoolId());
         Assert.isTrue(save(manager), MessageCodes.MANAGER_BINDING_SCHOOL_ERROR);
-        return toManagerPageVO(manager);
+
+        ManagerAddDTO managerAddDTO = new ManagerAddDTO();
+        BeanUtils.copyProperties(manager,managerAddDTO);
+        managerAddDTO.setSchoolName(school.getName());
+
+        ManagerPageVO managerPageVO = new ManagerPageVO();
+        BeanUtils.copyProperties(managerAddDTO,managerPageVO);
+        return managerPageVO;
     }
 
 }

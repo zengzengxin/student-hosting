@@ -35,28 +35,28 @@ public class SchoolController {
 
     @GetMapping
     @ApiOperation("查询详情根据id")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
     public SchoolCmsVO findById(@RequestParam @ApiParam("schoolId") Integer schoolId) {
         return schoolService.findById(schoolId);
     }
 
     @DeleteMapping
     @ApiOperation("删除")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
     public void delete(@RequestParam @ApiParam("schoolId列表") Set<Integer> schoolIds) {
         schoolService.deleteSchools(schoolIds);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
     public IPage<SchoolCmsVO> page(@ModelAttribute SchoolQueryDTO schoolQueryDTO, Page page) {
         return schoolService.findSchoolPage(schoolQueryDTO, page);
     }
 
     @GetMapping("/list")
     @ApiOperation("返回所有学校")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
     public List<SchoolCmsVO> schoolList() {
         return schoolService.findSchoolPage();
     }
@@ -64,7 +64,7 @@ public class SchoolController {
     //导入excel
     @PostMapping("/import")
     @ApiOperation("导入Excel")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
     public Map<String, Object> importExcel(MultipartFile file) {
         Map<String, Object> map = new HashMap<>();
         //String result = importService.readExcelFile(file);

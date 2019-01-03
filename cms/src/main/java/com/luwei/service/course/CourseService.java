@@ -18,6 +18,7 @@ import com.luwei.model.coursepackage.pojo.cms.CoursePackageUpdateDTO;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
+import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.picture.PictureService;
 import com.luwei.service.recommend.RecommendService;
 import lombok.extern.slf4j.Slf4j;
@@ -313,5 +314,12 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
         }
         return toCourseVO(course);
+    }
+
+    public static void main(String[] args) {
+        Course course = new Course();
+        System.out.println(course.getClass().getClassLoader());
+        ShiroTokenService shiroTokenService = new ShiroTokenService();
+        System.out.println(shiroTokenService.getClass().getClassLoader()); 
     }
 }

@@ -31,35 +31,35 @@ public class CourseController {
 
     @PostMapping
     @ApiOperation("新增")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
     public CourseCmsVO saveCourse(@RequestBody @Valid CourseAddDTO courseAddDTO) {
         return courseService.saveCourse(courseAddDTO);
     }
 
     @DeleteMapping
     @ApiOperation("删除")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
     public void deleteCourses(@RequestParam @ApiParam("courseId列表") Set<Integer> courseIds) {
         courseService.deleteCourses(courseIds);
     }
 
     @PutMapping
     @ApiOperation("修改")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
     public CourseCmsVO updateCourse(@RequestBody @Valid CourseUpdateDTO courseUpdateDTO) {
         return courseService.updateCourse(courseUpdateDTO);
     }
 
     @GetMapping
     @ApiOperation("查询详情")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN,RoleConstant.ROOT})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN,RoleConstant.ROOT,RoleConstant.OPERATOR})
     public CourseCmsVO getCourse(@RequestParam @ApiParam("courseId") Integer courseId) {
         return courseService.getCourse(courseId);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN,RoleConstant.ROOT})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN,RoleConstant.ROOT,RoleConstant.OPERATOR})
     public IPage<CourseCmsVO> page(@ModelAttribute CourseQueryDTO courseQueryDTO, Page<Course> page) {
         return courseService.findPage(courseQueryDTO, page);
     }

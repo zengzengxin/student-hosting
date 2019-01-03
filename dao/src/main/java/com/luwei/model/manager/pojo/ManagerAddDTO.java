@@ -1,4 +1,6 @@
-package com.luwei.model.manager;
+package com.luwei.model.manager.pojo;
+
+
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -21,7 +23,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("tb_manager")
-public class Manager implements Serializable {
+public class ManagerAddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,6 +49,9 @@ public class Manager implements Serializable {
     @ApiModelProperty(value = "绑定学校ID")
     private Integer schoolId;
 
+    @ApiModelProperty(value = "学校名称")
+    private String schoolName;
+
     @ApiModelProperty(value = "最后登录时间")
     private LocalDateTime lastLoginTime;
 
@@ -61,3 +66,4 @@ public class Manager implements Serializable {
     private Boolean deleted;
 
 }
+
