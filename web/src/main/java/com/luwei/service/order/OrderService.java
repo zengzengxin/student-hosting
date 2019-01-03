@@ -449,7 +449,8 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         String totalFee = wxNotifyResultVo.getTotalFee();// 测试,支付1分钱,正式上线需要改成实际价格
         int price = order.getPrice().multiply(BigDecimal.valueOf(100)).intValue();
         String strPrice = String.valueOf(price);
-        if (strPrice.equals(totalFee)) {
+        if (!strPrice.equals(totalFee)) {
+            log.error("支付金额{} 与订单金额{} 不一致", totalFee, strPrice);
             throw new ValidationException(MessageCodes.ORDER_PAY_AMOUNT_ERROR);
         }
         // 修改当前订单状态
