@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.exception.ValidationException;
 import com.luwei.common.property.WechatPayPackage;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.common.util.OrderIdUtils;
@@ -90,7 +91,6 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     private Order findById(String id) {
         // 若此id已被逻辑删除,也会返回null
         Order order = getById(id);
-        // TODO 修改MessageCodes
         Assert.notNull(order, MessageCodes.ORDER_IS_NOT_EXIST);
         return order;
     }
@@ -207,7 +207,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         LocalDate startDate = startTime.toLocalDate();
         LocalDate endDate = endTime.toLocalDate();
         long distance = ChronoUnit.DAYS.between(startDate, endDate);
-        if(distance>1000){
+        if (distance > 1000) {
             Assert.isTrue(false, MessageCodes.DATE_IS_TO_LONG);
         }
         if (distance < 0) {
@@ -422,14 +422,13 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
 
         //生成预支付信息
         System.out.println(notifyUrl);
-        // TODO 正式上线需改为实际价格
+        // 正式上线需改为实际价格
+        BigDecimal multiply = order.getPrice().multiply(BigDecimal.valueOf(100));
+        int price = multiply.intValue();
         return weChatUtils.getWechatPayPackage(
                 parent.getOpenId(), "hosting-order-pay", "hosting-order-pay", order.getOrderId(),
-                String.valueOf(1), "JSAPI", notifyUrl);
+                String.valueOf(price), "JSAPI", notifyUrl);
 
-        // WechatPayPackageVO packageVO = new WechatPayPackageVO();
-        // BeanUtils.copyProperties(wechatPayPackage, packageVO);
-        // return packageVO.setTimestamp(Long.valueOf(wechatPayPackage.getTimestamp()));
     }
 
     /**
@@ -447,12 +446,12 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
             return;
         }
         // 判断金额是否一致
-        String totalFee = wxNotifyResultVo.getTotalFee();
-        BigDecimal dgTotalFee = new BigDecimal(totalFee);// 测试,支付1分钱
-        // TODO 正式上线需要改成实际价格
-        // if (order.getPrice().compareTo(dgTotalFee) != 0) {
-        //     throw new ValidationException(MessageCodes.ORDER_PAY_AMOUNT_ERROR);
-        // }
+        String totalFee = wxNotifyResultVo.getTotalFee();// 测试,支付1分钱,正式上线需要改成实际价格
+        int price = order.getPrice().multiply(BigDecimal.valueOf(100)).intValue();
+        String strPrice = String.valueOf(price);
+        if (strPrice.equals(totalFee)) {
+            throw new ValidationException(MessageCodes.ORDER_PAY_AMOUNT_ERROR);
+        }
         // 修改当前订单状态
         order.setPayTime(LocalDateTime.now());
         order.setOrderStatus(OrderStatusEnum.PAID);
