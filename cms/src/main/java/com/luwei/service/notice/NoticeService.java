@@ -42,8 +42,16 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
 
         // 公告类型
         Manager manager = managerService.getById(UserHelper.getUserId());
+        Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         RoleEnum role = manager.getRole();
         notice.setType(role.getValue());
+
+        // 公告绑定学校id
+        if (role != RoleEnum.ROOT) {
+            Integer schoolId = manager.getSchoolId();
+            Assert.notNull(schoolId, MessageCodes.MANAGER_NOT_BINDING_SCHOOL);
+            notice.setSchoolId(schoolId);
+        }
 
         // 添加一些没有的参数
         notice.setCreateTime(LocalDateTime.now());

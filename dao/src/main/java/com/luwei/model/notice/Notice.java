@@ -47,6 +47,8 @@ public class Notice implements Serializable {
     @ApiModelProperty(value = "公告类型，0-平台公告 1-学校公告")
     private Integer type;
 
+    @ApiModelProperty(value = "公告绑定学校id")
+    private Integer schoolId;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "创建时间")
