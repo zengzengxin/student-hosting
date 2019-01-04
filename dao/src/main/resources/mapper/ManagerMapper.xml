@@ -23,7 +23,7 @@
 
     <select id="selectManagerPage" resultType="com.luwei.model.manager.pojo.ManagerPageVO">
         <![CDATA[
-        select manager_id, account, name, role, disabled, create_time, last_login_time from tb_manager where role = #{roleEnum} and deleted = false
+        select manager_id, account, name, role, disabled, create_time, last_login_time from tb_manager where  deleted = false
       ]]>
         <if test="name != null">
             <![CDATA[

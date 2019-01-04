@@ -51,8 +51,8 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      * @param page
      * @return IPage<ManagerPageVO>
      */
-    public IPage<ManagerPageVO> findPage(ManagerQueryVO managerQueryVO, Page page, RoleEnum roleEnum) {
-        return baseMapper.selectManagerPage(page, roleEnum, managerQueryVO.getManagerId(), managerQueryVO.getName());
+    public IPage<ManagerPageVO> findPage(ManagerQueryVO managerQueryVO, Page page) {
+        return baseMapper.selectManagerPage(page, managerQueryVO.getManagerId(), managerQueryVO.getName());
     }
 
     /**

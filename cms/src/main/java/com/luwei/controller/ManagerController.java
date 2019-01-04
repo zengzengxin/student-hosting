@@ -37,45 +37,40 @@ public class ManagerController {
         return managerService.add(addVO, addVO.getRole());
     }
 
-
     @DeleteMapping("deleteManager")
-    @ApiOperation("删除教育局管理员")
+    @ApiOperation("删除管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public void deleteManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds,RoleEnum roleEnum) {
+    public void deleteManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds, RoleEnum roleEnum) {
         managerService.delete(managerIds, roleEnum);
     }
-
-
-
 
     @PutMapping("updateManager")
     @ApiOperation("修改管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO updateManager(@RequestBody @Valid ManagerEditVO editVO,RoleEnum roleEnum) {
+    public ManagerPageVO updateManager(@RequestBody @Valid ManagerEditVO editVO, RoleEnum roleEnum) {
         return managerService.update(editVO, roleEnum);
     }
-
 
     @GetMapping("page")
     @ApiOperation("分页列表")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
     public IPage<ManagerPageVO> findPage(@ModelAttribute ManagerQueryVO managerQueryVO,
                                          @PageableDefault(sort = "role", direction = Sort.Direction.ASC) Page pageable) {
-        return managerService.findPage(managerQueryVO, pageable, RoleEnum.ADMIN);
+        return managerService.findPage(managerQueryVO, pageable);
     }
 
     @PutMapping("password")
     @ApiOperation("重置密码")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO resetPassword(@RequestBody @Valid ManagerResetPasswordVO managerResetPasswordVO) {
-        return managerService.resetPassword(managerResetPasswordVO, RoleEnum.ADMIN);
+    public ManagerPageVO resetPassword(@RequestBody @Valid ManagerResetPasswordVO managerResetPasswordVO, RoleEnum roleEnum) {
+        return managerService.resetPassword(managerResetPasswordVO, roleEnum);
     }
 
     @PutMapping("state")
     @ApiOperation("禁用|开启")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO handleDisabled(@RequestBody @Valid ManagerStateVO managerStateVO) {
-        return managerService.handleDisabled(managerStateVO, RoleEnum.ADMIN);
+    public ManagerPageVO handleDisabled(@RequestBody @Valid ManagerStateVO managerStateVO, RoleEnum roleEnum) {
+        return managerService.handleDisabled(managerStateVO, roleEnum);
     }
 
     @PutMapping("/school")
