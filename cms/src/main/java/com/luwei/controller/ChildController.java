@@ -35,35 +35,30 @@ public class ChildController {
 
     @PostMapping
     @ApiOperation("添加孩子/学生")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
     public ChildCmsVO save(@RequestBody @Valid ChildAddDTO childAddDTO) {
         return childService.saveChild(childAddDTO);
     }
 
     @PutMapping
     @ApiOperation("修改孩子/学生")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
     public ChildCmsVO update(@RequestBody @Valid ChildUpdateDTO childUpdateDTO) {
         return childService.updateChild(childUpdateDTO);
     }
 
     @DeleteMapping
     @ApiOperation("删除")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
     public void deleteChildren(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
         childService.deleteChildren(ids);
     }
 
     @GetMapping("/page")
     @ApiOperation("分页获取")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
     public IPage<ChildCmsVO> page(Page<Child> page, @ModelAttribute @Valid ChildQueryDTO childQueryDTO) {
         return childService.findPage(page, childQueryDTO);
     }
 
     @PostMapping("excelAddStudent")
     @ApiOperation("通过excel导入学生")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ADMIN})
     public void findTeacher(MultipartFile file) throws Exception {
         childService.importExcel(file);
     }

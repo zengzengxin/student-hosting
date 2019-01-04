@@ -103,7 +103,9 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
     }
 
     public Integer findSchoolIdBySchoolName(String schoolName) {
-        return baseMapper.findSchoolIdBySchoolName(schoolName);
+        Integer schoolId = baseMapper.findSchoolIdBySchoolName(schoolName);
+        Assert.notNull(schoolId, MessageCodes.SCHOOL_IS_NOT_EXIST);
+        return schoolId;
     }
 
 }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.BcryptUtil;
 import com.luwei.model.manager.Manager;
 import com.luwei.model.manager.ManagerMapper;
@@ -96,6 +97,15 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
                 .setDisabled(false)
                 .setCreateTime(now)
                 .setUpdateTime(now);
+
+        // 绑定学校id和名称
+        if (addVO.getSchoolId() != null) {
+            School school = schoolService.getById(addVO.getSchoolId());
+            Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+            manager.setSchoolId(school.getSchoolId())
+                    .setSchoolName(school.getName());
+        }
+
         baseMapper.insert(manager);
         return toManagerPageVO(manager);
     }
@@ -131,7 +141,13 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
 
         manager.setAccount(editVO.getAccount());
-        saveOrUpdate(manager);
+        // 设置学校id和名称
+        if (editVO.getSchoolId() != null) {
+            School school = schoolService.getById(editVO.getSchoolId());
+            Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+            manager.setSchoolId(school.getSchoolId())
+                    .setSchoolName(school.getName());
+        }
 
         return toManagerPageVO(manager);
     }
@@ -176,10 +192,14 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
 
     @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO resetPassword(ManagerResetPasswordVO managerResetPasswordVO) {
-        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
-        wrapper.lambda().eq(Manager::getManagerId, managerResetPasswordVO.getManagerId());
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerResetPasswordVO.getManagerId());
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
+        // 不可在此重置ROOT密码
+        if (manager.getRole() == RoleEnum.ROOT) {
+            throw new ValidationException(MessageCodes.ROOT_CANNOT_RESET);
+        }
+
         String md5Password;
         try {
             md5Password = DigestUtils.md5DigestAsHex((BcryptUtil.decrypt(managerResetPasswordVO.getPassword()) + salt).getBytes());
@@ -198,15 +218,12 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         School school = schoolService.getById(bindingSchool.getSchoolId());
         Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
-        manager.setSchoolId(school.getSchoolId());
+        manager.setSchoolId(school.getSchoolId())
+                .setSchoolName(school.getName());
         Assert.isTrue(save(manager), MessageCodes.MANAGER_BINDING_SCHOOL_ERROR);
 
-        ManagerAddDTO managerAddDTO = new ManagerAddDTO();
-        BeanUtils.copyProperties(manager,managerAddDTO);
-        managerAddDTO.setSchoolName(school.getName());
-
         ManagerPageVO managerPageVO = new ManagerPageVO();
-        BeanUtils.copyProperties(managerAddDTO,managerPageVO);
+        BeanUtils.copyProperties(manager, managerPageVO);
         return managerPageVO;
     }
 

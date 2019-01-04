@@ -31,21 +31,21 @@ public class HostingController {
 
     @PostMapping
     @ApiOperation("添加")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public HostingCmsVO save(@RequestBody @Valid HostingAddDTO hostingAddDTO) {
         return hostingService.saveHosting(hostingAddDTO);
     }
 
     @DeleteMapping
     @ApiOperation("删除")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public void delete(@RequestParam @ApiParam("hostingId列表") Set<Integer> hostingIds) {
         hostingService.deleteHostings(hostingIds);
     }
 
     @PutMapping
     @ApiOperation("修改")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public HostingCmsVO update(@RequestBody @Valid HostingUpdateDTO hostingUpdateDTO) {
         return hostingService.updateHosting(hostingUpdateDTO);
 

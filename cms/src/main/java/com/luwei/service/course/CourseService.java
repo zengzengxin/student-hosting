@@ -162,8 +162,10 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         // 修改课程
         Course course = new Course();
         BeanUtils.copyProperties(updateDTO, course);
-        course.setUpdateTime(LocalDateTime.now());
+        course.setUpdateTime(LocalDateTime.now())
+                .setDisplay(false);
         Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
+        course = getById(course.getCourseId());
 
         // 修改课程套餐
         List<CoursePackageUpdateDTO> temp = updateDTO.getCoursePackageList();

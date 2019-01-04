@@ -11,6 +11,7 @@
         <result column="role" property="role"/>
         <result column="disabled" property="disabled"/>
         <result column="school_id" property="schoolId"/>
+        <result column="school_name" property="schoolName"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="deleted" property="deleted"/>
@@ -23,7 +24,8 @@
 
     <select id="selectManagerPage" resultType="com.luwei.model.manager.pojo.ManagerPageVO">
         <![CDATA[
-        select manager_id, account, name, role, disabled, create_time, last_login_time from tb_manager where  deleted = false
+        select manager_id, account, name, role, disabled, create_time, last_login_time, school_id, school_name
+        from tb_manager where  deleted = false
       ]]>
         <if test="name != null">
             <![CDATA[

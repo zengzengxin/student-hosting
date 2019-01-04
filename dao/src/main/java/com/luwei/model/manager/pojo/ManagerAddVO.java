@@ -28,4 +28,7 @@ public class ManagerAddVO {
     @NotNull(message = "角色不能为空")
     private RoleEnum role;
 
+    @ApiModelProperty(value = "学校ID")
+    private Integer schoolId;
+
 }
