@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ReadExcelUtil;
@@ -22,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,11 +113,10 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         return baseMapper.selectList(queryWrapper).stream().map(this::toTeacherVO).collect(Collectors.toList());
     }
 
-    //导入excle、
-    public void importExcel(MultipartFile excelFile) throws InvalidFormatException, IOException, InstantiationException, IllegalAccessException {
+    @Transactional
+    public void importExcel(MultipartFile excelFile) {
 
-        ReadExcelUtil readExcelUtil = new ReadExcelUtil();
-        List<Map<Integer, String>> excelInfo = readExcelUtil.getExcelInfo(excelFile);
+        List<Map<Integer, String>> excelInfo = ReadExcelUtil.getExcelInfo(excelFile);
 
         List<Teacher> list = new ArrayList<Teacher>();
         for (Map<Integer, String> map : excelInfo) {
@@ -137,7 +134,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         }
         boolean flag = saveBatch(list);
         Assert.isTrue(flag, MessageCodes.TEACHER_IMPORT_FROM_EXCEL_ERROR);
-        //--todo-- 需要从redis获得managerId，再由managerId获得学校id，再从学校id获得学校名称存入数据库，这里的学校名称将来要舍弃
+        // 可能需要修改: 从redis获得managerId，再由managerId获得学校id，再从学校id获得学校名称存入数据库，这里的学校名称将来要舍弃
 
     }
 

@@ -31,21 +31,21 @@ public class CourseController {
 
     @PostMapping
     @ApiOperation("新增")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public CourseCmsVO saveCourse(@RequestBody @Valid CourseAddDTO courseAddDTO) {
         return courseService.saveCourse(courseAddDTO);
     }
 
     @DeleteMapping
     @ApiOperation("删除")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public void deleteCourses(@RequestParam @ApiParam("courseId列表") Set<Integer> courseIds) {
         courseService.deleteCourses(courseIds);
     }
 
     @PutMapping
     @ApiOperation("修改")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.OPERATOR})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public CourseCmsVO updateCourse(@RequestBody @Valid CourseUpdateDTO courseUpdateDTO) {
         return courseService.updateCourse(courseUpdateDTO);
     }

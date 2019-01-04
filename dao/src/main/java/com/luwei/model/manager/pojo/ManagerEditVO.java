@@ -23,7 +23,6 @@ public class ManagerEditVO {
     @Length(max = 20, message = "账号最大长度限制为20")
     private String account;
 
-    @NotNull(message = "学校ID不能为空")
     @ApiModelProperty(value = "学校ID")
     private Integer schoolId;
 

@@ -97,10 +97,15 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
                 .setDisabled(false)
                 .setCreateTime(now)
                 .setUpdateTime(now);
-        School school = schoolService.getById(addVO.getSchoolId());
-        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
-        manager.setSchoolId(school.getSchoolId())
-                .setSchoolName(school.getName());
+
+        // 绑定学校id和名称
+        if (addVO.getSchoolId() != null) {
+            School school = schoolService.getById(addVO.getSchoolId());
+            Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+            manager.setSchoolId(school.getSchoolId())
+                    .setSchoolName(school.getName());
+        }
+
         baseMapper.insert(manager);
         return toManagerPageVO(manager);
     }
@@ -137,11 +142,12 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
 
         manager.setAccount(editVO.getAccount());
         // 设置学校id和名称
-        School school = schoolService.getById(editVO.getSchoolId());
-        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
-        manager.setSchoolId(school.getSchoolId())
-                .setSchoolName(school.getName());
-        saveOrUpdate(manager);
+        if (editVO.getSchoolId() != null) {
+            School school = schoolService.getById(editVO.getSchoolId());
+            Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+            manager.setSchoolId(school.getSchoolId())
+                    .setSchoolName(school.getName());
+        }
 
         return toManagerPageVO(manager);
     }
