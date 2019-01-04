@@ -142,9 +142,9 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      * @param managerStateVO
      */
     @Transactional(rollbackFor = Exception.class)
-    public ManagerPageVO handleDisabled(ManagerStateVO managerStateVO, RoleEnum roleEnum) {
+    public ManagerPageVO handleDisabled(ManagerStateVO managerStateVO) {
         QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
-        wrapper.lambda().eq(Manager::getManagerId, managerStateVO.getManagerId()).eq(Manager::getRole, roleEnum);
+        wrapper.lambda().eq(Manager::getManagerId, managerStateVO.getManagerId());
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         Assert.isTrue(!Objects.equals(manager.getRole(), RoleEnum.ROOT), MessageCodes.ROOT_CANNOT_DISABLED);
@@ -175,9 +175,9 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ManagerPageVO resetPassword(ManagerResetPasswordVO managerResetPasswordVO, RoleEnum roleEnum) {
+    public ManagerPageVO resetPassword(ManagerResetPasswordVO managerResetPasswordVO) {
         QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
-        wrapper.lambda().eq(Manager::getManagerId, managerResetPasswordVO.getManagerId()).eq(Manager::getRole, roleEnum);
+        wrapper.lambda().eq(Manager::getManagerId, managerResetPasswordVO.getManagerId());
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         String md5Password;
