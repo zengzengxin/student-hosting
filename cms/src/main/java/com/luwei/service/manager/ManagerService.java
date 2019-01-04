@@ -97,6 +97,10 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
                 .setDisabled(false)
                 .setCreateTime(now)
                 .setUpdateTime(now);
+        School school = schoolService.getById(addVO.getSchoolId());
+        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+        manager.setSchoolId(school.getSchoolId())
+                .setSchoolName(school.getName());
         baseMapper.insert(manager);
         return toManagerPageVO(manager);
     }
@@ -132,6 +136,11 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
 
         manager.setAccount(editVO.getAccount());
+        // 设置学校id和名称
+        School school = schoolService.getById(editVO.getSchoolId());
+        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+        manager.setSchoolId(school.getSchoolId())
+                .setSchoolName(school.getName());
         saveOrUpdate(manager);
 
         return toManagerPageVO(manager);

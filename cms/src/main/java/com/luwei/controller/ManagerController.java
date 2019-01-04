@@ -50,7 +50,6 @@ public class ManagerController {
         return managerService.update(editVO);
     }
 
-
     @GetMapping("page")
     @ApiOperation("分页列表")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})

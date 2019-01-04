@@ -1,10 +1,13 @@
 package com.luwei.service.child;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
+import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.common.util.ReadExcelUtil;
 import com.luwei.model.child.Child;
 import com.luwei.model.child.ChildMapper;
@@ -93,6 +96,9 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
     public IPage<ChildCmsVO> findPage(Page<Child> page, @Valid ChildQueryDTO childQueryDTO) {
         Manager manager = managerService.getById(UserHelper.getUserId());
+        if (manager.getRole() == RoleEnum.ROOT) {
+            return ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<>()), this::toChildVO);
+        }
         Integer schoolId = manager.getSchoolId();
         return baseMapper.findPage(page, childQueryDTO, schoolId);
     }
