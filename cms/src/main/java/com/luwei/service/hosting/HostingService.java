@@ -95,7 +95,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingUpdateDTO, hosting);
 
-        hosting.setUpdateTime(LocalDateTime.now());
+        hosting.setUpdateTime(LocalDateTime.now()).setDisplay(false);
 
         //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
         Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
