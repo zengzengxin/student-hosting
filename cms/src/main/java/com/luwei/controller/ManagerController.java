@@ -30,26 +30,27 @@ public class ManagerController {
     @Resource
     private ManagerService managerService;
 
-    @PostMapping("addManager")
+    @PostMapping
     @ApiOperation("添加管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
     public ManagerPageVO addManager(@RequestBody @Valid ManagerAddVO addVO) {
         return managerService.add(addVO, addVO.getRole());
     }
 
-    @DeleteMapping("deleteManager")
+    @DeleteMapping
     @ApiOperation("删除管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
     public void deleteManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds, RoleEnum roleEnum) {
         managerService.delete(managerIds, roleEnum);
     }
 
-    @PutMapping("updateManager")
+    @PutMapping
     @ApiOperation("修改管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO updateManager(@RequestBody @Valid ManagerEditVO editVO, RoleEnum roleEnum) {
+    public ManagerPageVO updateManager(@RequestBody @Valid ManagerEditVO editVO,RoleEnum roleEnum) {
         return managerService.update(editVO, roleEnum);
     }
+
 
     @GetMapping("page")
     @ApiOperation("分页列表")
