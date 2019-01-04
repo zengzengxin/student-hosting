@@ -38,7 +38,7 @@ public class Manager implements Serializable {
     @ApiModelProperty(value = "密码")
     private String password;
 
-    @ApiModelProperty(value = "角色 0-超级管理员 1-普通管理员")
+    @ApiModelProperty(value = "角色 0-平台管理员 1-教育局管理员 2-学校/机构管理员")
     private RoleEnum role;
 
     @ApiModelProperty(value = "是否禁用 0-否 1-是")

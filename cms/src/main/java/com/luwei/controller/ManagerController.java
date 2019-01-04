@@ -30,47 +30,31 @@ public class ManagerController {
     @Resource
     private ManagerService managerService;
 
-    @PostMapping("addEducationManager")
-    @ApiOperation("添加教育局管理员")
+    @PostMapping("addManager")
+    @ApiOperation("添加管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO addEducationManager(@RequestBody @Valid ManagerAddVO addVO) {
-        return managerService.add(addVO, RoleEnum.ADMIN);
+    public ManagerPageVO addManager(@RequestBody @Valid ManagerAddVO addVO) {
+        return managerService.add(addVO, addVO.getRole());
     }
 
-    @PostMapping("addSchoolManager")
-    @ApiOperation("添加学校/机构管理员")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO addSchoolManager(@RequestBody @Valid ManagerAddVO addVO) {
-        return managerService.add(addVO, RoleEnum.OPERATOR);
-    }
 
-    @DeleteMapping("deleteEducationManager")
+    @DeleteMapping("deleteManager")
     @ApiOperation("删除教育局管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public void deleteEducationManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds) {
-        managerService.delete(managerIds, RoleEnum.ADMIN);
+    public void deleteManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds,RoleEnum roleEnum) {
+        managerService.delete(managerIds, roleEnum);
     }
 
-    @DeleteMapping("deleteSchoolManager")
-    @ApiOperation("删除学校/机构管理员")
+
+
+
+    @PutMapping("updateManager")
+    @ApiOperation("修改管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public void deleteSchoolManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds) {
-        managerService.delete(managerIds, RoleEnum.OPERATOR);
+    public ManagerPageVO updateManager(@RequestBody @Valid ManagerEditVO editVO,RoleEnum roleEnum) {
+        return managerService.update(editVO, roleEnum);
     }
 
-    @PutMapping("updateEducationManager")
-    @ApiOperation("修改教育局管理员")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO updateEducationManager(@RequestBody @Valid ManagerEditVO editVO) {
-        return managerService.update(editVO, RoleEnum.ADMIN);
-    }
-
-    @PutMapping("updateSchoolManager")
-    @ApiOperation("修改学校/机构管理员")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO updateSchoolManager(@RequestBody @Valid ManagerEditVO editVO) {
-        return managerService.update(editVO, RoleEnum.OPERATOR);
-    }
 
     @GetMapping("page")
     @ApiOperation("分页列表")
