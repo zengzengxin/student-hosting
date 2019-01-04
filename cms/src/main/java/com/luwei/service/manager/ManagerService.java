@@ -124,9 +124,9 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public ManagerPageVO update(ManagerEditVO editVO, RoleEnum roleEnum) {
+    public ManagerPageVO update(ManagerEditVO editVO) {
         QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
-        wrapper.lambda().eq(Manager::getManagerId, editVO.getManagerId()).eq(Manager::getRole, roleEnum);
+        wrapper.lambda().eq(Manager::getManagerId, editVO.getManagerId());
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
 
@@ -161,11 +161,11 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      * @param idList
      */
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Integer> idList, RoleEnum roleEnum) {
+    public void delete(Set<Integer> idList) {
         Manager manager;
         for (Integer managerId : idList) {
             QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
-            wrapper.lambda().eq(Manager::getManagerId, managerId).eq(Manager::getRole, roleEnum);
+            wrapper.lambda().eq(Manager::getManagerId, managerId);
             manager = baseMapper.selectOne(wrapper);
             Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
             Assert.isTrue(!Objects.equals(manager.getRole(), RoleEnum.ROOT), MessageCodes.ROOT_CANNOT_DELETE);

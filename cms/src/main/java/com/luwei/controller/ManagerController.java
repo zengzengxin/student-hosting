@@ -40,15 +40,15 @@ public class ManagerController {
     @DeleteMapping
     @ApiOperation("删除管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public void deleteManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds, RoleEnum roleEnum) {
-        managerService.delete(managerIds, roleEnum);
+    public void deleteManager(@RequestParam @ApiParam("id列表") Set<Integer> managerIds) {
+        managerService.delete(managerIds);
     }
 
     @PutMapping
     @ApiOperation("修改管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO updateManager(@RequestBody @Valid ManagerEditVO editVO,RoleEnum roleEnum) {
-        return managerService.update(editVO, roleEnum);
+    public ManagerPageVO updateManager(@RequestBody @Valid ManagerEditVO editVO) {
+        return managerService.update(editVO);
     }
 
 
