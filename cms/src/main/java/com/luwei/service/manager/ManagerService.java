@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.BcryptUtil;
 import com.luwei.model.manager.Manager;
 import com.luwei.model.manager.ManagerMapper;
@@ -142,9 +143,9 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      * @param managerStateVO
      */
     @Transactional(rollbackFor = Exception.class)
-    public ManagerPageVO handleDisabled(ManagerStateVO managerStateVO, RoleEnum roleEnum) {
+    public ManagerPageVO handleDisabled(ManagerStateVO managerStateVO) {
         QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
-        wrapper.lambda().eq(Manager::getManagerId, managerStateVO.getManagerId()).eq(Manager::getRole, roleEnum);
+        wrapper.lambda().eq(Manager::getManagerId, managerStateVO.getManagerId());
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         Assert.isTrue(!Objects.equals(manager.getRole(), RoleEnum.ROOT), MessageCodes.ROOT_CANNOT_DISABLED);
@@ -175,11 +176,15 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public ManagerPageVO resetPassword(ManagerResetPasswordVO managerResetPasswordVO, RoleEnum roleEnum) {
-        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>();
-        wrapper.lambda().eq(Manager::getManagerId, managerResetPasswordVO.getManagerId()).eq(Manager::getRole, roleEnum);
+    public ManagerPageVO resetPassword(ManagerResetPasswordVO managerResetPasswordVO) {
+        QueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().eq("manager_id", managerResetPasswordVO.getManagerId());
         Manager manager = baseMapper.selectOne(wrapper);
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
+        // 不可在此重置ROOT密码
+        if (manager.getRole() == RoleEnum.ROOT) {
+            throw new ValidationException(MessageCodes.ROOT_CANNOT_RESET);
+        }
+
         String md5Password;
         try {
             md5Password = DigestUtils.md5DigestAsHex((BcryptUtil.decrypt(managerResetPasswordVO.getPassword()) + salt).getBytes());

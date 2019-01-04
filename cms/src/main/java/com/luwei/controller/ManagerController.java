@@ -3,7 +3,6 @@ package com.luwei.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.luwei.common.constant.RoleConstant;
-import com.luwei.common.constant.RoleEnum;
 import com.luwei.model.manager.pojo.*;
 import com.luwei.service.manager.ManagerService;
 import io.swagger.annotations.Api;
@@ -63,15 +62,15 @@ public class ManagerController {
     @PutMapping("password")
     @ApiOperation("重置密码")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO resetPassword(@RequestBody @Valid ManagerResetPasswordVO managerResetPasswordVO, RoleEnum roleEnum) {
-        return managerService.resetPassword(managerResetPasswordVO, roleEnum);
+    public ManagerPageVO resetPassword(@RequestBody @Valid ManagerResetPasswordVO managerResetPasswordVO) {
+        return managerService.resetPassword(managerResetPasswordVO);
     }
 
     @PutMapping("state")
     @ApiOperation("禁用|开启")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public ManagerPageVO handleDisabled(@RequestBody @Valid ManagerStateVO managerStateVO, RoleEnum roleEnum) {
-        return managerService.handleDisabled(managerStateVO, roleEnum);
+    public ManagerPageVO handleDisabled(@RequestBody @Valid ManagerStateVO managerStateVO) {
+        return managerService.handleDisabled(managerStateVO);
     }
 
     @PutMapping("/school")

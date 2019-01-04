@@ -120,4 +120,6 @@ public interface MessageCodes {
     String ORDER_PAY_AMOUNT_ERROR = "order.pay.amount.error";//订单支付金额不一致
     String MANAGER_BINDING_SCHOOL_ERROR = "manager.binding.school.error";//管理员绑定学校失败
     String MANAGER_NOT_BINDING_SCHOOL = "manager.not.binding.school";//管理员没有绑定学校无法添加公告
+
+    String ROOT_CANNOT_RESET = "root.cannot.reset";//在此不能重置ROOT密码
 }
