@@ -458,6 +458,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         order.setOrderStatus(OrderStatusEnum.PAID);
         order.setPayment(PaymentEnum.WECHAT);
         order.setTransactionId(wxNotifyResultVo.getTransactionId());
+        order.setUpdateTime(LocalDateTime.now());
         Assert.isTrue(updateById(order), MessageCodes.ORDER_STATUS_UPDATE_ERROR);
         log.info("订单编号: {} 修改状态为已支付", order.getOrderId());
     }
