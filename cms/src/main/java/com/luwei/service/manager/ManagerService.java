@@ -203,15 +203,12 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
         School school = schoolService.getById(bindingSchool.getSchoolId());
         Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
-        manager.setSchoolId(school.getSchoolId());
+        manager.setSchoolId(school.getSchoolId())
+                .setSchoolName(school.getName());
         Assert.isTrue(save(manager), MessageCodes.MANAGER_BINDING_SCHOOL_ERROR);
 
-        ManagerAddDTO managerAddDTO = new ManagerAddDTO();
-        BeanUtils.copyProperties(manager,managerAddDTO);
-        managerAddDTO.setSchoolName(school.getName());
-
         ManagerPageVO managerPageVO = new ManagerPageVO();
-        BeanUtils.copyProperties(managerAddDTO,managerPageVO);
+        BeanUtils.copyProperties(manager, managerPageVO);
         return managerPageVO;
     }
 
