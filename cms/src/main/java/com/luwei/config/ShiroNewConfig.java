@@ -1,6 +1,5 @@
 package com.luwei.config;
 
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,12 +18,6 @@ public class ShiroNewConfig {
         DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
         advisorAutoProxyCreator.setProxyTargetClass(true);
         return advisorAutoProxyCreator;
-    }
-
-    @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor() {
-        // authorizationAttributeSourceAdvisor.setSecurityManager(securityManager());
-        return new AuthorizationAttributeSourceAdvisor();
     }
 
 }
