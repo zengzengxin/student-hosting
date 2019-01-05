@@ -148,8 +148,17 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
             manager.setSchoolId(school.getSchoolId())
                     .setSchoolName(school.getName())
                     .setAccount(editVO.getAccount())
+                    .setRole(editVO.getRole())
                     .setManagerId(editVO.getManagerId());
         }
+
+        if (editVO.getSchoolId() == null) {
+            manager.setAccount(editVO.getAccount())
+                    .setRole(editVO.getRole())
+                    .setManagerId(editVO.getManagerId());
+        }
+
+        updateById(manager);
 
         return toManagerPageVO(manager);
     }
