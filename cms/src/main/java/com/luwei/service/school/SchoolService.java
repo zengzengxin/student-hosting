@@ -1,23 +1,29 @@
 package com.luwei.service.school;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ReadExcelUtil;
+import com.luwei.model.manager.Manager;
 import com.luwei.model.school.School;
 import com.luwei.model.school.SchoolMapper;
 import com.luwei.model.school.envm.SchoolTypeEnum;
 import com.luwei.model.school.pojo.cms.SchoolCmsVO;
 import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
+import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.manager.ManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +37,9 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class SchoolService extends ServiceImpl<SchoolMapper, School> {
+
+    @Resource
+    private ManagerService managerService;
 
     public SchoolCmsVO findById(Integer schoolId) {
         School school = getById(schoolId);
@@ -58,9 +67,14 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
     }
 
     public List<SchoolCmsVO> findSchoolPage() {
+        LambdaQueryWrapper<School> wrapper = new QueryWrapper<School>().lambda();
+        // 如果学校角色调用此方法, 则只返回此学校的数据
+        Integer managerId = UserHelper.getUserId();
+        Manager manager = managerService.getById(managerId);
+        if (manager.getRole() == RoleEnum.OPERATOR) {
+            wrapper.eq(School::getSchoolId, manager.getSchoolId());
+        }
         return list(new QueryWrapper<>()).stream().map(this::toSchoolVO).collect(Collectors.toList());
-        // QueryWrapper queryWrapper = new QueryWrapper();
-        // return baseMapper.selectPage(page,queryWrapper);
     }
 
     public Boolean readExcelFile(MultipartFile file) {
