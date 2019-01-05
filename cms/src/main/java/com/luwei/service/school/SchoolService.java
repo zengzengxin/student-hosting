@@ -74,7 +74,7 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         if (manager.getRole() == RoleEnum.OPERATOR) {
             wrapper.eq(School::getSchoolId, manager.getSchoolId());
         }
-        return list(new QueryWrapper<>()).stream().map(this::toSchoolVO).collect(Collectors.toList());
+        return list(wrapper).stream().map(this::toSchoolVO).collect(Collectors.toList());
     }
 
     public Boolean readExcelFile(MultipartFile file) {
