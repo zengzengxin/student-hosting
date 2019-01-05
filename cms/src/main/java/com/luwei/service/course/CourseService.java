@@ -100,12 +100,13 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         course.setTeacherName(teacher.getTeacherName());
         Assert.isTrue(save(course), MessageCodes.COURSE_SAVE_ERROR);
         Integer courseId = course.getCourseId();
+        Integer teacherId = addDTO.getTeacherId();
 
         // 保存课程套餐
         List<CoursePackageAddDTO> temp = addDTO.getCoursePackageList();
         List<CoursePackageCmsVO> list = new ArrayList<>();
         for (CoursePackageAddDTO coursePackageAddDTO : temp) {
-            CoursePackageCmsVO packageVO = saveCoursePackage(coursePackageAddDTO, courseId);
+            CoursePackageCmsVO packageVO = saveCoursePackage(coursePackageAddDTO, courseId, teacherId);
             list.add(packageVO);
         }
 
@@ -119,11 +120,12 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
-    private CoursePackageCmsVO saveCoursePackage(CoursePackageAddDTO addDTO, Integer courseId) {
+    private CoursePackageCmsVO saveCoursePackage(CoursePackageAddDTO addDTO, Integer courseId, Integer teacherId) {
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(addDTO, coursePackage);
         // 课程管理
         coursePackage.setCourseId(courseId);
+        coursePackage.setTeacherId(teacherId);
         LocalDateTime time = LocalDateTime.now();
         coursePackage.setUpdateTime(time);
         coursePackage.setCreateTime(time);
@@ -179,7 +181,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         List<CoursePackageUpdateDTO> temp = updateDTO.getCoursePackageList();
         List<CoursePackageCmsVO> list = new ArrayList<>();
         for (CoursePackageUpdateDTO coursePackageUpdateDTO : temp) {
-            CoursePackageCmsVO packageVO = updateCoursePackage(coursePackageUpdateDTO, course.getCourseId());
+            CoursePackageCmsVO packageVO = updateCoursePackage(coursePackageUpdateDTO, course.getCourseId(), updateDTO.getTeacherId());
             list.add(packageVO);
         }
 
@@ -203,7 +205,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
-    private CoursePackageCmsVO updateCoursePackage(CoursePackageUpdateDTO updateDTO, Integer courseId) {
+    private CoursePackageCmsVO updateCoursePackage(CoursePackageUpdateDTO updateDTO, Integer courseId, Integer teacherId) {
 
         // 课程套餐上架之后不可修改
         CoursePackage p = coursePackageMapper.selectById(updateDTO.getCoursePackageId());
@@ -217,6 +219,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             BeanUtils.copyProperties(updateDTO, coursePackage);
             // 课程管理
             coursePackage.setCourseId(courseId);
+            coursePackage.setTeacherId(teacherId);
             LocalDateTime time = LocalDateTime.now();
             coursePackage.setUpdateTime(time);
             coursePackage.setCreateTime(time);
