@@ -1,5 +1,6 @@
 package com.luwei.service.child;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -97,7 +99,14 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     public IPage<ChildCmsVO> findPage(Page<Child> page, @Valid ChildQueryDTO childQueryDTO) {
         Manager manager = managerService.getById(UserHelper.getUserId());
         if (manager.getRole() == RoleEnum.ROOT) {
-            return ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<>()), this::toChildVO);
+            LambdaQueryWrapper<Child> queryWrapper = new QueryWrapper<Child>().lambda();
+            if (!ObjectUtils.isEmpty(childQueryDTO.getName())) {
+                queryWrapper.eq(Child::getName, childQueryDTO.getName());
+            }
+            if (!ObjectUtils.isEmpty(childQueryDTO.getStudentNo())) {
+                queryWrapper.eq(Child::getStudentNo, childQueryDTO.getStudentNo());
+            }
+            return ConversionBeanUtils.conversionBean(page(page, queryWrapper), this::toChildVO);
         }
         Integer schoolId = manager.getSchoolId();
         return baseMapper.findPage(page, childQueryDTO, schoolId);
