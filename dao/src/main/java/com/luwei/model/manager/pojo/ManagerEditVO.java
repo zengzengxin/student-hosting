@@ -1,5 +1,6 @@
 package com.luwei.model.manager.pojo;
 
+import com.luwei.common.constant.RoleEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
@@ -25,5 +26,8 @@ public class ManagerEditVO {
 
     @ApiModelProperty(value = "学校ID")
     private Integer schoolId;
+
+    @ApiModelProperty(value = "角色 0-平台管理员 1-教育局管理员 2-学校/机构管理员")
+    private RoleEnum role;
 
 }

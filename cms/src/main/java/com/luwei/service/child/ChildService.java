@@ -61,7 +61,6 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return childVO;
     }
 
-    //finish
     @Transactional(rollbackFor = Exception.class)
     public ChildCmsVO saveChild(ChildAddDTO childAddDTO) {
         Child child = new Child();
@@ -76,20 +75,18 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return toChildVO(child);
     }
 
-    //finish
     @Transactional(rollbackFor = Exception.class)
     public ChildCmsVO updateChild(ChildUpdateDTO childUpdateDTO) {
         Child child = new Child();
         BeanUtils.copyNonNullProperties(childUpdateDTO, child);
-
         child.setUpdateTime(LocalDateTime.now());
-
         //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
         Assert.isTrue(updateById(child), MessageCodes.CHILD_UPDATE_ERROR);
         log.info("修改数据：bean:{}", childUpdateDTO);
         return findById(child.getChildId());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void deleteChildren(Set<Integer> ids) {
         int count = baseMapper.deleteBatchIds(ids);
         Assert.isTrue(count == ids.size(), MessageCodes.CHILD_DELETE_ERROR);
@@ -112,9 +109,9 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         return baseMapper.findPage(page, childQueryDTO, schoolId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void importExcel(MultipartFile file) {
-        ReadExcelUtil readExcelUtil = new ReadExcelUtil();
-        List<Map<Integer, String>> excelInfo = readExcelUtil.getExcelInfo(file);
+        List<Map<Integer, String>> excelInfo = ReadExcelUtil.getExcelInfo(file);
 
         List<Child> list = new ArrayList<Child>();
         for (Map<Integer, String> map : excelInfo) {
@@ -139,6 +136,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
             list.add(child);
         }
         boolean flag = saveBatch(list);
+        log.info("从excle导入数据",list);
         Assert.isTrue(flag, MessageCodes.CHILD_IMPORT_FROM_EXCEL_ERROR);
 
     }
