@@ -18,9 +18,11 @@ import com.luwei.model.coursepackage.pojo.cms.CoursePackageUpdateDTO;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
+import com.luwei.model.teacher.Teacher;
 import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.picture.PictureService;
 import com.luwei.service.recommend.RecommendService;
+import com.luwei.service.teacher.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     @Resource
     private RecommendService recommendService;
+
+    @Resource
+    private TeacherService teacherService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -91,6 +96,8 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         LocalDateTime time = LocalDateTime.now();
         course.setUpdateTime(time);
         course.setCreateTime(time);
+        Teacher teacher = teacherService.getById(addDTO.getTeacherId());
+        course.setTeacherName(teacher.getTeacherName());
         Assert.isTrue(save(course), MessageCodes.COURSE_SAVE_ERROR);
         Integer courseId = course.getCourseId();
 
