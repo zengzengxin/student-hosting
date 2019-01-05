@@ -44,8 +44,8 @@ public class BannerController {
     @DeleteMapping
     @ApiOperation("删除")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public void deleteBanners(@RequestParam @ApiParam("bannerId列表") Set<Integer> bannerIds) {
-        bannerService.deleteBanners(bannerIds);
+    public void deleteBanners(@RequestParam @ApiParam("bannerId列表") Set<Integer> ids) {
+        bannerService.deleteBanners(ids);
     }
 
     @PutMapping
