@@ -18,10 +18,12 @@ import com.luwei.model.coursepackage.pojo.cms.CoursePackageUpdateDTO;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
+import com.luwei.model.school.School;
 import com.luwei.model.teacher.Teacher;
 import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.picture.PictureService;
 import com.luwei.service.recommend.RecommendService;
+import com.luwei.service.school.SchoolService;
 import com.luwei.service.teacher.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -56,6 +58,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     @Resource
     private TeacherService teacherService;
+
+    @Resource
+    private SchoolService schoolService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -98,6 +103,8 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         course.setCreateTime(time);
         Teacher teacher = teacherService.getById(addDTO.getTeacherId());
         course.setTeacherName(teacher.getTeacherName());
+        School school = schoolService.getById(addDTO.getSchoolId());
+        course.setSchoolName(school.getName());
         Assert.isTrue(save(course), MessageCodes.COURSE_SAVE_ERROR);
         Integer courseId = course.getCourseId();
         Integer teacherId = addDTO.getTeacherId();
@@ -174,6 +181,8 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         course.setUpdateTime(LocalDateTime.now()).setDisplay(false);
         Teacher teacher = teacherService.getById(updateDTO.getTeacherId());
         course.setTeacherName(teacher.getTeacherName());
+        School school = schoolService.getById(updateDTO.getSchoolId());
+        course.setSchoolName(school.getName());
         Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
         course = getById(course.getCourseId());
 
