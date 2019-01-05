@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.course.Course;
@@ -15,12 +16,15 @@ import com.luwei.model.coursepackage.CoursePackageMapper;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageAddDTO;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageCmsVO;
 import com.luwei.model.coursepackage.pojo.cms.CoursePackageUpdateDTO;
+import com.luwei.model.manager.Manager;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import com.luwei.model.school.School;
 import com.luwei.model.teacher.Teacher;
 import com.luwei.module.shiro.service.ShiroTokenService;
+import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.manager.ManagerService;
 import com.luwei.service.picture.PictureService;
 import com.luwei.service.recommend.RecommendService;
 import com.luwei.service.school.SchoolService;
@@ -61,6 +65,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     @Resource
     private SchoolService schoolService;
+
+    @Resource
+    private ManagerService managerService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -107,13 +114,12 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         course.setSchoolName(school.getName());
         Assert.isTrue(save(course), MessageCodes.COURSE_SAVE_ERROR);
         Integer courseId = course.getCourseId();
-        Integer teacherId = addDTO.getTeacherId();
 
         // 保存课程套餐
         List<CoursePackageAddDTO> temp = addDTO.getCoursePackageList();
         List<CoursePackageCmsVO> list = new ArrayList<>();
         for (CoursePackageAddDTO coursePackageAddDTO : temp) {
-            CoursePackageCmsVO packageVO = saveCoursePackage(coursePackageAddDTO, courseId, teacherId);
+            CoursePackageCmsVO packageVO = saveCoursePackage(coursePackageAddDTO, course);
             list.add(packageVO);
         }
 
@@ -127,12 +133,14 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
-    private CoursePackageCmsVO saveCoursePackage(CoursePackageAddDTO addDTO, Integer courseId, Integer teacherId) {
+    private CoursePackageCmsVO saveCoursePackage(CoursePackageAddDTO addDTO, Course course) {
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(addDTO, coursePackage);
         // 课程管理
-        coursePackage.setCourseId(courseId);
-        coursePackage.setTeacherId(teacherId);
+        coursePackage.setCourseId(course.getCourseId());
+        coursePackage.setCourseName(course.getCourseName());
+        coursePackage.setTeacherId(course.getTeacherId());
+
         LocalDateTime time = LocalDateTime.now();
         coursePackage.setUpdateTime(time);
         coursePackage.setCreateTime(time);
@@ -190,7 +198,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         List<CoursePackageUpdateDTO> temp = updateDTO.getCoursePackageList();
         List<CoursePackageCmsVO> list = new ArrayList<>();
         for (CoursePackageUpdateDTO coursePackageUpdateDTO : temp) {
-            CoursePackageCmsVO packageVO = updateCoursePackage(coursePackageUpdateDTO, course.getCourseId(), updateDTO.getTeacherId());
+            CoursePackageCmsVO packageVO = updateCoursePackage(coursePackageUpdateDTO, course);
             list.add(packageVO);
         }
 
@@ -214,7 +222,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
-    private CoursePackageCmsVO updateCoursePackage(CoursePackageUpdateDTO updateDTO, Integer courseId, Integer teacherId) {
+    private CoursePackageCmsVO updateCoursePackage(CoursePackageUpdateDTO updateDTO, Course course) {
 
         // 课程套餐上架之后不可修改
         CoursePackage p = coursePackageMapper.selectById(updateDTO.getCoursePackageId());
@@ -227,8 +235,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             CoursePackage coursePackage = new CoursePackage();
             BeanUtils.copyProperties(updateDTO, coursePackage);
             // 课程管理
-            coursePackage.setCourseId(courseId);
-            coursePackage.setTeacherId(teacherId);
+            coursePackage.setCourseId(course.getCourseId());
+            coursePackage.setCourseName(course.getCourseName());
+            coursePackage.setTeacherId(course.getTeacherId());
             LocalDateTime time = LocalDateTime.now();
             coursePackage.setUpdateTime(time);
             coursePackage.setCreateTime(time);
@@ -271,6 +280,13 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         wrapper.orderByDesc(Course::getRecommend);
         if (queryDTO.getCourseName() != null && !queryDTO.getCourseName().equals("")) {
             wrapper.like(Course::getCourseName, queryDTO.getCourseName());
+        }
+
+        // 平台和教育局查所有课程, 学校查自己的课程
+        Integer managerId = UserHelper.getUserId();
+        Manager manager = managerService.getById(managerId);
+        if (manager.getRole() == RoleEnum.OPERATOR) {
+            wrapper.eq(Course::getSchoolId, manager.getSchoolId());
         }
         IPage<CourseCmsVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toCourseVO);
         List<CourseCmsVO> list = iPage.getRecords();
@@ -331,7 +347,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         if (courseDisplay.getDisplay()) {
             course.setDisplay(true);
             Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
-        }else {
+        } else {
             course.setDisplay(false);
             Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
         }
@@ -342,6 +358,6 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         Course course = new Course();
         System.out.println(course.getClass().getClassLoader());
         ShiroTokenService shiroTokenService = new ShiroTokenService();
-        System.out.println(shiroTokenService.getClass().getClassLoader()); 
+        System.out.println(shiroTokenService.getClass().getClassLoader());
     }
 }

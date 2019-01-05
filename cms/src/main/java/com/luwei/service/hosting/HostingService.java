@@ -5,15 +5,19 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.hosting.Hosting;
 import com.luwei.model.hosting.HostingMapper;
 import com.luwei.model.hosting.pojo.cms.*;
+import com.luwei.model.manager.Manager;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
+import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.manager.ManagerService;
 import com.luwei.service.picture.PictureService;
 import com.luwei.service.recommend.RecommendService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +44,9 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     @Resource
     private RecommendService recommendService;
+
+    @Resource
+    private ManagerService managerService;
 
     private HostingCmsVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
@@ -73,7 +80,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         // 保存托管图片
         List<String> urls = hostingAddDTO.getPictureUrls();
         for (String url : urls) {
-            pictureService.savePicture(url, hosting.getHostingId(),PictureTypeEnum.HOSTING);
+            pictureService.savePicture(url, hosting.getHostingId(), PictureTypeEnum.HOSTING);
         }
         return toHostingVO(hosting).setPictureUrls(urls);//
     }
@@ -85,7 +92,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         Assert.isTrue(count == hostingIds.size(), MessageCodes.HOSTING_DELETE_ERROR);
         log.info("删除数据:ids{}", hostingIds);
         //删除推荐表中的数据
-        for (Integer id :hostingIds) {
+        for (Integer id : hostingIds) {
             recommendService.realDeleteByServiceIdAndServiceType(id, ServiceTypeEnum.HOSTING.getValue());
         }
     }
@@ -106,20 +113,20 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         List<String> urls = hostingUpdateDTO.getPictureUrls();
         Integer hostingId = hosting.getHostingId();
         for (String url : urls) {
-            pictureService.savePicture(url, hostingId,PictureTypeEnum.HOSTING);
+            pictureService.savePicture(url, hostingId, PictureTypeEnum.HOSTING);
         }
 
         log.info("修改数据：bean:{}", hostingUpdateDTO);
 
         //删除推荐表中的数据
-        recommendService.realDeleteByServiceIdAndServiceType(hostingId,ServiceTypeEnum.HOSTING.getValue());
+        recommendService.realDeleteByServiceIdAndServiceType(hostingId, ServiceTypeEnum.HOSTING.getValue());
         //重新插入推荐表
         HostingRecommend hostingRecommend = new HostingRecommend();
         hostingRecommend.setHostingId(hostingId);
         hostingRecommend.setRecommend(true);
         recommend(hostingRecommend);
 
-        return findById(hosting.getHostingId()).setPictureUrls(pictureService.findAllByForeignKeyId(hosting.getHostingId(),PictureTypeEnum.HOSTING.getValue()));
+        return findById(hosting.getHostingId()).setPictureUrls(pictureService.findAllByForeignKeyId(hosting.getHostingId(), PictureTypeEnum.HOSTING.getValue()));
     }
 
     public IPage<HostingCmsVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
@@ -127,6 +134,13 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         wrapper.orderByDesc(Hosting::getRecommend);
         if (hostingQueryDTO.getName() != null && !hostingQueryDTO.getName().equals("")) {
             wrapper.like(Hosting::getName, hostingQueryDTO.getName());
+        }
+
+        // 平台和教育局查所有托管, 学校查自己的托管
+        Integer managerId = UserHelper.getUserId();
+        Manager manager = managerService.getById(managerId);
+        if (manager.getRole() == RoleEnum.OPERATOR) {
+            wrapper.eq(Hosting::getSchoolId, manager.getSchoolId());
         }
         IPage<HostingCmsVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toHostingVO);
         List<HostingCmsVO> list = iPage.getRecords();
@@ -137,13 +151,13 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     private HostingCmsVO dealWith(HostingCmsVO hostingVO) {
         // 设置图片
-        List<String> urls = pictureService.findAllByForeignKeyId(hostingVO.getHostingId(),PictureTypeEnum.HOSTING.getValue());
+        List<String> urls = pictureService.findAllByForeignKeyId(hostingVO.getHostingId(), PictureTypeEnum.HOSTING.getValue());
 
         return hostingVO.setPictureUrls(urls);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public HostingCmsVO recommend( HostingRecommend hostingRecommend) {
+    public HostingCmsVO recommend(HostingRecommend hostingRecommend) {
         Hosting hosting = getById(hostingRecommend.getHostingId());
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         if (hostingRecommend.getRecommend()) {
@@ -176,15 +190,14 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return toHostingVO(hosting);
     }
 
-
     //上下架
-    public HostingCmsVO display( HostingDisplay hostingDisplay) {
+    public HostingCmsVO display(HostingDisplay hostingDisplay) {
         Hosting hosting = getById(hostingDisplay.getHostingId());
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         if (hostingDisplay.getDisplay()) {
             hosting.setDisplay(true);
             Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
-        }else {
+        } else {
             hosting.setDisplay(false);
             Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
         }
