@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.luwei.module</groupId>
             <artifactId>shiro-module-new</artifactId>
-            <version>1.0.0.RELEASE</version>
+            <version>1.0.1.RELEASE</version>
         </dependency>
 
         <dependency>

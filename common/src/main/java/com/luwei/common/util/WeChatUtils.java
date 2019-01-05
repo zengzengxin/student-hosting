@@ -1023,4 +1023,25 @@ public class WeChatUtils {
         }
         return des;
     }
+
+
+
+    //企业微信打卡
+    public String checkin(String accessToken, Map<String, Object> param) {
+        return post("https://qyapi.weixin.qq.com/cgi-bin/checkin/getcheckindata?access_token=" + accessToken, param);
+    }
+
+    public static void main(String[] args) {
+        WeChatUtils weChatUtils = new WeChatUtils();
+        Map<String, Object> params = new HashMap<>();
+        params.put("opencheckindatatype",3);
+        params.put("starttime",1492617600);
+        params.put("endtime",1492790400);
+        params.put("useridlist","JingShuiLiuShen");
+
+
+        String accessToken = "g2mjqQ7NAnqc-g4UJesytvDvuDIrbssJKqbvnf1X2-biVGubVZuTW-RpKH28IYeLWuLNd2GVFhlUx9JFTL8uvIH8aaC1dvLGs6Di6qlos9NImWiZn_vY0Xj7NObsew5xh68Opt3NWoOn1j4YBBDRKCfSPSzDw__xUR3vAHRStpK20tMJkLNaMtbT2ZMNBUqC-n7IguJ1WkOTM8RlUI8nyA";
+
+        System.out.println(weChatUtils.checkin(accessToken,params));
+    }
 }

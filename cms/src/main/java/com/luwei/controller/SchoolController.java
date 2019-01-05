@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -65,13 +63,10 @@ public class SchoolController {
     @PostMapping("/import")
     @ApiOperation("导入Excel")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
-    public Map<String, Object> importExcel(MultipartFile file) {
-        Map<String, Object> map = new HashMap<>();
-        //String result = importService.readExcelFile(file);
+    public String importExcel(MultipartFile file) {
         Boolean result = schoolService.readExcelFile(file);
         if (result) {
-            map.put("message", "上传成功");
-            return map;
+            return "上传成功";
         }
         // 有空改掉硬编码
         throw new ValidationException("上传失败");
