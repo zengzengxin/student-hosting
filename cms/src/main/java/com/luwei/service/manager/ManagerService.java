@@ -146,7 +146,9 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
             School school = schoolService.getById(editVO.getSchoolId());
             Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
             manager.setSchoolId(school.getSchoolId())
-                    .setSchoolName(school.getName());
+                    .setSchoolName(school.getName())
+                    .setAccount(editVO.getAccount())
+                    .setManagerId(editVO.getManagerId());
         }
 
         return toManagerPageVO(manager);

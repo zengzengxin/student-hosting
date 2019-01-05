@@ -61,11 +61,9 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return hostingVO;
     }
 
-    //添加数据（向hosting表 picture表 套餐表）
 
     @Transactional(rollbackFor = Exception.class)
     public HostingCmsVO saveHosting(HostingAddDTO hostingAddDTO) {
-
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingAddDTO, hosting);
         LocalDateTime time = LocalDateTime.now();
