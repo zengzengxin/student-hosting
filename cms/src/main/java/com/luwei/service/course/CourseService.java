@@ -277,7 +277,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     public IPage<CourseCmsVO> findPage(CourseQueryDTO queryDTO, Page<Course> page) {
         LambdaQueryWrapper<Course> wrapper = new QueryWrapper<Course>().lambda();
         // noinspection unchecked
-        wrapper.orderByDesc(Course::getRecommend);
+        wrapper.orderByDesc(Course::getRecommend).eq(Course::getDisplay, true);
         if (queryDTO.getCourseName() != null && !queryDTO.getCourseName().equals("")) {
             wrapper.like(Course::getCourseName, queryDTO.getCourseName());
         }

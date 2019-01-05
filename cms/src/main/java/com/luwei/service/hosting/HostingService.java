@@ -131,7 +131,8 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     public IPage<HostingCmsVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
         LambdaQueryWrapper<Hosting> wrapper = new QueryWrapper<Hosting>().lambda();
-        wrapper.orderByDesc(Hosting::getRecommend);
+        // noinspection unchecked
+        wrapper.orderByDesc(Hosting::getRecommend).eq(Hosting::getDisplay, true);
         if (hostingQueryDTO.getName() != null && !hostingQueryDTO.getName().equals("")) {
             wrapper.like(Hosting::getName, hostingQueryDTO.getName());
         }
