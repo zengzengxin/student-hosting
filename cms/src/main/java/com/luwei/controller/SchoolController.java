@@ -54,7 +54,7 @@ public class SchoolController {
 
     @GetMapping("/list")
     @ApiOperation("返回所有学校")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN, RoleConstant.OPERATOR})
     public List<SchoolCmsVO> schoolList() {
         return schoolService.findSchoolPage();
     }
