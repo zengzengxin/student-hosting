@@ -83,6 +83,9 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "课程结束时间")
     private LocalDateTime serviceEndTime;
 
+    @ApiModelProperty(value = "学校ID")
+    private Integer schoolId;
+
     @ApiModelProperty(value = "学校名称")
     private String schoolName;
 

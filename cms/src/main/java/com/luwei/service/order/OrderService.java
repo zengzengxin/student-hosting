@@ -5,13 +5,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.ConversionBeanUtils;
+import com.luwei.model.manager.Manager;
 import com.luwei.model.order.Order;
 import com.luwei.model.order.OrderMapper;
 import com.luwei.model.order.pojo.cms.OrderAddDTO;
-import com.luwei.model.order.pojo.cms.OrderQueryDTO;
 import com.luwei.model.order.pojo.cms.OrderCmsVO;
+import com.luwei.model.order.pojo.cms.OrderQueryDTO;
+import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.manager.ManagerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -29,6 +34,9 @@ import java.util.Set;
 @Service
 @Slf4j
 public class OrderService extends ServiceImpl<OrderMapper, Order> {
+
+    @Resource
+    private ManagerService managerService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -114,6 +122,13 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         wrapper.orderByDesc(Order::getCreateTime);
         if (!ObjectUtils.isEmpty(queryDTO.getServiceName())) {
             wrapper.like(Order::getServiceName, queryDTO.getServiceName());
+        }
+
+        // 平台和教育局查所有课程, 学校查自己的课程
+        Integer managerId = UserHelper.getUserId();
+        Manager manager = managerService.getById(managerId);
+        if (manager.getRole() == RoleEnum.OPERATOR) {
+            wrapper.eq(Order::getSchoolId, manager.getSchoolId());
         }
         wrapper.eq(Order::getOrderType, queryDTO.getOrderType());
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toOrderVO);

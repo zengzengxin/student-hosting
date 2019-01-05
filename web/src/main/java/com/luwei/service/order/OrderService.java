@@ -310,7 +310,8 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
                 .setServiceName(course.getCourseName())
                 .setServiceCover(course.getCoverUrl())
                 .setIntroduction(course.getIntroduction())
-                .setSchoolName(course.getSchoolName());
+                .setSchoolName(course.getSchoolName())
+                .setSchoolId(course.getSchoolId());
 
         // 封装课程套餐的 价格, 开始时间, 结束时间
         CoursePackage cp = coursePackageService.getById(orderDTO.getPackageId());
