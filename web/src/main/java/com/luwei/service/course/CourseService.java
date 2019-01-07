@@ -115,7 +115,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
         // 分页查
         IPage<CourseWebVO> iPage = ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Course>().lambda()
-                .eq(Course::getSchoolId, queryDTO.getSchoolId())
+                .eq(Course::getSchoolId, queryDTO.getSchoolId()).eq(Course::getDisplay, true)
         ), this::toCourseWebVO);
 
         // 设置最低价格

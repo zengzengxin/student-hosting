@@ -59,7 +59,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     public IPage<HostingWebVO> findHostingPage(HostingQuery query, Page<Hosting> page) {
         // 分页查
         IPage<HostingWebVO> iPage = ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Hosting>().lambda()
-                .eq(Hosting::getSchoolId, query.getSchoolId())
+                .eq(Hosting::getSchoolId, query.getSchoolId()).eq(Hosting::getDisplay, true)
         ), this::toHostingVO);
 
         List<HostingWebVO> list = iPage.getRecords();
