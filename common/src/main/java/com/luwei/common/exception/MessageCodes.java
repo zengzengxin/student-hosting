@@ -122,4 +122,14 @@ public interface MessageCodes {
     String MANAGER_NOT_BINDING_SCHOOL = "manager.not.binding.school";//管理员没有绑定学校无法添加公告
 
     String ROOT_CANNOT_RESET = "root.cannot.reset";//在此不能重置ROOT密码
+
+    //机构相关
+    String INSTITUTION_SAVE_ERROR = "institution.save.error";//机构保存失败
+    String INSTITUTION_DELETE_ERROR = "institution.delete.error";//机构删除失败
+    String INSTITUTION_UPDATE_ERROR = "institution.update.error";//机构更新失败
+    String INSTITUTION_IS_NOT_EXIST = "institution.is.not.exist";//机构不能为空
+
+    //校验相关
+    String INVALID_PHONE_NUMBER = "invalid.phone.number";//无效的电话号码
+
 }

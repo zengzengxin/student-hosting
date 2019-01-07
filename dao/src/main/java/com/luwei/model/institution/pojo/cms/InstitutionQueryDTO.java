@@ -1,6 +1,5 @@
-package com.luwei.model.school.pojo.cms;
+package com.luwei.model.institution.pojo.cms;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,17 +7,16 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * @author zzx
- * @since 2018-12-13
+ * Author: huanglp
+ * Date: 2019-01-07
  */
-@ApiModel(value = "")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class SchoolQueryDTO implements Serializable {
+public class InstitutionQueryDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "学校名称")
+    @ApiModelProperty(value = "机构名称")
     private String name;
 
     @ApiModelProperty(value = "负责人电话")

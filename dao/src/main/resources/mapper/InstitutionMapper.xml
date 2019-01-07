@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luwei.model.institution.InstitutionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.luwei.model.institution.Institution">
+        <id column="institution_id" property="institutionId"/>
+        <result column="name" property="name"/>
+        <result column="introduction" property="introduction"/>
+        <result column="leader_name" property="leaderName"/>
+        <result column="leader_phone" property="leaderPhone"/>
+        <result column="license" property="license"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        institution_id, name, introduction, leader_name, leader_phone, license, create_time, update_time, deleted
+    </sql>
+
+</mapper>
