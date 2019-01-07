@@ -37,7 +37,7 @@ public class NoticeWebVO implements Serializable {
     private String summary;
 
     @ApiModelProperty(value = "公告类型，0公告平台，1教育局平台")
-    private String type;
+    private Integer type;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "创建时间")
