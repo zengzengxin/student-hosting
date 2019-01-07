@@ -173,6 +173,10 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         // 支付方式 - 待定
         //order.setPayment(PaymentEnum.WECHAT);
 
+        // 01-07新增: 教师ID,教师名称,上课时间,下课时间
+        order.setTeacherId(hosting.getTeacherId())
+                .setTeacherName(hosting.getTeacherName());
+
         // 订单类型, 订单状态
         order.setOrderType(OrderTypeEnum.HOSTING)
                 .setOrderStatus(OrderStatusEnum.NOT_PAID);

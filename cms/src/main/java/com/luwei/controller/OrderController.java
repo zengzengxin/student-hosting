@@ -15,6 +15,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.Set;
 
 /**
@@ -46,7 +47,7 @@ public class OrderController {
     @GetMapping("/page")
     @ApiOperation("分页获取")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
-    public IPage<OrderCmsVO> page(@ModelAttribute OrderQueryDTO queryDTO, Page<Order> page) {
+    public IPage<OrderCmsVO> page(@ModelAttribute @Valid OrderQueryDTO queryDTO, Page<Order> page) {
         return orderService.findPage(queryDTO, page);
     }
 
