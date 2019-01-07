@@ -58,7 +58,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         notice.setUpdateTime(LocalDateTime.now());
         boolean flag = saveOrUpdate(notice);
         Assert.isTrue(flag, MessageCodes.NOTICE_SAVE_ERROR);
-        log.info("----添加一条公告----");
+        log.info("保存数据: {}", notice);
         return toNoticeVO(notice);
     }
 
@@ -90,7 +90,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         notice.setUpdateTime(LocalDateTime.now());
         Boolean flag = updateById(notice);
         Assert.isTrue(flag, MessageCodes.NOTICE_UPDATE_ERROR);
-        log.info("----更新一条公告----");
+        log.info("更新数据: {}", notice);
         return toNoticeVO(baseMapper.selectById(notice));
     }
 

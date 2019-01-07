@@ -25,7 +25,6 @@ import java.time.LocalDateTime;
 @TableName("tb_notice")
 public class NoticeCmsVO implements Serializable {
 
-
     @ApiModelProperty(value = "主键id")
     @TableId(value = "notice_id", type = IdType.AUTO)
     private Integer noticeId;
@@ -43,14 +42,10 @@ public class NoticeCmsVO implements Serializable {
     private String summary;
 
     @ApiModelProperty(value = "公告类型，0公告平台，1教育局平台")
-    private String type;
+    private Integer type;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
-
-
-
-
 
 }
