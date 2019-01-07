@@ -47,7 +47,7 @@ public class MyCourseVO implements Serializable {
     @ApiModelProperty(value = "下课时间", dataType = "java.lang.Long")
     private LocalDateTime quittingTime;
 
-    // TODO 已报名人数
+    // 已报名人数
     @ApiModelProperty(value = "最大人数")
     private Integer maxNumber;
 

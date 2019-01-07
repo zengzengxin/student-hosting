@@ -43,7 +43,6 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
 
     public TeacherCmsVO findById(Integer teacherId) {
         Teacher teacher = getById(teacherId);
-        //TODO记得修改MessageCodes
         Assert.notNull(teacher, MessageCodes.TEACHER_IS_NOT_EXIST);
         return toTeacherVO(teacher);
     }

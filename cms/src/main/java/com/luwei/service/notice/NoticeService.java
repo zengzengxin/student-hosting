@@ -47,7 +47,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
         notice.setType(role.getValue());
 
         // 公告绑定学校id
-        if (role != RoleEnum.ROOT) {
+        if (role == RoleEnum.OPERATOR) {
             Integer schoolId = manager.getSchoolId();
             Assert.notNull(schoolId, MessageCodes.MANAGER_NOT_BINDING_SCHOOL);
             notice.setSchoolId(schoolId);
@@ -72,6 +72,20 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
     public NoticeCmsVO updateNotice(NoticeUpdateDTO noticeUpdateDTO) {
         Notice notice = new Notice();
         BeanUtils.copyProperties(noticeUpdateDTO, notice);
+
+        // 公告类型
+        Manager manager = managerService.getById(UserHelper.getUserId());
+        Assert.notNull(manager, MessageCodes.MANAGER_NOT_EXIST);
+        RoleEnum role = manager.getRole();
+        notice.setType(role.getValue());
+
+        // 公告绑定学校id
+        if (role == RoleEnum.OPERATOR) {
+            Integer schoolId = manager.getSchoolId();
+            Assert.notNull(schoolId, MessageCodes.MANAGER_NOT_BINDING_SCHOOL);
+            notice.setSchoolId(schoolId);
+        }
+
         //添加一些没有的参数
         notice.setUpdateTime(LocalDateTime.now());
         Boolean flag = updateById(notice);

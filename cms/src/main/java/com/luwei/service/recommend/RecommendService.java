@@ -38,7 +38,6 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
     private Recommend findById(Integer id) {
         // 若此id已被逻辑删除,也会返回null
         Recommend recommend = getById(id);
-        // TODO 修改MessageCodes
         Assert.notNull(recommend, MessageCodes.DATA_IS_NOT_EXIST);
         return recommend;
     }
@@ -123,7 +122,6 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
     public IPage<RecommendCmsVO> findPage(RecommendQueryDTO queryDTO, Page<Recommend> page) {
         Recommend recommend = new Recommend();
         QueryWrapper<Recommend> wrapper = new QueryWrapper<>(recommend);
-        // TODO wrapper根据实际业务封装条件
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toRecommendVO);
     }
 

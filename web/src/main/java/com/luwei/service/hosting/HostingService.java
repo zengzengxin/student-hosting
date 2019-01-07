@@ -40,7 +40,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     public HostingWebVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
-        //TODO记得修改MessageCodes
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         //设置图片
         List<String> urls = pictureMapper.findAllByForeignKeyId(hosting.getHostingId(), PictureTypeEnum.HOSTING.getValue());

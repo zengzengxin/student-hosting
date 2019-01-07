@@ -111,4 +111,16 @@ public class Order implements Serializable {
     @TableLogic
     private Boolean deleted;
 
+    @ApiModelProperty(value = "01-06新增: 上课时间")
+    private LocalDateTime classTime;
+
+    @ApiModelProperty(value = "01-06新增: 下课时间")
+    private LocalDateTime quittingTime;
+
+    @ApiModelProperty(value = "01-06新增: 教师id")
+    private Integer teacherId;
+
+    @ApiModelProperty(value = "01-06新增: 教师名称")
+    private String teacherName;
+
 }

@@ -61,4 +61,9 @@ public class BannerUpdateDTO implements Serializable {
 
     @ApiModelProperty(value = "是否为外链 0-否 1-是")
     private Boolean outsideLink;
+
+    @NotNull(message = "学校ID不能为空")
+    @ApiModelProperty(value = "01-07新增: 学校ID")
+    private Integer schoolId;
+
 }

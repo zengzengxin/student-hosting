@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-// TODO 手动格式化 VO DTO类删除@TableName @TableId等, 字段根据业务修改 (删除该条)
 @TableName("tb_course_package")
 public class CoursePackageQueryDTO implements Serializable {
 

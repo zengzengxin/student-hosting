@@ -114,7 +114,7 @@ public class ReadExcelUtil {
             if (row == null) {
                 continue;
             }
-            // 循环Excel的列 TODO 一下列名需要根据业务修改
+            // 循环Excel的列
             Map<Integer, String> map = new HashMap<>();
             for (int c = 0; c < totalCells; c++) {
                 Cell cell = row.getCell(c);

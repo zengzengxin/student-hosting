@@ -15,9 +15,11 @@ import com.luwei.model.banner.pojo.cms.BannerUpdateDTO;
 import com.luwei.model.course.Course;
 import com.luwei.model.hosting.Hosting;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
+import com.luwei.model.school.School;
 import com.luwei.model.search.SearchCmsVO;
 import com.luwei.service.course.CourseService;
 import com.luwei.service.hosting.HostingService;
+import com.luwei.service.school.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -43,6 +45,9 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
 
     @Resource
     private HostingService hostingService;
+
+    @Resource
+    private SchoolService schoolService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -77,11 +82,17 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      */
     @Transactional(rollbackFor = Exception.class)
     public BannerCmsVO saveBanner(BannerAddDTO addDTO) {
+        // 学校ID和学校名称
+        School school = schoolService.getById(addDTO.getSchoolId());
+        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+
         Banner banner = new Banner();
         BeanUtils.copyProperties(addDTO, banner);
         LocalDateTime time = LocalDateTime.now();
-        banner.setUpdateTime(time);
-        banner.setCreateTime(time);
+        banner.setSchoolId(school.getSchoolId())
+                .setSchoolName(school.getName())
+                .setCreateTime(time)
+                .setUpdateTime(time);
         Assert.isTrue(save(banner), MessageCodes.BANNER_SAVE_ERROR);
         log.info("保存数据: {}", banner);
         return toBannerVO(banner);
@@ -108,9 +119,15 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
      */
     @Transactional(rollbackFor = Exception.class)
     public BannerCmsVO updateBanner(BannerUpdateDTO updateDTO) {
+        // 学校ID和学校名称
+        School school = schoolService.getById(updateDTO.getSchoolId());
+        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+
         Banner banner = new Banner();
         BeanUtils.copyProperties(updateDTO, banner);
         banner.setUpdateTime(LocalDateTime.now());
+        banner.setSchoolId(school.getSchoolId())
+                .setSchoolName(school.getName());
         // updateById不会把null的值赋值,修改成功后也不会赋值数据库所有的字段
         Assert.isTrue(updateById(banner), MessageCodes.BANNER_UPDATE_ERROR);
         log.info("修改数据: bean {}", updateDTO);

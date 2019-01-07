@@ -12,7 +12,6 @@ import com.luwei.common.util.ReadExcelUtil;
 import com.luwei.model.manager.Manager;
 import com.luwei.model.school.School;
 import com.luwei.model.school.SchoolMapper;
-import com.luwei.model.school.envm.SchoolTypeEnum;
 import com.luwei.model.school.pojo.cms.SchoolCmsVO;
 import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
 import com.luwei.module.shiro.service.UserHelper;
@@ -43,7 +42,6 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
 
     public SchoolCmsVO findById(Integer schoolId) {
         School school = getById(schoolId);
-        //TODO记得修改MessageCodes
         Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
         return toSchoolVO(school);
     }
@@ -77,15 +75,15 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         return list(wrapper).stream().map(this::toSchoolVO).collect(Collectors.toList());
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public Boolean readExcelFile(MultipartFile file) {
         String result;
 
         //解析excel，获取上传的事件单
         List<Map<Integer, String>> mapList = ReadExcelUtil.getExcelInfo(file);
-        Assert.notNull(mapList, MessageCodes.EXCEL_HAS_NO_DATA);
+        Assert.notNull(mapList, MessageCodes.EXCEL_HAS_ERROR_DATA);
 
         //List<School> list = new ArrayList<>();
-
         //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作
         for (Map<Integer, String> map : mapList) {
             System.out.println(map);
@@ -93,17 +91,14 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
             school.setName(map.get(0));
             school.setIntroduction(map.get(1));
             school.setCode(map.get(2));
-            school.setLeaderPhone(map.get(3));
-            school.setStudentNumber(Integer.valueOf(map.get(4)));
-            school.setLeaderName(map.get(6));
-            String schoolType = map.get(5);
-            if ("0".equals(schoolType)) {
-                school.setSchoolType(SchoolTypeEnum.PRIMARY_SCHOOL);
-            }
-            if ("1".equals(schoolType)) {
-                school.setSchoolType(SchoolTypeEnum.TRINING_INSTITUTION);
-            }
+            school.setLeaderName(map.get(3));
+            school.setLeaderPhone(map.get(4));
+            school.setStudentNumber(Integer.valueOf(map.get(5)));
 
+            // 01-07需求变更: 暂不需要此字段
+            // String schoolType = map.get(6);
+            // if ("0".equals(schoolType)) school.setSchoolType(SchoolTypeEnum.PRIMARY_SCHOOL);
+            // if ("1".equals(schoolType)) school.setSchoolType(SchoolTypeEnum.TRINING_INSTITUTION);
             LocalDateTime time = LocalDateTime.now();
             school.setUpdateTime(time);
             school.setCreateTime(time);

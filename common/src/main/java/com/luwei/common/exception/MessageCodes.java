@@ -97,7 +97,7 @@ public interface MessageCodes {
     String MINIUSER_SAVE_ERROR = "miniuser.save.fail";//小程序用户保存失败;
 
     //excel表相关
-    String EXCEL_HAS_NO_DATA = "excel.has.no.data";//excel表没有数据
+    String EXCEL_HAS_ERROR_DATA = "excel.has.error.data";//excel表数据错误
 
     //托管相关
     String HOSTING_IS_NOT_EXIST = "hosting.is.not.exit";//托管班不存在

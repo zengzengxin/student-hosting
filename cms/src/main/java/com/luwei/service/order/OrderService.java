@@ -47,7 +47,6 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
     private Order findById(String id) {
         // 若此id已被逻辑删除,也会返回null
         Order order = getById(id);
-        // TODO 修改MessageCodes
         Assert.notNull(order, MessageCodes.ORDER_IS_NOT_EXIST);
         return order;
     }

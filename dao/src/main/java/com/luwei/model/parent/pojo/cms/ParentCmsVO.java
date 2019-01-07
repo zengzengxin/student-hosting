@@ -30,6 +30,9 @@ public class ParentCmsVO implements Serializable {
     @TableId(value = "parent_id", type = IdType.AUTO)
     private Integer parentId;
 
+    @ApiModelProperty(value = "昵称")
+    private String nickName;
+
     @ApiModelProperty(value = "家长姓名")
     private String parentName;
 

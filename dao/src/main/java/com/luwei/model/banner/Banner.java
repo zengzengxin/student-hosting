@@ -67,4 +67,10 @@ public class Banner implements Serializable {
     @TableLogic
     private Boolean deleted;
 
+    @ApiModelProperty(value = "01-07新增: 学校ID")
+    private Integer schoolId;
+
+    @ApiModelProperty(value = "01-07新增: 学校名称")
+    private String schoolName;
+
 }

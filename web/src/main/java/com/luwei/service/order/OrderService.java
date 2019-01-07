@@ -319,6 +319,12 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
                 .setServiceStartTime(cp.getStartTime())
                 .setServiceEndTime(cp.getEndTime());
 
+        // 01-07新增: 教师ID,教师名称,上课时间,下课时间
+        order.setTeacherId(course.getTeacherId())
+                .setTeacherName(course.getTeacherName())
+                .setClassTime(cp.getClassTime())
+                .setQuittingTime(cp.getQuittingTime());
+
         // 订单类型, 订单状态
         order.setOrderType(OrderTypeEnum.COURSE)
                 .setOrderStatus(OrderStatusEnum.NOT_PAID);

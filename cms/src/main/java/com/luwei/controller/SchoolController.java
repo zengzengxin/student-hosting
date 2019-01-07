@@ -23,7 +23,7 @@ import java.util.Set;
  * @author zzx
  * @since 2018-12-13
  */
-@Api(tags = "学校机构管理")
+@Api(tags = "学校管理")
 @RestController
 @RequestMapping("/api/school")
 public class SchoolController {

@@ -50,7 +50,6 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     private HostingCmsVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
-        //TODO记得修改MessageCodes
         Assert.notNull(hosting, MessageCodes.HOSTING_IS_NOT_EXIST);
         return toHostingVO(hosting);
     }

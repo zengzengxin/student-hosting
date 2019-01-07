@@ -32,7 +32,6 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
     private Recommend findById(Integer id) {
         // 若此id已被逻辑删除,也会返回null
         Recommend recommend = getById(id);
-        // TODO 修改MessageCodes
         Assert.notNull(recommend, MessageCodes.DATA_IS_NOT_EXIST);
         return recommend;
     }

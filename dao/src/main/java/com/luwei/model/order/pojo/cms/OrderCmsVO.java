@@ -72,7 +72,6 @@ public class OrderCmsVO implements Serializable {
     @ApiModelProperty(value = "订单状态 0-待付款 1-已付款 2-已完成 3-过期失效")
     private OrderStatusEnum orderStatus;
 
-    // todo 补充字段
     @ApiModelProperty(value = "下单用户联系方式")
     private String parentPhone;
 
@@ -85,5 +84,17 @@ public class OrderCmsVO implements Serializable {
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "下单时间")
     private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "01-06新增: 上课时间")
+    private LocalDateTime classTime;
+
+    @ApiModelProperty(value = "01-06新增: 下课时间")
+    private LocalDateTime quittingTime;
+
+    @ApiModelProperty(value = "01-06新增: 教师id")
+    private Integer teacherId;
+
+    @ApiModelProperty(value = "01-06新增: 教师名称")
+    private String teacherName;
 
 }

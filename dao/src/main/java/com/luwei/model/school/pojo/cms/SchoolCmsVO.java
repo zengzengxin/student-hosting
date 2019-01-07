@@ -33,7 +33,7 @@ public class SchoolCmsVO implements Serializable {
     @ApiModelProperty(value = "学校编码")
     private String code;
 
-    @ApiModelProperty(value = "学校负责人电话")
+    @ApiModelProperty(value = "学校负责人姓名")
     private String leaderName;
 
     @ApiModelProperty(value = "负责人电话")

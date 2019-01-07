@@ -50,4 +50,10 @@ public class BannerCmsVO implements Serializable {
     @ApiModelProperty(value = "是否显示 0-否 1-是")
     private Boolean display;
 
+    @ApiModelProperty(value = "01-07新增: 学校ID")
+    private Integer schoolId;
+
+    @ApiModelProperty(value = "01-07新增: 学校名称")
+    private String schoolName;
+
 }
