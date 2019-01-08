@@ -59,7 +59,6 @@ public class SchoolController {
         return schoolService.findSchoolPage();
     }
 
-    //导入excel
     @PostMapping("/import")
     @ApiOperation("导入Excel")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
@@ -68,7 +67,6 @@ public class SchoolController {
         if (result) {
             return "上传成功";
         }
-        // 有空改掉硬编码
         throw new ValidationException("上传失败");
     }
 

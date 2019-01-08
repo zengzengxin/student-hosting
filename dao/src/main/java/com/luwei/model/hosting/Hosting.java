@@ -87,4 +87,7 @@ public class Hosting implements Serializable {
     @TableLogic
     private Boolean deleted;
 
+    @ApiModelProperty(value = "是否过期")
+    private Boolean overdue;
+
 }

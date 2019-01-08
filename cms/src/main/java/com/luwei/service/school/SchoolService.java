@@ -9,6 +9,7 @@ import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ReadExcelUtil;
+import com.luwei.common.util.ValidUtils;
 import com.luwei.model.manager.Manager;
 import com.luwei.model.school.School;
 import com.luwei.model.school.SchoolMapper;
@@ -94,6 +95,9 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
             school.setLeaderName(map.get(3));
             school.setLeaderPhone(map.get(4));
             school.setStudentNumber(Integer.valueOf(map.get(5)));
+            // 校验手机号
+            boolean isPhone = ValidUtils.isPhone(school.getLeaderPhone());
+            Assert.isTrue(isPhone, MessageCodes.INVALID_PHONE_NUMBER);
 
             // 01-07需求变更: 暂不需要此字段
             // String schoolType = map.get(6);

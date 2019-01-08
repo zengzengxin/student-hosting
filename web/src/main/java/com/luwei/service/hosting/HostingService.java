@@ -17,6 +17,7 @@ import com.luwei.model.school.School;
 import com.luwei.model.school.SchoolMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
@@ -56,10 +57,12 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return hostingVO;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public IPage<HostingWebVO> findHostingPage(HostingQuery query, Page<Hosting> page) {
         // 分页查
         IPage<HostingWebVO> iPage = ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Hosting>().lambda()
                 .eq(Hosting::getSchoolId, query.getSchoolId()).eq(Hosting::getDisplay, true)
+                .eq(Hosting::getOverdue, false)
         ), this::toHostingVO);
 
         List<HostingWebVO> list = iPage.getRecords();
@@ -75,15 +78,15 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return hostingVO.setPictureUrls(urls);
     }
 
-
-    /*
-     *
+    /**
      * 返回所有托管
-     * */
-
+     *
+     * @param name
+     * @return
+     */
     public List<Hosting> findList(String name) {
         QueryWrapper<Hosting> queryWrapper = new QueryWrapper<>();
-        if (!ObjectUtils.isEmpty(name)){
+        if (!ObjectUtils.isEmpty(name)) {
             queryWrapper.lambda().like(Hosting::getName, name);
         }
         return baseMapper.selectList(queryWrapper);

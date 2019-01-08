@@ -152,6 +152,7 @@ public class InstitutionService extends ServiceImpl<InstitutionMapper, Instituti
      * @param page
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     public IPage<InstitutionCmsVO> findPage(InstitutionQueryDTO queryDTO, Page<Institution> page) {
         LambdaQueryWrapper<Institution> wrapper = new QueryWrapper<Institution>().lambda();
 

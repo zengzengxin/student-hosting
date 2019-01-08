@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.luwei.common.config.ToTimeStampSerializer;
 import com.luwei.model.order.envm.OrderStatusEnum;
 import com.luwei.model.order.envm.OrderTypeEnum;
+import com.luwei.model.order.envm.PaymentEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -84,6 +85,12 @@ public class OrderCmsVO implements Serializable {
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "下单时间")
     private LocalDateTime createTime;
+
+    @ApiModelProperty(value = "支付方式 0-微信支付 1-支付宝支付")
+    private PaymentEnum payment;
+
+    @ApiModelProperty(value = "支付时间")
+    private LocalDateTime payTime;
 
     @ApiModelProperty(value = "01-06新增: 上课时间")
     private LocalDateTime classTime;
