@@ -33,7 +33,6 @@ public class ManagerController {
     @ApiOperation("添加管理员")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
     public ManagerPageVO addManager(@RequestBody @Valid ManagerAddVO addVO) {
-
         return managerService.add(addVO, addVO.getRole());
     }
 
