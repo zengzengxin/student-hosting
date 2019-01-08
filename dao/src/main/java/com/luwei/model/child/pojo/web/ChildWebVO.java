@@ -1,5 +1,7 @@
 package com.luwei.model.child.pojo.web;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.luwei.common.config.ToTimeStampSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -33,6 +35,7 @@ public class ChildWebVO implements Serializable {
     @ApiModelProperty(value = "（孩子）学生的学号")
     private String studentNo;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "孩子的生日")
     private LocalDateTime birthday;
 
@@ -54,9 +57,11 @@ public class ChildWebVO implements Serializable {
     @ApiModelProperty(value = "孩子的班主任的姓名")
     private String headteacherName;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
 

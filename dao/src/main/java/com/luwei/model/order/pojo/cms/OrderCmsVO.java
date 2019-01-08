@@ -61,9 +61,11 @@ public class OrderCmsVO implements Serializable {
     @ApiModelProperty(value = "价格")
     private BigDecimal price;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "课程开始时间")
     private LocalDateTime serviceStartTime;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "课程结束时间")
     private LocalDateTime serviceEndTime;
 
@@ -89,12 +91,15 @@ public class OrderCmsVO implements Serializable {
     @ApiModelProperty(value = "支付方式 0-微信支付 1-支付宝支付")
     private PaymentEnum payment;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "支付时间")
     private LocalDateTime payTime;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "01-06新增: 上课时间")
     private LocalDateTime classTime;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "01-06新增: 下课时间")
     private LocalDateTime quittingTime;
 

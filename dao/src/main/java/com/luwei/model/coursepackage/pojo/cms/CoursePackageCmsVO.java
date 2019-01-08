@@ -25,9 +25,11 @@ public class CoursePackageCmsVO implements Serializable {
     @ApiModelProperty(value = "课程套餐ID")
     private Integer coursePackageId;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "课程开始时间")
     private LocalDateTime startTime;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "课程结束时间")
     private LocalDateTime endTime;
 

@@ -1,5 +1,7 @@
 package com.luwei.model.order.pojo.web;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.luwei.common.config.ToTimeStampSerializer;
 import com.luwei.model.order.envm.OrderStatusEnum;
 import com.luwei.model.order.envm.OrderTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
@@ -37,9 +39,11 @@ public class OrderWebVO implements Serializable {
     @ApiModelProperty(value = "价格")
     private BigDecimal price;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "课程开始时间")
     private LocalDateTime courseStartTime;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "课程结束时间")
     private LocalDateTime courseEndTime;
 
