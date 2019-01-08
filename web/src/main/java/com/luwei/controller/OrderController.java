@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -72,10 +73,9 @@ public class OrderController {
     //创建托管订单
     @GetMapping("/countMoney")
     @ApiOperation("计算托管价格")
-    public int countMoney(@RequestParam("startTime") LocalDateTime startTime, @RequestParam("endTime") LocalDateTime endTime, @RequestParam("price") int price) {
+    public BigDecimal countMoney(@RequestParam("startTime") LocalDateTime startTime, @RequestParam("endTime") LocalDateTime endTime, @RequestParam("price") BigDecimal price) {
         long days =  orderService.getDays(startTime,endTime);
-        return (int)(days*price);
-
+        return (price.multiply(BigDecimal.valueOf(days)).setScale(2,BigDecimal.ROUND_HALF_UP));
     }
 
 }
