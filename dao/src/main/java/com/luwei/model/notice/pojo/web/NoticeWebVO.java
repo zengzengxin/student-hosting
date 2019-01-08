@@ -23,6 +23,8 @@ import java.time.LocalDateTime;
 @TableName("tb_notice")
 public class NoticeWebVO implements Serializable {
 
+    @ApiModelProperty(value = "主键id")
+    private Integer noticeId;
 
     @ApiModelProperty(value = "通告状态 1上架 0下架")
     private Boolean display;
@@ -42,7 +44,5 @@ public class NoticeWebVO implements Serializable {
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
-
-
 
 }

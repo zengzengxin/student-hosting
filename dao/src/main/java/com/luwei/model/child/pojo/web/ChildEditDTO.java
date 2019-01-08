@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -26,18 +25,21 @@ public class ChildEditDTO implements Serializable {
     private Integer childId;
 
     @ApiModelProperty(value = "孩子的生日")
-    @NotNull(message = "生日不能为空")
+    // @NotNull(message = "生日不能为空")
     private LocalDateTime birthday;
 
+    @ApiModelProperty(value = "孩子的年级")
+    private String grade;
+
+    @ApiModelProperty(value = "孩子的班级")
+    private String childClass;
 
     @ApiModelProperty(value = "孩子的班主任的电话")
-    @NotBlank(message = "班主任的电话不能为空")
+    // @NotBlank(message = "班主任的电话不能为空")
     private String headteacherPhone;
 
     @ApiModelProperty(value = "孩子的班主任的姓名")
-    @NotBlank(message = "班主任的姓名不能为空")
+    // @NotBlank(message = "班主任的姓名不能为空")
     private String headteacherName;
-
-
 
 }
