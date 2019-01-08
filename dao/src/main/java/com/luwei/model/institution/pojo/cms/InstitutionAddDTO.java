@@ -39,4 +39,8 @@ public class InstitutionAddDTO implements Serializable {
     @ApiModelProperty(value = "机构执照")
     private String license;
 
+    @NotNull(message = "学校ID不能为空")
+    @ApiModelProperty(value = "绑定学校ID")
+    private Integer schoolId;
+
 }

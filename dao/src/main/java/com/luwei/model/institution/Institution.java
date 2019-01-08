@@ -53,4 +53,10 @@ public class Institution implements Serializable {
     @TableLogic
     private Boolean deleted;
 
+    @ApiModelProperty(value = "绑定学校ID")
+    private Integer schoolId;
+
+    @ApiModelProperty(value = "绑定学校名称")
+    private String schoolName;
+
 }
