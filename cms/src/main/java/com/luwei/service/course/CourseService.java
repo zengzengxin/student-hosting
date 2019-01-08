@@ -30,6 +30,7 @@ import com.luwei.service.recommend.RecommendService;
 import com.luwei.service.school.SchoolService;
 import com.luwei.service.teacher.TeacherService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -186,7 +187,14 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         // 修改课程
         Course course = new Course();
         BeanUtils.copyProperties(updateDTO, course);
-        course.setUpdateTime(LocalDateTime.now()).setDisplay(false);
+        course.setUpdateTime(LocalDateTime.now());
+
+        // ROOT修改不需要下架 学校修改则下架该课程 ---01-08 改需求
+        Manager manager = managerService.getById(UserHelper.getUserId());
+        if (manager.getRole() == RoleEnum.OPERATOR) {
+            course.setDisplay(false);
+        }
+
         Teacher teacher = teacherService.getById(updateDTO.getTeacherId());
         course.setTeacherName(teacher.getTeacherName());
         School school = schoolService.getById(updateDTO.getSchoolId());
@@ -212,23 +220,27 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         }
         log.info("修改数据: bean {}", updateDTO);
 
-        // 删除推荐表对应数据
-        recommendService.realDeleteByServiceIdAndServiceType(courseId, ServiceTypeEnum.COURSE.getValue());
-        // 推荐表
-        CourseRecommend courseRecommend = new CourseRecommend();
-        courseRecommend.setCourseId(courseId).setRecommend(true);
-        recommend(courseRecommend);
+        // 删除推荐表对应数据 ----01-09需求修改
+        if (course.getRecommend()) {
+            recommendService.realDeleteByServiceIdAndServiceType(courseId, ServiceTypeEnum.COURSE.getValue());
+        }
+        if (manager.getRole() == RoleEnum.ROOT && course.getRecommend()) {
+            // 推荐表增一条数据
+            CourseRecommend courseRecommend = new CourseRecommend();
+            courseRecommend.setCourseId(courseId).setRecommend(true);
+            recommend(courseRecommend);
+        }
 
         return toCourseVO(course).setPictureUrls(urls).setCoursePackageList(list);
     }
 
     private CoursePackageCmsVO updateCoursePackage(CoursePackageUpdateDTO updateDTO, Course course) {
 
-        // 课程套餐上架之后不可修改
-        CoursePackage p = coursePackageMapper.selectById(updateDTO.getCoursePackageId());
-        if (p != null && p.getDisplay()) {
-            return toCoursePackageVO(p);
-        }
+        // 课程套餐上架之后不可修改 -----2019-01-08 产品修改需求,可修改
+        // CoursePackage p = coursePackageMapper.selectById(updateDTO.getCoursePackageId());
+        // if (p != null && p.getDisplay()) {
+        //     return toCoursePackageVO(p);
+        // }
 
         // 修改课程套餐时,也可以新增
         if (updateDTO.getCoursePackageId() == null) {

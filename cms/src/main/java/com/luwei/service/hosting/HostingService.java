@@ -99,10 +99,17 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingUpdateDTO, hosting);
 
-        hosting.setUpdateTime(LocalDateTime.now()).setDisplay(false);
+        hosting.setUpdateTime(LocalDateTime.now());
+
+        // ROOT修改不需要下架 学校修改则下架该课程 ---01-08 改需求
+        Manager manager = managerService.getById(UserHelper.getUserId());
+        if (manager.getRole() == RoleEnum.OPERATOR) {
+            hosting.setDisplay(false);
+        }
 
         //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
         Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
+        hosting = getById(hosting.getHostingId());
 
         //修改老图片图片
         pictureService.deleteByPictureTypeAndForeignKeyId(PictureTypeEnum.HOSTING.getValue(), hosting.getHostingId());
@@ -116,14 +123,18 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         log.info("修改数据：bean:{}", hostingUpdateDTO);
 
         //删除推荐表中的数据
-        recommendService.realDeleteByServiceIdAndServiceType(hostingId, ServiceTypeEnum.HOSTING.getValue());
-        //重新插入推荐表
-        HostingRecommend hostingRecommend = new HostingRecommend();
-        hostingRecommend.setHostingId(hostingId);
-        hostingRecommend.setRecommend(true);
-        recommend(hostingRecommend);
+        if (hosting.getRecommend()) {
+            recommendService.realDeleteByServiceIdAndServiceType(hostingId, ServiceTypeEnum.HOSTING.getValue());
+        }
+        if (manager.getRole() == RoleEnum.ROOT && hosting.getRecommend()) {
+            //重新插入推荐表
+            HostingRecommend hostingRecommend = new HostingRecommend();
+            hostingRecommend.setHostingId(hostingId);
+            hostingRecommend.setRecommend(true);
+            recommend(hostingRecommend);
+        }
 
-        return findById(hosting.getHostingId()).setPictureUrls(pictureService.findAllByForeignKeyId(hosting.getHostingId(), PictureTypeEnum.HOSTING.getValue()));
+        return toHostingVO(hosting).setPictureUrls(pictureService.findAllByForeignKeyId(hosting.getHostingId(), PictureTypeEnum.HOSTING.getValue()));
     }
 
     public IPage<HostingCmsVO> findHostingPage(HostingQueryDTO hostingQueryDTO, Page<Hosting> page) {
