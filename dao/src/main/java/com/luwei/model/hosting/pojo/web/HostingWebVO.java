@@ -1,5 +1,7 @@
 package com.luwei.model.hosting.pojo.web;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.luwei.common.config.ToTimeStampSerializer;
 import com.luwei.model.hosting.envm.HostingTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -59,9 +61,11 @@ public class HostingWebVO implements Serializable {
     @ApiModelProperty(value = "是否设为推荐(默认为0)")
     private Boolean recommend;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "托管开始时间", dataType = "java.lang.Long")
     private LocalDateTime startTime;
 
+    @JSONField(serializeUsing = ToTimeStampSerializer.class)
     @ApiModelProperty(value = "托管结束时间", dataType = "java.lang.Long")
     private LocalDateTime endTime;
 
