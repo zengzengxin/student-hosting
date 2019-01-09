@@ -21,7 +21,8 @@ public class HostingTimer {
     @Resource
     HostingService hostingService;
 
-    @Scheduled(cron = "0 0 1 * * ?")
+    //@Scheduled(cron = "0 0 1 * * ?")
+    @Scheduled(cron = "0/1 * * * * ?")
     private void coursePackageMapper(){
         hostingService.hostingTimer();
     }
