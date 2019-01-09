@@ -59,7 +59,7 @@ luwei:
       bucket: edin2
       access-key: 9YThA2ZpNq4UnyRRz_ZigkzgH6davcLehUPogG4C
       secret-key: RoZdZeQ8_a0efxTRMisMufPZbTQxLrBy3flc4kLf
-      link-address: http://pl1wdt5sz.bkt.clouddn.com/
+      link-address: http://edin.halohealth.cn/
     sms:
       redus-prefix:
       access-key-id:
