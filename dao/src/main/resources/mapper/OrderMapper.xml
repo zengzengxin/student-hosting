@@ -4,30 +4,38 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.luwei.model.order.Order">
-        <id column="order_id" property="orderId" />
-        <result column="parent_id" property="parentId" />
-        <result column="parent_phone" property="parentPhone" />
-        <result column="child_id" property="childId" />
-        <result column="child_name" property="childName" />
-        <result column="child_student_no" property="childStudentNo" />
-        <result column="payment" property="payment" />
-        <result column="course_id" property="serviceId" />
-        <result column="course_name" property="serviceName" />
-        <result column="price" property="price" />
-        <result column="course_start_time" property="serviceStartTime" />
-        <result column="course_end_time" property="serviceEndTime" />
-        <result column="school_name" property="schoolName" />
-        <result column="pay_time" property="payTime" />
-        <result column="order_type" property="orderType" />
-        <result column="order_status" property="orderStatus" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
+        <id column="order_id" property="orderId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="parent_phone" property="parentPhone"/>
+        <result column="child_id" property="childId"/>
+        <result column="child_name" property="childName"/>
+        <result column="child_student_no" property="childStudentNo"/>
+        <result column="payment" property="payment"/>
+        <result column="course_id" property="serviceId"/>
+        <result column="course_name" property="serviceName"/>
+        <result column="price" property="price"/>
+        <result column="course_start_time" property="serviceStartTime"/>
+        <result column="course_end_time" property="serviceEndTime"/>
+        <result column="school_name" property="schoolName"/>
+        <result column="pay_time" property="payTime"/>
+        <result column="order_type" property="orderType"/>
+        <result column="order_status" property="orderStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         order_id, parent_id, parent_phone, child_id, child_name, child_student_no, payment, course_id, course_name, price, course_start_time, course_end_time, school_name, pay_time, order_type, order_status, create_time, update_time, deleted
     </sql>
+
+    <update id="refreshNotPaidOrderStatus">
+        update tb_order set order_status = 3 where order_status = 0 and service_end_time &lt; now()
+    </update>
+
+    <update id="refreshPaidOrderStatus">
+        update tb_order set order_status = 2 where order_status = 1 and service_end_time &lt; now()
+    </update>
 
 </mapper>

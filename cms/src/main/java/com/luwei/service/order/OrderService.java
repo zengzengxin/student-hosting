@@ -133,4 +133,18 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
         return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toOrderVO);
     }
 
+    /**
+     * 刷新未支付(not paid)订单的状态 -> 满足条件 -> 已失效
+     */
+    public long refreshNotPaidOrderStatus() {
+        return baseMapper.refreshNotPaidOrderStatus();
+    }
+
+    /**
+     * 刷新已支付(paid)订单的状态 -> 满足条件 -> 已完成
+     */
+    public long refreshPaidOrderStatus() {
+        return baseMapper.refreshPaidOrderStatus();
+    }
+
 }

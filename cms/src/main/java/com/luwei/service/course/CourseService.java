@@ -137,6 +137,11 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     private CoursePackageCmsVO saveCoursePackage(CoursePackageAddDTO addDTO, Course course) {
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(addDTO, coursePackage);
+
+        //处理开始时间,结束时间
+        coursePackage.setStartTime(coursePackage.getStartTime().withHour(0).withMinute(0).withSecond(0));
+        coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(59).withSecond(59));
+
         // 课程管理
         coursePackage.setCourseId(course.getCourseId());
         coursePackage.setCourseName(course.getCourseName());
@@ -246,6 +251,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         if (updateDTO.getCoursePackageId() == null) {
             CoursePackage coursePackage = new CoursePackage();
             BeanUtils.copyProperties(updateDTO, coursePackage);
+            //处理开始时间,结束时间
+            coursePackage.setStartTime(coursePackage.getStartTime().withHour(0).withMinute(0).withSecond(0));
+            coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(59).withSecond(59));
             // 课程管理
             coursePackage.setCourseId(course.getCourseId());
             coursePackage.setCourseName(course.getCourseName());
@@ -261,10 +269,13 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(updateDTO, coursePackage);
+        //处理开始时间,结束时间
+        coursePackage.setStartTime(coursePackage.getStartTime().withHour(0).withMinute(0).withSecond(0));
+        coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(59).withSecond(59));
+
         coursePackage.setUpdateTime(LocalDateTime.now());
         int count = coursePackageMapper.updateById(coursePackage);
         Assert.isTrue(count > 0, MessageCodes.COURSE_PACKAGE_UPDATE_ERROR);
-        // 套餐是否过期
         return toCoursePackageVO(coursePackageMapper.selectById(coursePackage.getCoursePackageId()));
     }
 

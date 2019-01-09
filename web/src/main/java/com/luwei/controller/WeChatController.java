@@ -71,11 +71,6 @@ public class WeChatController {
         String url = weChatService.getWeChatUserInfo(weChatUser, state);
         log.info("最终url:{}", url);
         return url;
-
-        //log.info("前端url:{}", state);
-        //String url = weChatService.authorize(code, state);
-        //log.info("最终url:{}", url);
-        //return url;
     }
 
     @GetMapping(value = "getShareParam")

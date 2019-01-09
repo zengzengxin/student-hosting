@@ -23,7 +23,6 @@ public class CoursePackageUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "课程套餐ID")
-    @NotNull(message = "课程套餐ID不能为空")
     private Integer coursePackageId;
 
     @ApiModelProperty(value = "课程开始时间")

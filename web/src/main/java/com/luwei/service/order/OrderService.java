@@ -50,7 +50,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -387,40 +386,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         if (queryDTO.getOrderStatus() != null) {
             wrapper.eq(Order::getOrderStatus, queryDTO.getOrderStatus());
         }
+
         // 分页查询
-        IPage<Order> orderIPage = page(page, wrapper);
-
-        // 处理订单: 是否已过期 是否已完成
-        orderIPage.setRecords(orderIPage.getRecords().stream().map(this::updateStatus).collect(Collectors.toList()));
-
-        // 返回结果
-        return ConversionBeanUtils.conversionBean(orderIPage, this::toOrderVO);
-    }
-
-    /**
-     * 私有方法 处理订单,判断订单是否已过期或已完成
-     *
-     * @param order
-     * @return
-     */
-    private Order updateStatus(Order order) {
-        if (order.getOrderStatus() == OrderStatusEnum.NOT_PAID) {
-            LocalDateTime serviceEndTime = order.getServiceEndTime();
-            LocalDateTime now = LocalDateTime.now();
-            if (now.compareTo(serviceEndTime) > 0) {
-                order.setOrderStatus(OrderStatusEnum.OVERDUE);
-                updateById(order);
-            }
-        }
-        if (order.getOrderStatus() == OrderStatusEnum.PAID) {
-            LocalDateTime serviceEndTime = order.getServiceEndTime();
-            LocalDateTime now = LocalDateTime.now();
-            if (now.compareTo(serviceEndTime) > 0) {
-                order.setOrderStatus(OrderStatusEnum.COMPLETED);
-                updateById(order);
-            }
-        }
-        return order;
+        return ConversionBeanUtils.conversionBean(page(page, wrapper), this::toOrderVO);
     }
 
     public WechatPayPackage payForOrder(PayForOrderDTO addDTO) {

@@ -39,6 +39,12 @@ public class OrderController {
         return orderService.confirmOrder(orderDTO);
     }
 
+    @PostMapping("/hostingConfirm")
+    @ApiOperation("确认下单/立即购买（托管）")
+    public OrderCmsVO confirmHostingOrder(@RequestBody @Valid HostingOrderDTO hostingOrderDTO) {
+        return orderService.hostingOrder(hostingOrderDTO);
+    }
+
     @PostMapping("/payFor")
     @ApiOperation("立即支付")
     public WechatPayPackage payForOrder(@RequestBody @Valid PayForOrderDTO orderDTO) {
@@ -63,19 +69,12 @@ public class OrderController {
         return orderService.findPage(queryDTO, page);
     }
 
-    //创建托管订单
-    @PostMapping("/hostingConfirm")
-    @ApiOperation("确认下单/立即购买（托管）")
-    public OrderCmsVO confirmHostingOrder(@RequestBody @Valid HostingOrderDTO hostingOrderDTO) {
-        return orderService.hostingOrder(hostingOrderDTO);
-    }
-
-    //创建托管订单
     @GetMapping("/countMoney")
     @ApiOperation("计算托管价格")
-    public BigDecimal countMoney(@RequestParam("startTime") LocalDateTime startTime, @RequestParam("endTime") LocalDateTime endTime, @RequestParam("price") BigDecimal price) {
-        long days =  orderService.getDays(startTime,endTime);
-        return (price.multiply(BigDecimal.valueOf(days)).setScale(2,BigDecimal.ROUND_HALF_UP));
+    public BigDecimal countMoney(@RequestParam("startTime") LocalDateTime startTime,
+                                 @RequestParam("endTime") LocalDateTime endTime, @RequestParam("price") BigDecimal price) {
+        long days = orderService.getDays(startTime, endTime);
+        return (price.multiply(BigDecimal.valueOf(days)).setScale(2, BigDecimal.ROUND_HALF_UP));
     }
 
 }

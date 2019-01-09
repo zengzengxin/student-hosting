@@ -65,11 +65,8 @@ public class CourseUpdateDTO implements Serializable {
     @ApiModelProperty(value = "学校名称")
     private String schoolName;
 
-
     @NotEmpty(message = "课程套餐列表不能为空")
     @ApiModelProperty(value = "课程套餐列表")
     private List<CoursePackageUpdateDTO> coursePackageList;
-
-
 
 }

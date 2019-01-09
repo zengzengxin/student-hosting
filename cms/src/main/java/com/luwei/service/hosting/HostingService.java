@@ -65,6 +65,11 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     public HostingCmsVO saveHosting(HostingAddDTO hostingAddDTO) {
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingAddDTO, hosting);
+
+        //处理开始时间,结束时间
+        hosting.setStartTime(hosting.getStartTime().withHour(0).withMinute(0).withSecond(0));
+        hosting.setEndTime(hosting.getEndTime().withHour(23).withMinute(59).withSecond(59));
+
         LocalDateTime time = LocalDateTime.now();
         hosting.setUpdateTime(time);
         hosting.setCreateTime(time);
@@ -98,6 +103,10 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     public HostingCmsVO updateHosting(HostingUpdateDTO hostingUpdateDTO) {
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingUpdateDTO, hosting);
+
+        //处理开始时间,结束时间
+        hosting.setStartTime(hosting.getStartTime().withHour(0).withMinute(0).withSecond(0));
+        hosting.setEndTime(hosting.getEndTime().withHour(23).withMinute(59).withSecond(59));
 
         hosting.setUpdateTime(LocalDateTime.now());
 
