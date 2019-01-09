@@ -25,7 +25,7 @@
         course_package_id, start_time, end_time, price, display, overdue, create_time, update_time, deleted
     </sql>
 
-    <select id="findAllByCourseId" resultType="com.luwei.model.coursepackage.pojo.cms.CoursePackageCmsVO">
+    <select id="findAllByCourseId" resultType="com.luwei.model.coursepackage.pojo.web.CoursePackageWebVO">
         select * from tb_course_package where course_id = #{courseId}
     </select>
 

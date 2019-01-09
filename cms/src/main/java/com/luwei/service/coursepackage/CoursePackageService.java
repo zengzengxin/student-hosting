@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.model.coursepackage.CoursePackage;
 import com.luwei.model.coursepackage.CoursePackageMapper;
-import com.luwei.model.coursepackage.pojo.web.CoursePackageWebVO;
+import com.luwei.model.coursepackage.pojo.cms.CoursePackageCmsVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -36,15 +36,15 @@ public class CoursePackageService extends ServiceImpl<CoursePackageMapper, Cours
     }
 
     /**
-     * 私有方法 将实体类转为对应的WebVO类
+     * 私有方法 将实体类转为对应的CmsVO类
      *
      * @param coursePackage
      * @return
      */
-    private CoursePackageWebVO toCoursePackageWebVO(CoursePackage coursePackage) {
-        CoursePackageWebVO webVO = new CoursePackageWebVO();
-        BeanUtils.copyProperties(coursePackage, webVO);
-        return webVO;
+    private CoursePackageCmsVO toCoursePackageCmsVO(CoursePackage coursePackage) {
+        CoursePackageCmsVO cmsVO = new CoursePackageCmsVO();
+        BeanUtils.copyProperties(coursePackage, cmsVO);
+        return cmsVO;
     }
 
     /**
@@ -53,12 +53,11 @@ public class CoursePackageService extends ServiceImpl<CoursePackageMapper, Cours
      * @param courseId
      * @return
      */
-    public List<CoursePackageWebVO> listWebVO(Integer courseId) {
+    public List<CoursePackageCmsVO> listCmsVO(Integer courseId) {
 
-        List<CoursePackage> list = list(new QueryWrapper<CoursePackage>().lambda()
-                .eq(CoursePackage::getOverdue, false)
-                .eq(CoursePackage::getCourseId, courseId));
-        return list.stream().map(this::toCoursePackageWebVO).collect(Collectors.toList());
+        return list(new QueryWrapper<CoursePackage>().lambda()
+                .eq(CoursePackage::getCourseId, courseId))
+                .stream().map(this::toCoursePackageCmsVO).collect(Collectors.toList());
     }
 
     public BigDecimal findMinPriceByCourseId(Integer courseId) {

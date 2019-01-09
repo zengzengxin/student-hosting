@@ -8,16 +8,17 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.course.Course;
 import com.luwei.model.course.CourseMapper;
-import com.luwei.model.course.pojo.cms.CourseCmsVO;
-import com.luwei.model.course.pojo.cms.CourseQueryDTO;
+import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.model.course.pojo.web.CourseQuery;
 import com.luwei.model.course.pojo.web.CourseWebVO;
+import com.luwei.model.course.pojo.web.SimpleCourseVO;
 import com.luwei.model.coursepackage.CoursePackage;
-import com.luwei.model.coursepackage.CoursePackageMapper;
-import com.luwei.model.coursepackage.pojo.cms.CoursePackageCmsVO;
+import com.luwei.model.coursepackage.pojo.web.CoursePackageWebVO;
 import com.luwei.model.picture.PictureMapper;
+import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.school.School;
-import com.luwei.model.school.SchoolMapper;
+import com.luwei.service.coursepackage.CoursePackageService;
+import com.luwei.service.school.SchoolService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -38,13 +39,13 @@ import java.util.stream.Collectors;
 public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     @Resource
-    private CoursePackageMapper coursePackageMapper;
+    private CoursePackageService coursePackageService;
 
     @Resource
     private PictureMapper pictureMapper;
 
     @Resource
-    private SchoolMapper schoolMapper;
+    private SchoolService schoolService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -60,19 +61,31 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     }
 
     /**
-     * 私有方法 将实体类转为对应的VO类
+     * 转为SimpleCourseVO返回,只在公众号课程分页查看时使用
+     *
+     * @param course
+     * @return
+     */
+    private SimpleCourseVO toSimpleCourseVO(Course course) {
+        SimpleCourseVO courseVO = new SimpleCourseVO();
+        BeanUtils.copyProperties(course, courseVO);
+        return courseVO;
+    }
+
+    /**
+     * 转为CourseWebVO返回
      *
      * @param course
      * @return
      */
     private CourseWebVO toCourseWebVO(Course course) {
-        CourseWebVO courseVO = new CourseWebVO();
-        BeanUtils.copyProperties(course, courseVO);
-        return courseVO;
+        CourseWebVO courseWebVO = new CourseWebVO();
+        BeanUtils.copyProperties(course, courseWebVO);
+        return courseWebVO;
     }
 
-    private CoursePackageCmsVO toCoursePackageVO(CoursePackage coursePackage) {
-        CoursePackageCmsVO packageVO = new CoursePackageCmsVO();
+    private CoursePackageWebVO toCoursePackageVO(CoursePackage coursePackage) {
+        CoursePackageWebVO packageVO = new CoursePackageWebVO();
         BeanUtils.copyProperties(coursePackage, packageVO);
         return packageVO;
     }
@@ -83,24 +96,22 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param id
      * @return
      */
-    public CourseCmsVO getCourse(Integer id) {
-        log.info("---------------------------------------------------------");
+    public CourseWebVO getCourse(Integer id) {
         Course course = findById(id);
-        CourseCmsVO courseVO = new CourseCmsVO();
-        BeanUtils.copyProperties(course, courseVO);
+        CourseWebVO courseWebVO = toCourseWebVO(course);
 
         // 封装图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(id, 0);
+        List<String> urls = pictureMapper.findAllByForeignKeyId(course.getCourseId(), PictureTypeEnum.HOSTING.getValue());
 
         // 封装课程
-        List<CoursePackageCmsVO> list = coursePackageMapper.findAllByCourseId(id);
+        List<CoursePackageWebVO> list = coursePackageService.listWebVO(course.getCourseId());
 
         // 负责人电话
-        School school = schoolMapper.selectById(course.getSchoolId());
+        School school = schoolService.getById(course.getSchoolId());
         Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
 
-        courseVO.setCoursePackageList(list).setPictureUrls(urls).setLeaderPhone(school.getLeaderPhone());
-        return courseVO;
+        courseWebVO.setCoursePackageList(list).setPictureUrls(urls).setLeaderPhone(school.getLeaderPhone());
+        return courseWebVO;
     }
 
     /**
@@ -111,22 +122,22 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public IPage<CourseWebVO> findPage(CourseQuery queryDTO, Page<Course> page) {
+    public IPage<SimpleCourseVO> findPage(CourseQuery queryDTO, Page<Course> page) {
 
         // 分页查
-        IPage<CourseWebVO> iPage = ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Course>().lambda()
+        IPage<SimpleCourseVO> iPage = ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Course>().lambda()
                 .eq(Course::getSchoolId, queryDTO.getSchoolId()).eq(Course::getDisplay, true)
-        ), this::toCourseWebVO);
+        ), this::toSimpleCourseVO);
 
         // 设置最低价格
-        List<CourseWebVO> collect = iPage.getRecords().stream().map(this::dealWith2).collect(Collectors.toList());
+        List<SimpleCourseVO> collect = iPage.getRecords().stream().map(this::setMinPrice).collect(Collectors.toList());
 
         return iPage.setRecords(collect);
     }
 
-    private CourseWebVO dealWith2(CourseWebVO courseWebVO) {
-        BigDecimal minPrice = coursePackageMapper.findMinPriceByCourseId(courseWebVO.getCourseId());
-        return courseWebVO.setPrice(minPrice);
+    private SimpleCourseVO setMinPrice(SimpleCourseVO simpleCourseVO) {
+        BigDecimal minPrice = coursePackageService.findMinPriceByCourseId(simpleCourseVO.getCourseId());
+        return simpleCourseVO.setPrice(minPrice);
     }
 
     /*

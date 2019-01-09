@@ -24,6 +24,7 @@ import com.luwei.model.school.School;
 import com.luwei.model.teacher.Teacher;
 import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.coursepackage.CoursePackageService;
 import com.luwei.service.manager.ManagerService;
 import com.luwei.service.picture.PictureService;
 import com.luwei.service.recommend.RecommendService;
@@ -53,7 +54,7 @@ import java.util.stream.Collectors;
 public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     @Resource
-    private CoursePackageMapper coursePackageMapper;
+    private CoursePackageService coursePackageService;
 
     @Resource
     private PictureService pictureService;
@@ -151,8 +152,8 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         coursePackage.setUpdateTime(time);
         coursePackage.setCreateTime(time);
 
-        int count = coursePackageMapper.insert(coursePackage);
-        Assert.isTrue(count > 0, MessageCodes.COURSE_PACKAGE_SAVE_ERROR);
+        boolean success = coursePackageService.save(coursePackage);
+        Assert.isTrue(success, MessageCodes.COURSE_PACKAGE_SAVE_ERROR);
         return toCoursePackageVO(coursePackage);
     }
 
@@ -262,8 +263,8 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             coursePackage.setUpdateTime(time);
             coursePackage.setCreateTime(time);
 
-            int count = coursePackageMapper.insert(coursePackage);
-            Assert.isTrue(count > 0, MessageCodes.COURSE_PACKAGE_SAVE_ERROR);
+            boolean success = coursePackageService.save(coursePackage);
+            Assert.isTrue(success, MessageCodes.COURSE_PACKAGE_SAVE_ERROR);
             return toCoursePackageVO(coursePackage);
         }
 
@@ -274,9 +275,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(59).withSecond(59));
 
         coursePackage.setUpdateTime(LocalDateTime.now());
-        int count = coursePackageMapper.updateById(coursePackage);
-        Assert.isTrue(count > 0, MessageCodes.COURSE_PACKAGE_UPDATE_ERROR);
-        return toCoursePackageVO(coursePackageMapper.selectById(coursePackage.getCoursePackageId()));
+        boolean success = coursePackageService.updateById(coursePackage);
+        Assert.isTrue(success, MessageCodes.COURSE_PACKAGE_UPDATE_ERROR);
+        return toCoursePackageVO(coursePackageService.findById(coursePackage.getCoursePackageId()));
     }
 
     /**
@@ -313,8 +314,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         }
         IPage<CourseCmsVO> iPage = ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, wrapper), this::toCourseVO);
         List<CourseCmsVO> list = iPage.getRecords();
-        List collect = list.stream().map(this::dealWith).collect(Collectors.toList());
 
+        //设置图片和套餐
+        List collect = list.stream().map(this::dealWith).collect(Collectors.toList());
         return iPage;
     }
 
@@ -323,7 +325,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         List<String> urls = pictureService.findAllByForeignKeyId(courseVO.getCourseId(), PictureTypeEnum.COURSE.getValue());
 
         // 设置课程套餐列表
-        List<CoursePackageCmsVO> list = coursePackageMapper.findAllByCourseId(courseVO.getCourseId());
+        List<CoursePackageCmsVO> list = coursePackageService.listCmsVO(courseVO.getCourseId());
 
         return courseVO.setCoursePackageList(list).setPictureUrls(urls);
     }
@@ -336,7 +338,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             //saveOrUpdate(course);
             Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
             // 最低价格
-            BigDecimal minPrice = coursePackageMapper.findMinPriceByCourseId(course.getCourseId());
+            BigDecimal minPrice = coursePackageService.findMinPriceByCourseId(course.getCourseId());
             Recommend recommend = new Recommend();
             recommend.setServiceId(course.getCourseId())
                     .setServiceName(course.getCourseName())
