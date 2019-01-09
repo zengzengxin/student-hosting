@@ -18,7 +18,6 @@ public class CoursePackageTimer {
     private CoursePackageService coursePackageService;
 
      @Scheduled(cron = "0 0 1 * * ?")
-    //@Scheduled(cron = "0/1 * * * * ?")
     private void coursePackageTimer() {
          coursePackageService.coursePackageTimer();
     }
