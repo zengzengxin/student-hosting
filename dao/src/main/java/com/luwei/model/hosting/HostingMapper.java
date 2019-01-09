@@ -12,4 +12,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface HostingMapper extends BaseMapper<Hosting> {
 
+    int hostingTimer();
 }

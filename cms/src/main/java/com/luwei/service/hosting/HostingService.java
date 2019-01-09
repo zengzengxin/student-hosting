@@ -212,4 +212,8 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         }
         return toHostingVO(hosting);
     }
+
+    public int hostingTimer(){
+       return baseMapper.hostingTimer();
+    }
 }

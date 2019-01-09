@@ -23,16 +23,7 @@ public class HostingTimer {
 
     @Scheduled(cron = "0 0 1 * * ?")
     private void coursePackageMapper(){
-        List<Hosting> hostings = hostingService.list(new QueryWrapper<Hosting>());
-        hostings.stream().map(this::overdue).collect(Collectors.toList());
+        hostingService.hostingTimer();
     }
 
-    private  Hosting overdue(Hosting hosting) {
-        if (hosting.getEndTime().compareTo(LocalDateTime.now())<0 && hosting.getOverdue() == false){
-            hosting.setOverdue(true);
-            Assert.isTrue(hostingService.updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
-            log.info("定時器更新數據庫，設置託管是否過期: {}", hosting);
-        }
-        return hosting;
-    }
 }

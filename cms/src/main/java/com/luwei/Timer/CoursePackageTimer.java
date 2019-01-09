@@ -23,22 +23,10 @@ public class CoursePackageTimer {
     @Resource
     private CoursePackageMapper coursePackageMapper;
 
-
-    @Scheduled(cron = "0 0 1 * * ?")
+     @Scheduled(cron = "0 0 1 * * ?")
     //@Scheduled(cron = "0/1 * * * * ?")
-    private void coursePackageMapper() {
-        List<CoursePackage> coursePackages = coursePackageMapper.selectList(new QueryWrapper<CoursePackage>());
-        coursePackages.stream().map(this::overdue).collect(Collectors.toList());
-    }
-
-    private CoursePackage overdue(CoursePackage coursePackage) {
-        if (coursePackage.getEndTime().compareTo(LocalDateTime.now()) < 0 && coursePackage.getOverdue() == false) {
-            coursePackage.setOverdue(true);
-            Integer i = coursePackageMapper.updateById(coursePackage);//有問題
-            Assert.isTrue(null != i && i >= 1, MessageCodes.COURSE_PACKAGE_UPDATE_ERROR);
-            log.info("定時器更新數據庫，課程套餐是否過期: {}", coursePackage);
-        }
-        return coursePackage;
+    private void coursePackageTimer() {
+        coursePackageMapper.coursePackageTimer();
     }
 
 }
