@@ -136,7 +136,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     private CoursePackageCmsVO saveCoursePackage(CoursePackageAddDTO addDTO, Course course) {
 
-        if (addDTO.getClassTime().compareTo(addDTO.getQuittingTime()) <= 0) {
+        if (addDTO.getClassTime().compareTo(addDTO.getQuittingTime()) >= 0) {
             throw new ValidationException(MessageCodes.CLASS_TIME_ERROR);
         }
 
@@ -252,7 +252,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         //     return toCoursePackageVO(p);
         // }
 
-        if (updateDTO.getClassTime().compareTo(updateDTO.getQuittingTime()) <= 0) {
+        if (updateDTO.getClassTime().compareTo(updateDTO.getQuittingTime()) >= 0) {
             throw new ValidationException(MessageCodes.CLASS_TIME_ERROR);
         }
 
