@@ -372,6 +372,13 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
         } else {
             course.setDisplay(false);
+
+            // 去掉推荐
+            course.setRecommend(false);
+            recommend(new CourseRecommend()
+                    .setCourseId(course.getCourseId())
+                    .setRecommend(false));
+
             Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
         }
         return toCourseVO(course);
