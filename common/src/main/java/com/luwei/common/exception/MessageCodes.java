@@ -66,6 +66,7 @@ public interface MessageCodes {
     String COURSE_UPDATE_ERROR = "course.update.error";//课程更新失败
     String COURSE_PACKAGE_SAVE_ERROR = "course.package.save.error";//课程套餐保存失败
     String COURSE_PACKAGE_UPDATE_ERROR = "course.package.update.error";//课程套餐更新失败
+    String CLASS_TIME_ERROR = "class.time.error";//上课时间不能小于下课时间
 
     //老师相关
     String TEACHER_IS_NOT_EXIST = "teacher.is.not.exist";//老师不存在

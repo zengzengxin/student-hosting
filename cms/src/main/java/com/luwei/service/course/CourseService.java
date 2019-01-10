@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.course.Course;
 import com.luwei.model.course.CourseMapper;
@@ -134,6 +135,11 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
     }
 
     private CoursePackageCmsVO saveCoursePackage(CoursePackageAddDTO addDTO, Course course) {
+
+        if (addDTO.getClassTime().compareTo(addDTO.getQuittingTime()) <= 0) {
+            throw new ValidationException(MessageCodes.CLASS_TIME_ERROR);
+        }
+
         CoursePackage coursePackage = new CoursePackage();
         BeanUtils.copyProperties(addDTO, coursePackage);
 
@@ -245,6 +251,10 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         // if (p != null && p.getDisplay()) {
         //     return toCoursePackageVO(p);
         // }
+
+        if (updateDTO.getClassTime().compareTo(updateDTO.getQuittingTime()) <= 0) {
+            throw new ValidationException(MessageCodes.CLASS_TIME_ERROR);
+        }
 
         // 修改课程套餐时,也可以新增
         if (updateDTO.getCoursePackageId() == null) {
