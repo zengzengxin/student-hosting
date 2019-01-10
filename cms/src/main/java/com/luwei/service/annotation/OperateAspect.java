@@ -4,6 +4,7 @@ package com.luwei.service.annotation;
 
 
 import com.baomidou.mybatisplus.core.override.PageMapperMethod;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,10 +15,12 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Aspect
 @Component
+@Slf4j
 public class OperateAspect {
 
     long start;
@@ -31,18 +34,13 @@ public class OperateAspect {
         MethodSignature sign = (MethodSignature)joinPoint.getSignature();
         Method method = sign.getMethod();
         start = System.currentTimeMillis();
-        System.out.println("开始===============================");
-        System.out.println("打印："+sign.getMethod().getName()+" 开始时间"+new Date(start));
-
     }
 
     @After("annotationPointCut()")
     public void after() {
         System.out.print("方法结束");
         long end = System.currentTimeMillis();
-        System.out.println("结束===============================");
-        System.out.println("结束时间"+new Date(end));
-        System.out.println("用时"+(end-start));
+        log.info("当前时间 {} 共耗时{}毫秒", LocalDateTime.now(), String.valueOf(end - start));
     }
 
 }
