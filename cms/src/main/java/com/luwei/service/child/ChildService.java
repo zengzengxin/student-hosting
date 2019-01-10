@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.luwei.common.annotation.TimeCalculateAnnotation;
 import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
@@ -50,11 +49,14 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     @Resource
     private ManagerService managerService;
 
-    @TimeCalculateAnnotation
+    @Transactional
+    //--todo 找文博讨论
     public ChildCmsVO findById(Integer id) {
         Child child = getById(id);
         org.springframework.util.Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
         return toChildVO(child);
+
+
     }
 
     private ChildCmsVO toChildVO(Child child) {
@@ -144,4 +146,14 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
     }
 
+    public static void main(String[] args) {
+        String s1 = new String("你dsa");
+        char[] chars1 = s1.toCharArray();
+        String s2 = new String("你dcd");
+        char[] chars2 = s2.toCharArray();
+
+        for (int i =0;i<chars1.length;i++){
+            System.out.println(chars1[i]==chars2[i]);
+        }
+    }
 }

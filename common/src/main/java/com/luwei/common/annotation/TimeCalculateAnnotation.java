@@ -1,10 +1,12 @@
 package com.luwei.common.annotation;
 
+import org.springframework.stereotype.Component;
+
 import java.lang.annotation.*;
 
 @Documented
-@Target({ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.ANNOTATION_TYPE,ElementType.METHOD})
+@Retention(RetentionPolicy.SOURCE)
 public @interface TimeCalculateAnnotation {
     String value() default "";
 }
