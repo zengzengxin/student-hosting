@@ -1,6 +1,5 @@
 package com.luwei.Timer;
 
-import com.luwei.common.annotation.TimeCalculateAnnotation;
 import com.luwei.service.order.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,7 +19,6 @@ public class OrderTimerTask {
     private OrderService orderService;
 
     @Scheduled(cron = "0 0 2 * * ?")
-    @TimeCalculateAnnotation
     private void refreshOrderStatus() {
         log.info("===================刷新订单状态定时任务启动===================");
         long start = System.currentTimeMillis();
