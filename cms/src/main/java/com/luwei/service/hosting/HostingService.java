@@ -217,6 +217,13 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
             Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
         } else {
             hosting.setDisplay(false);
+
+            // 去掉推荐
+            hosting.setRecommend(false);
+            recommend(new HostingRecommend()
+                    .setHostingId(hosting.getHostingId())
+                    .setRecommend(false));
+
             Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
         }
         return toHostingVO(hosting);
