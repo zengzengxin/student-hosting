@@ -19,7 +19,7 @@ public class OperateAspect {
 
     long start;
 
-    @Pointcut("@annotation(com.luwei.service.annotation.timeCaculateAnnotation)")
+    @Pointcut("@annotation(com.luwei.service.annotation.TimeCalculateAnnotation)")
     public void annotationPointCut() {
     }
 
