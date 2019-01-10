@@ -1,4 +1,4 @@
-package com.luwei.service.annotation;
+package com.luwei.common.annotation;
 
 import java.lang.annotation.*;
 

@@ -1,16 +1,11 @@
-package com.luwei.service.annotation;
+package com.luwei.common.annotation;
 
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-
-
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Aspect
 @Component
@@ -19,7 +14,7 @@ public class OperateAspect {
 
     long start;
 
-    @Pointcut("@annotation(com.luwei.service.annotation.TimeCalculateAnnotation)")
+    @Pointcut("@annotation(com.luwei.common.annotation.TimeCalculateAnnotation)")
     public void annotationPointCut() {
     }
 
@@ -31,7 +26,7 @@ public class OperateAspect {
     @After("annotationPointCut()")
     public void after() {
         long end = System.currentTimeMillis();
-        log.info("当前时间 {} 共耗时{}毫秒", LocalDateTime.now(), String.valueOf(end - start));
+        log.info("共耗时{}毫秒", String.valueOf(end - start));
     }
 
 }

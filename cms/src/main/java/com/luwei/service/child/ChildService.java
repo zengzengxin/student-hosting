@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.annotation.TimeCalculateAnnotation;
 import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.BeanUtils;
@@ -49,6 +50,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
     @Resource
     private ManagerService managerService;
 
+    @TimeCalculateAnnotation
     public ChildCmsVO findById(Integer id) {
         Child child = getById(id);
         org.springframework.util.Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
@@ -93,6 +95,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         log.info("删除数据:ids{}", ids);
     }
 
+    @TimeCalculateAnnotation
     public IPage<ChildCmsVO> findPage(Page<Child> page, @Valid ChildQueryDTO childQueryDTO) {
         Manager manager = managerService.getById(UserHelper.getUserId());
         if (manager.getRole() == RoleEnum.ROOT) {
