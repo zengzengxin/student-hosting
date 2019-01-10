@@ -146,6 +146,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         order.setServiceCover(hosting.getCoverUrl());
         order.setIntroduction(hosting.getIntroduction());
         order.setServiceId(hosting.getHostingId());
+        order.setSchoolId(hosting.getSchoolId());
         order.setSchoolName(hosting.getSchoolName());
 
         //设置关于家长的信息
