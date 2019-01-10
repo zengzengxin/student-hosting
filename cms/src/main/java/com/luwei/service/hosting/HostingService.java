@@ -68,7 +68,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
         //处理开始时间,结束时间
         hosting.setStartTime(hosting.getStartTime().withHour(0).withMinute(0).withSecond(0));
-        hosting.setEndTime(hosting.getEndTime().withHour(23).withMinute(50).withSecond(50));
+        hosting.setEndTime(hosting.getEndTime().withHour(23).withMinute(59).withSecond(50));
 
         LocalDateTime time = LocalDateTime.now();
         hosting.setUpdateTime(time);
@@ -106,7 +106,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
         //处理开始时间,结束时间
         hosting.setStartTime(hosting.getStartTime().withHour(0).withMinute(0).withSecond(0));
-        hosting.setEndTime(hosting.getEndTime().withHour(23).withMinute(50).withSecond(50));
+        hosting.setEndTime(hosting.getEndTime().withHour(23).withMinute(59).withSecond(50));
 
         hosting.setUpdateTime(LocalDateTime.now());
 
