@@ -26,4 +26,8 @@
     </delete>
 
 
+    <delete id="updateHostingRecommend" >
+        delete from tb_recommend  where service_id in (select hosting_id from tb_hosting where overdue = 1)
+    </delete>
+
 </mapper>

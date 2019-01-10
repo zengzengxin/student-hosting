@@ -131,6 +131,8 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
         return count > 0;
     }
 
-
+    public int updateHostingRecommend(){
+        return baseMapper.updateHostingRecommend();
+    }
 
 }
