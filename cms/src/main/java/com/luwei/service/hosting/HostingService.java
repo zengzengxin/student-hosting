@@ -202,8 +202,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         // 删除一条推荐数据
         hosting.setRecommend(false);
         Assert.isTrue(updateById(hosting), MessageCodes.HOSTING_IS_UPDATE_ERROR);
-        boolean success = recommendService.realDeleteByServiceIdAndServiceType(hosting.getHostingId(), 1);
-        Assert.isTrue(success, MessageCodes.RECOMMEND_DELETE_ERROR);
+        recommendService.realDeleteByServiceIdAndServiceType(hosting.getHostingId(), ServiceTypeEnum.HOSTING.getValue());
 
         return toHostingVO(hosting);
     }

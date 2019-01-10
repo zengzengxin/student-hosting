@@ -367,8 +367,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         // 删除一条推荐数据
         course.setRecommend(false);
         Assert.isTrue(updateById(course), MessageCodes.COURSE_UPDATE_ERROR);
-        boolean success = recommendService.realDeleteByServiceIdAndServiceType(course.getCourseId(), 0);
-        Assert.isTrue(success, MessageCodes.RECOMMEND_DELETE_ERROR);
+        recommendService.realDeleteByServiceIdAndServiceType(course.getCourseId(), ServiceTypeEnum.COURSE.getValue());
 
         return toCourseVO(course);
     }
