@@ -38,4 +38,15 @@
         update tb_order set order_status = 2 where order_status = 1 and service_end_time &lt; now()
     </update>
 
+    <update id="useCaseFreshOrderStatus">
+        UPDATE tb_order SET order_status =
+          CASE order_status
+            WHEN 0 THEN 3
+            WHEN 1 THEN 2
+          END
+        WHERE
+        (order_status = 0 AND service_end_time &lt; NOW()) OR
+        (order_status = 1 AND service_end_time &lt; NOW())
+    </update>
+
 </mapper>

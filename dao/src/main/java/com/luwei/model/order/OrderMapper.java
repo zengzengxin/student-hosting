@@ -18,4 +18,9 @@ public interface OrderMapper extends BaseMapper<Order> {
      */
     long refreshPaidOrderStatus();
 
+    /**
+     * 使用case关键字 刷新订单状态. 一条sql可搞定
+     */
+    long useCaseFreshOrderStatus();
+
 }
