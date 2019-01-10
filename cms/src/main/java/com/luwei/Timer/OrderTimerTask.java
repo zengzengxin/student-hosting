@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 
 /**
  * Author: huanglp
@@ -22,7 +21,6 @@ public class OrderTimerTask {
     @Scheduled(cron = "0 0 2 * * ?")
     private void refreshOrderStatus() {
         log.info("===================刷新订单状态定时任务启动===================");
-        log.info("当前时间 {}", LocalDateTime.now());
         long start = System.currentTimeMillis();
 
         // 刷新未支付订单的状态
@@ -34,7 +32,7 @@ public class OrderTimerTask {
         log.info("总共刷新了{}条订单状态", refreshPaidOrderNumber + refreshNotPaidOrderNumber);
 
         long end = System.currentTimeMillis();
-        log.info("当前时间 {} 共耗时{}毫秒", LocalDateTime.now(), String.valueOf(end - start));
+        log.info("共耗时{}毫秒", String.valueOf(end - start));
         log.info("===================刷新订单状态定时任务结束===================");
     }
 
