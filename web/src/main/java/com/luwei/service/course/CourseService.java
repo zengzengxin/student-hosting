@@ -101,7 +101,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         CourseWebVO courseWebVO = toCourseWebVO(course);
 
         // 封装图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(course.getCourseId(), PictureTypeEnum.HOSTING.getValue());
+        List<String> urls = pictureMapper.findAllByForeignKeyId(course.getCourseId(), PictureTypeEnum.COURSE.getValue());
 
         // 封装课程
         List<CoursePackageWebVO> list = coursePackageService.listWebVO(course.getCourseId());
