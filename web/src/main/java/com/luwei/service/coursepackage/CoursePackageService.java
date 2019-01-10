@@ -57,6 +57,7 @@ public class CoursePackageService extends ServiceImpl<CoursePackageMapper, Cours
 
         List<CoursePackage> list = list(new QueryWrapper<CoursePackage>().lambda()
                 .eq(CoursePackage::getOverdue, false)
+                .eq(CoursePackage::getDisplay, true)
                 .eq(CoursePackage::getCourseId, courseId));
         return list.stream().map(this::toCoursePackageWebVO).collect(Collectors.toList());
     }

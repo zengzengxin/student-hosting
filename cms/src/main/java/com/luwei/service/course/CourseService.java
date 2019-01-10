@@ -139,7 +139,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
         //处理开始时间,结束时间
         coursePackage.setStartTime(coursePackage.getStartTime().withHour(0).withMinute(0).withSecond(0));
-        coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(59).withSecond(59));
+        coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(50).withSecond(50));
 
         // 课程管理
         coursePackage.setCourseId(course.getCourseId());
@@ -252,7 +252,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             BeanUtils.copyProperties(updateDTO, coursePackage);
             //处理开始时间,结束时间
             coursePackage.setStartTime(coursePackage.getStartTime().withHour(0).withMinute(0).withSecond(0));
-            coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(59).withSecond(59));
+            coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(50).withSecond(50));
             // 课程管理
             coursePackage.setCourseId(course.getCourseId());
             coursePackage.setCourseName(course.getCourseName());
@@ -270,7 +270,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         BeanUtils.copyProperties(updateDTO, coursePackage);
         //处理开始时间,结束时间
         coursePackage.setStartTime(coursePackage.getStartTime().withHour(0).withMinute(0).withSecond(0));
-        coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(59).withSecond(59));
+        coursePackage.setEndTime(coursePackage.getEndTime().withHour(23).withMinute(50).withSecond(50));
 
         coursePackage.setUpdateTime(LocalDateTime.now());
         boolean success = coursePackageService.updateById(coursePackage);
