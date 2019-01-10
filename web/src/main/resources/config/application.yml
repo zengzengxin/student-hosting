@@ -46,7 +46,7 @@ spring:
 # 模块化的配置
 luwei:
   qiniu:
-    bucket: edin2
+    bucket: edin
     access-key: 9YThA2ZpNq4UnyRRz_ZigkzgH6davcLehUPogG4C
     secret-key: RoZdZeQ8_a0efxTRMisMufPZbTQxLrBy3flc4kLf
     link-address: http://edin.halohealth.cn/

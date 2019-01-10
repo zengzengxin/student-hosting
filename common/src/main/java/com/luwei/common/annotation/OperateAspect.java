@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class OperateAspect {
 
-    long start;
+    private long start;
 
     @Pointcut("@annotation(com.luwei.common.annotation.TimeCalculateAnnotation)")
     public void annotationPointCut() {
@@ -26,7 +26,7 @@ public class OperateAspect {
     @After("annotationPointCut()")
     public void after() {
         long end = System.currentTimeMillis();
-        log.info("共耗时{}毫秒", String.valueOf(end - start));
+        log.info("总共耗时{}毫秒", String.valueOf(end - start));
     }
 
 }

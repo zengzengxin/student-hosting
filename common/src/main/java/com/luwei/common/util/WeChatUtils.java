@@ -311,9 +311,9 @@ public class WeChatUtils {
 //--------------------------------------刷新调用微信接口的access_token开始---------------------------------------------------
 
     /**
-     * 获取accesstoken,每隔1小时执行一次
+     * 获取accesstoken,每隔1小时执行一次 (定时任务不放在此处)
      */
-    @Scheduled(cron = "0 0 0/1 * * ?")
+    // @Scheduled(cron = "0 0 0/1 * * ?")
     public void getToken() {
         logger.info("-------" + appId);
         logger.info("-------" + appSecret);
@@ -409,7 +409,7 @@ public class WeChatUtils {
     /**
      * 获得 js_api ticket
      */
-    public Map<String, Object> getTicket(String token) {
+    public static Map<String, Object> getTicket(String token) {
         String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
         Map<String, Object> params = new HashMap<>();
         params.put("type", "jsapi");

@@ -95,7 +95,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         log.info("删除数据:ids{}", ids);
     }
 
-    @TimeCalculateAnnotation
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     public IPage<ChildCmsVO> findPage(Page<Child> page, @Valid ChildQueryDTO childQueryDTO) {
         Manager manager = managerService.getById(UserHelper.getUserId());
         if (manager.getRole() == RoleEnum.ROOT) {

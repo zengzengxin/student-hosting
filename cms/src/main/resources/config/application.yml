@@ -56,7 +56,7 @@ luwei:
     salt: 3u492ijdf*89q34l882jk
   module:
     qiniu:
-      bucket: edin2
+      bucket: edin
       access-key: 9YThA2ZpNq4UnyRRz_ZigkzgH6davcLehUPogG4C
       secret-key: RoZdZeQ8_a0efxTRMisMufPZbTQxLrBy3flc4kLf
       link-address: http://edin.halohealth.cn/
