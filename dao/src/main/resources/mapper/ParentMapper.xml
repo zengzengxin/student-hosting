@@ -41,4 +41,6 @@
         select * from tb_parent where open_id = #{openId}
     </select>
 
+
+
 </mapper>

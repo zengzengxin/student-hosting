@@ -55,8 +55,6 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         Child child = getById(id);
         org.springframework.util.Assert.notNull(child, MessageCodes.CHILD_IS_NOT_EXIST);
         return toChildVO(child);
-
-
     }
 
     private ChildCmsVO toChildVO(Child child) {
@@ -141,7 +139,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
             list.add(child);
         }
         boolean flag = saveBatch(list);
-        log.info("从excle导入数据",list);
+        log.info("从excle导入数据", list);
         Assert.isTrue(flag, MessageCodes.CHILD_IMPORT_FROM_EXCEL_ERROR);
 
     }
@@ -152,8 +150,8 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
         String s2 = new String("你dcd");
         char[] chars2 = s2.toCharArray();
 
-        for (int i =0;i<chars1.length;i++){
-            System.out.println(chars1[i]==chars2[i]);
+        for (int i = 0; i < chars1.length; i++) {
+            System.out.println(chars1[i] == chars2[i]);
         }
     }
 }

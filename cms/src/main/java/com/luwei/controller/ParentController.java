@@ -6,6 +6,7 @@ import com.luwei.common.constant.RoleConstant;
 import com.luwei.model.parent.pojo.cms.ParentCmsVO;
 import com.luwei.model.parent.pojo.cms.ParentQueryDTO;
 import com.luwei.service.parent.ParentService;
+import com.luwei.service.parentChilds.ParentChildService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -27,6 +28,9 @@ public class ParentController {
     @Resource
     private ParentService parentService;
 
+    @Resource
+    private ParentChildService parentChildService;
+
     @GetMapping("page")
     @ApiOperation("分页")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
@@ -39,6 +43,8 @@ public class ParentController {
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
     public void delete(@RequestParam @ApiParam("+") Integer ids) {
         parentService.deleteParent(ids);
+        //刪除這個家長對應的孩子
+        parentChildService.UnbindChilds(ids);
 
     }
 }

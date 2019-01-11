@@ -8,4 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface ParentChildMapper extends BaseMapper<ParentChild> {
 
+     int UnbindChilds(int id);
+
 }
+
