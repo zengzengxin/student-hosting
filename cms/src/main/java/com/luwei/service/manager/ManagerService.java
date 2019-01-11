@@ -155,7 +155,9 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         if (editVO.getSchoolId() == null) {
             manager.setAccount(editVO.getAccount())
                     .setRole(editVO.getRole())
-                    .setManagerId(editVO.getManagerId());
+                    .setManagerId(editVO.getManagerId())
+                    .setSchoolId(null)
+                    .setSchoolName(null);
         }
 
         updateById(manager);
