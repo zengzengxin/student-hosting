@@ -19,10 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -115,9 +115,13 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
     public void importExcel(MultipartFile excelFile) {
 
         List<Map<Integer, String>> excelInfo = ReadExcelUtil.getExcelInfo(excelFile);
+        System.out.println(excelFile.getSize());
 
-        List<Teacher> list = new ArrayList<Teacher>();
+        // List<Teacher> list = new ArrayList<Teacher>();
         for (Map<Integer, String> map : excelInfo) {
+            if (StringUtils.isEmpty(map.get(2))) {
+                continue;
+            }
             Teacher teacher = new Teacher();
             teacher.setTeacherName(map.get(0));
             teacher.setPhone(map.get(1));
@@ -125,13 +129,15 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
             teacher.setGrade(map.get(3));
             teacher.setTeacherClass(map.get(4));
             teacher.setSchoolId(schoolService.findSchoolIdBySchoolName(map.get(2)));
+
             LocalDateTime time = LocalDateTime.now();
             teacher.setUpdateTime(time);
             teacher.setCreateTime(time);
-            list.add(teacher);
+            // list.add(teacher);
+            Assert.isTrue(save(teacher), MessageCodes.TEACHER_IMPORT_FROM_EXCEL_ERROR);
         }
-        boolean flag = saveBatch(list);
-        Assert.isTrue(flag, MessageCodes.TEACHER_IMPORT_FROM_EXCEL_ERROR);
+        // boolean flag = saveBatch(list);
+        // Assert.isTrue(flag, MessageCodes.TEACHER_IMPORT_FROM_EXCEL_ERROR);
         // 可能需要修改: 从redis获得managerId，再由managerId获得学校id，再从学校id获得学校名称存入数据库，这里的学校名称将来要舍弃
 
     }

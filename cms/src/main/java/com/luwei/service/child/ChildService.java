@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -118,6 +119,9 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
         List<Child> list = new ArrayList<Child>();
         for (Map<Integer, String> map : excelInfo) {
+            if (StringUtils.isEmpty(map.get(2))) {
+                continue;
+            }
             Child child = new Child();
             child.setName(map.get(0));
             child.setStudentNo(map.get(1));
@@ -139,19 +143,8 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
             list.add(child);
         }
         boolean flag = saveBatch(list);
-        log.info("从excle导入数据", list);
+        log.info("从excel导入数据", list);
         Assert.isTrue(flag, MessageCodes.CHILD_IMPORT_FROM_EXCEL_ERROR);
-
     }
 
-    public static void main(String[] args) {
-        String s1 = new String("你dsa");
-        char[] chars1 = s1.toCharArray();
-        String s2 = new String("你dcd");
-        char[] chars2 = s2.toCharArray();
-
-        for (int i = 0; i < chars1.length; i++) {
-            System.out.println(chars1[i] == chars2[i]);
-        }
-    }
 }
