@@ -119,7 +119,7 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
         List<Child> list = new ArrayList<Child>();
         for (Map<Integer, String> map : excelInfo) {
-            if (StringUtils.isEmpty(map.get(2))) {
+            if (StringUtils.isEmpty(map.get(3))) {
                 continue;
             }
             Child child = new Child();

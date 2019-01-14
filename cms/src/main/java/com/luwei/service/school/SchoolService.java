@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -87,7 +88,10 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
         //List<School> list = new ArrayList<>();
         //至此已经将excel中的数据转换到list里面了,接下来就可以操作list,可以进行保存到数据库,或者其他操作
         for (Map<Integer, String> map : mapList) {
-            System.out.println(map);
+            // 可能出现excel空行的情况，则跳过
+            if (StringUtils.isEmpty(map.get(0))) {
+                continue;
+            }
             School school = new School();
             school.setName(map.get(0));
             school.setIntroduction(map.get(1));
