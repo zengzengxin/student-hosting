@@ -1,4 +1,4 @@
-package com.luwei.Timer;
+package com.luwei.timer;
 
 import com.luwei.service.order.OrderService;
 import lombok.extern.slf4j.Slf4j;

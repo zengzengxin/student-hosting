@@ -1,4 +1,4 @@
-package com.luwei.Timer;
+package com.luwei.timer;
 
 import com.luwei.service.hosting.HostingService;
 import com.luwei.service.recommend.RecommendService;
