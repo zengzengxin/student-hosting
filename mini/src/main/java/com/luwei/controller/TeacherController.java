@@ -41,30 +41,18 @@ public class TeacherController {
         return teacherService.getTeacher();
     }
 
-
     @GetMapping("/checkout")
     @ApiOperation("判断微信用户是否绑定孩子,返回true或false")
-    public boolean wechatUserBingding() {
+    public boolean wechatUserBinding() {
         Integer userId = UserHelper.getUserId();
-        if (miniUserService.getById(userId).getTeacherId() == 0){
-            return false;
-        }else {
-            return true;
-        }
+        return miniUserService.getById(userId).getTeacherId() != 0;
     }
-
 
     @GetMapping("/phone")
     @ApiOperation("绑定手机号")
-    public Teacher bingTeacher(@RequestParam @ApiParam("phone") String phone ){
+    public Teacher bingTeacher(@RequestParam @ApiParam("phone") String phone) {
         Integer userId = UserHelper.getUserId();
-        return teacherService.bindingTeacher(phone,userId);
+        return teacherService.bindingTeacher(phone, userId);
     }
-
-
-
-
-
-
 
 }

@@ -62,8 +62,7 @@ public class WeChatController {
         String sessionKey = (String) WeiXinUtils.login(code).get("session_key");
         Map<String, Object> map = WeiXinUtils.decryptWxData(encryptedData, sessionKey, iv);
 
-
-        return weChatService.addMinuuser(map);
+        return weChatService.addMiniUser(map);
     }
 
 }

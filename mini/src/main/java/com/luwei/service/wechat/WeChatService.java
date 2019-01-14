@@ -31,7 +31,7 @@ public class WeChatService {
     @Resource
     private WxProperties wxProperties;
 
-    public String  addMinuuser(Map<String, Object> map) {
+    public String  addMiniUser(Map<String, Object> map) {
         log.info(map.toString());
 
         MiniUser miniUser;
@@ -54,9 +54,7 @@ public class WeChatService {
         }
 
         //不为空直接返回
-        String token = shiroTokenService.login(miniUser.getMiniUserId().toString());
-
-        return token;
+        return shiroTokenService.login(miniUser.getMiniUserId().toString());
     }
 
 }
