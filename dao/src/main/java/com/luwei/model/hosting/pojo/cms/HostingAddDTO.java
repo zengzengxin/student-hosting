@@ -67,10 +67,6 @@ public class HostingAddDTO implements Serializable {
     @NotBlank(message = "学校名称不能为空")
     private String schoolName;
 
-    @ApiModelProperty(value = "上架到公众号")
-    @NotNull(message = "上架到公众号不能为空")
-    private Boolean display;
-
     @ApiModelProperty(value = "是否设为推荐(默认为0)")
     @NotNull(message = "是否设为推荐(默认为0)不能为空")
     private Boolean recommend;

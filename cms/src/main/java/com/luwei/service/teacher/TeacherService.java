@@ -68,7 +68,6 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         return toTeacherVO(teacher);
     }
 
-
     @Transactional(rollbackFor = Exception.class)
     public void deleteTeachers(Set<Integer> teacherIds) {
         //removeByIds删除0条也是返回true的，所以需要使用baseMapper
@@ -96,7 +95,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
 
     public List<TeacherCmsVO> teacherList(Integer schoolId) {
         QueryWrapper<Teacher> queryWrapper = new QueryWrapper<>();
-        if(schoolId != null){
+        if (schoolId != null) {
             queryWrapper.lambda().eq(Teacher::getSchoolId, schoolId);
         }
         return baseMapper.selectList(queryWrapper).stream().map(this::toTeacherVO).collect(Collectors.toList());
@@ -104,9 +103,9 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
 
     public List<TeacherCmsVO> findTeacher(Integer schoolId, String teacherName) {
         QueryWrapper<Teacher> queryWrapper = new QueryWrapper<>();
-        if(schoolId != null){
+        if (schoolId != null) {
             queryWrapper.lambda().eq(Teacher::getSchoolId, schoolId);
-        }else if(teacherName != null){
+        } else if (teacherName != null) {
             queryWrapper.lambda().like(Teacher::getTeacherName, teacherName);
         }
         return baseMapper.selectList(queryWrapper).stream().map(this::toTeacherVO).collect(Collectors.toList());

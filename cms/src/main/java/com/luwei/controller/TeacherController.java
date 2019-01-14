@@ -85,7 +85,7 @@ public class TeacherController {
     @PostMapping("excelAddTeacher")
     @ApiOperation("通过excel导入老师")
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
-    public void findTeacher(MultipartFile file) throws Exception {
+    public void findTeacher(MultipartFile file) {
         teacherService.importExcel(file);
     }
 

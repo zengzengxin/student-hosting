@@ -37,7 +37,7 @@
     </select>
 
     <select id="findSchoolIdBySchoolName" parameterType="string" resultType="java.lang.Integer">
-        SELECT school_id from tb_school where name = #{schoolName}
+        SELECT school_id from tb_school where name = #{schoolName} and deleted = 0
     </select>
 
 </mapper>
