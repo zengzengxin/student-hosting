@@ -68,4 +68,7 @@ public class Course implements Serializable {
     @TableLogic
     private Boolean deleted;
 
+    @ApiModelProperty(value = "课程的套餐全部过期")
+    private Boolean packageNull;
+
 }

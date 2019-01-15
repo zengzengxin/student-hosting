@@ -22,7 +22,6 @@ import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.envm.ServiceTypeEnum;
 import com.luwei.model.school.School;
 import com.luwei.model.teacher.Teacher;
-import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.coursepackage.CoursePackageService;
 import com.luwei.service.manager.ManagerService;
@@ -393,10 +392,4 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course);
     }
 
-    public static void main(String[] args) {
-        Course course = new Course();
-        System.out.println(course.getClass().getClassLoader());
-        ShiroTokenService shiroTokenService = new ShiroTokenService();
-        System.out.println(shiroTokenService.getClass().getClassLoader());
-    }
 }

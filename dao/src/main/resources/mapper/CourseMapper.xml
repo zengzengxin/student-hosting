@@ -4,21 +4,21 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.luwei.model.course.Course">
-        <id column="course_id" property="courseId" />
-        <result column="course_name" property="courseName" />
-        <result column="cover" property="cover" />
-        <result column="introduction" property="introduction" />
-        <result column="picture_id" property="pictureId" />
-        <result column="details" property="details" />
-        <result column="teacher_id" property="teacherId" />
-        <result column="teacher_name" property="teacherName" />
-        <result column="school_id" property="schoolId" />
-        <result column="school_name" property="schoolName" />
-        <result column="display" property="display" />
-        <result column="recommend" property="recommend" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
+        <id column="course_id" property="courseId"/>
+        <result column="course_name" property="courseName"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="introduction" property="introduction"/>
+        <result column="details" property="details"/>
+        <result column="teacher_id" property="teacherId"/>
+        <result column="teacher_name" property="teacherName"/>
+        <result column="school_id" property="schoolId"/>
+        <result column="school_name" property="schoolName"/>
+        <result column="display" property="display"/>
+        <result column="recommend" property="recommend"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="package_null" property="packageNull"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
