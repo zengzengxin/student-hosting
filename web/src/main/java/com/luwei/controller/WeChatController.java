@@ -49,7 +49,7 @@ public class WeChatController {
             Integer userId = UserHelper.getUserId();
             Assert.notNull(parentService.getById(userId), MessageCodes.AUTH_TOKEN);
         } catch (Exception e) {
-            throw new ValidationException(MessageCodes.AUTH_TOKEN);
+            return false;
         }
         return true;
     }
