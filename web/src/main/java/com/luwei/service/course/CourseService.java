@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -133,7 +134,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         // 设置最低价格
         List<SimpleCourseVO> collect = iPage.getRecords().stream().map(this::setMinPrice).collect(Collectors.toList());
 
-        List<SimpleCourseVO> resultList = null;
+        List<SimpleCourseVO> resultList = new ArrayList<>();
         for (SimpleCourseVO simpleCourseVO : collect) {
             CoursePackage one = coursePackageService.getOne(new QueryWrapper<CoursePackage>()
                     .eq("course_id", simpleCourseVO.getCourseId()).eq("display", true));
@@ -142,7 +143,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
             }
         }
 
-        return iPage.setRecords(collect);
+        return iPage.setRecords(resultList);
     }
 
     private SimpleCourseVO setMinPrice(SimpleCourseVO simpleCourseVO) {
