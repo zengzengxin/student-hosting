@@ -128,7 +128,6 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         IPage<SimpleCourseVO> iPage = ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Course>().lambda()
                 .eq(Course::getSchoolId, queryDTO.getSchoolId())
                 .eq(Course::getDisplay, true)
-                .eq(Course::getPackageNull, false)
         ), this::toSimpleCourseVO);
 
         // 设置最低价格

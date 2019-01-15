@@ -202,7 +202,6 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         Course course = new Course();
         BeanUtils.copyProperties(updateDTO, course);
         course.setUpdateTime(LocalDateTime.now());
-        course.setPackageNull(false);
 
         // ROOT修改不需要下架 学校修改则下架该课程 ---01-08 改需求
         Manager manager = managerService.getById(UserHelper.getUserId());
