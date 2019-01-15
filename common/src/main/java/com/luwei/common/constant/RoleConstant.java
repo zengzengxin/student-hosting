@@ -7,17 +7,17 @@ package com.luwei.common.constant;
 public interface RoleConstant {
 
     /**
-     * 超级管理员
+     * 平台管理员ROOT，拥有最高权限
      */
     String ROOT = "0";
 
     /**
-     * 普通管理员
+     * 教育局管理员
      */
     String ADMIN = "1";
 
     /**
-     * 运营者OPERATOR，拥有部分权限，但比普通管理员权限低
+     * 学校/机构管理员
      */
     String OPERATOR = "2";
 
