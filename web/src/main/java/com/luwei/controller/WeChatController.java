@@ -6,12 +6,14 @@ import com.luwei.common.property.ShareParam;
 import com.luwei.common.property.WeChatUser;
 import com.luwei.common.util.WeChatUtils;
 import com.luwei.module.shiro.service.UserHelper;
+import com.luwei.service.parent.ParentService;
 import com.luwei.service.wechat.WeChatService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,12 +38,16 @@ public class WeChatController {
     @Resource
     private WeChatUtils weChatUtils;
 
+    @Resource
+    private ParentService parentService;
+
     @GetMapping("/verify")
     @ApiOperation("校验token是否可用")
     @ResponseBody
     public Boolean userAuthorize() {
         try {
             Integer userId = UserHelper.getUserId();
+            Assert.notNull(parentService.getById(userId), MessageCodes.AUTH_TOKEN);
         } catch (Exception e) {
             throw new ValidationException(MessageCodes.AUTH_TOKEN);
         }
