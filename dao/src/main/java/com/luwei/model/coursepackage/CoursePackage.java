@@ -44,6 +44,9 @@ public class CoursePackage implements Serializable {
     @ApiModelProperty(value = "最大人数")
     private Integer maxNumber;
 
+    @ApiModelProperty(value = "报名人数")
+    private Integer applicantsNumber;
+
     @ApiModelProperty(value = "上架状态")
     private Boolean display;
 

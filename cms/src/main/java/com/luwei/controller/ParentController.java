@@ -15,6 +15,10 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.MethodDescriptor;
+import java.beans.PropertyDescriptor;
 
 /**
  * Author zzx
@@ -47,4 +51,6 @@ public class ParentController {
         parentChildService.UnbindChilds(ids);
 
     }
+
 }
+

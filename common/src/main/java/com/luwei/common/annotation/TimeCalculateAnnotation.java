@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Target({ElementType.ANNOTATION_TYPE,ElementType.METHOD})
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface TimeCalculateAnnotation {
     String value() default "";
 }

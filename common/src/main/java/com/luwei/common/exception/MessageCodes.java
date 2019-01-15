@@ -69,6 +69,7 @@ public interface MessageCodes {
     String COURSE_PACKAGE_UPDATE_ERROR = "course.package.update.error";//课程套餐更新失败
     String CLASS_TIME_ERROR = "class.time.error";//上课时间不能大于下课时间
     String PACKAGE_END_TIME_ERROR = "package.end.time.error";//套餐结束时间不能小于当前时间
+    String UPDATE_COURSEPACKAGE_APPLICATANTS_NUMBER_ERROR = "update.coursepackage.applicatant.number.error";//更新课程套餐报名人数
 
     //老师相关
     String TEACHER_IS_NOT_EXIST = "teacher.is.not.exist";//老师不存在
@@ -109,6 +110,8 @@ public interface MessageCodes {
     String HOSTING_DELETE_ERROR = "hosting.is.delete.error";//托管班保存失败
     String HOSTING_IS_UPDATE_ERROR = "hosting.is.update.error";//托管班保存失败
     String HOSTING_END_TIME_ERROR = "hosting.end.time.error";//托管结束时间不能小于当前日期
+    String APPLICANTS_NUMBER_ENOUGH = "applicant.number.enough";//报名人数已经到达最大人数
+    String UPDATE_HOSTING_APPLICATANTS_NUMBER_ERROR = "update.hosting.applicatants.number.error";//更新托管报名人数失败
 
     //推荐相关
     String RECOMMEND_IS_NOT_EXIST = "recommend.is.not.exist";//推荐不存在
@@ -137,5 +140,7 @@ public interface MessageCodes {
 
     //校验相关
     String INVALID_PHONE_NUMBER = "invalid.phone.number";//无效的电话号码
+
+
 
 }

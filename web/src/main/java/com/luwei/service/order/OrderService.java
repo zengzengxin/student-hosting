@@ -126,9 +126,13 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
 
         //判断所选时间是否有效
         if (hosting.getStartTime().compareTo(hostingOrderDTO.getStartTime()) < 0 || hosting.getEndTime().compareTo(hostingOrderDTO.getEndTime()) > 0) {
-            Assert.isTrue(true, MessageCodes.ORDER_TIME_ERROR);
+            throw new ValidationException(MessageCodes.ORDER_TIME_ERROR);
         }
 
+        //判断课程是否已经到达最大人数
+        if (hosting.getApplicantsNumber() >= hosting.getMaxNumber()) {
+            throw new ValidationException(MessageCodes.APPLICANTS_NUMBER_ENOUGH);
+        }
         //判断孩子是不是家长的孩子
         Boolean flag = false;
         List<ChildWebVO> childList = parentService.findAllParentById(parentId);
@@ -137,9 +141,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
                 flag = true;
             }
         }
-        if (!flag) {
-            Assert.isTrue(true, MessageCodes.ORDER_CHILD_ERROR);
-        }
+
+        Assert.isTrue(flag, MessageCodes.ORDER_CHILD_ERROR);
+
 
         //设置关于托管班的信息
         order.setServiceName(hosting.getName());
@@ -271,6 +275,14 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     public OrderCmsVO confirmOrder(ConfirmOrderDTO orderDTO) {
         Order order = new Order();
         Integer parentId = UserHelper.getUserId();
+        Course course = courseService.getById(orderDTO.getServiceId());
+        CoursePackage cp = coursePackageService.getById(orderDTO.getPackageId());
+
+        //判断课程是否已经到达最大人数
+        if (cp.getApplicantsNumber() >= cp.getMaxNumber()) {
+            Assert.isTrue(false, MessageCodes.APPLICANTS_NUMBER_ENOUGH);
+        }
+
 
         // 判断该家长是否绑定此学生
         Boolean flag = false;
@@ -280,9 +292,9 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
                 flag = true;
             }
         }
-        if (!flag) {
-            Assert.isTrue(true, MessageCodes.ORDER_CHILD_ERROR);
-        }
+
+        Assert.isTrue(flag, MessageCodes.ORDER_CHILD_ERROR);
+
 
         // 判断该套餐是否是该课程的
 
@@ -307,7 +319,6 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         //order.setPayment(PaymentEnum.WECHAT);
 
         // 封装课程 ID, 名称, 简介, 学校名称, 封面
-        Course course = courseService.getById(orderDTO.getServiceId());
         log.info(orderDTO.getServiceId().toString());
         Assert.notNull(course, MessageCodes.COURSE_IS_NOT_EXIST);
         order.setServiceName(course.getCourseName())
@@ -317,7 +328,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
                 .setSchoolId(course.getSchoolId());
 
         // 封装课程套餐的 价格, 开始时间, 结束时间
-        CoursePackage cp = coursePackageService.getById(orderDTO.getPackageId());
+
         order.setPrice(cp.getPrice())
                 .setServiceId(cp.getCoursePackageId())
                 .setServiceStartTime(cp.getStartTime())
@@ -441,6 +452,26 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         order.setUpdateTime(LocalDateTime.now());
         Assert.isTrue(updateById(order), MessageCodes.ORDER_STATUS_UPDATE_ERROR);
         log.info("订单编号: {} 修改状态为已支付", order.getOrderId());
+
+        //修改课程/托管报名人数
+        if (order.getOrderType() == OrderTypeEnum.HOSTING) {
+            Hosting hosting = hostingService.getById(order.getServiceId());
+            Hosting upHosting = new Hosting();
+            upHosting.setHostingId(hosting.getHostingId());
+            upHosting.setApplicantsNumber(hosting.getApplicantsNumber() + 1);
+            Assert.isTrue(hostingService.updateById(upHosting), MessageCodes.UPDATE_HOSTING_APPLICATANTS_NUMBER_ERROR);
+            log.info("托管修改报名人数:", upHosting);
+        }
+
+        //修改课程报名人数
+        if (order.getOrderType() == OrderTypeEnum.COURSE) {
+            CoursePackage coursePackage = coursePackageService.getById(order.getServiceId());
+            CoursePackage upCoursePackage = new CoursePackage();
+            upCoursePackage.setCoursePackageId(order.getSchoolId());
+            upCoursePackage.setApplicantsNumber(coursePackage.getApplicantsNumber() + 1);
+            Assert.isTrue(coursePackageService.updateById(upCoursePackage), MessageCodes.UPDATE_COURSEPACKAGE_APPLICATANTS_NUMBER_ERROR);
+            log.info("课程修改报名人数", upCoursePackage);
+        }
     }
 
 }

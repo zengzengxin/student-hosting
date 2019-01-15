@@ -75,6 +75,10 @@ public class HostingWebVO implements Serializable {
     @ApiModelProperty(value = "最大人数")
     private Integer maxNumber;
 
+    @ApiModelProperty(value = "报名人数")
+    private Integer applicantsNumber;
+
+
     @NotNull
     @ApiModelProperty(value = "课程图片ID(最多3张)")
     private List<String> pictureUrls;

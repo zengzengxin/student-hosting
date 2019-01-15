@@ -12,6 +12,8 @@
         <result column="details" property="details" />
         <result column="teacher_id" property="teacherId" />
         <result column="teacher_name" property="teacherName" />
+        <result column="applicants_number" property="applicantsNumber" />
+        <result column="max_number" property="maxNumber" />
         <result column="school_id" property="schoolId" />
         <result column="school_name" property="schoolName" />
         <result column="display" property="display" />

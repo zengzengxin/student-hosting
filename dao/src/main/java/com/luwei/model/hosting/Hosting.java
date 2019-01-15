@@ -74,6 +74,9 @@ public class Hosting implements Serializable {
     @ApiModelProperty(value = "托管价格")
     private BigDecimal price;
 
+    @ApiModelProperty(value = "报名人数")
+    private Integer applicantsNumber;
+
     @ApiModelProperty(value = "最大人数")
     private Integer maxNumber;
 
