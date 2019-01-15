@@ -83,17 +83,15 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         return baseMapper.findteacherById(id);
     }
 
-
-
     /*
      * 绑定手机号 ,更新miniuser
-     * */
+     */
+    @Transactional
     public Teacher bindingTeacher(String phone, Integer id) {
         Teacher teacher = baseMapper.getTeacherByphone(phone);
-        log.info(teacher.toString());
         Assert.notNull(teacher, MessageCodes.PHONE_IS_INVALID);
-
         Assert.isTrue(!teacher.getBinding(), MessageCodes.TEACHER_HAS_BINDING);
+
         //绑定老师
         MiniUser miniUser = miniUserService.getById(id);
         miniUser.setTeacherId(teacher.getTeacherId());
@@ -101,6 +99,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         miniUser.setUpdateTime(time).setCreateTime(time).setDeleted(false);
 
         Assert.isTrue(miniUserService.updateById(miniUser), MessageCodes.TEACHER_BINDING_ERROR);
+        log.info("更新miniUser: {}", miniUser);
 
         //将老师的binding字段设置为1
         Teacher teacher1 = new Teacher();
@@ -111,7 +110,6 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         log.info("----微信用户绑定老师----teacher1: {}", teacher1);
         teacher.setBinding(flag);
         return teacher;
-
     }
 
 }

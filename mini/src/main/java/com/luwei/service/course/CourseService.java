@@ -10,6 +10,7 @@ import com.luwei.service.coursepackage.CoursePackageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.DayOfWeek;
@@ -37,6 +38,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param id
      * @return
      */
+    @Transactional
     public MyCourseVO getMyCourse(Integer id) {
         CoursePackage coursePackage = coursePackageService.getById(id);
         MyCourseVO myCourseVO = new MyCourseVO();
@@ -44,6 +46,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return myCourseVO;
     }
 
+    @Transactional
     public List<MyCourseVO> listMyCourse(MyCourseQuery query) {
         List<MyCourseVO> list = coursePackageService.findAllByTime(query.getStartTime(), query.getEndTime());
         return list.stream().map(this::dealWith).collect(Collectors.toList());

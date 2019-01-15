@@ -8,6 +8,7 @@ import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.miniuser.MiniUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
@@ -31,9 +32,8 @@ public class WeChatService {
     @Resource
     private WxProperties wxProperties;
 
+    @Transactional(rollbackFor = Exception.class)
     public String  addMiniUser(Map<String, Object> map) {
-        log.info(map.toString());
-
         MiniUser miniUser;
         //判断是否已经授权
         String openId = map.get("openId").toString();
