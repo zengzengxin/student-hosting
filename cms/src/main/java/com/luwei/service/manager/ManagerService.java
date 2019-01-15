@@ -76,6 +76,11 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
      */
     @Transactional(rollbackFor = Exception.class)
     public ManagerPageVO add(ManagerAddVO addVO, RoleEnum roleEnum) {
+        // 不可手动添加超管ROOT
+        if (roleEnum == RoleEnum.ROOT) {
+            throw new ValidationException(MessageCodes.ROOT_CANNOT_ADD);
+        }
+
         String account = addVO.getAccount();
 
         String password;

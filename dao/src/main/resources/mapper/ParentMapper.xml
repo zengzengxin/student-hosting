@@ -38,7 +38,7 @@
     </select>
 
     <select id="findByOpenid" resultType="com.luwei.model.parent.Parent">
-        select * from tb_parent where open_id = #{openId}
+        select * from tb_parent where open_id = #{openId} and deleted = 0
     </select>
 
 

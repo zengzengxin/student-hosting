@@ -7,6 +7,7 @@ import com.luwei.module.shiro.service.ShiroTokenService;
 import com.luwei.service.parent.ParentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class WeChatService {
     @Resource
     private WxProperties wxProperties;
 
+    @Transactional
     public String getWeChatUserInfo(WeChatUser weChatUser, String state) {
         Parent parent = parentService.findByOpenid(weChatUser.getOpenId());
         log.info("用户的昵称：{}", weChatUser.getNickname());

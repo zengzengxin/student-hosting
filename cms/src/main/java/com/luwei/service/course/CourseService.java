@@ -344,6 +344,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     public CourseCmsVO recommend(CourseRecommend courseRecommend) {
         Course course = getById(courseRecommend.getCourseId());
+        // 如果课程还没上架，就不可以推荐
+        Assert.isTrue(course.getDisplay(), MessageCodes.RECOMMEND_ERROR);
+
         Assert.notNull(course, MessageCodes.COURSE_IS_NOT_EXIST);
         if (courseRecommend.getRecommend()) {
             course.setRecommend(true);

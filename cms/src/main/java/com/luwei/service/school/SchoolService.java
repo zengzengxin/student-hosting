@@ -15,8 +15,10 @@ import com.luwei.model.school.School;
 import com.luwei.model.school.SchoolMapper;
 import com.luwei.model.school.pojo.cms.SchoolCmsVO;
 import com.luwei.model.school.pojo.cms.SchoolQueryDTO;
+import com.luwei.model.teacher.Teacher;
 import com.luwei.module.shiro.service.UserHelper;
 import com.luwei.service.manager.ManagerService;
+import com.luwei.service.teacher.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +44,9 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
     @Resource
     private ManagerService managerService;
 
+    @Resource
+    private TeacherService teacherService;
+
     public SchoolCmsVO findById(Integer schoolId) {
         School school = getById(schoolId);
         Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
@@ -56,7 +61,12 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteSchools(Set<Integer> schoolIds) {
-        //removeByIds删除0条也是返回true的，所以需要使用baseMapper
+        // 如果学校已经绑定了老师，就不能删除 -----2019-01-15
+        for (Integer schoolId : schoolIds) {
+            int count = teacherService.count(new QueryWrapper<Teacher>().eq("school_id", schoolId).eq("deleted", false));
+            Assert.isTrue(count > 0, MessageCodes.SCHOOL_CANNOT_DELETE);
+        }
+
         int count = baseMapper.deleteBatchIds(schoolIds);
         Assert.isTrue(count == schoolIds.size(), MessageCodes.SCHOOL_DELETE_ERROR);
         log.info("删除数据:ids{}", schoolIds);

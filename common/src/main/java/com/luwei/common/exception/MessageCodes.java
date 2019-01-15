@@ -22,6 +22,7 @@ public interface MessageCodes {
     String ADMIN_CANNOT_DELETE = "admin.cannot.delete";//超管不可删除
     String ADMIN_CANNOT_DISABLED = "admin.cannot.disabled";//超管不可禁用
     String NOT_ALLOW_SUPERIOR_ROLE = "not.allow.superior.role";//不能给同级或上级设权限
+    String ROOT_CANNOT_ADD = "root.cannot.add";//超管不可手动添加
 
     //用户相关
     String USER_NOT_EXIST = "user.not.exist";//用户不存在
@@ -81,8 +82,9 @@ public interface MessageCodes {
 
     //与学校相关
     String SCHOOL_IS_NOT_EXIST = "school.is.not.exist";//学校不存在
-    String SCHOOL_DELETE_ERROR = "school.delete.error";//学校不存在
+    String SCHOOL_DELETE_ERROR = "school.delete.error";//学校删除失败
     String SCHOOL_SAVE_ERROR = "school.save.error";//学校保存失败
+    String SCHOOL_CANNOT_DELETE = "school.cannot.delete";//已有老师绑定此学校.不可删除
 
     //Order相关
     String ORDER_IS_NOT_EXIST = "order.is.not.exist";//订单不存在
@@ -112,6 +114,7 @@ public interface MessageCodes {
 
     //推荐服务相关
     String RECOMMEND_DELETE_ERROR = "recommend.delete.error";//推荐删除失败
+    String RECOMMEND_ERROR = "recommend.error";//课程未上架不可推荐
 
     String ROOT_CANNOT_DISABLED = "root.cannot.disabled";//超管不可禁用
     String ROOT_CANNOT_DELETE = "root.cannot.delete";//超管不可删除
