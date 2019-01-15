@@ -108,7 +108,7 @@ public class TeacherService extends ServiceImpl<TeacherMapper, Teacher> {
         teacher1.setBinding(true);
         boolean flag = updateById(teacher1);
         Assert.isTrue(flag, MessageCodes.TEACHER_UPDATE_ERROR);
-        log.info("----微信用户绑定老师----");
+        log.info("----微信用户绑定老师----teacher1: {}", teacher1);
         teacher.setBinding(flag);
         return teacher;
 

@@ -51,6 +51,7 @@ public class WeChatService {
             miniUser.setUpdateTime(time).setCreateTime(time).setDeleted(false);
             boolean flag = miniUserService.save(miniUser);
             Assert.isTrue(flag, MessageCodes.MINIUSER_SAVE_ERROR);
+            log.info("保存数据: {}", miniUser);
         }
 
         //不为空直接返回
