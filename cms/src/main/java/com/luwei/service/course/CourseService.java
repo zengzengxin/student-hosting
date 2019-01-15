@@ -135,8 +135,13 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     private CoursePackageCmsVO saveCoursePackage(CoursePackageAddDTO addDTO, Course course) {
 
+        // 上课时间不能大于下课时间
         if (addDTO.getClassTime().compareTo(addDTO.getQuittingTime()) >= 0) {
             throw new ValidationException(MessageCodes.CLASS_TIME_ERROR);
+        }
+        // 套餐结束时间不能小于当前日期
+        if (addDTO.getEndTime().compareTo(LocalDateTime.now()) <= 0) {
+            throw new ValidationException(MessageCodes.PACKAGE_END_TIME_ERROR);
         }
 
         CoursePackage coursePackage = new CoursePackage();
@@ -258,6 +263,11 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
         if (updateDTO.getClassTime().compareTo(updateDTO.getQuittingTime()) >= 0) {
             throw new ValidationException(MessageCodes.CLASS_TIME_ERROR);
+        }
+
+        // 套餐结束时间不能小于当前日期
+        if (updateDTO.getEndTime().compareTo(LocalDateTime.now()) <= 0) {
+            throw new ValidationException(MessageCodes.PACKAGE_END_TIME_ERROR);
         }
 
         // 修改课程套餐时,也可以新增

@@ -68,6 +68,7 @@ public interface MessageCodes {
     String COURSE_PACKAGE_SAVE_ERROR = "course.package.save.error";//课程套餐保存失败
     String COURSE_PACKAGE_UPDATE_ERROR = "course.package.update.error";//课程套餐更新失败
     String CLASS_TIME_ERROR = "class.time.error";//上课时间不能大于下课时间
+    String PACKAGE_END_TIME_ERROR = "package.end.time.error";//套餐结束时间不能小于当前时间
 
     //老师相关
     String TEACHER_IS_NOT_EXIST = "teacher.is.not.exist";//老师不存在
@@ -107,6 +108,7 @@ public interface MessageCodes {
     String HOSTING_SAVE_ERROR = "hosting.is.save.error";//托管班保存失败
     String HOSTING_DELETE_ERROR = "hosting.is.delete.error";//托管班保存失败
     String HOSTING_IS_UPDATE_ERROR = "hosting.is.update.error";//托管班保存失败
+    String HOSTING_END_TIME_ERROR = "hosting.end.time.error";//托管结束时间不能小于当前日期
 
     //推荐相关
     String RECOMMEND_IS_NOT_EXIST = "recommend.is.not.exist";//推荐不存在

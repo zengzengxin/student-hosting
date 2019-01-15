@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
+import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.hosting.Hosting;
@@ -63,6 +64,11 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     @Transactional(rollbackFor = Exception.class)
     public HostingCmsVO saveHosting(HostingAddDTO hostingAddDTO) {
+        // 托管结束时间不能小于当前日期
+        if (hostingAddDTO.getEndTime().compareTo(LocalDateTime.now()) <= 0) {
+            throw new ValidationException(MessageCodes.HOSTING_END_TIME_ERROR);
+        }
+
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingAddDTO, hosting);
 
@@ -101,6 +107,11 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     @Transactional(rollbackFor = Exception.class)
     public HostingCmsVO updateHosting(HostingUpdateDTO hostingUpdateDTO) {
+        // 托管结束时间不能小于当前日期
+        if (hostingUpdateDTO.getEndTime().compareTo(LocalDateTime.now()) <= 0) {
+            throw new ValidationException(MessageCodes.HOSTING_END_TIME_ERROR);
+        }
+
         Hosting hosting = new Hosting();
         BeanUtils.copyNonNullProperties(hostingUpdateDTO, hosting);
 
