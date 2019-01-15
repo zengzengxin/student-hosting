@@ -39,7 +39,7 @@ public class TeacherMiniVO implements Serializable {
     @ApiModelProperty(value = "所在班级")
     private String teacherClass;
 
-    @ApiModelProperty(value = "家长头像")
+    @ApiModelProperty(value = "教师头像")
     private String avatarUrl;
 
 

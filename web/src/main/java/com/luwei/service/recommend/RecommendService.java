@@ -6,14 +6,20 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.ConversionBeanUtils;
+import com.luwei.model.coursepackage.CoursePackage;
 import com.luwei.model.recommend.Recommend;
 import com.luwei.model.recommend.RecommendMapper;
-import com.luwei.model.recommend.pojo.web.RecommendWebVO;
 import com.luwei.model.recommend.pojo.web.RecommendWebDTO;
+import com.luwei.model.recommend.pojo.web.RecommendWebVO;
+import com.luwei.service.coursepackage.CoursePackageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: huanglp
@@ -22,6 +28,9 @@ import org.springframework.util.Assert;
 @Service
 @Slf4j
 public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
+
+    @Resource
+    private CoursePackageService coursePackageService;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -57,10 +66,23 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
      */
     public IPage<RecommendWebVO> findPage(RecommendWebDTO queryDTO, Page<Recommend> page) {
         // noinspection unchecked
-        return ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Recommend>().lambda()
+        IPage<RecommendWebVO> iPage = ConversionBeanUtils.conversionBean(page(page, new QueryWrapper<Recommend>().lambda()
                 .eq(Recommend::getSchoolId, queryDTO.getSchoolId())
                 .orderByAsc(Recommend::getWeight)
         ), this::toRecommendVO);
+
+        // 拦截，若课程套餐全部过期/下架，则不显示改课程
+        List<RecommendWebVO> list = iPage.getRecords();
+        List<RecommendWebVO> resultList = new ArrayList<>();
+        for (RecommendWebVO recommendWebVO : list) {
+            CoursePackage one = coursePackageService.getOne(new QueryWrapper<CoursePackage>()
+                    .eq("course_id", recommendWebVO.getServiceId()).eq("display", true).eq("overdue", false));
+            if (one != null) {
+                resultList.add(recommendWebVO);
+            }
+        }
+
+        return iPage.setRecords(resultList);
     }
 
 }

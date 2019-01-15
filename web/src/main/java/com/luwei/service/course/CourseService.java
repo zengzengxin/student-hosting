@@ -136,7 +136,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         List<SimpleCourseVO> resultList = new ArrayList<>();
         for (SimpleCourseVO simpleCourseVO : collect) {
             CoursePackage one = coursePackageService.getOne(new QueryWrapper<CoursePackage>()
-                    .eq("course_id", simpleCourseVO.getCourseId()).eq("display", true));
+                    .eq("course_id", simpleCourseVO.getCourseId()).eq("display", true).eq("overdue", false));
             if (one != null) {
                 resultList.add(simpleCourseVO);
             }
