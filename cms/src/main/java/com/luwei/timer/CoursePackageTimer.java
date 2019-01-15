@@ -49,7 +49,8 @@ public class CoursePackageTimer {
 
     private Course refreshCourse(Course course) {
         CoursePackage one = coursePackageService.getOne(new QueryWrapper<CoursePackage>().lambda()
-                .eq(CoursePackage::getCourseId, course.getCourseId()));
+                .eq(CoursePackage::getCourseId, course.getCourseId())
+                .eq(CoursePackage::getDeleted, false));
         if (one == null) {
             course.setPackageNull(true);
             courseService.save(course);

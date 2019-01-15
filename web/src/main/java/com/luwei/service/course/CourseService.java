@@ -8,7 +8,6 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.util.ConversionBeanUtils;
 import com.luwei.model.course.Course;
 import com.luwei.model.course.CourseMapper;
-import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.model.course.pojo.web.CourseQuery;
 import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.model.course.pojo.web.SimpleCourseVO;

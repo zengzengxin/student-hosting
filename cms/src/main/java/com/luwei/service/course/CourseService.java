@@ -178,6 +178,11 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         Assert.isTrue(count == ids.size(), MessageCodes.COURSE_DELETE_ERROR);
         log.info("删除数据: id {}", ids);
 
+        // 删除课程对应的套餐
+        for (Integer id : ids) {
+            coursePackageService.remove(new QueryWrapper<CoursePackage>().eq("course_id", id));
+        }
+
         // 删除推荐表数据
         for (Integer id : ids) {
             recommendService.realDeleteByServiceIdAndServiceType(id, ServiceTypeEnum.COURSE.getValue());
