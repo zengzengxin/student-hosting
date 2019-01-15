@@ -49,6 +49,7 @@ public class WeChatController {
             Integer userId = UserHelper.getUserId();
             Assert.notNull(parentService.getById(userId), MessageCodes.AUTH_TOKEN);
         } catch (Exception e) {
+            log.info("token过期，返回false");
             return false;
         }
         return true;
