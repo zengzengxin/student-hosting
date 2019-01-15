@@ -1,5 +1,6 @@
 package com.luwei.controller;
 
+import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.exception.ValidationException;
 import com.luwei.common.property.ShareParam;
 import com.luwei.common.property.WeChatUser;
@@ -42,7 +43,7 @@ public class WeChatController {
         try {
             Integer userId = UserHelper.getUserId();
         } catch (Exception e) {
-            throw new ValidationException("token已过期");
+            throw new ValidationException(MessageCodes.AUTH_TOKEN);
         }
         return true;
     }

@@ -25,7 +25,7 @@ public class CourseController {
 
     @GetMapping
     @ApiOperation("查询详情")
-    public MyCourseVO getMyCourse(@RequestParam @ApiParam("coursePackageId") Integer coursePackageId) {
+    public MyCourseVO getMyCourse(@RequestParam @ApiParam("课程套餐ID") Integer coursePackageId) {
         return courseService.getMyCourse(coursePackageId);
     }
 

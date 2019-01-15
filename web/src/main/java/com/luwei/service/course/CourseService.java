@@ -133,6 +133,15 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         // 设置最低价格
         List<SimpleCourseVO> collect = iPage.getRecords().stream().map(this::setMinPrice).collect(Collectors.toList());
 
+        List<SimpleCourseVO> resultList = null;
+        for (SimpleCourseVO simpleCourseVO : collect) {
+            CoursePackage one = coursePackageService.getOne(new QueryWrapper<CoursePackage>()
+                    .eq("course_id", simpleCourseVO.getCourseId()).eq("display", true));
+            if (one != null) {
+                resultList.add(simpleCourseVO);
+            }
+        }
+
         return iPage.setRecords(collect);
     }
 
