@@ -310,8 +310,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         Course course = courseService.getById(orderDTO.getServiceId());
         log.info(orderDTO.getServiceId().toString());
         Assert.notNull(course, MessageCodes.COURSE_IS_NOT_EXIST);
-        order.setServiceId(course.getCourseId())
-                .setServiceName(course.getCourseName())
+        order.setServiceName(course.getCourseName())
                 .setServiceCover(course.getCoverUrl())
                 .setIntroduction(course.getIntroduction())
                 .setSchoolName(course.getSchoolName())
@@ -320,6 +319,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         // 封装课程套餐的 价格, 开始时间, 结束时间
         CoursePackage cp = coursePackageService.getById(orderDTO.getPackageId());
         order.setPrice(cp.getPrice())
+                .setServiceId(cp.getCoursePackageId())
                 .setServiceStartTime(cp.getStartTime())
                 .setServiceEndTime(cp.getEndTime());
 

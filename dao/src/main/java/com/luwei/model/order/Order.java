@@ -62,7 +62,7 @@ public class Order implements Serializable {
     @ApiModelProperty(value = "支付方式 0-微信支付 1-支付宝支付")
     private PaymentEnum payment;
 
-    @ApiModelProperty(value = "课程/托管ID")
+    @ApiModelProperty(value = "课程套餐ID/托管ID")
     private Integer serviceId;
 
     @ApiModelProperty(value = "课程名称")
