@@ -125,7 +125,7 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         Child child = childService.getById(hostingOrderDTO.getChildId());
 
         //判断所选时间是否有效
-        if (hosting.getStartTime().compareTo(hostingOrderDTO.getStartTime()) < 0 || hosting.getEndTime().compareTo(hostingOrderDTO.getEndTime()) > 0) {
+        if (hosting.getStartTime().compareTo(hostingOrderDTO.getStartTime()) > 0 || hosting.getEndTime().compareTo(hostingOrderDTO.getEndTime()) < 0) {
             throw new ValidationException(MessageCodes.ORDER_TIME_ERROR);
         }
 
