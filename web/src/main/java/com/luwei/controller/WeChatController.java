@@ -45,12 +45,15 @@ public class WeChatController {
     @ApiOperation("校验token是否可用")
     @ResponseBody
     public Boolean userAuthorize() {
+        Integer userId;
         try {
-            Integer userId = UserHelper.getUserId();
+            userId = UserHelper.getUserId();
             Assert.notNull(parentService.getById(userId), MessageCodes.AUTH_TOKEN);
         } catch (Exception e) {
-            throw new ValidationException(MessageCodes.AUTH_TOKEN);
+            log.info("token过期，返回false");
+            return false;
         }
+        log.info("token校验通过，未过期，userId:{}", userId);
         return true;
     }
 
