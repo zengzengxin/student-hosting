@@ -24,33 +24,33 @@ public class OrderWebVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "订单编号(ID)")
+    @ApiModelProperty(value = "订单编号(ID)" )
     private Long orderId;
 
-    @ApiModelProperty(value = "课程ID")
+    @ApiModelProperty(value = "课程ID" )
     private Integer courseId;
 
-    @ApiModelProperty(value = "课程名称")
+    @ApiModelProperty(value = "课程名称" )
     private String courseName;
 
-    @ApiModelProperty(value = "课程简介")
+    @ApiModelProperty(value = "课程简介" )
     private String introduction;
 
-    @ApiModelProperty(value = "价格")
+    @ApiModelProperty(value = "价格" )
     private BigDecimal price;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "课程开始时间")
+    @ApiModelProperty(value = "课程开始时间" )
     private LocalDateTime courseStartTime;
 
     @JSONField(serializeUsing = ToTimeStampSerializer.class)
-    @ApiModelProperty(value = "课程结束时间")
+    @ApiModelProperty(value = "课程结束时间" )
     private LocalDateTime courseEndTime;
 
-    @ApiModelProperty(value = "订单类型 0-课程 1-托管 2-餐品")
+    @ApiModelProperty(value = "订单类型 0-课程 1-托管 2-餐品" )
     private OrderTypeEnum orderType;
 
-    @ApiModelProperty(value = "订单状态 0-待付款 1-已付款 2-已完成 3-过期失效")
+    @ApiModelProperty(value = "订单状态 0-待付款 1-已付款 2-已完成 3-过期失效" )
     private OrderStatusEnum orderStatus;
 
 }

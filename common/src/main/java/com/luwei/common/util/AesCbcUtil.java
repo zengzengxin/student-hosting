@@ -35,9 +35,9 @@ public class AesCbcUtil {
         byte[] ivByte = org.apache.commons.codec.binary.Base64.decodeBase64(iv);
 
         try {
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding");
-            SecretKeySpec spec = new SecretKeySpec(keyByte, "AES");
-            AlgorithmParameters parameters = AlgorithmParameters.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7Padding" );
+            SecretKeySpec spec = new SecretKeySpec(keyByte, "AES" );
+            AlgorithmParameters parameters = AlgorithmParameters.getInstance("AES" );
             parameters.init(new IvParameterSpec(ivByte));
 
             cipher.init(Cipher.DECRYPT_MODE, spec, parameters);// 初始化

@@ -17,14 +17,14 @@ import java.util.List;
  */
 @Api(tags = {"机构管理"})
 @RestController
-@RequestMapping("/api/school")
+@RequestMapping("/api/school" )
 public class SchoolController {
     @Autowired
     private SchoolService schoolService;
 
 
-    @GetMapping("List")
-    @ApiOperation("返回所有学校")
+    @GetMapping("List" )
+    @ApiOperation("返回所有学校" )
     public List<SchoolWebVO> schoolList() {
         return schoolService.findSchoolPage();
     }

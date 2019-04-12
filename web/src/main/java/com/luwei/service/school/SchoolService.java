@@ -27,7 +27,6 @@ public class SchoolService extends ServiceImpl<SchoolMapper, School> {
     }
 
 
-
     private SchoolWebVO toSchoolWebVO(School school) {
         SchoolWebVO schoolWebVO = new SchoolWebVO();
         BeanUtils.copyNonNullProperties(school, schoolWebVO);

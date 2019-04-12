@@ -41,7 +41,8 @@ spring:
       #连接只读数据库时配置为true， 保证安全
       read-only: false
 
-# Mybatis-plus配置在dao模块
+
+  cache:#
 
 # 模块化的配置
 luwei:
@@ -58,10 +59,12 @@ luwei:
       sign-name:
       template-code:
       template-code-name:
+
     shiro:
       prefix: student-hosting-web
       cors-urls: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
-      anon-urls: /api/login/captcha,/api/login,/api/module/qiniu/**,/api/weChat/authorize,/api/module/pay/wechat/notify
+      anon-urls: /api/login/captcha,/api/login,/api/module/qiniu/**,/api/weChat/authorize,/api/module/pay/wechat/notify,/**
+
     wx:
       appId: wx286aefff1a6b3c75
       appSecret: a41ea923e49dac2bf1ecd2144d6e8b9b
@@ -83,3 +86,5 @@ wechat:
 # swagger开关/默认打开
 swagger:
   show: true
+
+

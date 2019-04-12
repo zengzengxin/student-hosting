@@ -39,7 +39,7 @@ public class FileUtils {
      * @author:chenssy
      * @date : 2016年4月30日 下午9:10:12
      */
-    @SuppressWarnings("resource")
+    @SuppressWarnings("resource" )
     public static long getFileSize(File file) throws Exception {
         long size = 0;
         if (file.exists()) {
@@ -93,7 +93,7 @@ public class FileUtils {
     public static void copy(File inputFile, File outputFile, boolean isOverWrite)
             throws IOException {
         if (!inputFile.exists()) {
-            throw new RuntimeException(inputFile.getPath() + "源目录不存在!");
+            throw new RuntimeException(inputFile.getPath() + "源目录不存在!" );
         }
         copyPri(inputFile, outputFile, isOverWrite);
     }
@@ -137,7 +137,7 @@ public class FileUtils {
         if (outputFile.exists()) {
             if (isOverWrite) {        //可以覆盖
                 if (!outputFile.delete()) {
-                    throw new RuntimeException(outputFile.getPath() + "无法覆盖！");
+                    throw new RuntimeException(outputFile.getPath() + "无法覆盖！" );
                 }
             } else {
                 // 不允许覆盖
@@ -172,7 +172,7 @@ public class FileUtils {
         byte buffer[] = new byte[1024];
         int len;
         try {
-            digest = MessageDigest.getInstance("MD5");
+            digest = MessageDigest.getInstance("MD5" );
             in = new FileInputStream(file);
             while ((len = in.read(buffer, 0, 1024)) != -1) {
                 digest.update(buffer, 0, len);

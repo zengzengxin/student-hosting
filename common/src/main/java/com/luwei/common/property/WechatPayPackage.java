@@ -18,7 +18,7 @@ public class WechatPayPackage {
 
     private String paySign;
 
-    @ApiModelProperty("是否需要支付")
+    @ApiModelProperty("是否需要支付" )
     private boolean isNeedPay;
 
 }

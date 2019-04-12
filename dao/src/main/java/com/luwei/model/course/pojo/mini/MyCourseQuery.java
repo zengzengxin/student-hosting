@@ -17,10 +17,10 @@ public class MyCourseQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "开始时间", dataType = "java.lang.Long")
+    @ApiModelProperty(value = "开始时间", dataType = "java.lang.Long" )
     private LocalDateTime startTime;
 
-    @ApiModelProperty(value = "结束时间", dataType = "java.lang.Long")
+    @ApiModelProperty(value = "结束时间", dataType = "java.lang.Long" )
     private LocalDateTime endTime;
 
 }

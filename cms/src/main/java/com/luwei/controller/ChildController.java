@@ -25,40 +25,40 @@ import java.util.Set;
  * @author zzx
  * @since 2018-12-11
  */
-@Api(tags = "学生模块")
+@Api(tags = "学生模块" )
 @RestController
-@RequestMapping("/api/child")
+@RequestMapping("/api/child" )
 public class ChildController {
 
     @Resource
     private ChildService childService;
 
     @PostMapping
-    @ApiOperation("添加孩子/学生")
+    @ApiOperation("添加孩子/学生" )
     public ChildCmsVO save(@RequestBody @Valid ChildAddDTO childAddDTO) {
         return childService.saveChild(childAddDTO);
     }
 
     @PutMapping
-    @ApiOperation("修改孩子/学生")
+    @ApiOperation("修改孩子/学生" )
     public ChildCmsVO update(@RequestBody @Valid ChildUpdateDTO childUpdateDTO) {
         return childService.updateChild(childUpdateDTO);
     }
 
     @DeleteMapping
-    @ApiOperation("删除")
-    public void deleteChildren(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
+    @ApiOperation("删除" )
+    public void deleteChildren(@RequestParam @ApiParam("id列表" ) Set<Integer> ids) {
         childService.deleteChildren(ids);
     }
 
-    @GetMapping("/page")
-    @ApiOperation("分页获取")
+    @GetMapping("/page" )
+    @ApiOperation("分页获取" )
     public IPage<ChildCmsVO> page(Page<Child> page, @ModelAttribute @Valid ChildQueryDTO childQueryDTO) {
         return childService.findPage(page, childQueryDTO);
     }
 
-    @PostMapping("excelAddStudent")
-    @ApiOperation("通过excel导入学生")
+    @PostMapping("excelAddStudent" )
+    @ApiOperation("通过excel导入学生" )
     public void findTeacher(MultipartFile file) throws Exception {
         childService.importExcel(file);
     }

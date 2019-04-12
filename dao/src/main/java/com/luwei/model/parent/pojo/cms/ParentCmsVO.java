@@ -17,38 +17,44 @@ import java.util.List;
  * @author zzx
  * @since 2018-12-12
  */
-@ApiModel(value = "")
+@ApiModel(value = "" )
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_parent")
+@TableName("tb_parent" )
 public class ParentCmsVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "家长ID")
+    @ApiModelProperty(value = "家长ID" )
     @TableId(value = "parent_id", type = IdType.AUTO)
     private Integer parentId;
 
-    @ApiModelProperty(value = "昵称")
+    @ApiModelProperty(value = "昵称" )
     private String nickName;
 
-    @ApiModelProperty(value = "家长姓名")
+    @ApiModelProperty(value = "家长姓名" )
     private String parentName;
 
-    @ApiModelProperty(value = "家长联系方式")
+    @ApiModelProperty(value = "家长联系方式" )
     private String phone;
 
-    @ApiModelProperty(value = "家庭关系")
+    @ApiModelProperty(value = "家庭关系" )
     private String familyRelation;
 
-    @ApiModelProperty(value = "子女个数")
+    @ApiModelProperty(value = "子女个数" )
     private Integer childNumber;
 
-    @ApiModelProperty(value = "家庭住址")
+    @ApiModelProperty(value = "家庭住址" )
     private String address;
 
-    @ApiModelProperty(value = "孩子的集合")
+    @ApiModelProperty(value = "账号" )
+    private String userName;
+
+    @ApiModelProperty(value = "密码" )
+    private String password;
+
+    @ApiModelProperty(value = "孩子的集合" )
     private List<ChildCmsVO> ListChild;
 
 }

@@ -1,10 +1,13 @@
 package com.luwei.model.hosting;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.luwei.model.hosting.pojo.web.HostingWebVO;
+
+import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author zzx
@@ -13,4 +16,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 public interface HostingMapper extends BaseMapper<Hosting> {
 
     int hostingTimer();
+
+    List<Hosting> getHostings(int start);
 }

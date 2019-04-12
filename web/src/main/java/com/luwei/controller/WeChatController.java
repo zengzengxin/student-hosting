@@ -26,8 +26,8 @@ import java.util.Map;
  * Author: huanglp
  * Date: 2018-12-12
  */
-@Api(tags = "微信模块")
-@RequestMapping("/api/weChat")
+@Api(tags = "微信模块" )
+@RequestMapping("/api/weChat" )
 @Slf4j
 @Controller
 public class WeChatController {
@@ -41,8 +41,8 @@ public class WeChatController {
     @Resource
     private ParentService parentService;
 
-    @GetMapping("/verify")
-    @ApiOperation("校验token是否可用")
+    @GetMapping("/verify" )
+    @ApiOperation("校验token是否可用" )
     @ResponseBody
     public Boolean userAuthorize() {
         Integer userId;
@@ -50,31 +50,31 @@ public class WeChatController {
             userId = UserHelper.getUserId();
             Assert.notNull(parentService.getById(userId), MessageCodes.AUTH_TOKEN);
         } catch (Exception e) {
-            log.info("token过期，返回false");
+            log.info("token过期，返回false" );
             return false;
         }
         log.info("token校验通过，未过期，userId:{}", userId);
         return true;
     }
 
-    @GetMapping("/authorize")
-    @ApiOperation("微信公众号授权接口")
-    public String userAuthorize(@RequestParam("code") String code, @RequestParam("state") String state) {
+    @GetMapping("/authorize" )
+    @ApiOperation("微信公众号授权接口" )
+    public String userAuthorize(@RequestParam("code" ) String code, @RequestParam("state" ) String state) {
         log.info("---------code：{}-----------", code);
         log.info("---------state：{}-----------", state);
 
         Map<String, Object> authorizeMap = weChatUtils.authorize(code);
         log.info("------authorizeMap: {}-------", authorizeMap.toString());
-        Map<String, Object> userInfoMap = weChatUtils.getUserInfo((String) authorizeMap.get("access_token"),
-                (String) authorizeMap.get("openid"));
+        Map<String, Object> userInfoMap = weChatUtils.getUserInfo((String) authorizeMap.get("access_token" ),
+                (String) authorizeMap.get("openid" ));
         log.info("------userInfo: {}-----------", userInfoMap.toString());
-        String openId = (String) userInfoMap.get("openid");
+        String openId = (String) userInfoMap.get("openid" );
         if (openId == null || "".equals(openId)) {
-            throw new ValidationException("授权失败");
+            throw new ValidationException("授权失败" );
         }
-        String headImgURL = (String) userInfoMap.get("headimgurl");
-        String nickName = (String) userInfoMap.get("nickname");
-        Integer gender = (Integer) userInfoMap.get("sex");
+        String headImgURL = (String) userInfoMap.get("headimgurl" );
+        String nickName = (String) userInfoMap.get("nickname" );
+        Integer gender = (Integer) userInfoMap.get("sex" );
         //WeChatUser weChatUser = new WeChatUser(openId, nickName, gender, headImgURL);
         WeChatUser weChatUser = new WeChatUser();
         weChatUser.setOpenId(openId).setNickname(nickName).setGender(gender).setAvatar(headImgURL);
@@ -83,10 +83,10 @@ public class WeChatController {
         return url;
     }
 
-    @GetMapping(value = "getShareParam")
-    @ApiOperation("获取js调用信息")
+    @GetMapping(value = "getShareParam" )
+    @ApiOperation("获取js调用信息" )
     @ResponseBody
-    public ShareParam getShareParam(@RequestParam @ApiParam(value = "当前页面的url") String shareUrl) {
+    public ShareParam getShareParam(@RequestParam @ApiParam(value = "当前页面的url" ) String shareUrl) {
         ShareParam shareParam = weChatUtils.sign(shareUrl);
         System.out.println("=====" + shareParam);
         return shareParam;

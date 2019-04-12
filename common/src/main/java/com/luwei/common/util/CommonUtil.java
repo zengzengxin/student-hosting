@@ -20,12 +20,10 @@ public class CommonUtil {
      * @return
      */
     public static String centToYuan(String amount) {
-        DecimalFormat df = new DecimalFormat("######0.00");
+        DecimalFormat df = new DecimalFormat("######0.00" );
         Double d = Double.parseDouble(amount) / 100;
         return df.format(d);
     }
-
-
 
 
 }

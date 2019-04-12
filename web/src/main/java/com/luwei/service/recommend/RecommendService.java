@@ -32,13 +32,16 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
     @Resource
     private CoursePackageService coursePackageService;
 
+    @Resource
+    private RecommendMapper recommendMapper;
+
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
      *
      * @param id
      * @return
      */
-    private Recommend findById(Integer id) {
+    public Recommend findById(Integer id) {
         // 若此id已被逻辑删除,也会返回null
         Recommend recommend = getById(id);
         Assert.notNull(recommend, MessageCodes.DATA_IS_NOT_EXIST);
@@ -85,4 +88,20 @@ public class RecommendService extends ServiceImpl<RecommendMapper, Recommend> {
         return iPage.setRecords(resultList);
     }
 
+    public List<RecommendWebVO> findPages() {
+        List<Recommend> recommendList = recommendMapper.selectList(new QueryWrapper<>());
+        List<RecommendWebVO> recommendWebVOList = new ArrayList<RecommendWebVO>();
+        for (Recommend recommend : recommendList) {
+            RecommendWebVO recommendWebVO = new RecommendWebVO();
+            BeanUtils.copyProperties(recommend, recommendWebVO);
+            recommendWebVOList.add(recommendWebVO);
+        }
+        return recommendWebVOList;
+    }
+
+    public Recommend findBySeverId(Integer id) {
+        QueryWrapper<Recommend> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Recommend::getServiceId,id);
+        return  recommendMapper.selectOne(queryWrapper);
+    }
 }

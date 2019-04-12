@@ -18,7 +18,7 @@ public class StartService implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        tokenTimerTask.getTokenAndTicket();
+        /*tokenTimerTask.getTokenAndTicket();*/
     }
 
 }

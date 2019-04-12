@@ -69,7 +69,7 @@ private static final long serialVersionUID = 1L;
     #end
     #if(${logicDeleteFieldName}==${field.name} ||${versionFieldName}==${field.name})
     #else
-        private ${field.propertyType} ${field.propertyName};
+    private ${field.propertyType} ${field.propertyName};
     #end
 
 #end

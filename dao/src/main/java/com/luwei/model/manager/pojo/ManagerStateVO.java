@@ -13,8 +13,8 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ManagerStateVO {
 
-    @ApiModelProperty("主键id")
-    @NotNull(message = "id不能为空")
+    @ApiModelProperty("主键id" )
+    @NotNull(message = "id不能为空" )
     private Integer managerId;
 
 }

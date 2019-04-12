@@ -15,22 +15,22 @@ import java.util.List;
  * Author: huanglp
  * Date: 2018-12-11
  */
-@Api(tags = "小程序课程模块")
+@Api(tags = "小程序课程模块" )
 @RestController
-@RequestMapping("/api/course")
+@RequestMapping("/api/course" )
 public class CourseController {
 
     @Resource
     private CourseService courseService;
 
     @GetMapping
-    @ApiOperation("查询详情")
-    public MyCourseVO getMyCourse(@RequestParam @ApiParam("课程套餐ID") Integer coursePackageId) {
+    @ApiOperation("查询详情" )
+    public MyCourseVO getMyCourse(@RequestParam @ApiParam("课程套餐ID" ) Integer coursePackageId) {
         return courseService.getMyCourse(coursePackageId);
     }
 
-    @GetMapping("/list")
-    @ApiOperation("查询我的课程")
+    @GetMapping("/list" )
+    @ApiOperation("查询我的课程" )
     public List<MyCourseVO> listMyCourse(@ModelAttribute MyCourseQuery query) {
         return courseService.listMyCourse(query);
     }

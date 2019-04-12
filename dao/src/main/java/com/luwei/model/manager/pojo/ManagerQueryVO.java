@@ -11,10 +11,10 @@ import lombok.Data;
 @Data
 public class ManagerQueryVO {
 
-    @ApiModelProperty("主键id")
+    @ApiModelProperty("主键id" )
     private Integer managerId;
 
-    @ApiModelProperty("名称")
+    @ApiModelProperty("名称" )
     private String name;
 
 }

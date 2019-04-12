@@ -9,5 +9,5 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface MiniUserMapper extends BaseMapper<MiniUser> {
 
-    MiniUser findUserByOpenId(@Param("openId") String openId);
+    MiniUser findUserByOpenId(@Param("openId" ) String openId);
 }

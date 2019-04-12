@@ -13,13 +13,12 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
 
 /**
- *
  * @author luwei
  **/
 @Configuration
 public class RedisConfig {
 
-    @Bean(name = "redis")
+    @Bean(name = "redis" )
     RedisTemplate setRedis(RedisConnectionFactory redisConnectionFactory) {
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper om = new ObjectMapper();

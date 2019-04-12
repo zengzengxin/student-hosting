@@ -22,10 +22,10 @@ public interface ChildMapper extends BaseMapper<Child> {
     List<ChildWebVO> webFindChildsByParentsId(Integer id);
 
 
-    IPage<ChildCmsVO> findPage(@Param("page") Page<Child> page, @Param("childQueryDTO") ChildQueryDTO childQueryDTO,
-                               @Param("schoolId") Integer schoolId);
+    IPage<ChildCmsVO> findPage(@Param("page" ) Page<Child> page, @Param("childQueryDTO" ) ChildQueryDTO childQueryDTO,
+                               @Param("schoolId" ) Integer schoolId);
 
-    Child findChildByStunoAndNameAndSchoolId(@Param("childBindingDTO") ChildBindingDTO childBindingDTO);
+    Child findChildByStunoAndNameAndSchoolId(@Param("childBindingDTO" ) ChildBindingDTO childBindingDTO);
 
 
 }

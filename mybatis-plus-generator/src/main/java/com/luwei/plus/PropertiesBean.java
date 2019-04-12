@@ -80,7 +80,7 @@ public class PropertiesBean {
         //修改包名
         for (String tableName : tableNames) {
             //名字
-            beanNames.add(tableName.toLowerCase().replace(tablePrefix, "").replace("_", ""));
+            beanNames.add(tableName.toLowerCase().replace(tablePrefix, "" ).replace("_", "" ));
         }
     }
 }

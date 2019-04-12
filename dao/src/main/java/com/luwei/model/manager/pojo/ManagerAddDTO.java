@@ -1,7 +1,6 @@
 package com.luwei.model.manager.pojo;
 
 
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -22,46 +21,46 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_manager")
+@TableName("tb_manager" )
 public class ManagerAddDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "管理员ID")
+    @ApiModelProperty(value = "管理员ID" )
     @TableId(value = "manager_id", type = IdType.AUTO)
     private Integer managerId;
 
-    @ApiModelProperty(value = "管理员账户")
+    @ApiModelProperty(value = "管理员账户" )
     private String account;
 
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "用户名" )
     private String name;
 
-    @ApiModelProperty(value = "密码")
+    @ApiModelProperty(value = "密码" )
     private String password;
 
-    @ApiModelProperty(value = "角色 0-超级管理员 1-普通管理员")
+    @ApiModelProperty(value = "角色 0-超级管理员 1-普通管理员" )
     private RoleEnum role;
 
-    @ApiModelProperty(value = "是否禁用 0-否 1-是")
+    @ApiModelProperty(value = "是否禁用 0-否 1-是" )
     private Boolean disabled;
 
-    @ApiModelProperty(value = "绑定学校ID")
+    @ApiModelProperty(value = "绑定学校ID" )
     private Integer schoolId;
 
-    @ApiModelProperty(value = "学校名称")
+    @ApiModelProperty(value = "学校名称" )
     private String schoolName;
 
-    @ApiModelProperty(value = "最后登录时间")
+    @ApiModelProperty(value = "最后登录时间" )
     private LocalDateTime lastLoginTime;
 
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间" )
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "修改时间")
+    @ApiModelProperty(value = "修改时间" )
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "删除状态true:已删除,false:未删除")
+    @ApiModelProperty(value = "删除状态true:已删除,false:未删除" )
     @TableLogic
     private Boolean deleted;
 

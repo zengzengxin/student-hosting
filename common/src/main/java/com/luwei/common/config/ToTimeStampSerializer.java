@@ -22,13 +22,13 @@ public class ToTimeStampSerializer implements ObjectSerializer {
 
         SerializeWriter out = jsonSerializer.out;
 
-        if(null == o) {
+        if (null == o) {
             out.writeNull();
             return;
         }
 
-        if(type.equals(LocalDateTime.class)) {
-            Long milliSecond = ((LocalDateTime)o).toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        if (type.equals(LocalDateTime.class)) {
+            Long milliSecond = ((LocalDateTime) o).toInstant(ZoneOffset.of("+8" )).toEpochMilli();
             out.writeLong(milliSecond);
         }
     }

@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @author zzx
  * @since 2018-12-11
  */
-@ApiModel(value = "")
+@ApiModel(value = "" )
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
@@ -24,37 +24,37 @@ public class ChildUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "孩子的主键id")
+    @ApiModelProperty(value = "孩子的主键id" )
     @TableId(value = "child_id", type = IdType.AUTO)
-    @NotNull(message = "childId不能为空")
+    @NotNull(message = "childId不能为空" )
     private Integer childId;
 
-    @ApiModelProperty(value = "孩子的姓名")
-    @NotBlank(message = "孩子的姓名不能为空")
+    @ApiModelProperty(value = "孩子的姓名" )
+    @NotBlank(message = "孩子的姓名不能为空" )
     private String name;
 
-    @NotNull(message = "孩子的性别不能为空")
-    @ApiModelProperty(value = "孩子的性别，0为不确定，1为男，2为女 默认为0")
+    @NotNull(message = "孩子的性别不能为空" )
+    @ApiModelProperty(value = "孩子的性别，0为不确定，1为男，2为女 默认为0" )
     private Integer gender;
 
-    @ApiModelProperty(value = "（孩子）学生的学号")
-    @NotBlank(message = "学生的学号不能为空")
+    @ApiModelProperty(value = "（孩子）学生的学号" )
+    @NotBlank(message = "学生的学号不能为空" )
     private String studentNo;
 
-    @ApiModelProperty(value = "学校ID")
-    @NotNull(message = "学校ID不能为空")
+    @ApiModelProperty(value = "学校ID" )
+    @NotNull(message = "学校ID不能为空" )
     private Integer schoolId;
 
-    @ApiModelProperty(value = "孩子所在的学校")
-    @NotBlank(message = "所在的学校不能为空")
+    @ApiModelProperty(value = "孩子所在的学校" )
+    @NotBlank(message = "所在的学校不能为空" )
     private String schoolName;
 
-    @ApiModelProperty(value = "孩子的年级")
-    @NotBlank(message = "年级不能为空")
+    @ApiModelProperty(value = "孩子的年级" )
+    @NotBlank(message = "年级不能为空" )
     private String grade;
 
-    @ApiModelProperty(value = "孩子的班级")
-    @NotBlank(message = "班级不能为空")
+    @ApiModelProperty(value = "孩子的班级" )
+    @NotBlank(message = "班级不能为空" )
     private String childClass;
 
 }

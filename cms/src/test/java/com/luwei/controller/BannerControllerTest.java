@@ -15,7 +15,7 @@ public class BannerControllerTest {
 
     @Test
     public void saveBanner() {
-        System.out.println("==========可在此测试==========");
+        System.out.println("==========可在此测试==========" );
 
     }
 

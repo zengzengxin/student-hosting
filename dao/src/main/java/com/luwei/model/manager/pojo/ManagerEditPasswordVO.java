@@ -9,12 +9,12 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ManagerEditPasswordVO {
 
-    @ApiModelProperty("主键id")
-    @NotNull(message = "id不能为空")
+    @ApiModelProperty("主键id" )
+    @NotNull(message = "id不能为空" )
     private Integer managerId;
 
-    @ApiModelProperty("密码")
-    @NotBlank(message = "密码不能为空")
+    @ApiModelProperty("密码" )
+    @NotBlank(message = "密码不能为空" )
     private String password;
 
 }

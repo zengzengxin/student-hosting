@@ -43,54 +43,56 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 public class ${table.serviceName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> {
 public ${entity}CmsVO findById(Integer ${start}${end}Id) {
     ${entity} ${start}${end} = getById(${start}${end}Id);
-    //TODO记得修改MessageCodes
+//TODO记得修改MessageCodes
 Assert.notNull(${start}${end}, MessageCodes.DATA_IS_NOT_EXIST);
 return to${entity}CmsVO(${start}${end});
 }
 
 private ${entity}CmsVO to${entity}CmsVO(${entity} ${start}${end}) {
     ${entity}CmsVO ${start}${end}VO=BeanUtils.copyNonNullProperties(${start}${end}, ${entity}CmsVO.class);
-    return ${start}${end}VO;
+return ${start}${end}VO;
 }
 
 
-    @Transactional
-    public ${entity}CmsVO save${entity}(${entity}CmsAddDTO ${start}${end}AddDTO) {
-        ${entity} ${start}${end}=BeanUtils.copyNonNullProperties(${start}${end}AddDTO, ${entity}.class);
-        LocalDateTime time=LocalDateTime.now();
-        ${start}${end}.setUpdateTime(time).setCreateTime(time).setDeleted(false);
-        //设置一些具体逻辑，是否需要加上deleted字段等等
-        boolean isSuccess = save(${start}${end});
-        Assert.isTrue(isSuccess,MessageCodes.DATA_SAVE_ERROR);
-        log.info("保存数据---:{}", ${start}${end});
-        return to${entity}CmsVO(${start}${end});
-    }
+@Transactional
+public ${entity}CmsVO save${entity}(${entity}CmsAddDTO ${start}${end}AddDTO) {
+    ${entity} ${start}${end}=BeanUtils.copyNonNullProperties(${start}${end}AddDTO, ${entity}.class);
+LocalDateTime time=LocalDateTime.now();
+    ${start}${end}.setUpdateTime(time).setCreateTime(time).setDeleted(false);
+//设置一些具体逻辑，是否需要加上deleted字段等等
+boolean isSuccess = save(${start}${end});
+Assert.isTrue(isSuccess,MessageCodes.DATA_SAVE_ERROR);
+log.info("保存数据---:{}", ${start}${end});
+return to${entity}CmsVO(${start}${end});
+}
 
-    @Transactional
-    public void delete${entity}s(Set<Integer> ${start}${end}Ids) {
+@Transactional
+public void delete${entity}s(Set
+<Integer> ${start}${end}Ids) {
     //removeByIds删除0条也是返回true的，所以需要使用baseMapper
-        int count = baseMapper.deleteBatchIds(${start}${end}Ids);
-        Assert.isTrue(count == ${start}${end}Ids.size(), MessageCodes.DATA_DELETE_ERROR);
-        log.info("删除数据:ids{}", ${start}${end}Ids);
+    int count = baseMapper.deleteBatchIds(${start}${end}Ids);
+    Assert.isTrue(count == ${start}${end}Ids.size(), MessageCodes.DATA_DELETE_ERROR);
+    log.info("删除数据:ids{}", ${start}${end}Ids);
     }
 
     @Transactional
     public ${entity}CmsVO update${entity}(${entity}CmsUpdateDTO ${start}${end}UpdateDTO) {
-        ${entity} ${start}${end}=BeanUtils.copyNonNullProperties(${start}${end}UpdateDTO, ${entity}.class);
-        ${start}${end}.setUpdateTime(LocalDateTime.now());
+    ${entity} ${start}${end}=BeanUtils.copyNonNullProperties(${start}${end}UpdateDTO, ${entity}.class);
+    ${start}${end}.setUpdateTime(LocalDateTime.now());
 
-        //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
-        Assert.isTrue(updateById(${start}${end}), MessageCodes.DATA_IS_UPDATE_ERROR);
-        log.info("修改数据：bean:{}", ${start}${end}UpdateDTO);
-        return findById(${start}${end}.get${entity}Id());
+    //updateById不会把null的值赋值，修改成功后也不会赋值数据库所有的值
+    Assert.isTrue(updateById(${start}${end}), MessageCodes.DATA_IS_UPDATE_ERROR);
+    log.info("修改数据：bean:{}", ${start}${end}UpdateDTO);
+    return findById(${start}${end}.get${entity}Id());
     }
 
-    public IPage<${entity}CmsVO> find${entity}Page (${entity}CmsQueryDTO ${start}${end}QueryDTO, Page page) {
-        ${entity} ${start}${end}=BeanUtils.copyNonNullProperties(${start}${end}QueryDTO, ${entity}.class);
-        QueryWrapper<${entity}> queryWrapper = new QueryWrapperDecorator<>();
-        //查询业务
-        queryWrapper.lambda().eq(${entity}::get${entity}Id, ${start}${end}.get${entity}Id());
-        return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::to${entity}CmsVO);
+    public IPage
+<${entity}CmsVO> find${entity}Page (${entity}CmsQueryDTO ${start}${end}QueryDTO, Page page) {
+    ${entity} ${start}${end}=BeanUtils.copyNonNullProperties(${start}${end}QueryDTO, ${entity}.class);
+    QueryWrapper<${entity}> queryWrapper = new QueryWrapperDecorator<>();
+    //查询业务
+    queryWrapper.lambda().eq(${entity}::get${entity}Id, ${start}${end}.get${entity}Id());
+    return ConversionBeanUtils.conversionBean(baseMapper.selectPage(page, queryWrapper), this::to${entity}CmsVO);
     }
-}
+    }
 #end

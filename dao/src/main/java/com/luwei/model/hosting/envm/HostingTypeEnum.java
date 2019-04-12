@@ -23,7 +23,7 @@ public enum HostingTypeEnum implements IEnum {
     /**
      * 2-晚托
      */
-   NIGHT_HOSTING(2);
+    NIGHT_HOSTING(2);
 
     private int value;
 

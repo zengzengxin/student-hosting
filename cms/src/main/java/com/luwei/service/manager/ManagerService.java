@@ -1,5 +1,6 @@
 package com.luwei.service.manager;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -25,6 +26,7 @@ import org.springframework.util.DigestUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -42,7 +44,7 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
     @Resource
     private SchoolService schoolService;
 
-    @Value("${luwei.config.salt}")
+    @Value("${luwei.config.salt}" )
     private String salt;
 
     /**
@@ -99,9 +101,7 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
                 .setName(addVO.getAccount())
                 .setRole(roleEnum)
                 .setPassword(password)
-                .setDisabled(false)
-                .setCreateTime(now)
-                .setUpdateTime(now);
+                .setDisabled(false);
 
         // 绑定学校id和名称
         if (addVO.getSchoolId() != null) {
@@ -225,7 +225,7 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
             log.error("RSAUtil.decrypt exception", e);
             throw new IllegalArgumentException(MessageCodes.RSAUtil_DECRYPT_ERROR);
         }
-        baseMapper.update(new Manager(), new UpdateWrapper<Manager>().lambda().set(Manager::getPassword, md5Password).eq(Manager::getManagerId, manager.getManagerId()));
+        baseMapper.update(new Manager(), new UpdateWrapper<Manager>().lambda().set(Manager::getPassword, managerResetPasswordVO.getPassword()).eq(Manager::getManagerId, manager.getManagerId()));
 
         return toManagerPageVO(manager);
     }
@@ -245,4 +245,16 @@ public class ManagerService extends ServiceImpl<ManagerMapper, Manager> {
         return managerPageVO;
     }
 
+    public Manager login(ManagerLoginDTO managerLoginDTO) {
+        Manager manager = new Manager();
+        LambdaQueryWrapper<Manager> wrapper = new QueryWrapper<Manager>().lambda();
+        wrapper.eq(Manager::getAccount,managerLoginDTO.getAccount());
+        wrapper.eq(Manager::getPassword, managerLoginDTO.getPassword());
+        List<Object> objects = baseMapper.selectObjs(wrapper);
+        if (objects.size()==0){
+            Assert.notNull(null, MessageCodes.USERNAME_OR_PASSWORD_ERROR);
+        }
+        com.luwei.common.util.BeanUtils.copyNonNullProperties(objects.get(0),manager );
+        return manager;
+    }
 }

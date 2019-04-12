@@ -41,7 +41,7 @@ public class AddSupperManager implements CommandLineRunner {
 
     public static void main(String[] args) {
         for (int i = 0; i < 2; i++) {
-            final String luwei =  encoder.encodeToString(BcryptUtil.encrypt("luwei"));
+            final String luwei = encoder.encodeToString(BcryptUtil.encrypt("luwei" ));
             System.out.println(luwei);
             System.out.println(BcryptUtil.decrypt(luwei));
         }

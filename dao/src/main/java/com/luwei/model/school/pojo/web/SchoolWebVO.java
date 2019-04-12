@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author zzx
  * @since 2018-12-13
  */
-@ApiModel(value = "")
+@ApiModel(value = "" )
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
@@ -20,10 +20,10 @@ public class SchoolWebVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "学校id")
+    @ApiModelProperty(value = "学校id" )
     private Integer schoolId;
 
-    @ApiModelProperty(value = "学校名称")
+    @ApiModelProperty(value = "学校名称" )
     private String name;
 
 }

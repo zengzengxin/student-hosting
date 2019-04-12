@@ -4,22 +4,22 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.luwei.model.teacher.Teacher">
-        <id column="teacher_id" property="teacherId" />
-        <result column="teacher_name" property="teacherName" />
-        <result column="phone" property="phone" />
-        <result column="license" property="license" />
-        <result column="school_name" property="schoolName" />
-        <result column="grade" property="grade" />
-        <result column="teacher_class" property="teacherClass" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
-        <result column="avatar_url" property="avatarUrl" />
-        <result column="gender" property="gender" />
-        <result column="nick_name" property="nickName" />
-        <result column="open_id" property="openId" />
-        <result column="binding" property="binding" />
-        <result column="school_id" property="schoolId" />
+        <id column="teacher_id" property="teacherId"/>
+        <result column="teacher_name" property="teacherName"/>
+        <result column="phone" property="phone"/>
+        <result column="license" property="license"/>
+        <result column="school_name" property="schoolName"/>
+        <result column="grade" property="grade"/>
+        <result column="teacher_class" property="teacherClass"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="avatar_url" property="avatarUrl"/>
+        <result column="gender" property="gender"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="open_id" property="openId"/>
+        <result column="binding" property="binding"/>
+        <result column="school_id" property="schoolId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -28,13 +28,13 @@
     </sql>
 
 
-
     <select id="getTeacherByphone" resultType="com.luwei.model.teacher.Teacher">
-           select * from tb_teacher where phone = #{phone}
+        select * from tb_teacher where phone = #{phone}
     </select>
 
 
-    <select id="getTeacherPage" resultType="com.luwei.model.teacher.pojo.cms.TeacherCmsVO" parameterType="com.luwei.model.teacher.pojo.cms.TeacherQueryDTO">
+    <select id="getTeacherPage" resultType="com.luwei.model.teacher.pojo.cms.TeacherCmsVO"
+            parameterType="com.luwei.model.teacher.pojo.cms.TeacherQueryDTO">
         select tb_teacher.teacher_id,teacher_name,teacher_class,phone,license,school_name,grade,school_id
         From tb_teacher
         <where>

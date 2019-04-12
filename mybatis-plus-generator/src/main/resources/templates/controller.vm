@@ -49,40 +49,42 @@ class ${table.controllerName}#if(${superControllerClass}) : ${superControllerCla
     #set($start=$entity.substring(0,1).toLowerCase() )
     #set($end=$entity.substring(1,$entity.length()).toLowerCase() )
 ##@Resource(name = "${start}${end}ServiceImpl")
-    @Autowired
-    private ${entity}Service ${start}${end}Service;
+@Autowired
+private ${entity}Service ${start}${end}Service;
 
 
-    @GetMapping
-    @ApiOperation("查询详情")
-    public ${entity}CmsVO findById(@RequestParam @ApiParam("${start}${end}Id") Integer ${start}${end}Id) {
-        return ${start}${end}Service.findById(${start}${end}Id);
-    }
+@GetMapping
+@ApiOperation("查询详情")
+public ${entity}CmsVO findById(@RequestParam @ApiParam("${start}${end}Id") Integer ${start}${end}Id) {
+return ${start}${end}Service.findById(${start}${end}Id);
+}
 
 
-    @PostMapping
-    @ApiOperation("添加")
-    public ${entity}CmsVO save(@RequestBody @Valid ${entity}CmsAddDTO ${start}${end}AddDTO) {
-    return ${start}${end}Service.save${entity}(${start}${end}AddDTO);
-    }
+@PostMapping
+@ApiOperation("添加")
+public ${entity}CmsVO save(@RequestBody @Valid ${entity}CmsAddDTO ${start}${end}AddDTO) {
+return ${start}${end}Service.save${entity}(${start}${end}AddDTO);
+}
 
-    @DeleteMapping
-    @ApiOperation("删除")
-    public void delete(@RequestParam @ApiParam("${start}${end}Id列表") Set<Integer> ${start}${end}Ids) {
-        ${start}${end}Service.delete${entity}s(${start}${end}Ids);
+@DeleteMapping
+@ApiOperation("删除")
+public void delete(@RequestParam @ApiParam("${start}${end}Id列表") Set
+<Integer> ${start}${end}Ids) {
+    ${start}${end}Service.delete${entity}s(${start}${end}Ids);
     }
 
     @PutMapping
     @ApiOperation("修改")
     public ${entity}CmsVO update(@RequestBody @Valid ${entity}CmsUpdateDTO ${start}${end}UpdateDTO) {
-         return ${start}${end}Service.update${entity}(${start}${end}UpdateDTO);
+    return ${start}${end}Service.update${entity}(${start}${end}UpdateDTO);
     }
 
     @GetMapping("page")
     @ApiOperation("分页")
-    public IPage<${entity}CmsVO> page(@ModelAttribute ${entity}CmsQueryDTO ${start}${end}QueryDTO, Page page) {
+    public IPage
+    <${entity}CmsVO> page(@ModelAttribute ${entity}CmsQueryDTO ${start}${end}QueryDTO, Page page) {
         return ${start}${end}Service.find${entity}Page(${start}${end}QueryDTO,page);
-    }
-}
+        }
+        }
 
 #end

@@ -26,35 +26,35 @@ import java.util.concurrent.TimeUnit;
  * @author luwei
  **/
 @RestController
-@Api(tags = "验证码模块")
-@RequestMapping("/api/picCaptcha")
+@Api(tags = "验证码模块" )
+@RequestMapping("/api/picCaptcha" )
 public class PicCaptchaController {
 
     private static Logger logger = LoggerFactory.getLogger(PicCaptchaController.class);
 
-    @Resource(name = "stringRedisTemplate")
+    @Resource(name = "stringRedisTemplate" )
     protected ValueOperations<String, String> operations;
 
     @Resource
     protected DefaultKaptcha captchaProducer;
 
     @GetMapping
-    @ApiOperation("验证码")
-    public void getCaptcha(@RequestParam @ApiParam("uuid") String uuid, HttpServletResponse res) {
+    @ApiOperation("验证码" )
+    public void getCaptcha(@RequestParam @ApiParam("uuid" ) String uuid, HttpServletResponse res) {
         String key = RedisKeyPrefix.captcha(uuid);
         logger.info(" login uuid is {}", uuid);
         String capText = operations.get(key);
         if (StringUtils.isEmpty(capText)) {
             capText = captchaProducer.createText();
-            logger.info("----------capText:" + capText + "----------------");
+            logger.info("----------capText:" + capText + "----------------" );
             operations.set(RedisKeyPrefix.captcha(uuid), capText, 5, TimeUnit.MINUTES);
         }
 
         res.setDateHeader("Expires", 0);
-        res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-        res.setHeader("Cache-Control", "post-check=0, pre-check=0");
-        res.setHeader("Pragma", "no-cache");
-        res.setContentType("image/jpeg");
+        res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate" );
+        res.setHeader("Cache-Control", "post-check=0, pre-check=0" );
+        res.setHeader("Pragma", "no-cache" );
+        res.setContentType("image/jpeg" );
         try (ServletOutputStream out = res.getOutputStream()) {
             BufferedImage bufferedImage = captchaProducer.createImage(capText);
             ImageIO.write(bufferedImage, "jpg", out);

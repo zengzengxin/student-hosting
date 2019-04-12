@@ -19,44 +19,44 @@ import java.time.LocalDateTime;
  * @author zzx
  * @since 2018-12-05
  */
-@ApiModel(value = "")
+@ApiModel(value = "" )
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_notice")
+@TableName("tb_notice" )
 public class Notice implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键id")
+    @ApiModelProperty(value = "主键id" )
     @TableId(value = "notice_id", type = IdType.AUTO)
     private Integer noticeId;
 
-    @ApiModelProperty(value = "通告状态 1上架 0下架")
+    @ApiModelProperty(value = "通告状态 1上架 0下架" )
     private Boolean display;
 
-    @ApiModelProperty(value = "通告的内容")
+    @ApiModelProperty(value = "通告的内容" )
     private String content;
 
-    @ApiModelProperty(value = "公告标题")
+    @ApiModelProperty(value = "公告标题" )
     private String title;
 
-    @ApiModelProperty(value = "公告摘要")
+    @ApiModelProperty(value = "公告摘要" )
     private String summary;
 
-    @ApiModelProperty(value = "公告类型，0-平台公告 1-学校公告")
+    @ApiModelProperty(value = "公告类型，0-平台公告 1-学校公告" )
     private Integer type;
 
-    @ApiModelProperty(value = "公告绑定学校id")
+    @ApiModelProperty(value = "公告绑定学校id" )
     private Integer schoolId;
 
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间" )
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "更新时间")
+    @ApiModelProperty(value = "更新时间" )
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "是否删除 0未删除 1删除")
+    @ApiModelProperty(value = "是否删除 0未删除 1删除" )
     @TableLogic
     private Integer deleted;
 

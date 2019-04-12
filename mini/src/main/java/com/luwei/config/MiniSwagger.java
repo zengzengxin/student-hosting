@@ -22,23 +22,23 @@ import static springfox.documentation.builders.RequestHandlerSelectors.withClass
 @Configuration
 public class MiniSwagger {
 
-    @Value("${swagger.show}")
+    @Value("${swagger.show}" )
     private Boolean enable;
 
     @Bean
     public Docket swaggerSpringMvcPlugin() {
         Parameter parameter = new ParameterBuilder()
-                .name("Authorization")
-                .description("token")
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
+                .name("Authorization" )
+                .description("token" )
+                .modelRef(new ModelRef("string" ))
+                .parameterType("header" )
                 .required(false)
-                .defaultValue("token ")
+                .defaultValue("token " )
                 .build();
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(enable)
-                .groupName("student-hosting")
+                .groupName("student-hosting" )
                 .apiInfo(apiInfo())
                 .globalOperationParameters(Collections.singletonList(parameter))
                 .select()
@@ -49,9 +49,9 @@ public class MiniSwagger {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("学生托管系统-mini")
-                .description("接口")
-                .version("1.0")
+                .title("学生托管系统-mini" )
+                .description("接口" )
+                .version("1.0" )
                 .build();
     }
 

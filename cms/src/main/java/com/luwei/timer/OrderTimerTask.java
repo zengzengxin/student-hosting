@@ -18,9 +18,9 @@ public class OrderTimerTask {
     @Resource
     private OrderService orderService;
 
-    @Scheduled(cron = "0 0 2 * * ?")
+    @Scheduled(cron = "0 0 2 * * ?" )
     private void refreshOrderStatus() {
-        log.info("===================刷新订单状态定时任务启动===================");
+        log.info("===================刷新订单状态定时任务启动===================" );
         long start = System.currentTimeMillis();
 
         // 刷新未支付订单的状态
@@ -35,7 +35,7 @@ public class OrderTimerTask {
 
         long end = System.currentTimeMillis();
         log.info("共耗时{}毫秒", String.valueOf(end - start));
-        log.info("===================刷新订单状态定时任务结束===================");
+        log.info("===================刷新订单状态定时任务结束===================" );
     }
 
 }

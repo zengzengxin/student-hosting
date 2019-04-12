@@ -23,7 +23,12 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        course_id, course_name, cover, introduction, picture_id, details, teacher_id, teacher_name, school_id, school_name, display, recommend, create_time, update_time, deleted
+        course_id, course_name, cover, introduction, picture_id, details, teacher_id, teacher_name, school_id,
+        school_name, display, recommend, create_time, update_time, deleted
     </sql>
+
+    <select id="getCourses" parameterType="integer" resultType="com.luwei.model.course.pojo.web.CourseWebVO">
+        select * from tb_course where deleted = 0 limit #{start},14;
+    </select>
 
 </mapper>

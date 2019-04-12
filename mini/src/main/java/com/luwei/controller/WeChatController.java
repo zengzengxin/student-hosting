@@ -22,8 +22,8 @@ import java.util.Map;
  * Author: huanglp
  * Date: 2018-12-12
  */
-@Api(tags = "微信模块")
-@RequestMapping("/api/weChat")
+@Api(tags = "微信模块" )
+@RequestMapping("/api/weChat" )
 @Slf4j
 @RestController
 public class WeChatController {
@@ -37,8 +37,8 @@ public class WeChatController {
     @Resource
     private ShiroTokenService shiroTokenService;
 
-    @GetMapping("/verify")
-    @ApiOperation("校验token是否可用")
+    @GetMapping("/verify" )
+    @ApiOperation("校验token是否可用" )
     public Boolean userAuthorize() {
         try {
             Integer userId = UserHelper.getUserId();
@@ -56,11 +56,11 @@ public class WeChatController {
      * @param code
      * @return
      */
-    @GetMapping("/login")
-    @ApiOperation("小程序授权接口")
+    @GetMapping("/login" )
+    @ApiOperation("小程序授权接口" )
     public String miniAuthorize(@RequestParam String encryptedData, @RequestParam String iv, @RequestParam String code) {
 
-        String sessionKey = (String) WeiXinUtils.login(code).get("session_key");
+        String sessionKey = (String) WeiXinUtils.login(code).get("session_key" );
         Map<String, Object> map = WeiXinUtils.decryptWxData(encryptedData, sessionKey, iv);
 
         return weChatService.addMiniUser(map);

@@ -10,6 +10,7 @@ import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.exception.ValidationException;
 import com.luwei.common.util.BeanUtils;
 import com.luwei.common.util.ConversionBeanUtils;
+import com.luwei.model.course.pojo.cms.CourseAddDTOS;
 import com.luwei.model.hosting.Hosting;
 import com.luwei.model.hosting.HostingMapper;
 import com.luwei.model.hosting.pojo.cms.*;
@@ -22,12 +23,17 @@ import com.luwei.service.manager.ManagerService;
 import com.luwei.service.picture.PictureService;
 import com.luwei.service.recommend.RecommendService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,6 +54,9 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     @Resource
     private ManagerService managerService;
+
+    @Resource
+    CacheManager cacheManager;
 
     private HostingCmsVO findById(Integer hostingId) {
         Hosting hosting = getById(hostingId);
@@ -96,13 +105,16 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
     @Transactional(rollbackFor = Exception.class)
     public void deleteHostings(Set<Integer> hostingIds) {
         //removeByIds删除0条也是返回true的，所以需要使用baseMapper
+        Cache cache = cacheManager.getCache("hosting");
         int count = baseMapper.deleteBatchIds(hostingIds);
         Assert.isTrue(count == hostingIds.size(), MessageCodes.HOSTING_DELETE_ERROR);
         log.info("删除数据:ids{}", hostingIds);
         //删除推荐表中的数据
         for (Integer id : hostingIds) {
+            cache.evict(id);
             recommendService.realDeleteByServiceIdAndServiceType(id, ServiceTypeEnum.HOSTING.getValue());
         }
+        cache.evict("findAllHosting");
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -161,7 +173,7 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         LambdaQueryWrapper<Hosting> wrapper = new QueryWrapper<Hosting>().lambda();
         // noinspection unchecked
         wrapper.orderByDesc(Hosting::getRecommend);
-        if (hostingQueryDTO.getName() != null && !hostingQueryDTO.getName().equals("")) {
+        if (hostingQueryDTO.getName() != null && !hostingQueryDTO.getName().equals("" )) {
             wrapper.like(Hosting::getName, hostingQueryDTO.getName());
         }
 
@@ -239,7 +251,49 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
         return toHostingVO(hosting);
     }
 
-    public int hostingTimer(){
-       return baseMapper.hostingTimer();
+    public int hostingTimer() {
+        return baseMapper.hostingTimer();
+    }
+
+    @Cacheable(cacheNames = "hosting",key = "'findAllHosting'")
+    public List<HostingVO> findAll() {
+        List<HostingVO> hostingVOList = new ArrayList<>();
+        QueryWrapper<Hosting> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().orderByDesc(Hosting::getUpdateTime);
+        List<Hosting> hostings = baseMapper.selectList(queryWrapper);
+        for (Hosting hosting:hostings) {
+            HostingVO hostingVO = new HostingVO();
+            BeanUtils.copyNonNullProperties(hosting,hostingVO);
+            hostingVOList.add(hostingVO);
+        }
+        return hostingVOList;
+    }
+
+    public boolean saveHosting(HostingAddDTOS hostingAddDTOS) {
+        Cache cache = cacheManager.getCache("hosting");
+        cache.evict("findAllHosting");
+        Hosting hosting = new Hosting();
+        BeanUtils.copyNonNullProperties(hostingAddDTOS,hosting);
+        hosting.setUpdateTime(LocalDateTime.now());
+        int insert = baseMapper.insert(hosting);
+        if(insert>0){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    @CachePut(cacheNames = "hosting",key = "#hostingUPDTO.hostingId")
+    public boolean updateHostings(HostingUPDTO hostingUPDTO) {
+        Cache chche = cacheManager.getCache("hosting");
+        chche.evict("findAllHosting");
+        Hosting hosting = new Hosting();
+        BeanUtils.copyNonNullProperties(hostingUPDTO,hosting);
+        int i = baseMapper.updateById(hosting);
+        if (i>0){
+            return true;
+        }else {
+            return false;
+        }
     }
 }

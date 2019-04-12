@@ -7,6 +7,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * Author: huanglp
@@ -19,19 +20,23 @@ public class SimpleCourseVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "课程ID")
+    @ApiModelProperty(value = "课程ID" )
     private Integer courseId;
 
-    @ApiModelProperty(value = "课程名称")
+    @ApiModelProperty(value = "课程名称" )
     private String courseName;
 
-    @ApiModelProperty(value = "课程封面")
+    @ApiModelProperty(value = "课程封面" )
     private String coverUrl;
 
-    @ApiModelProperty(value = "课程简介")
+    @ApiModelProperty(value = "课程简介" )
     private String introduction;
 
-    @ApiModelProperty(value = "最低价格")
+    @ApiModelProperty(value = "最低价格" )
     private BigDecimal price;
+
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
 
 }

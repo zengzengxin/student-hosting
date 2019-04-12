@@ -19,7 +19,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        banner_id, picture, jump_id, jump_name, weight, link_url, outside_link, banner_type, create_time, update_time, deleted
+        banner_id, picture, jump_id, jump_name, weight, link_url, outside_link, banner_type, create_time, update_time,
+        deleted
     </sql>
 
 </mapper>

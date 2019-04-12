@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ParentChildService extends ServiceImpl<ParentChildMapper, ParentChild> {
 
     @Transactional
-    public int  UnbindChilds(int id){
+    public int UnbindChilds(int id) {
         return baseMapper.UnbindChilds(id);
     }
 }

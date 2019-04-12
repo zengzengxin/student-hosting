@@ -13,6 +13,7 @@ import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.model.course.pojo.web.SimpleCourseVO;
 import com.luwei.model.coursepackage.CoursePackage;
 import com.luwei.model.coursepackage.pojo.web.CoursePackageWebVO;
+import com.luwei.model.hosting.pojo.web.HostingWebVO;
 import com.luwei.model.picture.PictureMapper;
 import com.luwei.model.picture.envm.PictureTypeEnum;
 import com.luwei.model.school.School;
@@ -46,6 +47,9 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     @Resource
     private SchoolService schoolService;
+
+    @Resource
+    private CourseMapper courseMapper;
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -101,16 +105,16 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         CourseWebVO courseWebVO = toCourseWebVO(course);
 
         // 封装图片
-        List<String> urls = pictureMapper.findAllByForeignKeyId(course.getCourseId(), PictureTypeEnum.COURSE.getValue());
+        //List<String> urls = pictureMapper.findAllByForeignKeyId(course.getCourseId(), PictureTypeEnum.COURSE.getValue());
 
         // 封装课程
-        List<CoursePackageWebVO> list = coursePackageService.listWebVO(course.getCourseId());
+        //List<CoursePackageWebVO> list = coursePackageService.listWebVO(course.getCourseId());
 
         // 负责人电话
-        School school = schoolService.getById(course.getSchoolId());
-        Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
+        //School school = schoolService.getById(course.getSchoolId());
+        //Assert.notNull(school, MessageCodes.SCHOOL_IS_NOT_EXIST);
 
-        courseWebVO.setCoursePackageList(list).setPictureUrls(urls).setLeaderPhone(school.getLeaderPhone());
+        //courseWebVO.setCoursePackageList(list).setPictureUrls(urls).setLeaderPhone(school.getLeaderPhone());
         return courseWebVO;
     }
 
@@ -162,4 +166,7 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     }
 
+    public List<CourseWebVO> getCourses(Integer start) {
+       return courseMapper.getCourses(start);
+    }
 }

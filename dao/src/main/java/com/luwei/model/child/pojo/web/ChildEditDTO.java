@@ -13,32 +13,32 @@ import java.time.LocalDateTime;
  * @author zzx
  * @since 2018-12-11
  */
-@ApiModel(value = "")
+@ApiModel(value = "" )
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ChildEditDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "孩子的主键id")
-    @NotNull(message = "Id不能为空")
+    @ApiModelProperty(value = "孩子的主键id" )
+    @NotNull(message = "Id不能为空" )
     private Integer childId;
 
-    @ApiModelProperty(value = "孩子的生日")
+    @ApiModelProperty(value = "孩子的生日" )
     // @NotNull(message = "生日不能为空")
     private LocalDateTime birthday;
 
-    @ApiModelProperty(value = "孩子的年级")
+    @ApiModelProperty(value = "孩子的年级" )
     private String grade;
 
-    @ApiModelProperty(value = "孩子的班级")
+    @ApiModelProperty(value = "孩子的班级" )
     private String childClass;
 
-    @ApiModelProperty(value = "孩子的班主任的电话")
+    @ApiModelProperty(value = "孩子的班主任的电话" )
     // @NotBlank(message = "班主任的电话不能为空")
     private String headteacherPhone;
 
-    @ApiModelProperty(value = "孩子的班主任的姓名")
+    @ApiModelProperty(value = "孩子的班主任的姓名" )
     // @NotBlank(message = "班主任的姓名不能为空")
     private String headteacherName;
 

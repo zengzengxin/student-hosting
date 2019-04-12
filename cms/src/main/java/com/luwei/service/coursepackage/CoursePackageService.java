@@ -64,7 +64,7 @@ public class CoursePackageService extends ServiceImpl<CoursePackageMapper, Cours
         return baseMapper.findMinPriceByCourseId(courseId);
     }
 
-    public int coursePackageTimer(){
-       return baseMapper.coursePackageTimer();
+    public int coursePackageTimer() {
+        return baseMapper.coursePackageTimer();
     }
 }

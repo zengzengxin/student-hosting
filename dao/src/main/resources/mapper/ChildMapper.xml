@@ -4,38 +4,42 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.luwei.model.child.Child">
-        <id column="child_id" property="childId" />
-        <result column="name" property="name" />
-        <result column="gender" property="gender" />
-        <result column="student_no" property="studentNo" />
-        <result column="birthday" property="birthday" />
-        <result column="school_id" property="schoolId" />
-        <result column="school_name" property="schoolName" />
-        <result column="grade" property="grade" />
-        <result column="child_class" property="childClass" />
-        <result column="headteacher_phone" property="headteacherPhone" />
-        <result column="headteacher_name" property="headteacherName" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
+        <id column="child_id" property="childId"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="student_no" property="studentNo"/>
+        <result column="birthday" property="birthday"/>
+        <result column="school_id" property="schoolId"/>
+        <result column="school_name" property="schoolName"/>
+        <result column="grade" property="grade"/>
+        <result column="child_class" property="childClass"/>
+        <result column="headteacher_phone" property="headteacherPhone"/>
+        <result column="headteacher_name" property="headteacherName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        child_id, name, gender, student_no, birthday, school_id, school_name, grade, child_class, headteacher_phone, headteacher_name, create_time, update_time, deleted
+        child_id, name, gender, student_no, birthday, school_id, school_name, grade, child_class, headteacher_phone,
+        headteacher_name, create_time, update_time, deleted
     </sql>
 
 
-
-     <select id="findChildsByParentsId" parameterType="integer" resultType="com.luwei.model.child.pojo.cms.ChildCmsVO">
-         select * from tb_child where child_id in (select child_id from tb_parent_child where parent_id = #{id}) and deleted = 0
-     </select>
-
-    <select id="webFindChildsByParentsId" parameterType="integer" resultType="com.luwei.model.child.pojo.web.ChildWebVO">
-        select * from tb_child where child_id in (select child_id from tb_parent_child where parent_id = #{id}) and deleted = 0
+    <select id="findChildsByParentsId" parameterType="integer" resultType="com.luwei.model.child.pojo.cms.ChildCmsVO">
+        select * from tb_child where child_id in (select child_id from tb_parent_child where parent_id = #{id}) and
+        deleted = 0
     </select>
 
-    <select id="findPage" parameterType="com.luwei.model.child.pojo.cms.ChildQueryDTO" resultType="com.luwei.model.child.pojo.cms.ChildCmsVO">
+    <select id="webFindChildsByParentsId" parameterType="integer"
+            resultType="com.luwei.model.child.pojo.web.ChildWebVO">
+        select * from tb_child where child_id in (select child_id from tb_parent_child where parent_id = #{id}) and
+        deleted = 0
+    </select>
+
+    <select id="findPage" parameterType="com.luwei.model.child.pojo.cms.ChildQueryDTO"
+            resultType="com.luwei.model.child.pojo.cms.ChildCmsVO">
         SELECT * from tb_child
         <where>
             deleted=0 AND school_id = #{schoolId}
@@ -48,8 +52,10 @@
         </where>
     </select>
 
-    <select id="findChildByStunoAndNameAndSchoolId" parameterType="com.luwei.model.child.pojo.web.ChildBindingDTO" resultType="com.luwei.model.child.Child">
-        select * from tb_child where name = #{childBindingDTO.name} and student_no = #{childBindingDTO.studentNo} and school_id = #{childBindingDTO.schoolId}
+    <select id="findChildByStunoAndNameAndSchoolId" parameterType="com.luwei.model.child.pojo.web.ChildBindingDTO"
+            resultType="com.luwei.model.child.Child">
+        select * from tb_child where name = #{childBindingDTO.name} and student_no = #{childBindingDTO.studentNo} and
+        school_id = #{childBindingDTO.schoolId}
     </select>
 
 </mapper>

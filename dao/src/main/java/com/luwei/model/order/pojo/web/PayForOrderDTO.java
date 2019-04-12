@@ -16,8 +16,8 @@ import javax.validation.constraints.NotBlank;
 @Accessors(chain = true)
 public class PayForOrderDTO {
 
-    @ApiModelProperty(value = "订单编号(ID)")
-    @NotBlank(message = "订单编号(ID)不能为空")
+    @ApiModelProperty(value = "订单编号(ID)" )
+    @NotBlank(message = "订单编号(ID)不能为空" )
     private String orderId;
 
 }

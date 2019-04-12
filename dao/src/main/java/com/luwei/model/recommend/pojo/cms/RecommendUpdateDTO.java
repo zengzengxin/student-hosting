@@ -18,19 +18,19 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_recommend")
+@TableName("tb_recommend" )
 public class RecommendUpdateDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "推荐表ID")
+    @ApiModelProperty(value = "推荐表ID" )
     @TableId(value = "recommend_id", type = IdType.AUTO)
-    @NotNull(message = "推荐表ID不能为空")
+    @NotNull(message = "推荐表ID不能为空" )
     private Integer recommendId;
 
 
-    @ApiModelProperty(value = "权重")
-    @NotNull(message = "权重不能为空")
+    @ApiModelProperty(value = "权重" )
+    @NotNull(message = "权重不能为空" )
     private Integer weight;
 
 

@@ -16,11 +16,11 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 public class CourseDisplay {
 
-    @NotNull(message = "课程ID不能为空")
-    @ApiModelProperty(value = "课程ID")
+    @NotNull(message = "课程ID不能为空" )
+    @ApiModelProperty(value = "课程ID" )
     private Integer courseId;
 
-    @NotNull(message = "是否上架到公众号不能为空")
-    @ApiModelProperty(value = "上架到公众号")
+    @NotNull(message = "是否上架到公众号不能为空" )
+    @ApiModelProperty(value = "上架到公众号" )
     private Boolean display;
 }

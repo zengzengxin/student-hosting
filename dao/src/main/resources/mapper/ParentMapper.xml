@@ -20,7 +20,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        parent_id, parent_name, phone, family_relation, children_number, address, avatar_url, gender, nick_name, open_id, create_time, update_time, deleted
+        parent_id, parent_name, phone, family_relation, children_number, address, avatar_url, gender, nick_name,
+        open_id, create_time, update_time, deleted
     </sql>
 
     <select id="findParentPage" resultType="com.luwei.model.parent.pojo.cms.ParentCmsVO"
@@ -40,7 +41,6 @@
     <select id="findByOpenid" resultType="com.luwei.model.parent.Parent">
         select * from tb_parent where open_id = #{openId} and deleted = 0
     </select>
-
 
 
 </mapper>

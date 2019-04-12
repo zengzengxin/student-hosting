@@ -33,7 +33,7 @@ import java.util.Objects;
 @Service
 public class LoginService extends ServiceImpl<ManagerMapper, Manager> {
 
-    @Value("${luwei.config.salt}")
+    @Value("${luwei.config.salt}" )
     private String salt;
 
     @Resource

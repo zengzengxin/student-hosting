@@ -14,12 +14,12 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ManagerResetPasswordVO {
 
-    @ApiModelProperty("主键id")
-    @NotNull(message = "id不能为空")
+    @ApiModelProperty("主键id" )
+    @NotNull(message = "id不能为空" )
     private Integer managerId;
 
-    @ApiModelProperty("密码")
-    @NotBlank(message = "请输入密码")
+    @ApiModelProperty("密码" )
+    @NotBlank(message = "请输入密码" )
     private String password;
 
 }

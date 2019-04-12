@@ -18,9 +18,9 @@ import javax.validation.Valid;
  * Author: huanglp
  * Date: 2018-12-19
  */
-@Api(tags = "小程序教师模块")
+@Api(tags = "小程序教师模块" )
 @RestController
-@RequestMapping("/api/teacher")
+@RequestMapping("/api/teacher" )
 public class TeacherController {
 
     @Resource
@@ -30,27 +30,27 @@ public class TeacherController {
     private MiniUserService miniUserService;
 
     @PutMapping
-    @ApiOperation("修改")
+    @ApiOperation("修改" )
     public TeacherMiniVO updateTeacher(@RequestBody @Valid TeacherEditDTO updateDTO) {
         return teacherService.updateTeacher(updateDTO);
     }
 
     @GetMapping
-    @ApiOperation("查询详情")
+    @ApiOperation("查询详情" )
     public TeacherMiniVO getTeacher() {
         return teacherService.getTeacher();
     }
 
-    @GetMapping("/checkout")
-    @ApiOperation("判断微信用户是否绑定孩子,返回true或false")
+    @GetMapping("/checkout" )
+    @ApiOperation("判断微信用户是否绑定孩子,返回true或false" )
     public boolean wechatUserBinding() {
         Integer userId = UserHelper.getUserId();
         return miniUserService.getById(userId).getTeacherId() != 0;
     }
 
-    @GetMapping("/phone")
-    @ApiOperation("绑定手机号")
-    public Teacher bingTeacher(@RequestParam @ApiParam("phone") String phone) {
+    @GetMapping("/phone" )
+    @ApiOperation("绑定手机号" )
+    public Teacher bingTeacher(@RequestParam @ApiParam("phone" ) String phone) {
         Integer userId = UserHelper.getUserId();
         return teacherService.bindingTeacher(phone, userId);
     }

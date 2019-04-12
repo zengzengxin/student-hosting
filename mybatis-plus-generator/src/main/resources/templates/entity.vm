@@ -49,13 +49,13 @@ private static final long serialVersionUID = 1L;
     #end
     #if(${field.keyFlag})
     ## 主键
-    #if(${field.keyIdentityFlag})
-    @TableId(value = "${field.name}", type = IdType.AUTO)
-    #elseif(!$null.isNull(${idType}) && "$!idType" != "")
-    @TableId(value = "${field.name}", type = IdType.${idType})
-    #elseif(${field.convert})
-    @TableId("${field.name}")
-    #end
+        #if(${field.keyIdentityFlag})
+        @TableId(value = "${field.name}", type = IdType.AUTO)
+        #elseif(!$null.isNull(${idType}) && "$!idType" != "")
+        @TableId(value = "${field.name}", type = IdType.${idType})
+        #elseif(${field.convert})
+        @TableId("${field.name}")
+        #end
     ## 普通字段
     #elseif(${field.fill})
     ## -----   存在字段填充设置   -----
@@ -75,7 +75,7 @@ private static final long serialVersionUID = 1L;
     #if(${logicDeleteFieldName}==${field.name})
     @TableLogic
     #end
-    private ${field.propertyType} ${field.propertyName};
+private ${field.propertyType} ${field.propertyName};
 
 #end
 ## ----------  END 字段循环遍历  ----------

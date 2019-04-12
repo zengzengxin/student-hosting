@@ -15,16 +15,16 @@ public class OperateAspect {
 
     private long start;
 
-    @Pointcut("@annotation(com.luwei.common.annotation.TimeCalculateAnnotation)")
+    @Pointcut("@annotation(com.luwei.common.annotation.TimeCalculateAnnotation)" )
     public void annotationPointCut() {
     }
 
-    @Before("annotationPointCut()")
+    @Before("annotationPointCut()" )
     public void before() {
         start = System.currentTimeMillis();
     }
 
-    @After("annotationPointCut()")
+    @After("annotationPointCut()" )
     public void after() {
         long end = System.currentTimeMillis();
         log.info("总共耗时{}毫秒", String.valueOf(end - start));

@@ -21,16 +21,16 @@ public class TeacherEditDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotNull
-    @ApiModelProperty(value = "教师ID")
-    @NotNull(message = "教师id不能为空")
+    @ApiModelProperty(value = "教师ID" )
+    @NotNull(message = "教师id不能为空" )
     private Integer teacherId;
-    
-    @ApiModelProperty(value = "任课年级")
-    @NotBlank(message = "任课年级不能为空")
+
+    @ApiModelProperty(value = "任课年级" )
+    @NotBlank(message = "任课年级不能为空" )
     private String grade;
 
-    @ApiModelProperty(value = "所在班级")
-    @NotBlank(message = "所在班级不能为空")
+    @ApiModelProperty(value = "所在班级" )
+    @NotBlank(message = "所在班级不能为空" )
     private String teacherClass;
 
 }

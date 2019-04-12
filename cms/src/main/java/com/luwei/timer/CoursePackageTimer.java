@@ -18,15 +18,15 @@ public class CoursePackageTimer {
     @Resource
     private CourseService courseService;
 
-    @Scheduled(cron = "0 0 1 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?" )
     private void coursePackageTimer() {
         long start = System.currentTimeMillis();
-        log.info("===================刷新课程套餐是否过期定时任务启动===================");
+        log.info("===================刷新课程套餐是否过期定时任务启动===================" );
         int i = coursePackageService.coursePackageTimer();
         log.info("托管刷新为已过期的有{}条", i);
         long end = System.currentTimeMillis();
         log.info("共耗时{}毫秒", String.valueOf(end - start));
-        log.info("===================刷新课程套餐是否过期定时任务结束==================");
+        log.info("===================刷新课程套餐是否过期定时任务结束==================" );
     }
 
 }

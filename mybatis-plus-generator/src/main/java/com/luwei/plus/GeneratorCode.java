@@ -93,39 +93,39 @@ public class GeneratorCode {
      */
     private static void createPOJO(int i) throws IOException {
         //获取实体文件的路径
-        String srcDir = new StringBuilder().append(outDir).append("/")
-                .append(propertiesBean.getPackageName().replace(".", "/"))
-                .append("/")
+        String srcDir = new StringBuilder().append(outDir).append("/" )
+                .append(propertiesBean.getPackageName().replace(".", "/" ))
+                .append("/" )
                 .append(entity)
-                .append("/")
+                .append("/" )
                 .append(propertiesBean.getBeanNames().get(i))
-                .append("/")
-                .append(propertiesBean.getVoDTODir().replace(".", "/")).toString();
+                .append("/" )
+                .append(propertiesBean.getVoDTODir().replace(".", "/" )).toString();
         File srcFile = new File(srcDir);
         if (!srcFile.exists() || srcFile.listFiles().length <= 0) {
-            log.error("创建VO、DTO失败：找不到Entity位置");
+            log.error("创建VO、DTO失败：找不到Entity位置" );
             return;
         }
 
 
         for (File file : srcFile.listFiles()) {
             //复制
-            String entity = file.getName().substring(0, file.getName().lastIndexOf("."));
-            if (!FileUtils.getFileSuffix(file.getName()).equals("java")) {
+            String entity = file.getName().substring(0, file.getName().lastIndexOf("." ));
+            if (!FileUtils.getFileSuffix(file.getName()).equals("java" )) {
                 continue;
             }
             //将文件移动到下一个包 User实体 user包
 //            创建web文件
-            String parentDir = srcDir.substring(0, srcDir.lastIndexOf("/") + 1) + "web";
+            String parentDir = srcDir.substring(0, srcDir.lastIndexOf("/" ) + 1) + "web";
             File parentFileDir = new File(parentDir);
             parentFileDir.mkdir();
-            IOReadWriter(file, new File(parentFileDir, file.getName().replace("Cms", "Web")));
+            IOReadWriter(file, new File(parentFileDir, file.getName().replace("Cms", "Web" )));
         }
 
     }
 
 
-    private static String outDir = System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java";
+    private static String outDir = System.getProperty("user.dir" ) + "/mybatis-plus-generator/src/main/java";
     private static String entity = "models";
     private static String mapper = "mapper";
     private static String service = "service";
@@ -141,7 +141,7 @@ public class GeneratorCode {
     static {
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream(GeneratorCode.class.getClassLoader().getResource("application.yml").getPath());
+            inputStream = new FileInputStream(GeneratorCode.class.getClassLoader().getResource("application.yml" ).getPath());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -173,9 +173,9 @@ public class GeneratorCode {
         String line = null;
         Boolean isDelete = false;
         //源文件名 无后缀
-        String src = srcFile.getName().substring(0, srcFile.getName().lastIndexOf("."));
+        String src = srcFile.getName().substring(0, srcFile.getName().lastIndexOf("." ));
         //目标文件名
-        String target = targetFile.getName().substring(0, targetFile.getName().lastIndexOf("."));
+        String target = targetFile.getName().substring(0, targetFile.getName().lastIndexOf("." ));
         try {
             // 根据文件路径创建缓冲输入流
             br = new BufferedReader(new FileReader(srcFile));
@@ -184,36 +184,36 @@ public class GeneratorCode {
             // 循环读取文件的每一行, 对需要修改的行进行修改, 放入缓冲对象中
             while ((line = br.readLine()) != null) {
                 // 此处根据实际需要修改某些行的内容
-                if (line.contains("interface") || line.contains("abstract")) {
+                if (line.contains("interface" ) || line.contains("abstract" )) {
                     //直接退出，提前关闭
                     isDelete = true;
                     return;
                 }
-                if (line.contains("class")) {
-                    line = line.replace("Cms", "Web");
+                if (line.contains("class" )) {
+                    line = line.replace("Cms", "Web" );
                 }
-                if (line.contains("package")) {
+                if (line.contains("package" )) {
 //                    com.luwei.models.user.pojo.cms
-                    line = line.substring(0, line.lastIndexOf(".") + 1) + "web;";
+                    line = line.substring(0, line.lastIndexOf("." ) + 1) + "web;";
                 }
 
                 if (line.contains(src)) {
                     line = line.replace(src, target);
                 }
-                if (line.contains("@TableName")) {
+                if (line.contains("@TableName" )) {
                     continue;
                 }
-                if (line.contains("@TableId")) {
+                if (line.contains("@TableId" )) {
                     continue;
                 }
-                if (line.contains("@TableLogic")) {
+                if (line.contains("@TableLogic" )) {
                     continue;
                 }
-                if (line.contains("deleted")) {
+                if (line.contains("deleted" )) {
                     continue;
                 }
 
-                if (target.contains("QueryDTO") && line.contains("@Accessors")) {
+                if (target.contains("QueryDTO" ) && line.contains("@Accessors" )) {
                     continue;
                 }
 
@@ -278,7 +278,7 @@ public class GeneratorCode {
 //                .setInclude(tableNames);
         config.setActiveRecord(true)
                 .setAuthor(propertiesBean.getAuthor())
-                .setOutputDir(System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java")
+                .setOutputDir(System.getProperty("user.dir" ) + "/mybatis-plus-generator/src/main/java" )
                 .setBaseResultMap(true)
                 .setBaseColumnList(true)
                 .setFileOverride(true)
@@ -286,14 +286,14 @@ public class GeneratorCode {
                 .setOpen(false)//设置运行后不打开文件
                 .setIdType(IdType.AUTO)
                 //Service名字
-                .setServiceImplName("%sService")
+                .setServiceImplName("%sService" )
                 .setActiveRecord(false)
                 // XML ResultMap
                 .setBaseResultMap(true)
                 // XML columList;
                 .setBaseColumnList(true);
         if (!serviceNameStartWithI) {
-            config.setServiceName("%sService");
+            config.setServiceName("%sService" );
         }
 
 
@@ -310,42 +310,42 @@ public class GeneratorCode {
                 public void initMap() {
                     Map<String, Object> map = new HashMap<>();
 //                map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
-                    map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
+                    map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp" );
                     map.put("voDTODir", propertiesBean.getVoDTODir());
                     this.setMap(map);
                 }
             };
             //自定义文件输出位置（非必须）
             List<FileOutConfig> fileOutList = new ArrayList<>();
-            fileOutList.add(new FileOutConfig("/templates/mapper.xml.vm") {
+            fileOutList.add(new FileOutConfig("/templates/mapper.xml.vm" ) {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
-                    return System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                    return System.getProperty("user.dir" ) + "/mybatis-plus-generator/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
                 }
             });
             //VO、DTO对应的位置
 
-            String voDTODir = System.getProperty("user.dir") + "/mybatis-plus-generator/src/main/java/" + packageName.replace(".", "/")
-                    + "/" + entity + "/" + propertiesBean.getBeanNames().get(i).replace(".", "/") + "/" + propertiesBean.getVoDTODir().replace(".", "/") + "/";
-            fileOutList.add(new FileOutConfig("/templates/vo.vm") {
+            String voDTODir = System.getProperty("user.dir" ) + "/mybatis-plus-generator/src/main/java/" + packageName.replace(".", "/" )
+                    + "/" + entity + "/" + propertiesBean.getBeanNames().get(i).replace(".", "/" ) + "/" + propertiesBean.getVoDTODir().replace(".", "/" ) + "/";
+            fileOutList.add(new FileOutConfig("/templates/vo.vm" ) {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
                     return voDTODir + tableInfo.getEntityName() + "CmsVO" + StringPool.DOT_JAVA;
                 }
             });
-            fileOutList.add(new FileOutConfig("/templates/addDTO.vm") {
+            fileOutList.add(new FileOutConfig("/templates/addDTO.vm" ) {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
                     return voDTODir + tableInfo.getEntityName() + "CmsAddDTO" + StringPool.DOT_JAVA;
                 }
             });
-            fileOutList.add(new FileOutConfig("/templates/updateDTO.vm") {
+            fileOutList.add(new FileOutConfig("/templates/updateDTO.vm" ) {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
                     return voDTODir + tableInfo.getEntityName() + "CmsUpdateDTO" + StringPool.DOT_JAVA;
                 }
             });
-            fileOutList.add(new FileOutConfig("/templates/queryDTO.vm") {
+            fileOutList.add(new FileOutConfig("/templates/queryDTO.vm" ) {
                 @Override
                 public String outputFile(TableInfo tableInfo) {
                     return voDTODir + tableInfo.getEntityName() + "CmsQueryDTO" + StringPool.DOT_JAVA;
@@ -362,9 +362,9 @@ public class GeneratorCode {
                     .setPackageInfo(pcf)
                     .setTemplate(tc)
                     .execute();
-            File srcFile = new File(new StringBuilder().append(outDir).append("/")
-                    .append(propertiesBean.getPackageName().replace(".", "/"))
-                    .append("/")
+            File srcFile = new File(new StringBuilder().append(outDir).append("/" )
+                    .append(propertiesBean.getPackageName().replace(".", "/" ))
+                    .append("/" )
                     .append(mapper).toString());
             org.apache.commons.io.FileUtils.deleteDirectory(srcFile);
             //创建web文件
@@ -381,7 +381,7 @@ public class GeneratorCode {
         TemplateConfig tc = new TemplateConfig();
         for (String tmp : baseDir) {
             initVM(tc);
-            File file = new File(Paths.get(outDir, String.join("/", packageName.split("\\.")), tmp).toString());
+            File file = new File(Paths.get(outDir, String.join("/", packageName.split("\\." )), tmp).toString());
             String[] list = file.list();
             if (list != null && list.length > 0) {
                 if (!propertiesBean.getIsOverController()) {
@@ -436,7 +436,7 @@ public class GeneratorCode {
      * @return
      */
     private static boolean stringIsNotNull(String s) {
-        if (null != s && !s.equals("") && s.length() > 0 && s.trim().length() > 0) {
+        if (null != s && !s.equals("" ) && s.length() > 0 && s.trim().length() > 0) {
             return true;
         }
         return false;

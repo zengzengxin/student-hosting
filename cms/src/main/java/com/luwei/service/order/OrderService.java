@@ -22,8 +22,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.ResourceUtils;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -145,6 +147,13 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> {
      */
     public long refreshPaidOrderStatus() {
         return baseMapper.refreshPaidOrderStatus();
+    }
+
+    public static void main(String[] args) throws Exception {
+        File path = new File(ResourceUtils.getURL("classpath:").getPath());
+        System.out.println("path:"+path.getAbsolutePath());
+        System.out.println("path:"+path.getCanonicalPath());
+        System.out.println("path:"+path.getParent());
     }
 
 }

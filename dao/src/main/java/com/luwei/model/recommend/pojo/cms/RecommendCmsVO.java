@@ -20,28 +20,28 @@ public class RecommendCmsVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "服务ID")
+    @ApiModelProperty(value = "服务ID" )
     private Integer serviceId;
 
-    @ApiModelProperty(value = "服务名称")
+    @ApiModelProperty(value = "服务名称" )
     private String serviceName;
 
-    @ApiModelProperty(value = "服务价格")
+    @ApiModelProperty(value = "服务价格" )
     private BigDecimal servicePrice;
 
-    @ApiModelProperty(value = "服务简介")
+    @ApiModelProperty(value = "服务简介" )
     private String serviceIntroduction;
 
-    @ApiModelProperty(value = "服务图片地址")
+    @ApiModelProperty(value = "服务图片地址" )
     private String serviceCoverUrl;
 
-    @ApiModelProperty(value = "权重")
+    @ApiModelProperty(value = "权重" )
     private Integer weight;
 
-    @ApiModelProperty(value = "学校ID")
+    @ApiModelProperty(value = "学校ID" )
     private Integer schoolId;
 
-    @ApiModelProperty(value = "服务类型")
+    @ApiModelProperty(value = "服务类型" )
     private ServiceTypeEnum serviceType;
 
 }

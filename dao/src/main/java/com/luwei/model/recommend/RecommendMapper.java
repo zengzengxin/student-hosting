@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface RecommendMapper extends BaseMapper<Recommend> {
 
-    Integer realDeleteByServiceIdAndServiceType(@Param("serviceId") Integer serviceId, @Param("serviceType") Integer serviceType);
+    Integer realDeleteByServiceIdAndServiceType(@Param("serviceId" ) Integer serviceId, @Param("serviceType" ) Integer serviceType);
 
     int updateHostingRecommend();
 }

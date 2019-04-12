@@ -19,28 +19,28 @@ import java.util.Set;
  * Author: huanglp
  * Date: 2018-12-20
  */
-@Api(tags = "推荐服务模块")
+@Api(tags = "推荐服务模块" )
 @RestController
-@RequestMapping("/api/recommend")
+@RequestMapping("/api/recommend" )
 public class RecommendController {
 
     @Resource
     private RecommendService recommendService;
 
     @DeleteMapping
-    @ApiOperation("删除")
-    public void deleteRecommends(@RequestParam @ApiParam("id列表") Set<Integer> ids) {
+    @ApiOperation("删除" )
+    public void deleteRecommends(@RequestParam @ApiParam("id列表" ) Set<Integer> ids) {
         recommendService.deleteRecommends(ids);
     }
 
     @GetMapping
-    @ApiOperation("查询详情")
-    public RecommendCmsVO getRecommend(@RequestParam @ApiParam("id") Integer id) {
+    @ApiOperation("查询详情" )
+    public RecommendCmsVO getRecommend(@RequestParam @ApiParam("id" ) Integer id) {
         return recommendService.getRecommend(id);
     }
 
-    @GetMapping("/page")
-    @ApiOperation("分页获取")
+    @GetMapping("/page" )
+    @ApiOperation("分页获取" )
     public IPage<RecommendCmsVO> page(@ModelAttribute @Valid RecommendQueryDTO queryDTO, Page<Recommend> page) {
         return recommendService.findPage(queryDTO, page);
     }

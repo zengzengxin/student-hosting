@@ -2,7 +2,6 @@ package com.luwei.common.exception;
 
 
 /**
- *
  * @author luwei
  **/
 public class Result {

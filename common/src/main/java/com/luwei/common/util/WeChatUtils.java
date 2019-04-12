@@ -49,20 +49,20 @@ import java.util.*;
 public class WeChatUtils {
     private static final Logger logger = LoggerFactory.getLogger(WeChatUtils.class);
 
-    @Value("${luwei.module.wx.appId}")
+    @Value("${luwei.module.wx.appId}" )
     private String appId;
 
-    @Value("${luwei.module.wx.appSecret}")
+    @Value("${luwei.module.wx.appSecret}" )
     private String appSecret;
 
-    @Value("${wechat.mchKey}")
+    @Value("${wechat.mchKey}" )
     private String mchKey;
 
-    @Value("${wechat.mchId}")
+    @Value("${wechat.mchId}" )
     private String mchId;
 
     //订单生成的ip
-    @Value("${wechat.spbillCreateIp}")
+    @Value("${wechat.spbillCreateIp}" )
     private String spbillCreateIp;
 
     //接口调用凭证--两小时刷新一次
@@ -83,7 +83,7 @@ public class WeChatUtils {
         params.put("appid", appId);
         params.put("secret", appSecret);
         params.put("code", code);
-        params.put("grant_type", "authorization_code");
+        params.put("grant_type", "authorization_code" );
         String url = "https://api.weixin.qq.com/sns/oauth2/access_token";
         return getWechatReturn(params, url);
     }
@@ -96,7 +96,7 @@ public class WeChatUtils {
         Map<String, Object> params = new HashMap<>();
         params.put("access_token", accessToken);
         params.put("openid", openId);
-        params.put("lang", "zh-CN");
+        params.put("lang", "zh-CN" );
         return getWechatReturn(params, url);
     }
 
@@ -105,9 +105,9 @@ public class WeChatUtils {
         Map<String, Object> params = new HashMap<>();
         params.put("access_token", WeChatUtils.TOKEN);
         params.put("openid", openId);
-        params.put("lang", "zh-CN");
+        params.put("lang", "zh-CN" );
         Map<String, Object> wechatReturn = getWechatReturn(params, url);
-        if (wechatReturn.containsKey("errcode") && Objects.equals(wechatReturn.get("errcode"), "40001")) {
+        if (wechatReturn.containsKey("errcode" ) && Objects.equals(wechatReturn.get("errcode" ), "40001" )) {
             getToken();
             params.put("access_token", WeChatUtils.TOKEN);
             wechatReturn = getWechatReturn(params, url);
@@ -184,7 +184,7 @@ public class WeChatUtils {
     public void sendText(String openId, String content) {
         Map<String, Object> param = new HashMap<>();
         param.put("touser", openId);
-        param.put("msgtype", "text");
+        param.put("msgtype", "text" );
         HashMap<Object, Object> text = new HashMap<>();
         text.put("content", content);
         param.put("text", text);
@@ -201,7 +201,7 @@ public class WeChatUtils {
     public String sendImage(String openId, String mediaId) {
         Map<String, Object> param = new HashMap<>();
         param.put("touser", openId);
-        param.put("msgtype", "image");
+        param.put("msgtype", "image" );
         HashMap<Object, Object> image = new HashMap<>();
         image.put("media_id", mediaId);
         param.put("image", image);
@@ -252,8 +252,8 @@ public class WeChatUtils {
             httpUrlConn.setDoOutput(true);
             httpUrlConn.setUseCaches(false); // post方式不能使用缓存
             //1.2设置请求头信息
-            httpUrlConn.setRequestProperty("Connection", "Keep-Alive");
-            httpUrlConn.setRequestProperty("Charset", "UTF-8");
+            httpUrlConn.setRequestProperty("Connection", "Keep-Alive" );
+            httpUrlConn.setRequestProperty("Charset", "UTF-8" );
             //1.3设置边界
             String BOUNDARY = "----------" + System.currentTimeMillis();
             httpUrlConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
@@ -262,13 +262,13 @@ public class WeChatUtils {
             // 第一部分：
             //2.将文件头输出到微信服务器
             StringBuilder sb = new StringBuilder();
-            sb.append("--"); // 必须多两道线
+            sb.append("--" ); // 必须多两道线
             sb.append(BOUNDARY);
-            sb.append("\r\n");
+            sb.append("\r\n" );
             sb.append("Content-Disposition: form-data;name=\"media\";filelength=\"" + multipartFile.getSize()
-                    + "\";filename=\"" + multipartFile.getOriginalFilename() + "\"\r\n");
-            sb.append("Content-Type:application/octet-stream\r\n\r\n");
-            byte[] head = sb.toString().getBytes("utf-8");
+                    + "\";filename=\"" + multipartFile.getOriginalFilename() + "\"\r\n" );
+            sb.append("Content-Type:application/octet-stream\r\n\r\n" );
+            byte[] head = sb.toString().getBytes("utf-8" );
             // 获得输出流
             OutputStream outputStream = new DataOutputStream(httpUrlConn.getOutputStream());
             // 将表头写入输出流中：输出表头
@@ -279,14 +279,14 @@ public class WeChatUtils {
             byte[] bytes1 = multipartFile.getBytes();
             outputStream.write(bytes1, 0, bytes1.length);
             //4.将结尾部分输出到微信服务器
-            byte[] foot = ("\r\n--" + BOUNDARY + "--\r\n").getBytes("utf-8");// 定义最后数据分隔线
+            byte[] foot = ("\r\n--" + BOUNDARY + "--\r\n" ).getBytes("utf-8" );// 定义最后数据分隔线
             outputStream.write(foot);
             outputStream.flush();
             outputStream.close();
 
             //5.将微信服务器返回的输入流转换成字符串
             InputStream inputStream = httpUrlConn.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8" );
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             String str;
@@ -319,13 +319,13 @@ public class WeChatUtils {
         logger.info("-------" + appSecret);
         String url = "https://api.weixin.qq.com/cgi-bin/token";
         Map<String, Object> params = new HashMap<>();
-        params.put("grant_type", "client_credential");
+        params.put("grant_type", "client_credential" );
         params.put("appid", appId);
         params.put("secret", appSecret);
         Map<String, Object> tokenMap = getWechatReturn(params, url);
-        WeChatUtils.TOKEN = (String) tokenMap.get("access_token");
+        WeChatUtils.TOKEN = (String) tokenMap.get("access_token" );
         Map<String, Object> ticketMap = getTicket(WeChatUtils.TOKEN);
-        WeChatUtils.TICKET = (String) ticketMap.get("ticket");
+        WeChatUtils.TICKET = (String) ticketMap.get("ticket" );
         logger.info("------token:{}-----", WeChatUtils.TOKEN);
         logger.info("-----ticket:{}-----", WeChatUtils.TICKET);
     }
@@ -347,7 +347,7 @@ public class WeChatUtils {
 
         Map<String, Object> param = new HashMap<>();
         param.put("expire_seconds", expireSeconds);
-        param.put("action_name", "QR_STR_SCENE");//临时的字符串参数值
+        param.put("action_name", "QR_STR_SCENE" );//临时的字符串参数值
         Map<String, Object> actionInfoMap = new HashMap<>();
         Map<String, String> sceneMap = new HashMap<>();
         sceneMap.put("scene_str", sceneStr);
@@ -373,7 +373,7 @@ public class WeChatUtils {
         String url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" + WeChatUtils.TOKEN;
 
         Map<String, Object> param = new HashMap<>();
-        param.put("action_name", "QR_LIMIT_STR_SCENE");//永久的字符串参数值
+        param.put("action_name", "QR_LIMIT_STR_SCENE" );//永久的字符串参数值
         Map<String, Object> actionInfoMap = new HashMap<>();
         Map<String, String> sceneMap = new HashMap<>();
         sceneMap.put("scene_str", sceneStr);
@@ -394,7 +394,7 @@ public class WeChatUtils {
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(param, headers);
         ResponseEntity<String> entity = rest.exchange(url, HttpMethod.POST, requestEntity, String.class);
         String request = entity.getBody();
-        if (request.contains("40001")) {//获取access_token时AppSecret错误，或者access_token无效,再试一次
+        if (request.contains("40001" )) {//获取access_token时AppSecret错误，或者access_token无效,再试一次
             this.getToken();
             entity = rest.exchange(url, HttpMethod.POST, requestEntity, String.class);
             request = entity.getBody();
@@ -412,7 +412,7 @@ public class WeChatUtils {
     public static Map<String, Object> getTicket(String token) {
         String url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
         Map<String, Object> params = new HashMap<>();
-        params.put("type", "jsapi");
+        params.put("type", "jsapi" );
         params.put("access_token", token);
         return getWechatReturn(params, url);
     }
@@ -441,9 +441,9 @@ public class WeChatUtils {
                 "&timestamp=" + timestamp +
                 "&url=" + url;
         try {
-            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            MessageDigest crypt = MessageDigest.getInstance("SHA-1" );
             crypt.reset();
-            crypt.update(string1.getBytes("UTF-8"));
+            crypt.update(string1.getBytes("UTF-8" ));
             signature = byteToHex(crypt.digest());
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
             e.printStackTrace();
@@ -494,16 +494,16 @@ public class WeChatUtils {
         logger.info(xml);
         String createOrderURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
         Map<String, String> map = doPostMap(createOrderURL, xml);
-        logger.info("------------------------生成预支付信息成功--------------------------------");
+        logger.info("------------------------生成预支付信息成功--------------------------------" );
         logger.info(map.toString());
         String nonceStr = "";
         String packages = "";
         String signType = "MD5";
         String timestamp = "";
         String paySign = "";
-        if (map != null && map.get("return_code").equals("SUCCESS") && map.get("result_code").equals("SUCCESS")) {
-            nonceStr = map.get("nonce_str");
-            packages = "prepay_id=" + map.get("prepay_id");
+        if (map != null && map.get("return_code" ).equals("SUCCESS" ) && map.get("result_code" ).equals("SUCCESS" )) {
+            nonceStr = map.get("nonce_str" );
+            packages = "prepay_id=" + map.get("prepay_id" );
             signType = "MD5";
             timestamp = create_timestamp();
 
@@ -666,8 +666,8 @@ public class WeChatUtils {
         URL httpUrl = new URL(strUrl);
         char[] password = reqData.getMchId().toCharArray();
         //读取证书位置
-        InputStream certStream = getClass().getClassLoader().getResourceAsStream("cert/apiclient_cert.p12");
-        KeyStore ks = KeyStore.getInstance("PKCS12");
+        InputStream certStream = getClass().getClassLoader().getResourceAsStream("cert/apiclient_cert.p12" );
+        KeyStore ks = KeyStore.getInstance("PKCS12" );
         ks.load(certStream, password);
 
         // 实例化密钥库 & 初始化密钥工厂
@@ -675,14 +675,14 @@ public class WeChatUtils {
         kmf.init(ks, password);
 
         // 创建SSLContext
-        SSLContext sslContext = SSLContext.getInstance("TLS");
+        SSLContext sslContext = SSLContext.getInstance("TLS" );
         sslContext.init(kmf.getKeyManagers(), null, new SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
 
         HttpURLConnection httpURLConnection = (HttpURLConnection) httpUrl.openConnection();
 
         httpURLConnection.setDoOutput(true);
-        httpURLConnection.setRequestMethod("POST");
+        httpURLConnection.setRequestMethod("POST" );
         httpURLConnection.setConnectTimeout(connectTimeoutMs);
         httpURLConnection.setReadTimeout(readTimeoutMs);
         httpURLConnection.connect();
@@ -747,7 +747,7 @@ public class WeChatUtils {
         try {
             logger.info("-----------------------params:{}", params);
             String jsonStr = HttpUtils.httpGetRequest(url, params);
-            logger.info("-----------------------jsonStr is " + jsonStr + "---------------------");
+            logger.info("-----------------------jsonStr is " + jsonStr + "---------------------" );
             if (!StringUtils.isEmpty(jsonStr)) {
                 return JsonUtils.json2object(jsonStr, Map.class, String.class, Object.class);
             }
@@ -765,11 +765,11 @@ public class WeChatUtils {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);
         try {
-            if (params != null && !params.equals("")) {
-                httpPost.setEntity(new StringEntity(params, "UTF-8"));
+            if (params != null && !params.equals("" )) {
+                httpPost.setEntity(new StringEntity(params, "UTF-8" ));
             }
             HttpResponse res = httpClient.execute(httpPost);
-            String responseContent = EntityUtils.toString(res.getEntity(), "UTF-8");  //响应内容
+            String responseContent = EntityUtils.toString(res.getEntity(), "UTF-8" );  //响应内容
             result = xmlStr2Map(responseContent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -804,11 +804,11 @@ public class WeChatUtils {
             Map.Entry<String, String> entry = it.next();
             String k = entry.getKey();
             String v = entry.getValue();
-            if (v != null && !v.equals("")) {
-                sb.append(k + "=" + v + "&");
+            if (v != null && !v.equals("" )) {
+                sb.append(k + "=" + v + "&" );
             }
         }
-        return sb.substring(0, sb.lastIndexOf("&"));
+        return sb.substring(0, sb.lastIndexOf("&" ));
     }
 
     /**
@@ -816,9 +816,9 @@ public class WeChatUtils {
      */
     public static String MD5Digest(String content) {
         try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("MD5" );
             // 将拼接而成的字符串进行MD5加密
-            byte[] digest = md.digest(content.getBytes("utf-8"));
+            byte[] digest = md.digest(content.getBytes("utf-8" ));
             //将加密后的字节数组转成十六进制的字符串
             return byteArrayToHexStr(digest);
         } catch (Exception e) {
@@ -908,12 +908,12 @@ public class WeChatUtils {
                 String name = e.getName();
                 String value = e.getTextNormalize();
                 List list = e.getChildren();
-                sb.append("<" + name + ">");
+                sb.append("<" + name + ">" );
                 if (!list.isEmpty()) {
                     sb.append(getChildrenText(list));
                 }
                 sb.append(value);
-                sb.append("</" + name + ">");
+                sb.append("</" + name + ">" );
             }
         }
 
@@ -939,7 +939,7 @@ public class WeChatUtils {
     public static String getNonceStr() {
         // 随机数
         Date now = new Date();
-        SimpleDateFormat outFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat outFormat = new SimpleDateFormat("yyyyMMddHHmmss" );
         String currTime = outFormat.format(now);
 
         // 8位日期
@@ -986,11 +986,11 @@ public class WeChatUtils {
         }
         String pwd = Encrypt(sb.toString());
         if (pwd.equals(signature)) {
-            System.out.println("验证成功");
+            System.out.println("验证成功" );
             isPass = true;
             return isPass;
         } else {
-            System.out.println("验证失败");
+            System.out.println("验证失败" );
             return isPass;
         }
     }
@@ -1001,11 +1001,11 @@ public class WeChatUtils {
 
         byte[] bt = strSrc.getBytes();
         try {
-            md = MessageDigest.getInstance("SHA-1");
+            md = MessageDigest.getInstance("SHA-1" );
             md.update(bt);
             strDes = bytes2Hex(md.digest()); //to HexString
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("Invalid algorithm.");
+            System.out.println("Invalid algorithm." );
             return null;
         }
         return strDes;
@@ -1025,7 +1025,6 @@ public class WeChatUtils {
     }
 
 
-
     //企业微信打卡
     public String checkin(String accessToken, Map<String, Object> param) {
         return post("https://qyapi.weixin.qq.com/cgi-bin/checkin/getcheckindata?access_token=" + accessToken, param);
@@ -1034,14 +1033,14 @@ public class WeChatUtils {
     public static void main(String[] args) {
         WeChatUtils weChatUtils = new WeChatUtils();
         Map<String, Object> params = new HashMap<>();
-        params.put("opencheckindatatype",3);
-        params.put("starttime",1492617600);
-        params.put("endtime",1492790400);
-        params.put("useridlist","JingShuiLiuShen");
+        params.put("opencheckindatatype", 3);
+        params.put("starttime", 1492617600);
+        params.put("endtime", 1492790400);
+        params.put("useridlist", "JingShuiLiuShen" );
 
 
         String accessToken = "g2mjqQ7NAnqc-g4UJesytvDvuDIrbssJKqbvnf1X2-biVGubVZuTW-RpKH28IYeLWuLNd2GVFhlUx9JFTL8uvIH8aaC1dvLGs6Di6qlos9NImWiZn_vY0Xj7NObsew5xh68Opt3NWoOn1j4YBBDRKCfSPSzDw__xUR3vAHRStpK20tMJkLNaMtbT2ZMNBUqC-n7IguJ1WkOTM8RlUI8nyA";
 
-        System.out.println(weChatUtils.checkin(accessToken,params));
+        System.out.println(weChatUtils.checkin(accessToken, params));
     }
 }

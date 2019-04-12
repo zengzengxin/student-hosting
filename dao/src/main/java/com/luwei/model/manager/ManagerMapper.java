@@ -15,8 +15,8 @@ import java.util.List;
 public interface ManagerMapper extends BaseMapper<Manager> {
 
     IPage<ManagerPageVO> selectManagerPage(Page page,
-                                           @Param("managerId") Integer managerId,
-                                           @Param("name") String name);
+                                           @Param("managerId" ) Integer managerId,
+                                           @Param("name" ) String name);
 
     List<Manager> selectForSpecialCondition();
 

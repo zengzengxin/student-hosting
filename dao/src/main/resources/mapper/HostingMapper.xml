@@ -4,36 +4,38 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.luwei.model.hosting.Hosting">
-        <id column="hosting_id" property="hostingId" />
-        <result column="name" property="name" />
-        <result column="cover_url" property="coverUrl" />
-        <result column="introduction" property="introduction" />
-        <result column="hosting_type" property="hostingType" />
-        <result column="details" property="details" />
-        <result column="teacher_id" property="teacherId" />
-        <result column="teacher_name" property="teacherName" />
-        <result column="applicants_number" property="applicantsNumber" />
-        <result column="max_number" property="maxNumber" />
-        <result column="school_id" property="schoolId" />
-        <result column="school_name" property="schoolName" />
-        <result column="display" property="display" />
-        <result column="recommend" property="recommend" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="deleted" property="deleted" />
+        <id column="hosting_id" property="hostingId"/>
+        <result column="name" property="name"/>
+        <result column="cover_url" property="coverUrl"/>
+        <result column="introduction" property="introduction"/>
+        <result column="hosting_type" property="hostingType"/>
+        <result column="details" property="details"/>
+        <result column="teacher_id" property="teacherId"/>
+        <result column="teacher_name" property="teacherName"/>
+        <result column="applicants_number" property="applicantsNumber"/>
+        <result column="max_number" property="maxNumber"/>
+        <result column="school_id" property="schoolId"/>
+        <result column="school_name" property="schoolName"/>
+        <result column="display" property="display"/>
+        <result column="recommend" property="recommend"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        hosting_id, name, cover, introduction, hosting_type, details, teacher_id, teacher_name, school_id, school_name, display, recommend, create_time, update_time, deleted
+        hosting_id, name, cover, introduction, hosting_type, details, teacher_id, teacher_name, school_id, school_name,
+        display, recommend, create_time, update_time, deleted
     </sql>
 
-   <update id="hostingTimer">
-        update tb_hosting  set overdue = 1 where overdue = 0 and end_time  &lt; now()
+    <update id="hostingTimer">
+        update tb_hosting set overdue = 1 where overdue = 0 and end_time &lt; now()
     </update>
 
 
-
-
+    <select id="getHostings" parameterType="integer" resultType="com.luwei.model.hosting.Hosting">
+        select * from tb_hosting where deleted = 0 limit #{start},14;
+    </select>
 
 </mapper>

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author zzx
@@ -18,9 +18,9 @@ import org.apache.ibatis.annotations.Param;
 public interface SchoolMapper extends BaseMapper<School> {
 
 
-    IPage<SchoolCmsVO> getSchoolPage(@Param("page") Page page, @Param("schoolQueryDTO") SchoolQueryDTO schoolQueryDTO);
+    IPage<SchoolCmsVO> getSchoolPage(@Param("page" ) Page page, @Param("schoolQueryDTO" ) SchoolQueryDTO schoolQueryDTO);
 
-    Integer findSchoolIdBySchoolName(@Param("schoolName") String schoolName);
+    Integer findSchoolIdBySchoolName(@Param("schoolName" ) String schoolName);
 
 
 }

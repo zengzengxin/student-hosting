@@ -25,7 +25,7 @@ public class WeiXinUtils {
      * @return
      */
     public static Map<String, Object> login(String code) {
-        log.info("==============小程序登录方法开始================");
+        log.info("==============小程序登录方法开始================" );
         WxMiniProperties properties = WeiXinPropertiesUtils.getWxMiniProperties();
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + properties.getAppId()
                 + "&secret=" + properties.getAppSecret() + "&js_code=" + code + "&grant_type=authorization_code";
@@ -40,7 +40,7 @@ public class WeiXinUtils {
             message = new JSONObject();
         }
         log.info("message：" + message.toString());
-        log.info("==============小程序登录方法结束================");
+        log.info("==============小程序登录方法结束================" );
         return message;
 
     }
@@ -49,14 +49,14 @@ public class WeiXinUtils {
      * 通过encryptedData,sessionKey,iv获得解密信息, 拥有用户丰富的信息, 包含openid,unionid,昵称等
      */
     public static Map<String, Object> decryptWxData(String encryptedData, String sessionKey, String iv) {
-        log.info("============小程序登录解析数据方法开始==========");
-        String result = AesCbcUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");
+        log.info("============小程序登录解析数据方法开始==========" );
+        String result = AesCbcUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8" );
         JSONObject userInfo = new JSONObject();
         if (null != result && result.length() > 0) {
             userInfo = JSONObject.parseObject(result);
         }
         log.info("result: " + userInfo);
-        log.info("============小程序登录解析数据方法结束==========");
+        log.info("============小程序登录解析数据方法结束==========" );
         return userInfo;
     }
 
@@ -67,10 +67,10 @@ public class WeiXinUtils {
      * @return
      */
     public static Map<String, Object> webSiteLogin(String code) {
-        log.info("============微信公众号(网页)授权开始===========");
+        log.info("============微信公众号(网页)授权开始===========" );
         WxProperties properties = WeiXinPropertiesUtils.getWxProperties();
 
-        log.info("============微信公众号(网页)授权结束===========");
+        log.info("============微信公众号(网页)授权结束===========" );
         return null;
     }
 

@@ -26,7 +26,7 @@ public class HttpMessageConvertConfig {
         SerializerFeature[] features = new SerializerFeature[]{
         };
         config.setSerializerFeatures(features);
-        config.setCharset(Charset.forName("UTF-8"));
+        config.setCharset(Charset.forName("UTF-8" ));
 
         converter.setFastJsonConfig(config);
         HttpMessageConverter<?> mConverter = converter;

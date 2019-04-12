@@ -20,31 +20,31 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_picture")
+@TableName("tb_picture" )
 public class Picture implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "图片ID")
+    @ApiModelProperty(value = "图片ID" )
     @TableId(value = "picture_id", type = IdType.AUTO)
     private Integer pictureId;
 
-    @ApiModelProperty(value = "图片url")
+    @ApiModelProperty(value = "图片url" )
     private String pictureUrl;
 
-    @ApiModelProperty(value = "图片类型")
+    @ApiModelProperty(value = "图片类型" )
     private PictureTypeEnum pictureType;
 
-    @ApiModelProperty(value = "外键ID")
+    @ApiModelProperty(value = "外键ID" )
     private Integer foreignKeyId;
 
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间" )
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "修改时间")
+    @ApiModelProperty(value = "修改时间" )
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "是否删除")
+    @ApiModelProperty(value = "是否删除" )
     @TableLogic
     private Boolean deleted;
 

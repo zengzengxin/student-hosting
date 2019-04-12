@@ -188,9 +188,9 @@ public class HttpUtils {
             // response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
             if (entity != null) {
-                logger.info("--------------------get result success--------------------");
+                logger.info("--------------------get result success--------------------" );
                 // long len = entity.getContentLength();// -1 表示长度未知
-                String result = EntityUtils.toString(entity, "utf-8");
+                String result = EntityUtils.toString(entity, "utf-8" );
                 logger.info("---------------------{}-------------", result);
                 response.close();
                 // httpClient.close();

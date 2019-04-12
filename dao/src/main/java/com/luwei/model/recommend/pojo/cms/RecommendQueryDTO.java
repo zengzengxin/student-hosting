@@ -17,8 +17,8 @@ public class RecommendQueryDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "学校ID不能为空")
-    @ApiModelProperty(value = "学校ID")
+    @NotNull(message = "学校ID不能为空" )
+    @ApiModelProperty(value = "学校ID" )
     private Integer schoolId;
 
 }

@@ -12,21 +12,25 @@ import java.io.Serializable;
  * @author zzx
  * @since 2018-12-12
  */
-@ApiModel(value = "家长")
+@ApiModel(value = "家长" )
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_parent")
+@TableName("tb_parent" )
 public class ParentQueryDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "家长姓名")
+    @ApiModelProperty(value = "家长姓名" )
     private String parentName;
 
-    @ApiModelProperty(value = "家长联系方式")
+    @ApiModelProperty(value = "家长联系方式" )
     private String phone;
 
+    @ApiModelProperty(value = "账号" )
+    private String userName;
 
-    
+    @ApiModelProperty(value = "密码" )
+    private String password;
+
 
 }

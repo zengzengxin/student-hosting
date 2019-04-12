@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
 
 /**
  * <p>平台管理员操作对象：教育局管理员、学校/机构管理员
+ *
  * @author luwei
  **/
 public enum RoleEnum implements IEnum<Integer> {

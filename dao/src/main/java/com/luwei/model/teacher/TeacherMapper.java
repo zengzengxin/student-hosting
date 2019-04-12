@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author zzx
@@ -19,9 +19,9 @@ import org.apache.ibatis.annotations.Param;
 public interface TeacherMapper extends BaseMapper<Teacher> {
 
 
-    IPage<TeacherCmsVO> getTeacherPage(@Param("page") Page pag, @Param("teacherQueryDTO") TeacherQueryDTO teacherQueryDTO);
+    IPage<TeacherCmsVO> getTeacherPage(@Param("page" ) Page pag, @Param("teacherQueryDTO" ) TeacherQueryDTO teacherQueryDTO);
 
-     Teacher getTeacherByphone(@Param("phone") String phone);
+    Teacher getTeacherByphone(@Param("phone" ) String phone);
 
-    TeacherMiniVO  findteacherById(@Param("id") Integer id);
+    TeacherMiniVO findteacherById(@Param("id" ) Integer id);
 }

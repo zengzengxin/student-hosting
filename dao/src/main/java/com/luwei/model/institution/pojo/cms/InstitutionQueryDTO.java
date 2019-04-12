@@ -16,10 +16,10 @@ public class InstitutionQueryDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "机构名称")
+    @ApiModelProperty(value = "机构名称" )
     private String name;
 
-    @ApiModelProperty(value = "负责人电话")
+    @ApiModelProperty(value = "负责人电话" )
     private String leaderPhone;
 
 }

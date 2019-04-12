@@ -23,4 +23,5 @@ public interface OrderMapper extends BaseMapper<Order> {
      */
     long useCaseFreshOrderStatus();
 
+    boolean pay(String id);
 }

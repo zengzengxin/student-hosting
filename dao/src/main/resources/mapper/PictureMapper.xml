@@ -22,7 +22,8 @@
     </delete>
 
     <select id="findAllByForeignKeyId" resultType="java.lang.String">
-        select picture_url from tb_picture where foreign_key_id = #{foreignKeyId} and picture_type = #{pictureType} and deleted = 0
+        select picture_url from tb_picture where foreign_key_id = #{foreignKeyId} and picture_type = #{pictureType} and
+        deleted = 0
     </select>
 
 </mapper>

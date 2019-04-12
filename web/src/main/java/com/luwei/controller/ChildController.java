@@ -16,29 +16,29 @@ import javax.validation.Valid;
  * @author zzx
  * @since 2018-12-11
  */
-@Api(tags = "孩子模块")
+@Api(tags = "孩子模块" )
 @RestController
-@RequestMapping("/api/child")
+@RequestMapping("/api/child" )
 public class ChildController {
 
     @Resource
     private ChildService childService;
 
     @PostMapping
-    @ApiOperation("绑定孩子")
+    @ApiOperation("绑定孩子" )
     public ChildWebVO save(@RequestBody @Valid ChildBindingDTO childBindingDTO) {
         return childService.bindingChild(childBindingDTO);
     }
 
     @PutMapping
-    @ApiOperation("修改孩子")
+    @ApiOperation("修改孩子" )
     public ChildWebVO update(@RequestBody @Valid ChildEditDTO childUpdateDTO) {
         return childService.updateChild(childUpdateDTO);
     }
 
     @GetMapping
-    @ApiOperation("判断孩子是否有购买权限")
-    public boolean children_buy(@RequestParam @ApiParam("childId") Integer childId, @RequestParam @ApiParam("schoolId") Integer schoolId) {
+    @ApiOperation("判断孩子是否有购买权限" )
+    public boolean children_buy(@RequestParam @ApiParam("childId" ) Integer childId, @RequestParam @ApiParam("schoolId" ) Integer schoolId) {
         ChildWebVO child = childService.findById(childId);
         return schoolId != null && (schoolId.equals(child.getSchoolId()));
     }

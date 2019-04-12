@@ -25,7 +25,7 @@ public class SpringBeanHolder {
     /**
      * 获取静态变量中的applicationContext.
      */
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings("WeakerAccess" )
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }

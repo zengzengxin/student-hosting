@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface NoticeMapper extends BaseMapper<Notice> {
 
-    IPage<NoticeCmsVO> getNoticePage(@Param("page") Page<Notice> page, @Param("noticePageDTO") NoticeQueryDTO noticePageDTO,
-                                     @Param("type") Integer type, @Param("schoolId") Integer schoolId);
+    IPage<NoticeCmsVO> getNoticePage(@Param("page" ) Page<Notice> page, @Param("noticePageDTO" ) NoticeQueryDTO noticePageDTO,
+                                     @Param("type" ) Integer type, @Param("schoolId" ) Integer schoolId);
 
 }

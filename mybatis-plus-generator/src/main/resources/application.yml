@@ -1,17 +1,17 @@
-url: jdbc:mysql://193.112.251.82:3307/student-hosting?characterEncoding=UTF-8&useSSL=false&autoReconnect=true&failOverReadOnly=false
-username: student-hosting
-password: bzsFBIP98MSUFg6K
-driverClassName: com.mysql.jdbc.Driver
+url: jdbc:mysql://119.23.227.7:3306/student_hosting?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false
+username: root
+password: 123456
+driverClassName: com.mysql.cj.jdbc.Driver
 
 packageName: com.luwei
 tablePrefix: tb_
 
 #是否全表生成
-isAllTablesGenerator : false
+isAllTablesGenerator: false
 
 #支持多表 or 排除的表（isAllTablesGenerator:true时，tableNames表示排除的表名）
 tableNames:
-  - tb_mini_user
+  - course_commit
 #  - tb_test
 
 logicDeleteFieldName: deleted
@@ -30,9 +30,9 @@ isOverMapper: true
 isOverXml: false
 
 
-entityVM : /templates/entity.vm
-controllerVM : /templates/controller.vm
-serviceVM :
+entityVM: /templates/entity.vm
+controllerVM: /templates/controller.vm
+serviceVM:
 serviceImplVM: /templates/service.vm
-mapperVM : /templates/mapper.java.vm
-xmlVM : /templates/mapper.xml.vm
+mapperVM: /templates/mapper.java.vm
+xmlVM: /templates/mapper.xml.vm

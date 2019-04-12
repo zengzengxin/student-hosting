@@ -54,17 +54,17 @@ public class ChildService extends ServiceImpl<ChildMapper, Child> {
 
         LocalDateTime time = LocalDateTime.now();
 
-         try{
-                //绑定孩子（更新中间表）
-                ParentChild parentChild = new ParentChild();
-                parentChild.setParentId(UserHelper.getUserId());
-                parentChild.setChildId(child.getChildId());
-                parentChild.setCreateTime(time);
-                parentChildService.save(parentChild);
-                log.info("保存数据---:{}", child);
-         }catch (Exception e){
-             throw new ValidationException(MessageCodes.CHILD_BINDING_ERROR);
-         }
+        try {
+            //绑定孩子（更新中间表）
+            ParentChild parentChild = new ParentChild();
+            parentChild.setParentId(UserHelper.getUserId());
+            parentChild.setChildId(child.getChildId());
+            parentChild.setCreateTime(time);
+            parentChildService.save(parentChild);
+            log.info("保存数据---:{}", child);
+        } catch (Exception e) {
+            throw new ValidationException(MessageCodes.CHILD_BINDING_ERROR);
+        }
 
         return toChildVO(child);
     }

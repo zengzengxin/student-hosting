@@ -33,20 +33,20 @@ public class WeChatService {
     private WxProperties wxProperties;
 
     @Transactional(rollbackFor = Exception.class)
-    public String  addMiniUser(Map<String, Object> map) {
+    public String addMiniUser(Map<String, Object> map) {
         MiniUser miniUser;
         //判断是否已经授权
-        String openId = map.get("openId").toString();
+        String openId = map.get("openId" ).toString();
         if (openId == null || "".equals(openId)) {
-            throw new ValidationException("授权失败");
+            throw new ValidationException("授权失败" );
         }
         miniUser = miniUserService.findUserByOpenId(openId);
         if (miniUser == null) {
             miniUser = new MiniUser();
-            miniUser.setOpenId(map.get("openId").toString());
-            miniUser.setAvatarUrl(map.get("avatarUrl").toString());
-            miniUser.setGender((Integer) map.get("gender"));
-            miniUser.setNickName(map.get("nickName").toString());
+            miniUser.setOpenId(map.get("openId" ).toString());
+            miniUser.setAvatarUrl(map.get("avatarUrl" ).toString());
+            miniUser.setGender((Integer) map.get("gender" ));
+            miniUser.setNickName(map.get("nickName" ).toString());
             LocalDateTime time = LocalDateTime.now();
             miniUser.setUpdateTime(time).setCreateTime(time).setDeleted(false);
             boolean flag = miniUserService.save(miniUser);

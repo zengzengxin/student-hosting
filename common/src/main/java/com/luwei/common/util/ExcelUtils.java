@@ -34,15 +34,15 @@ public class ExcelUtils {
     public static void exportExcel(HttpServletResponse response, List<String[]> data, String fileName, String[] title) throws Exception {
         Workbook workbook = new HSSFWorkbook();
         response.setCharacterEncoding(StandardCharsets.UTF_8.displayName());
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-disposition", String.format("attachment; filename=\"%s\"", new String(fileName.getBytes(), StandardCharsets.ISO_8859_1) + ".xls"));
+        response.setContentType("application/vnd.ms-excel;charset=utf-8" );
+        response.setHeader("Content-disposition", String.format("attachment; filename=\"%s\"", new String(fileName.getBytes(), StandardCharsets.ISO_8859_1) + ".xls" ));
 
         if (data != null && data.size() > 0) {
             if (title.length != data.get(0).length) {
-                throw new RuntimeException("标题和主题的字段长度不同!");
+                throw new RuntimeException("标题和主题的字段长度不同!" );
             }
-            Sheet sheet1 = workbook.createSheet("sheet1");
-            Sheet sheet2 = workbook.createSheet("sheet2");
+            Sheet sheet1 = workbook.createSheet("sheet1" );
+            Sheet sheet2 = workbook.createSheet("sheet2" );
             Row row0 = sheet1.createRow(0);
             for (int i = 0; i < title.length; i++) {
                 row0.createCell(i).setCellValue(title[i]);
@@ -57,7 +57,7 @@ public class ExcelUtils {
                 log.info("导出excel成功" + fileName);
                 workbook.write(response.getOutputStream());
             } catch (IOException e) {
-                log.info("导出excel失败");
+                log.info("导出excel失败" );
             }
         }
     }
@@ -72,10 +72,10 @@ public class ExcelUtils {
      */
     public static void exportTemplate(HttpServletResponse response, String[] title, String fileName) {
         Workbook workbook = new HSSFWorkbook();
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/vnd.ms-excel;charset=utf-8");
-        response.setHeader("Content-disposition", String.format("attachment; filename=\"%s\"", new String(fileName.getBytes(), StandardCharsets.ISO_8859_1) + ".xls"));
-        Sheet sheet1 = workbook.createSheet("sheet1");
+        response.setCharacterEncoding("UTF-8" );
+        response.setContentType("application/vnd.ms-excel;charset=utf-8" );
+        response.setHeader("Content-disposition", String.format("attachment; filename=\"%s\"", new String(fileName.getBytes(), StandardCharsets.ISO_8859_1) + ".xls" ));
+        Sheet sheet1 = workbook.createSheet("sheet1" );
         Row row0 = sheet1.createRow(0);
         if (title != null) {
             for (int i = 0; i < title.length; i++) {
@@ -86,7 +86,7 @@ public class ExcelUtils {
             log.info("导出excel成功" + fileName);
             workbook.write(response.getOutputStream());
         } catch (IOException e) {
-            log.info("导出excel失败");
+            log.info("导出excel失败" );
         }
     }
 

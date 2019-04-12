@@ -16,7 +16,7 @@ public class HostingQueryDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "托管名称")
+    @ApiModelProperty(value = "托管名称" )
     private String name;
 
 }

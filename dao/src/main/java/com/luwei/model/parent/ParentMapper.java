@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface ParentMapper extends BaseMapper<Parent> {
 
-    IPage<ParentCmsVO> findParentPage(@Param("page") Page  page, @Param("parentQueryDTO") ParentQueryDTO parentQueryDTO);
+    IPage<ParentCmsVO> findParentPage(@Param("page" ) Page page, @Param("parentQueryDTO" ) ParentQueryDTO parentQueryDTO);
 
-    Parent findByOpenid(@Param("openId") String openId);
+    Parent findByOpenid(@Param("openId" ) String openId);
 }

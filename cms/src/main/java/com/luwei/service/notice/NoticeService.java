@@ -98,7 +98,7 @@ public class NoticeService extends ServiceImpl<NoticeMapper, Notice> {
     public void deleteNotice(Integer id) {
         boolean flag = removeById(id);
         Assert.isTrue(flag, MessageCodes.NOTICE_DELETE_ERROR);
-        log.info("----删除一条公告----");
+        log.info("----删除一条公告----" );
     }
 
     @Transactional(rollbackFor = Exception.class, readOnly = true)

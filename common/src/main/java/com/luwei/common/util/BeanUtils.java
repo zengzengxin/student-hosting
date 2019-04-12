@@ -45,7 +45,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
 
     public static String createGetMethodNameByFieldName(String fieldName) {
         StringBuilder stringBuilder = new StringBuilder(5);
-        stringBuilder.append("get");
+        stringBuilder.append("get" );
         stringBuilder.append(fieldName.substring(0, 1).toUpperCase());
         stringBuilder.append(fieldName.substring(1, fieldName.length()));
         return stringBuilder.toString();
@@ -53,7 +53,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
 
     public static String createSetMethodNameByFieldName(String fieldName) {
         StringBuilder stringBuilder = new StringBuilder(5);
-        stringBuilder.append("set");
+        stringBuilder.append("set" );
         stringBuilder.append(fieldName.substring(0, 1).toUpperCase());
         stringBuilder.append(fieldName.substring(1, fieldName.length()));
         return stringBuilder.toString();

@@ -14,19 +14,21 @@ import com.luwei.common.util.WeChatUtils;
 import com.luwei.model.child.Child;
 import com.luwei.model.child.pojo.web.ChildWebVO;
 import com.luwei.model.course.Course;
+import com.luwei.model.course.pojo.web.CourseBuyDTO;
+import com.luwei.model.course.pojo.web.CourseWebVO;
 import com.luwei.model.coursepackage.CoursePackage;
 import com.luwei.model.hosting.Hosting;
+import com.luwei.model.hosting.pojo.web.HostingBuyDTO;
+import com.luwei.model.hosting.pojo.web.HostingWebVO;
 import com.luwei.model.order.Order;
 import com.luwei.model.order.OrderMapper;
 import com.luwei.model.order.envm.OrderStatusEnum;
 import com.luwei.model.order.envm.OrderTypeEnum;
 import com.luwei.model.order.envm.PaymentEnum;
 import com.luwei.model.order.pojo.cms.OrderCmsVO;
-import com.luwei.model.order.pojo.web.ConfirmOrderDTO;
-import com.luwei.model.order.pojo.web.HostingOrderDTO;
-import com.luwei.model.order.pojo.web.MyOrderQueryDTO;
-import com.luwei.model.order.pojo.web.PayForOrderDTO;
+import com.luwei.model.order.pojo.web.*;
 import com.luwei.model.parent.Parent;
+import com.luwei.model.recommend.Recommend;
 import com.luwei.module.pay.model.WXNotifyResultVo;
 import com.luwei.module.pay.service.WXPayNotifyService;
 import com.luwei.module.shiro.service.UserHelper;
@@ -35,9 +37,12 @@ import com.luwei.service.course.CourseService;
 import com.luwei.service.coursepackage.CoursePackageService;
 import com.luwei.service.hosting.HostingService;
 import com.luwei.service.parent.ParentService;
+import com.luwei.service.recommend.RecommendService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -50,6 +55,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -59,6 +65,9 @@ import java.util.stream.Stream;
 @Service
 @Slf4j
 public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXPayNotifyService {
+
+    @Resource
+    OrderMapper orderMapper;
 
     @Resource
     private ParentService parentService;
@@ -78,9 +87,16 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
     @Resource
     private WeChatUtils weChatUtils;
 
+    @Resource
+    private RecommendService recommendService;
+
     @Value("${luwei.module.pay.wechat.notifyUrl}")
     private String notifyUrl;
 
+    @Resource
+    CacheManager cacheManager;
+
+    private Cache cache = cacheManager.getCache("order");
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
      *
@@ -467,11 +483,186 @@ public class OrderService extends ServiceImpl<OrderMapper, Order> implements WXP
         if (order.getOrderType() == OrderTypeEnum.COURSE) {
             CoursePackage coursePackage = coursePackageService.getById(order.getServiceId());
             CoursePackage upCoursePackage = new CoursePackage();
-            upCoursePackage.setCoursePackageId(order.getSchoolId());
+            upCoursePackage.setCoursePackageId(order.getServiceId());
             upCoursePackage.setApplicantsNumber(coursePackage.getApplicantsNumber() + 1);
             Assert.isTrue(coursePackageService.updateById(upCoursePackage), MessageCodes.UPDATE_COURSEPACKAGE_APPLICATANTS_NUMBER_ERROR);
             log.info("课程修改报名人数", upCoursePackage);
         }
     }
 
+
+    //推荐购买
+    public OrderCmsVO recommedBuy(RecommedBuyDTO recommedBuyDTO) {
+        Order order = new Order();
+
+
+        // 封装课程数据
+        Recommend recommed = recommendService.findBySeverId(recommedBuyDTO.getServiceId());
+        //獲取家长信息
+        Parent parent = parentService.getById(recommedBuyDTO.getParentId());
+
+
+        //设置关于托管班的信息
+        order.setServiceName(recommed.getServiceName());
+        order.setServiceCover(recommed.getServiceCoverUrl());
+        order.setIntroduction(recommed.getServiceIntroduction());
+        order.setServiceId(recommed.getServiceId());
+        order.setSchoolId(recommed.getSchoolId());
+        order.setSchoolName(recommed.getSchoolName());
+        if (recommed.getServiceType().getValue() == 0) {
+            order.setOrderType(OrderTypeEnum.COURSE);
+        }
+        if (recommed.getServiceType().getValue() == 1) {
+            order.setOrderType(OrderTypeEnum.HOSTING);
+        }
+
+
+        //设置关于家长的信息
+        order.setParentId(parent.getParentId());
+        order.setParentPhone(parent.getPhone());
+        order.setParentName(parent.getParentName());
+        order.setNickName(parent.getNickName());
+
+
+        //开始时间与结束时间
+        order.setServiceStartTime(recommed.getStartTime());
+        order.setServiceEndTime(recommed.getEndTime());
+
+        //设置价格
+        BigDecimal severPrice = recommed.getServicePrice();
+        order.setPrice(severPrice);
+
+        // 支付方式 - 待定
+        //order.setPayment(PaymentEnum.WECHAT);
+
+
+        // 订单类型, 订单状态
+        order.setOrderStatus(OrderStatusEnum.NOT_PAID);
+
+        // 创建时间 更新时间 逻辑删除(插件处理)
+        LocalDateTime time = LocalDateTime.now();
+        order.setUpdateTime(time).setCreateTime(time);
+
+        // 生成订单编号
+        order.setOrderId(OrderIdUtils.getOrderIdByTimestamp());
+        System.out.println(order.getOrderId());
+
+        Assert.isTrue(save(order), MessageCodes.ORDER_SAVE_ERROR);
+        log.info("保存数据: {}", order);
+        return toOrderVO(order);
+    }
+
+    public List<Order> findByOrderId(Integer id) {
+        QueryWrapper<Order> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(Order::getParentId, id).orderByDesc(Order::getCreateTime);
+        List<Order> orders = orderMapper.selectList(queryWrapper);
+        return orders;
+    }
+
+    public OrderCmsVO hostingBuy(HostingBuyDTO hostingBuyDTO) {
+
+        Order order = new Order();
+
+
+        // 封装课程数据
+        HostingWebVO hostingWebVO = hostingService.findById(hostingBuyDTO.getHostingId());
+        //獲取家长信息
+        Parent parent = parentService.getById(hostingBuyDTO.getParentId());
+
+
+        //设置关于托管班的信息
+        order.setServiceName(hostingWebVO.getName());
+        order.setServiceCover(hostingWebVO.getCoverUrl());
+        order.setIntroduction(hostingWebVO.getIntroduction());
+        order.setServiceId(hostingWebVO.getHostingId());
+        order.setSchoolId(hostingWebVO.getSchoolId());
+        order.setSchoolName(hostingWebVO.getSchoolName());
+        order.setOrderType(OrderTypeEnum.HOSTING);
+
+
+        //设置关于家长的信息
+        order.setParentId(parent.getParentId());
+        order.setParentPhone(parent.getPhone());
+        order.setParentName(parent.getParentName());
+        order.setNickName(parent.getNickName());
+
+
+        //开始时间与结束时间
+        order.setServiceStartTime(hostingWebVO.getStartTime());
+        order.setServiceEndTime(hostingWebVO.getEndTime());
+
+        //设置价格
+        BigDecimal severPrice = hostingWebVO.getPrice();
+        order.setPrice(severPrice);
+
+        // 支付方式 - 待定
+        //order.setPayment(PaymentEnum.WECHAT);
+
+
+        // 订单类型, 订单状态
+        order.setOrderStatus(OrderStatusEnum.NOT_PAID);
+
+        // 创建时间 更新时间 逻辑删除(插件处理)
+        LocalDateTime time = LocalDateTime.now();
+        order.setUpdateTime(time).setCreateTime(time);
+
+        // 生成订单编号
+        order.setOrderId(OrderIdUtils.getOrderIdByTimestamp());
+        System.out.println(order.getOrderId());
+
+        Assert.isTrue(save(order), MessageCodes.ORDER_SAVE_ERROR);
+        log.info("保存数据: {}", order);
+        return toOrderVO(order);
+    }
+
+    public boolean pay(String id) {
+        return orderMapper.pay(id);
+    }
+
+    public OrderCmsVO courseBuy(CourseBuyDTO courseBuyDTO) {
+        Order order = new Order();
+
+        // 封装课程数据
+        CourseWebVO course = courseService.getCourse(courseBuyDTO.getCourseId());
+        //獲取家长信息
+        Parent parent = parentService.getById(courseBuyDTO.getParentId());
+
+        //设置关于托管班的信息
+        order.setServiceName(course.getCourseName());
+        order.setServiceCover(course.getCoverUrl());
+        order.setIntroduction(course.getIntroduction());
+        order.setServiceId(course.getCourseId());
+        order.setSchoolId(course.getSchoolId());
+        order.setSchoolName(course.getSchoolName());
+        order.setOrderType(OrderTypeEnum.COURSE);
+        //设置关于家长的信息
+        order.setParentId(parent.getParentId());
+        order.setParentPhone(parent.getPhone());
+        order.setParentName(parent.getParentName());
+        order.setNickName(parent.getNickName());
+        //开始时间与结束时间
+        order.setServiceStartTime(course.getStartTime());
+        order.setServiceEndTime(course.getEndTime());
+        //设置价格
+        BigDecimal severPrice = course.getPrice();
+        order.setPrice(severPrice);
+
+        // 支付方式 - 待定
+        //order.setPayment(PaymentEnum.WECHAT);
+
+        // 订单类型, 订单状态
+        order.setOrderStatus(OrderStatusEnum.NOT_PAID);
+        // 创建时间 更新时间 逻辑删除(插件处理)
+        LocalDateTime time = LocalDateTime.now();
+        order.setUpdateTime(time).setCreateTime(time);
+
+        // 生成订单编号
+        order.setOrderId(OrderIdUtils.getOrderIdByTimestamp());
+        System.out.println(order.getOrderId());
+
+        Assert.isTrue(save(order), MessageCodes.ORDER_SAVE_ERROR);
+        log.info("保存数据: {}", order);
+        return toOrderVO(order);
+
+    }
 }

@@ -12,12 +12,12 @@ import lombok.Data;
 @AllArgsConstructor
 public class LoginSuccessVO {
 
-    @ApiModelProperty("role。admin：普通管理员，root：超级管理员")
+    @ApiModelProperty("role。admin：普通管理员，root：超级管理员" )
     private Enum role;
 
-    @ApiModelProperty("token")
+    @ApiModelProperty("token" )
     private String token;
 
-    @ApiModelProperty("名称")
+    @ApiModelProperty("名称" )
     private String name;
 }

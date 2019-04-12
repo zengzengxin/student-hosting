@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.enums.IEnum;
  * Author: huanglp
  * Date: 2018-12-13
  */
-public enum  OrderTypeEnum implements IEnum<Integer> {
+public enum OrderTypeEnum implements IEnum<Integer> {
     /**
      * 0-课程
      */

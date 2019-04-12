@@ -11,21 +11,21 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 @RestController
-@Api(tags = "个人中心模块")
-@RequestMapping("/api/personalCenter")
+@Api(tags = "个人中心模块" )
+@RequestMapping("/api/personalCenter" )
 public class PersonalCenterController {
 
     @Resource
     private PersonalCenterService personalCenterService;
 
     @GetMapping
-    @ApiOperation("获取个人信息")
+    @ApiOperation("获取个人信息" )
     public ManagerPageVO toEdit() {
         return personalCenterService.toEdit();
     }
 
     @PutMapping
-    @ApiOperation("修改个人信息")
+    @ApiOperation("修改个人信息" )
     public ManagerPageVO update(@RequestBody @Valid PersonalCenterVO personalCenterVO) {
         return personalCenterService.update(personalCenterVO);
     }

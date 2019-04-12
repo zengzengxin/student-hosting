@@ -20,16 +20,16 @@ import javax.validation.Valid;
  * Author: huanglp
  * Date: 2018-12-11
  */
-@Api(tags = "轮播图模块")
+@Api(tags = "轮播图模块" )
 @RestController
-@RequestMapping("/api/banner")
+@RequestMapping("/api/banner" )
 public class BannerController {
 
     @Resource
     private BannerService bannerService;
 
-    @GetMapping("/page")
-    @ApiOperation("分页获取")
+    @GetMapping("/page" )
+    @ApiOperation("分页获取" )
     public IPage<BannerWebVO> page(@ModelAttribute @Valid BannerQuery bannerQuery, Page<Banner> page) {
         return bannerService.findPage(bannerQuery, page);
     }

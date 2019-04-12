@@ -22,7 +22,7 @@ import java.util.Objects;
 @Service
 public class PersonalCenterService extends ServiceImpl<ManagerMapper, Manager> {
 
-    @Value("${luwei.config.salt}")
+    @Value("${luwei.config.salt}" )
     private String salt;
 
     public ManagerPageVO toEdit() {

@@ -73,7 +73,7 @@ luwei:
       token-prefix: ${server.port}
       token-name: auth.token.
       cors-urls: /api/user/**,/api/classify/**,/api/search,/api/keyword/**
-      anon-urls: /api/picCaptcha,/api/login,/api/module/qiniu/**
+      anon-urls: /api/picCaptcha,/api/login,/api/module/qiniu/**,/**
       auth-urls: /api/**
 
 # swagger开关/默认打开

@@ -26,7 +26,7 @@ import java.beans.PropertyDescriptor;
  */
 @Api(tags = {"家长模块"})
 @RestController
-@RequestMapping("/api/parent")
+@RequestMapping("/api/parent" )
 public class ParentController {
 
     @Resource
@@ -35,17 +35,17 @@ public class ParentController {
     @Resource
     private ParentChildService parentChildService;
 
-    @GetMapping("page")
-    @ApiOperation("分页")
+    @GetMapping("page" )
+    @ApiOperation("分页" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
     public IPage<ParentCmsVO> page(@ModelAttribute ParentQueryDTO parentQueryDTO, Page page) {
         return parentService.getParentPage(parentQueryDTO, page);
     }
 
     @DeleteMapping
-    @ApiOperation("删除")
+    @ApiOperation("删除" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public void delete(@RequestParam @ApiParam("+") Integer ids) {
+    public void delete(@RequestParam @ApiParam("+" ) Integer ids) {
         parentService.deleteParent(ids);
         //刪除這個家長對應的孩子
         parentChildService.UnbindChilds(ids);

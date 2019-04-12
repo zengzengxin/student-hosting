@@ -54,9 +54,8 @@ public class ParentService extends ServiceImpl<ParentMapper, Parent> {
         List<ChildCmsVO> childs = childMapper.findChildsByParentsId(id);
 
 
-
         Assert.isTrue(flag, MessageCodes.PARENT_DELETE_ERROR);
-        log.info("----删除一条父母记录----");
+        log.info("----删除一条父母记录----" );
     }
 
 }

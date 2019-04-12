@@ -16,8 +16,8 @@ public interface CoursePackageMapper extends BaseMapper<CoursePackage> {
 
     BigDecimal findMinPriceByCourseId(Integer courseId);
 
-    List<MyCourseVO> findAllByTime(@Param("startTime") LocalDateTime startTime,
-                                   @Param("endTime") LocalDateTime endTime, @Param("teacherId") Integer teacherId);
+    List<MyCourseVO> findAllByTime(@Param("startTime" ) LocalDateTime startTime,
+                                   @Param("endTime" ) LocalDateTime endTime, @Param("teacherId" ) Integer teacherId);
 
     int coursePackageTimer();
 }

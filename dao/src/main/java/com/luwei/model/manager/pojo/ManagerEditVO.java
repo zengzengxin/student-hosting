@@ -15,19 +15,19 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ManagerEditVO {
 
-    @ApiModelProperty("主键id")
-    @NotNull(message = "id不能为空")
+    @ApiModelProperty("主键id" )
+    @NotNull(message = "id不能为空" )
     private Integer managerId;
 
-    @ApiModelProperty("名称")
-    @NotBlank(message = "请输入账号")
-    @Length(max = 20, message = "账号最大长度限制为20")
+    @ApiModelProperty("名称" )
+    @NotBlank(message = "请输入账号" )
+    @Length(max = 20, message = "账号最大长度限制为20" )
     private String account;
 
-    @ApiModelProperty(value = "学校ID")
+    @ApiModelProperty(value = "学校ID" )
     private Integer schoolId;
 
-    @ApiModelProperty(value = "角色 0-平台管理员 1-教育局管理员 2-学校/机构管理员")
+    @ApiModelProperty(value = "角色 0-平台管理员 1-教育局管理员 2-学校/机构管理员" )
     private RoleEnum role;
 
 }

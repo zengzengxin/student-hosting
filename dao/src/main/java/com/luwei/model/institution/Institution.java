@@ -19,44 +19,44 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_institution")
+@TableName("tb_institution" )
 public class Institution implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "机构ID")
+    @ApiModelProperty(value = "机构ID" )
     @TableId(value = "institution_id", type = IdType.AUTO)
     private Integer institutionId;
 
-    @ApiModelProperty(value = "机构名称")
+    @ApiModelProperty(value = "机构名称" )
     private String name;
 
-    @ApiModelProperty(value = "机构介绍")
+    @ApiModelProperty(value = "机构介绍" )
     private String introduction;
 
-    @ApiModelProperty(value = "负责人姓名")
+    @ApiModelProperty(value = "负责人姓名" )
     private String leaderName;
 
-    @ApiModelProperty(value = "负责人电话")
+    @ApiModelProperty(value = "负责人电话" )
     private String leaderPhone;
 
-    @ApiModelProperty(value = "机构执照")
+    @ApiModelProperty(value = "机构执照" )
     private String license;
 
-    @ApiModelProperty(value = "创建时间")
+    @ApiModelProperty(value = "创建时间" )
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "修改时间")
+    @ApiModelProperty(value = "修改时间" )
     private LocalDateTime updateTime;
 
-    @ApiModelProperty(value = "是否删除")
+    @ApiModelProperty(value = "是否删除" )
     @TableLogic
     private Boolean deleted;
 
-    @ApiModelProperty(value = "绑定学校ID")
+    @ApiModelProperty(value = "绑定学校ID" )
     private Integer schoolId;
 
-    @ApiModelProperty(value = "绑定学校名称")
+    @ApiModelProperty(value = "绑定学校名称" )
     private String schoolName;
 
 }

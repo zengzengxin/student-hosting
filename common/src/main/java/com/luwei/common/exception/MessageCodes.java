@@ -57,7 +57,7 @@ public interface MessageCodes {
 
     //家长相关
     String PARENT_UPDATE_ERROR = "parent.is.update.error";//家长更新失败
-    String PARENT_IS_NOT_EXIST = "parent.is.not.exist";//根据id查找家长失败
+    String PARENT_IS_NOT_EXIST = "家长不存在";//根据id查找家长失败
     String PARENT_DELETE_ERROR = "parent.delete。error";//家长删除失败
 
     //Course相关
@@ -142,5 +142,5 @@ public interface MessageCodes {
     String INVALID_PHONE_NUMBER = "invalid.phone.number";//无效的电话号码
 
 
-
+    String USERNAME_OR_PASSWORD_ERROR = "账号或者密码错误";//账号或者密码错误
 }

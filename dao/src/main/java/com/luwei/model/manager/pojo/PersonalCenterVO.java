@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class PersonalCenterVO {
 
-    @ApiModelProperty("名称")
+    @ApiModelProperty("名称" )
     private String name;
 
-    @ApiModelProperty("密码")
+    @ApiModelProperty("密码" )
     private String password;
 
 }

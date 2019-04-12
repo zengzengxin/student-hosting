@@ -16,11 +16,11 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 public class ManagerBindingSchool {
 
-    @NotNull(message = "管理员ID不能为空")
-    @ApiModelProperty(value = "管理员ID")
+    @NotNull(message = "管理员ID不能为空" )
+    @ApiModelProperty(value = "管理员ID" )
     private Integer managerId;
 
-    @NotNull(message = "学校ID不能为空")
-    @ApiModelProperty(value = "学校ID")
+    @NotNull(message = "学校ID不能为空" )
+    @ApiModelProperty(value = "学校ID" )
     private Integer schoolId;
 }

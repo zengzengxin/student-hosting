@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.luwei.common.annotation.TimeCalculateAnnotation;
 import com.luwei.common.constant.RoleEnum;
 import com.luwei.common.exception.MessageCodes;
 import com.luwei.common.exception.ValidationException;
@@ -30,10 +31,20 @@ import com.luwei.service.recommend.RecommendService;
 import com.luwei.service.school.SchoolService;
 import com.luwei.service.teacher.TeacherService;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.SocketUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -68,6 +79,10 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
 
     @Resource
     private ManagerService managerService;
+
+    @Autowired
+    CacheManager cacheManager;
+
 
     /**
      * 私有方法 根据id获取实体类,并断言非空,返回
@@ -177,17 +192,19 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param ids
      */
     @Transactional(rollbackFor = Exception.class)
+    //@CacheEvict(cacheNames = "course" )
     public void deleteCourses(Set<Integer> ids) {
         // 若用removeByIds,因为删除不存在的逻辑上属于成功,所以也返回true
         int count = baseMapper.deleteBatchIds(ids);
         Assert.isTrue(count == ids.size(), MessageCodes.COURSE_DELETE_ERROR);
         log.info("删除数据: id {}", ids);
-
+        Cache cache = cacheManager.getCache("course");
         // 删除课程对应的套餐
         for (Integer id : ids) {
+            cache.evict(id);
             coursePackageService.remove(new QueryWrapper<CoursePackage>().eq("course_id", id));
         }
-
+        cache.evict("findAllCourse");
         // 删除推荐表数据
         for (Integer id : ids) {
             recommendService.realDeleteByServiceIdAndServiceType(id, ServiceTypeEnum.COURSE.getValue());
@@ -308,7 +325,11 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
      * @param id
      * @return
      */
+    @Cacheable(cacheNames = "course")
     public CourseCmsVO getCourse(Integer id) {
+        System.out.println("getCourse执行");
+        //Cache course = cacheManager.getCache("course");
+        //System.out.println(course.get(id).get());
         return toCourseVO(findById(id));
     }
 
@@ -410,4 +431,54 @@ public class CourseService extends ServiceImpl<CourseMapper, Course> {
         return toCourseVO(course);
     }
 
+    @Cacheable(cacheNames = "course", key = "'findAllCourse'")
+    @TimeCalculateAnnotation
+    public List<CourseCmsVOS> findAll() {
+        System.out.println("findAllCourse执行");
+        List<CourseCmsVOS> courseCmsVOSList = new ArrayList<>();
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().orderByDesc(Course::getUpdateTime);
+        List<Course> courses = baseMapper.selectList(queryWrapper);
+        for (Course c : courses) {
+            CourseCmsVOS courseCmsVOS = new CourseCmsVOS();
+            BeanUtils.copyProperties(c, courseCmsVOS);
+            courseCmsVOSList.add(courseCmsVOS);
+        }
+        return courseCmsVOSList;
+    }
+
+
+    public boolean addCourse(CourseAddDTOS courseAddDTOS) {
+        Cache cache = cacheManager.getCache("course");
+        cache.evict("findAllCourse");
+        Course course = new Course();
+        BeanUtils.copyProperties(courseAddDTOS, course);
+        course.setUpdateTime(LocalDateTime.now());
+        course.setUpdateTime(LocalDateTime.now());
+        int insert = baseMapper.insert(course);
+        if (insert > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @CachePut(cacheNames = "course", key = "#courseUPDTO.courseId")
+    @Transactional
+    public CourseCmsVO update(CourseUPDTO courseUPDTO) {
+        Cache cache = cacheManager.getCache("course");
+        System.out.println("update执行");
+        cache.evict("findAllCourse");
+        Course course = new Course();
+        BeanUtils.copyProperties(courseUPDTO, course);
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<Course>();
+        int update = baseMapper.updateById(course);
+        Course course1 = baseMapper.selectById(courseUPDTO.getCourseId());
+        return toCourseVO(course1);
+
+    }
+
+
 }
+
+

@@ -17,17 +17,17 @@ import java.util.List;
  * @author zzx
  * Date: 2018-12-24
  */
-@Api(tags = "搜索模块")
+@Api(tags = "搜索模块" )
 @RestController
-@RequestMapping("/api/search")
+@RequestMapping("/api/search" )
 public class SearchController {
 
     @Resource
     private SearchService searchService;
 
-    @GetMapping("list")
-    @ApiOperation("返回所有课程/托管")
-    public List<SearchWebVO> schoolList(@RequestParam(required = false) @ApiParam("name") String name) {
+    @GetMapping("list" )
+    @ApiOperation("返回所有课程/托管" )
+    public List<SearchWebVO> schoolList(@RequestParam(required = false) @ApiParam("name" ) String name) {
         return searchService.findSever(name);
     }
 }

@@ -16,12 +16,12 @@ public class BannerQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "轮播图类型不能为空")
-    @ApiModelProperty(value = "轮播图类型 0-首页 1-订课 2-点餐")
+    @NotNull(message = "轮播图类型不能为空" )
+    @ApiModelProperty(value = "轮播图类型 0-首页 1-订课 2-点餐" )
     private BannerTypeEnum bannerType;
 
-    @NotNull(message = "学校ID不能为空")
-    @ApiModelProperty(value = "01-07新增: 学校ID")
+    @NotNull(message = "学校ID不能为空" )
+    @ApiModelProperty(value = "01-07新增: 学校ID" )
     private Integer schoolId;
 
 }

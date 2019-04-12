@@ -110,7 +110,7 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(NullPointerException.class)
     public Result handleDataIntegrityViolationException(NullPointerException e) {
         logger.error("", e);
-        return new Result(MessageCodes.REQUEST_ARGUMENT, "请求对象不存在");
+        return new Result(MessageCodes.REQUEST_ARGUMENT, "请求对象不存在" );
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -127,7 +127,7 @@ public class GlobalControllerExceptionHandler {
         logger.error("error: {}", e);
         StringBuffer eMessageBuf = new StringBuffer();
         e.getBindingResult().getAllErrors().forEach(error -> {
-            eMessageBuf.append(error.getDefaultMessage()).append(" ");
+            eMessageBuf.append(error.getDefaultMessage()).append(" " );
         });
         String eMessage = eMessageBuf.toString();
         return new Result(MessageCodes.REQUEST_ARGUMENT, StringUtils.isEmpty(eMessage) ? "请求参数缺失" : eMessage);

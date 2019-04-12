@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class MyOrderQueryDTO {
 
-    @ApiModelProperty(value = "订单状态 0-待付款 1-已付款 2-已完成 3-过期失效")
+    @ApiModelProperty(value = "订单状态 0-待付款 1-已付款 2-已完成 3-过期失效" )
     private OrderStatusEnum orderStatus;
 
 }

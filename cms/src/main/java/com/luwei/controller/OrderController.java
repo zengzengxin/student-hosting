@@ -24,29 +24,29 @@ import java.util.Set;
  */
 @Api(tags = {"课程订单模块", "托管订单模块"})
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/api/order" )
 public class OrderController {
 
     @Resource
     private OrderService orderService;
 
     @DeleteMapping
-    @ApiOperation("删除")
+    @ApiOperation("删除" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT})
-    public void deleteOrders(@RequestParam @ApiParam("id列表") Set<String> ids) {
+    public void deleteOrders(@RequestParam @ApiParam("id列表" ) Set<String> ids) {
         orderService.deleteOrders(ids);
     }
 
     @GetMapping
-    @ApiOperation("查询详情")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
-    public OrderCmsVO getOrder(@RequestParam @ApiParam("id") String id) {
+    @ApiOperation("查询详情" )
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN, RoleConstant.OPERATOR})
+    public OrderCmsVO getOrder(@RequestParam @ApiParam("id" ) String id) {
         return orderService.getOrder(id);
     }
 
-    @GetMapping("/page")
-    @ApiOperation("分页获取")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
+    @GetMapping("/page" )
+    @ApiOperation("分页获取" )
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN, RoleConstant.OPERATOR})
     public IPage<OrderCmsVO> page(@ModelAttribute @Valid OrderQueryDTO queryDTO, Page<Order> page) {
         return orderService.findPage(queryDTO, page);
     }

@@ -1,6 +1,9 @@
 package com.luwei.model.course;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.luwei.model.course.pojo.web.CourseWebVO;
+
+import java.util.List;
 
 /**
  * Author: huanglp
@@ -8,4 +11,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface CourseMapper extends BaseMapper<Course> {
 
+    List<CourseWebVO> getCourses(Integer start);
 }

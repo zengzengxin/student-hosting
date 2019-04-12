@@ -21,7 +21,7 @@ import javax.annotation.Resource;
  */
 @Api(tags = {"公告模块"})
 @RestController
-@RequestMapping("/api/notice")
+@RequestMapping("/api/notice" )
 public class NoticeController {
 
     @Resource
@@ -29,14 +29,14 @@ public class NoticeController {
 
 
     @GetMapping
-    @ApiOperation("通过id查询一条公告")
-    public NoticeWebVO findById(@RequestParam @ApiParam("noticeId") Integer id) {
+    @ApiOperation("通过id查询一条公告" )
+    public NoticeWebVO findById(@RequestParam @ApiParam("noticeId" ) Integer id) {
         return iNoticeService.findById(id);
     }
 
 
-    @GetMapping("/page")
-    @ApiOperation("分页")
+    @GetMapping("/page" )
+    @ApiOperation("分页" )
     public IPage<NoticeWebVO> page(Page<Notice> page) {
         return iNoticeService.getNoticePage(page);
     }

@@ -19,16 +19,17 @@ import javax.validation.Valid;
  * @author luwei
  **/
 @RestController
-@Api(tags = "登录模块")
-@RequestMapping("/api/login")
+@Api(tags = "登录模块" )
+@RequestMapping("/api/login" )
 public class LoginController {
 
     @Resource
     private LoginService loginService;
 
-    @ApiOperation("登录")
+    @ApiOperation("登录" )
     @PostMapping
     public LoginSuccessVO login(@RequestBody @Valid ManagerLoginVO loginVO) {
+
         return loginService.login(loginVO);
     }
 

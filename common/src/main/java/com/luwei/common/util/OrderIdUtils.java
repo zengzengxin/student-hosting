@@ -16,7 +16,7 @@ public class OrderIdUtils {
      * @return
      */
     public static String getOrderIdByTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss" );
         String newDate = sdf.format(new Date());
         StringBuilder result = new StringBuilder();
         Random random = new Random();

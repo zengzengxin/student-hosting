@@ -22,6 +22,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,4 +94,14 @@ public class HostingService extends ServiceImpl<HostingMapper, Hosting> {
 
     }
 
+    public List<HostingWebVO> getHostings(int start) {
+        List<HostingWebVO> hostingWebVOList = new ArrayList<>();
+        List<Hosting> hostings = baseMapper.getHostings(start);
+        for (Hosting hosting : hostings) {
+            HostingWebVO hostingWebVO = new HostingWebVO();
+            BeanUtils.copyNonNullProperties(hosting,hostingWebVO);
+            hostingWebVOList.add(hostingWebVO);
+        }
+        return hostingWebVOList;
+    }
 }

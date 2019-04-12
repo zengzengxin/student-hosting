@@ -34,14 +34,14 @@ public class BcryptUtil {
 
     private static KeyPairGenerator keyPairGenerator;
 
-    private static String PATH = System.getProperty("java.io.tmpdir") + File.separator + "student-hosting" + File.separator
+    private static String PATH = System.getProperty("java.io.tmpdir" ) + File.separator + "student-hosting" + File.separator
             + "file" + File.separator;
 
     static {
         try {
-            cipher = Cipher.getInstance("RSA");
-            keyFactory = KeyFactory.getInstance("RSA");
-            keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            cipher = Cipher.getInstance("RSA" );
+            keyFactory = KeyFactory.getInstance("RSA" );
+            keyPairGenerator = KeyPairGenerator.getInstance("RSA" );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,7 +72,7 @@ public class BcryptUtil {
     public static String MD5(String content) {
         StringBuffer sb = new StringBuffer();
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5" );
             messageDigest.update(content.getBytes(StandardCharsets.UTF_8));
             byte[] hashCode = messageDigest.digest();
             return new HexBinaryAdapter().marshal(hashCode).toLowerCase();
@@ -87,7 +87,7 @@ public class BcryptUtil {
      * @return
      */
     public static String decrypt(String content) {
-        InputStream resourceAsStream = BcryptUtil.class.getClassLoader().getResourceAsStream("security/pri_key.pen");
+        InputStream resourceAsStream = BcryptUtil.class.getClassLoader().getResourceAsStream("security/pri_key.pen" );
         File file = new File(PATH);
         try {
             FileUtils.copyInputStreamToFile(resourceAsStream, file);
@@ -103,7 +103,7 @@ public class BcryptUtil {
      * @return
      */
     public static byte[] encrypt(String content) {
-        InputStream resourceAsStream = BcryptUtil.class.getClassLoader().getResourceAsStream("security/pub_key.pen");
+        InputStream resourceAsStream = BcryptUtil.class.getClassLoader().getResourceAsStream("security/pub_key.pen" );
         File file = new File(PATH);
         try {
             FileUtils.copyInputStreamToFile(resourceAsStream, file);

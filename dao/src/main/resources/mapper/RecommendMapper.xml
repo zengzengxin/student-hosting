@@ -18,7 +18,8 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        recommend_id, service_id, service_name, service_price, service_introduction, service_cover_url, weight, create_time, update_time, deleted
+        recommend_id, service_id, service_name, service_price, service_introduction, service_cover_url, weight,
+        create_time, update_time, deleted
     </sql>
 
     <delete id="realDeleteByServiceIdAndServiceType">
@@ -26,8 +27,8 @@
     </delete>
 
 
-    <delete id="updateHostingRecommend" >
-        delete from tb_recommend  where service_id in (select hosting_id from tb_hosting where overdue = 1)
+    <delete id="updateHostingRecommend">
+        delete from tb_recommend where service_id in (select hosting_id from tb_hosting where overdue = 1)
     </delete>
 
 </mapper>

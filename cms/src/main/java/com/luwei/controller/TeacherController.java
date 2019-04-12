@@ -27,63 +27,63 @@ import java.util.Set;
  */
 @Api(tags = {"老师管理"})
 @RestController
-@RequestMapping("/api/teacher")
+@RequestMapping("/api/teacher" )
 public class TeacherController {
 
     @Resource
     private TeacherService teacherService;
 
     @GetMapping
-    @ApiOperation("查询老师详情（根据id）")
+    @ApiOperation("查询老师详情（根据id）" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
-    public TeacherCmsVO findById(@RequestParam @ApiParam("teacherId") Integer teacherId) {
+    public TeacherCmsVO findById(@RequestParam @ApiParam("teacherId" ) Integer teacherId) {
         return teacherService.findById(teacherId);
     }
 
     @PostMapping
-    @ApiOperation("添加")
+    @ApiOperation("添加" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public TeacherCmsVO save(@RequestBody @Valid TeacherAddDTO teacherAddDTO) {
         return teacherService.saveTeacher(teacherAddDTO);
     }
 
     @DeleteMapping
-    @ApiOperation("删除")
+    @ApiOperation("删除" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
-    public void delete(@RequestParam @ApiParam("teacherId列表") Set<Integer> teacherIds) {
+    public void delete(@RequestParam @ApiParam("teacherId列表" ) Set<Integer> teacherIds) {
         teacherService.deleteTeachers(teacherIds);
     }
 
     @PutMapping
-    @ApiOperation("修改")
+    @ApiOperation("修改" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public TeacherCmsVO update(@RequestBody @Valid TeacherUpdateDTO teacherUpdateDTO) {
         return teacherService.updateTeacher(teacherUpdateDTO);
     }
 
-    @GetMapping("page")
-    @ApiOperation("分页")
+    @GetMapping("page" )
+    @ApiOperation("分页" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public IPage<TeacherCmsVO> page(@ModelAttribute TeacherQueryDTO teacherQueryDTO, Page page) {
         return teacherService.findTeacherPage(teacherQueryDTO, page);
     }
 
-    @GetMapping("List")
-    @ApiOperation("根据学校id查询所有的老师")
+    @GetMapping("List" )
+    @ApiOperation("根据学校id查询所有的老师" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ROOT, RoleConstant.OPERATOR})
-    public List<TeacherCmsVO> teacherList(@RequestParam @ApiParam("schoolId") Integer schoolId) {
+    public List<TeacherCmsVO> teacherList(@RequestParam @ApiParam("schoolId" ) Integer schoolId) {
         return teacherService.teacherList(schoolId);
     }
 
-    @GetMapping("Teacher")
-    @ApiOperation("根据学校id和老师的名字查询老师")
+    @GetMapping("Teacher" )
+    @ApiOperation("根据学校id和老师的名字查询老师" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
-    public List<TeacherCmsVO> findTeacher(@RequestParam(required = false) @ApiParam("schoolId") Integer schoolId, @RequestParam(required = false) @ApiParam("teacherName") String teacherName) {
+    public List<TeacherCmsVO> findTeacher(@RequestParam(required = false) @ApiParam("schoolId" ) Integer schoolId, @RequestParam(required = false) @ApiParam("teacherName" ) String teacherName) {
         return teacherService.findTeacher(schoolId, teacherName);
     }
 
-    @PostMapping("excelAddTeacher")
-    @ApiOperation("通过excel导入老师")
+    @PostMapping("excelAddTeacher" )
+    @ApiOperation("通过excel导入老师" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.OPERATOR})
     public void findTeacher(MultipartFile file) {
         teacherService.importExcel(file);

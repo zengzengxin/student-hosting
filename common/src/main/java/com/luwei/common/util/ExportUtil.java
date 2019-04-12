@@ -24,11 +24,11 @@ public class ExportUtil {
      * @param fileName
      */
     public static void exportToClient(HttpServletResponse response, String contentType, InputStream in, String fileName) {
-        response.setCharacterEncoding("utf-8");
-        response.setContentType(contentType + ";charset=UTF-8");
+        response.setCharacterEncoding("utf-8" );
+        response.setContentType(contentType + ";charset=UTF-8" );
         OutputStream os = null;
         try {
-            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+            response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8" ));
             os = response.getOutputStream();
             byte[] b = new byte[2048];
             int length;

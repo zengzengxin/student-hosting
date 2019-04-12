@@ -27,7 +27,9 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        order_id, parent_id, parent_phone, child_id, child_name, child_student_no, payment, course_id, course_name, price, course_start_time, course_end_time, school_name, pay_time, order_type, order_status, create_time, update_time, deleted
+        order_id, parent_id, parent_phone, child_id, child_name, child_student_no, payment, course_id, course_name,
+        price, course_start_time, course_end_time, school_name, pay_time, order_type, order_status, create_time,
+        update_time, deleted
     </sql>
 
     <update id="refreshNotPaidOrderStatus">
@@ -40,13 +42,17 @@
 
     <update id="useCaseFreshOrderStatus">
         UPDATE tb_order SET order_status =
-          CASE order_status
-            WHEN 0 THEN 3
-            WHEN 1 THEN 2
-          END
+        CASE order_status
+        WHEN 0 THEN 3
+        WHEN 1 THEN 2
+        END
         WHERE
         (order_status = 0 AND service_end_time &lt; NOW()) OR
         (order_status = 1 AND service_end_time &lt; NOW())
+    </update>
+
+    <update id="pay">
+        update tb_order set order_status = 1 where order_id = #{id}
     </update>
 
 </mapper>

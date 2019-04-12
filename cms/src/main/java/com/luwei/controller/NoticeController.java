@@ -23,39 +23,39 @@ import javax.validation.Valid;
  * @author zzx
  * @since 2018-12-05
  */
-@Api(tags = "公告模块")
+@Api(tags = "公告模块" )
 @RestController
-@RequestMapping("/api/notice")
+@RequestMapping("/api/notice" )
 public class NoticeController {
 
     @Resource
     private NoticeService noticeService;
 
     @PostMapping
-    @ApiOperation("添加")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
+    @ApiOperation("添加" )
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN, RoleConstant.OPERATOR})
     public NoticeCmsVO save(@RequestBody @Valid NoticeAddDTO notice) {
         return noticeService.saveNotice(notice);
     }
 
     @DeleteMapping
-    @ApiOperation("删除")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
-    public void delete(@RequestParam @ApiParam("+") Integer ids) {
+    @ApiOperation("删除" )
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN, RoleConstant.OPERATOR})
+    public void delete(@RequestParam @ApiParam("+" ) Integer ids) {
         noticeService.deleteNotice(ids);
 
     }
 
     @PutMapping
-    @ApiOperation("修改")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
+    @ApiOperation("修改" )
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN, RoleConstant.OPERATOR})
     public NoticeCmsVO update(@RequestBody NoticeUpdateDTO noticeUpdateDTO) {
         return noticeService.updateNotice(noticeUpdateDTO);
     }
 
-    @GetMapping("/page")
-    @ApiOperation("分页")
-    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN,RoleConstant.OPERATOR})
+    @GetMapping("/page" )
+    @ApiOperation("分页" )
+    @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN, RoleConstant.OPERATOR})
     public IPage<NoticeCmsVO> page(@ModelAttribute NoticeQueryDTO noticeQueryDTO, Page<Notice> page) {
         return noticeService.getNoticePage(page, noticeQueryDTO);
     }

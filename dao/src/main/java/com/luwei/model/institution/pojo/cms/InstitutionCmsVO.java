@@ -18,28 +18,28 @@ public class InstitutionCmsVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "机构ID")
+    @ApiModelProperty(value = "机构ID" )
     private Integer institutionId;
 
-    @ApiModelProperty(value = "机构名称")
+    @ApiModelProperty(value = "机构名称" )
     private String name;
 
-    @ApiModelProperty(value = "机构介绍")
+    @ApiModelProperty(value = "机构介绍" )
     private String introduction;
 
-    @ApiModelProperty(value = "负责人姓名")
+    @ApiModelProperty(value = "负责人姓名" )
     private String leaderName;
 
-    @ApiModelProperty(value = "负责人电话")
+    @ApiModelProperty(value = "负责人电话" )
     private String leaderPhone;
 
-    @ApiModelProperty(value = "机构执照")
+    @ApiModelProperty(value = "机构执照" )
     private String license;
 
-    @ApiModelProperty(value = "绑定学校ID")
+    @ApiModelProperty(value = "绑定学校ID" )
     private Integer schoolId;
 
-    @ApiModelProperty(value = "绑定学校名称")
+    @ApiModelProperty(value = "绑定学校名称" )
     private String schoolName;
 
 }

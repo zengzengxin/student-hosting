@@ -1,7 +1,6 @@
 package com.luwei.common.constant;
 
 /**
- *
  * @author luwei
  **/
 public interface RoleConstant {

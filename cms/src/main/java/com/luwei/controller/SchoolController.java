@@ -23,51 +23,51 @@ import java.util.Set;
  * @author zzx
  * @since 2018-12-13
  */
-@Api(tags = "学校管理")
+@Api(tags = "学校管理" )
 @RestController
-@RequestMapping("/api/school")
+@RequestMapping("/api/school" )
 public class SchoolController {
 
     @Resource
     private SchoolService schoolService;
 
     @GetMapping
-    @ApiOperation("查询详情根据id")
+    @ApiOperation("查询详情根据id" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
-    public SchoolCmsVO findById(@RequestParam @ApiParam("schoolId") Integer schoolId) {
+    public SchoolCmsVO findById(@RequestParam @ApiParam("schoolId" ) Integer schoolId) {
         return schoolService.findById(schoolId);
     }
 
     @DeleteMapping
-    @ApiOperation("删除")
+    @ApiOperation("删除" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
-    public void delete(@RequestParam @ApiParam("schoolId列表") Set<Integer> schoolIds) {
+    public void delete(@RequestParam @ApiParam("schoolId列表" ) Set<Integer> schoolIds) {
         schoolService.deleteSchools(schoolIds);
     }
 
-    @GetMapping("/page")
-    @ApiOperation("分页")
+    @GetMapping("/page" )
+    @ApiOperation("分页" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
     public IPage<SchoolCmsVO> page(@ModelAttribute SchoolQueryDTO schoolQueryDTO, Page page) {
         return schoolService.findSchoolPage(schoolQueryDTO, page);
     }
 
-    @GetMapping("/list")
-    @ApiOperation("返回所有学校")
+    @GetMapping("/list" )
+    @ApiOperation("返回所有学校" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN, RoleConstant.OPERATOR})
     public List<SchoolCmsVO> schoolList() {
         return schoolService.findSchoolPage();
     }
 
-    @PostMapping("/import")
-    @ApiOperation("导入Excel")
+    @PostMapping("/import" )
+    @ApiOperation("导入Excel" )
     @RequiresRoles(logical = Logical.OR, value = {RoleConstant.ROOT, RoleConstant.ADMIN})
     public String importExcel(MultipartFile file) {
         Boolean result = schoolService.readExcelFile(file);
         if (result) {
             return "上传成功";
         }
-        throw new ValidationException("上传失败");
+        throw new ValidationException("上传失败" );
     }
 
 }

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@MapperScan("com.luwei.model")
+@MapperScan("com.luwei.model" )
 public class MybatisPlusConfig {
 
     /**
